@@ -2308,5 +2308,38 @@
     "medBCaseload": 32,
     "date": "2025-12-15",
     "modeOfTreatment": 0.71
+  },
+  {
+    "week": "1215",
+    "facility": "Golden Harbor HC",
+    "region": "Overland",
+    "productivity": 80.7,
+    "cpm": 1.47,
+    "medBEligible": 21,
+    "medBCaseload": 1,
+    "date": "2025-12-15",
+    "modeOfTreatment": 5.67
+  },
+  {
+    "week": "1215",
+    "facility": "Gilroy HC",
+    "region": "Golden Coast",
+    "productivity": 87.0,
+    "cpm": 1.54,
+    "medBEligible": 40,
+    "medBCaseload": 18,
+    "date": "2025-12-15",
+    "modeOfTreatment": 7.0
+  },
+  {
+    "week": "1215",
+    "facility": "Pac Coast PA",
+    "region": "Golden Coast",
+    "productivity": 84.5,
+    "cpm": 1.59,
+    "medBEligible": 35,
+    "medBCaseload": 16,
+    "date": "2025-12-15",
+    "modeOfTreatment": 3.96
   }
 ]
