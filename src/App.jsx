@@ -106,23 +106,228 @@ export default function App() {
   const analyzeData = (query) => {
     const currentWeekData = getCurrentWeekData();
     const rankedFacilities = currentWeekData.map(f => calculateScore(f)).sort((a, b) => b.score - a.score);
-    
     const lowerQuery = query.toLowerCase();
     
-    // Check for specific facility
+    // Helper: Get facility history with trends
+    const getFacilityTrend = (facilityName) => {
+      const history = allWeeklyData
+        .filter(d => d.facility === facilityName)
+        .sort((a, b) => parseInt(a.week) - parseInt(b.week));
+      
+      if (history.length < 2) return null;
+      
+      const recent = history.slice(-3);
+      const productivityTrend = recent[recent.length - 1].productivity - recent[0].productivity;
+      const cpmTrend = recent[recent.length - 1].cpm - recent[0].cpm;
+      
+      return {
+        history,
+        recent,
+        productivityTrend,
+        cpmTrend,
+        isImproving: productivityTrend > 0 && cpmTrend < 0
+      };
+    };
+    
+    // Helper: Get recommendations for missing goals
+    const getRecommendations = (facility, goals) => {
+      const recs = [];
+      
+      if (!goals.productivity) {
+        recs.push(`**Productivity (${facility.productivity}% - Target: ≥84%):**
+• Review scheduling efficiency - eliminate gaps between patients
+• Reduce documentation time - use templates and voice-to-text
+• Optimize patient scheduling - group patients by location/therapy type
+• Consider concurrent treatments where appropriate
+• Review individual therapist productivity - identify training needs`);
+      }
+      
+      if (!goals.cpm) {
+        recs.push(`**CPM ($${facility.cpm} - Target: ≤$1.45):**
+• Increase productivity to spread fixed costs over more billable time
+• Review staffing levels - are there too many travelers or premium staff?
+• Optimize treatment intensity - ensure appropriate visit frequencies
+• Implement group therapy sessions to reduce per-patient costs
+• Cross-train staff to improve flexibility and reduce overtime`);
+      }
+      
+      if (!goals.medB) {
+        const ratio = facility.medBEligible > 0 ? Math.round((facility.medBCaseload / facility.medBEligible) * 100) : 0;
+        recs.push(`**Med B on Caseload (${ratio}% - Target: ≥50%):**
+• Increase outreach to eligible patients - proactive referrals
+• Streamline evaluation process - reduce time from referral to start
+• Ensure timely start of care - don't lose patients to delays
+• Review referral sources - are there gaps in physician relationships?
+• Track eligible patients not on caseload - identify barriers`);
+      }
+      
+      if (!goals.modeOfTreatment) {
+        recs.push(`**Mode of Treatment (${facility.modeOfTreatment || 0}% - Target: ≥5%):**
+• Train staff on group therapy techniques and protocols
+• Identify appropriate group candidates - similar functional levels
+• Schedule regular group sessions - balance exercises, ADL training
+• Implement concurrent treatment protocols - 2 patients, 1 therapist
+• Create group therapy programs - fall prevention, strengthening`);
+      }
+      
+      return recs;
+    };
+    
+    // Check for specific facility with trend analysis
     const mentionedFacility = currentWeekData.find(f => lowerQuery.includes(f.facility.toLowerCase()));
     
     if (mentionedFacility) {
       const score = calculateScore(mentionedFacility);
-      return `**${mentionedFacility.facility}** (${mentionedFacility.region}):\n\n` +
-        `📊 **Performance Score:** ${score.score}/4 goals met\n\n` +
-        `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: ≥84%)\n` +
-        `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: ≤$1.45)\n` +
-        `• Med B Ratio: ${mentionedFacility.medBEligible > 0 ? Math.round((mentionedFacility.medBCaseload / mentionedFacility.medBEligible) * 100) : 0}% ${score.goals.medB ? '✅' : '❌'} (Target: ≥50%)\n` +
-        `• Mode of Treatment: ${mentionedFacility.modeOfTreatment || 0}% ${score.goals.modeOfTreatment ? '✅' : '❌'} (Target: ≥5%)`;
+      const trend = getFacilityTrend(mentionedFacility.facility);
+      
+      let response = `**${mentionedFacility.facility}** (${mentionedFacility.region}):\n\n`;
+      response += `📊 **Performance Score:** ${score.score}/4 goals met\n\n`;
+      response += `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: ≥84%)\n`;
+      response += `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: ≤$1.45)\n`;
+      response += `• Med B Ratio: ${mentionedFacility.medBEligible > 0 ? Math.round((mentionedFacility.medBCaseload / mentionedFacility.medBEligible) * 100) : 0}% ${score.goals.medB ? '✅' : '❌'} (Target: ≥50%)\n`;
+      response += `• Mode of Treatment: ${mentionedFacility.modeOfTreatment || 0}% ${score.goals.modeOfTreatment ? '✅' : '❌'} (Target: ≥5%)\n\n`;
+      
+      // Add trend analysis if available
+      if (trend && trend.history.length >= 2) {
+        response += `**📈 Trend (last 3 weeks):**\n`;
+        response += `• Productivity: ${trend.productivityTrend > 0 ? '↗️' : '↘️'} ${Math.abs(trend.productivityTrend).toFixed(1)}%\n`;
+        response += `• CPM: ${trend.cpmTrend < 0 ? '↗️' : '↘️'} $${Math.abs(trend.cpmTrend).toFixed(2)}\n`;
+        response += `• Overall: ${trend.isImproving ? '✅ Improving' : '⚠️ Needs attention'}\n\n`;
+      }
+      
+      // Add recommendations if struggling
+      if (score.score < 4 && (lowerQuery.includes('help') || lowerQuery.includes('improve') || lowerQuery.includes('what') || lowerQuery.includes('how'))) {
+        const recs = getRecommendations(mentionedFacility, score.goals);
+        if (recs.length > 0) {
+          response += `**💡 Recommendations:**\n\n${recs.join('\n\n')}`;
+        }
+      }
+      
+      return response;
     }
     
-    // Rankings questions
+    // Trend analysis queries
+    if (lowerQuery.includes('trend') || lowerQuery.includes('improved') || lowerQuery.includes('declining') || lowerQuery.includes('getting better') || lowerQuery.includes('getting worse')) {
+      const facilitiesWithTrends = currentWeekData.map(f => ({
+        ...f,
+        trend: getFacilityTrend(f.facility)
+      })).filter(f => f.trend);
+      
+      const improving = facilitiesWithTrends
+        .filter(f => f.trend.isImproving)
+        .sort((a, b) => b.trend.productivityTrend - a.trend.productivityTrend)
+        .slice(0, 5);
+      
+      const declining = facilitiesWithTrends
+        .filter(f => !f.trend.isImproving && f.trend.productivityTrend < -2)
+        .sort((a, b) => a.trend.productivityTrend - b.trend.productivityTrend)
+        .slice(0, 3);
+      
+      let response = '';
+      
+      if (improving.length > 0) {
+        response += `**📈 Most Improved Facilities:**\n\n`;
+        response += improving.map(f => 
+          `• **${f.facility}** (${f.region})\n  Productivity: +${f.trend.productivityTrend.toFixed(1)}%, CPM: ${f.trend.cpmTrend.toFixed(2)}`
+        ).join('\n\n') + '\n\n';
+      }
+      
+      if (declining.length > 0) {
+        response += `**⚠️ Declining Facilities (Need Attention):**\n\n`;
+        response += declining.map(f => 
+          `• **${f.facility}** (${f.region})\n  Productivity: ${f.trend.productivityTrend.toFixed(1)}%, CPM: +${Math.abs(f.trend.cpmTrend).toFixed(2)}`
+        ).join('\n\n');
+      }
+      
+      if (!improving.length && !declining.length) {
+        response = 'Not enough historical data yet to identify clear trends. Check back after a few more weeks!';
+      }
+      
+      return response;
+    }
+    
+    // Best practices / what top performers do differently
+    if (lowerQuery.includes('best practice') || lowerQuery.includes('top facilities') || lowerQuery.includes('what are') && (lowerQuery.includes('doing') || lowerQuery.includes('different'))) {
+      const topPerformers = rankedFacilities.filter(f => f.score >= 3).map(f => f.facility);
+      const bottomPerformers = rankedFacilities.filter(f => f.score <= 1).map(f => f.facility);
+      
+      if (topPerformers.length === 0) {
+        return 'No facilities are currently meeting 3+ goals. Focus on getting facilities to meet at least 2 goals first.';
+      }
+      
+      const topAvg = {
+        productivity: topPerformers.reduce((sum, f) => sum + f.productivity, 0) / topPerformers.length,
+        cpm: topPerformers.reduce((sum, f) => sum + f.cpm, 0) / topPerformers.length,
+        modeOfTx: topPerformers.reduce((sum, f) => sum + (f.modeOfTreatment || 0), 0) / topPerformers.length
+      };
+      
+      return `**🏆 What Top Performers Do Differently:**\n\n` +
+        `**Top facilities (${topPerformers.length} facilities scoring 3-4/4):**\n` +
+        `• Average Productivity: ${topAvg.productivity.toFixed(1)}%\n` +
+        `• Average CPM: $${topAvg.cpm.toFixed(2)}\n` +
+        `• Average Mode of Tx: ${topAvg.modeOfTx.toFixed(1)}%\n\n` +
+        `**Key Success Factors:**\n` +
+        `• Maintain productivity above 84% through efficient scheduling\n` +
+        `• Control costs by optimizing staffing and using group therapy\n` +
+        `• Actively manage Medicare B caseload - convert 50%+ of eligible\n` +
+        `• Implement group/concurrent treatments regularly (5%+ of visits)\n\n` +
+        `**Action:** Share these practices with struggling facilities!`;
+    }
+    
+    // Recommendations for struggling facilities
+    if (lowerQuery.includes('help') || lowerQuery.includes('what can') || lowerQuery.includes('what should') || lowerQuery.includes('advice') || lowerQuery.includes('recommend')) {
+      const strugglingFacilities = rankedFacilities.filter(f => f.score <= 2);
+      
+      if (strugglingFacilities.length === 0) {
+        return `All facilities are doing well! Everyone is meeting at least 3/4 goals. Keep up the great work! 🎉`;
+      }
+      
+      const facility = strugglingFacilities[0].facility;
+      const goals = strugglingFacilities[0].goals;
+      const recs = getRecommendations(facility, goals);
+      
+      let response = `**💡 Recommendations for ${facility.facility}** (${strugglingFacilities[0].score}/4 goals):\n\n`;
+      response += recs.join('\n\n');
+      response += `\n\n**Next Steps:**\n`;
+      response += `1. Focus on 1-2 goals first - don't try to fix everything at once\n`;
+      response += `2. Set weekly improvement targets - small wins build momentum\n`;
+      response += `3. Check back next week to track progress\n`;
+      response += `4. Reach out to top-performing facilities for best practices`;
+      
+      return response;
+    }
+    
+    // Compare two facilities or facility vs average
+    if (lowerQuery.includes('compare') || lowerQuery.includes('vs') || lowerQuery.includes('versus')) {
+      const facilities = currentWeekData.filter(f => 
+        lowerQuery.includes(f.facility.toLowerCase())
+      );
+      
+      if (facilities.length >= 2) {
+        const [f1, f2] = facilities;
+        return `**⚖️ Comparison:**\n\n` +
+          `**${f1.facility}:**\n` +
+          `• Productivity: ${f1.productivity}%\n• CPM: $${f1.cpm}\n• Med B: ${f1.medBCaseload}/${f1.medBEligible}\n• Mode: ${f1.modeOfTreatment || 0}%\n\n` +
+          `**${f2.facility}:**\n` +
+          `• Productivity: ${f2.productivity}%\n• CPM: $${f2.cpm}\n• Med B: ${f2.medBCaseload}/${f2.medBEligible}\n• Mode: ${f2.modeOfTreatment || 0}%\n\n` +
+          `**Winner:** ${f1.productivity > f2.productivity ? f1.facility : f2.facility} (higher productivity)`;
+      }
+      
+      if (facilities.length === 1 && (lowerQuery.includes('average') || lowerQuery.includes('region'))) {
+        const f = facilities[0];
+        const regionData = currentWeekData.filter(d => d.region === f.region);
+        const regionAvg = {
+          productivity: regionData.reduce((s, d) => s + d.productivity, 0) / regionData.length,
+          cpm: regionData.reduce((s, d) => s + d.cpm, 0) / regionData.length
+        };
+        
+        return `**${f.facility} vs ${f.region} Average:**\n\n` +
+          `**${f.facility}:**\n• Productivity: ${f.productivity}% ${f.productivity >= regionAvg.productivity ? '✅' : '↘️'}\n• CPM: $${f.cpm} ${f.cpm <= regionAvg.cpm ? '✅' : '↗️'}\n\n` +
+          `**${f.region} Average:**\n• Productivity: ${regionAvg.productivity.toFixed(1)}%\n• CPM: $${regionAvg.cpm.toFixed(2)}`;
+      }
+    }
+    
+    // Rankings
     if (lowerQuery.includes('top') || lowerQuery.includes('best') || lowerQuery.includes('rank')) {
       const topFacilities = rankedFacilities.slice(0, 5);
       return `**🏆 Top 5 Facilities:**\n\n` + 
@@ -189,7 +394,7 @@ export default function App() {
     }
     
     // Need improvement
-    if (lowerQuery.includes('improve') || lowerQuery.includes('struggling') || lowerQuery.includes('low')) {
+    if (lowerQuery.includes('struggling') || lowerQuery.includes('low') || lowerQuery.includes('worst')) {
       const needsWork = rankedFacilities.filter(f => f.score <= 1).slice(0, 3);
       if (needsWork.length === 0) {
         return `Great news! All facilities are performing reasonably well. The lowest performers are still meeting 2+ goals.`;
@@ -204,10 +409,12 @@ export default function App() {
     // Default response
     return `I can help you with:\n\n` +
       `• **Facility performance** - "How is Mountain View doing?"\n` +
+      `• **Trends** - "Which facilities improved the most?"\n` +
       `• **Rankings** - "Who are the top performers?"\n` +
-      `• **Comparisons** - "Compare Golden Coast vs Overland"\n` +
-      `• **Metrics** - "What is CPM?"\n` +
-      `• **Insights** - "Which facilities need improvement?"\n\n` +
+      `• **Comparisons** - "Compare Eden HC to Overland average"\n` +
+      `• **Recommendations** - "What can struggling facilities do?"\n` +
+      `• **Best practices** - "What are top facilities doing differently?"\n` +
+      `• **Metrics** - "What is CPM?"\n\n` +
       `Try asking me a specific question!`;
   };
 
