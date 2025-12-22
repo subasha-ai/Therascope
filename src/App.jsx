@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
+import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown } from 'lucide-react';
 import facilityDataJson from './facility_data.json';
 
 export default function App() {
@@ -54,7 +54,56 @@ export default function App() {
       .sort((a, b) => parseInt(b.week) - parseInt(a.week));
   };
 
+  // Calculate performance score for rankings
+  const calculateScore = (facility) => {
+    let score = 0;
+    const goals = {
+      productivity: false,
+      cpm: false,
+      medB: false,
+      modeOfTreatment: false
+    };
+
+    // Goal 1: Productivity ≥ 84%
+    if (facility.productivity >= 84) {
+      score++;
+      goals.productivity = true;
+    }
+
+    // Goal 2: CPM < $1.45
+    if (facility.cpm < 1.45) {
+      score++;
+      goals.cpm = true;
+    }
+
+    // Goal 3: Med B on Caseload ≥ 50% of Med B Eligible
+    if (facility.medBEligible > 0 && (facility.medBCaseload / facility.medBEligible) >= 0.5) {
+      score++;
+      goals.medB = true;
+    }
+
+    // Goal 4: Mode of Treatment > 5%
+    if (facility.modeOfTreatment !== undefined && facility.modeOfTreatment > 5) {
+      score++;
+      goals.modeOfTreatment = true;
+    }
+
+    return { score, goals, facility };
+  };
+
   const currentWeekData = getCurrentWeekData();
+
+  // Get ranked facilities
+  const rankedFacilities = currentWeekData
+    .map(f => calculateScore(f))
+    .sort((a, b) => {
+      // First sort by score (highest first)
+      if (b.score !== a.score) return b.score - a.score;
+      // Then by productivity
+      if (b.facility.productivity !== a.facility.productivity) return b.facility.productivity - a.facility.productivity;
+      // Then by CPM (lower is better)
+      return a.facility.cpm - b.facility.cpm;
+    });
 
   const filteredFacilities = currentWeekData.filter(facility => {
     const matchesSearch = facility.facility.toLowerCase().includes(searchTerm.toLowerCase());
@@ -91,6 +140,49 @@ export default function App() {
     if (productivity >= 84) return 'from-teal-500/20 to-cyan-500/20 border-teal-400/30';
     if (productivity >= 75) return 'from-amber-500/20 to-orange-500/20 border-amber-400/30';
     return 'from-rose-500/20 to-red-500/20 border-rose-400/30';
+  };
+
+  const getScoreBadge = (score) => {
+    if (score === 4) return {
+      icon: Trophy,
+      label: 'Top Performer',
+      color: 'from-yellow-400 to-amber-500',
+      bgColor: 'from-yellow-500/20 to-amber-500/20',
+      borderColor: 'border-yellow-400/50',
+      textColor: 'text-yellow-300'
+    };
+    if (score === 3) return {
+      icon: Award,
+      label: 'High Performer',
+      color: 'from-slate-300 to-slate-400',
+      bgColor: 'from-slate-500/20 to-slate-600/20',
+      borderColor: 'border-slate-400/50',
+      textColor: 'text-slate-300'
+    };
+    if (score === 2) return {
+      icon: Star,
+      label: 'Good Performer',
+      color: 'from-orange-400 to-orange-600',
+      bgColor: 'from-orange-500/20 to-orange-600/20',
+      borderColor: 'border-orange-400/50',
+      textColor: 'text-orange-300'
+    };
+    if (score === 1) return {
+      icon: TrendingUp,
+      label: 'Needs Improvement',
+      color: 'from-blue-400 to-blue-500',
+      bgColor: 'from-blue-500/20 to-blue-600/20',
+      borderColor: 'border-blue-400/50',
+      textColor: 'text-blue-300'
+    };
+    return {
+      icon: TrendingDown,
+      label: 'Action Required',
+      color: 'from-rose-400 to-red-500',
+      bgColor: 'from-rose-500/20 to-red-500/20',
+      borderColor: 'border-rose-400/50',
+      textColor: 'text-rose-300'
+    };
   };
 
   const goldenCoastData = currentWeekData.filter(d => d.region === 'Golden Coast');
@@ -175,16 +267,17 @@ export default function App() {
       </header>
 
       <div className="relative max-w-7xl mx-auto px-6 py-10">
-        <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10">
+        <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10 overflow-x-auto">
           {[
             { id: 'overview', label: 'Overview', icon: Activity },
+            { id: 'rankings', label: 'Rankings', icon: Trophy },
             { id: 'facilities', label: 'All Facilities', icon: Building2 },
             { id: 'documents', label: 'Documents', icon: FileText }
           ].map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveView(tab.id)}
-              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all duration-300 flex-1 justify-center ${
+              className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-bold transition-all duration-300 flex-1 justify-center whitespace-nowrap ${
                 activeView === tab.id
                   ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-2xl transform scale-105'
                   : 'text-slate-300 hover:bg-white/10 hover:text-white'
@@ -196,7 +289,7 @@ export default function App() {
           ))}
         </div>
 
-        {(activeView === 'overview' || activeView === 'facilities') && (
+        {(activeView === 'overview' || activeView === 'facilities' || activeView === 'rankings') && (
           <div className="mb-6 flex items-center gap-4 flex-wrap">
             <label className="text-white font-bold text-lg">Viewing:</label>
             <select
@@ -250,9 +343,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* Region Comparison */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Golden Coast */}
               <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
                 <div className="flex items-center gap-3 mb-6">
                   <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
@@ -277,7 +368,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Overland */}
               <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
                 <div className="flex items-center gap-3 mb-6">
                   <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
@@ -314,19 +404,164 @@ export default function App() {
                 <div className="flex-1">
                   <h3 className="text-3xl font-black text-white mb-3 tracking-tight">Real Data Loaded! ✓</h3>
                   <p className="text-slate-300 mb-6 text-lg font-medium">
-                    Showing {allWeeklyData.length} records from your DOR Weekly Reports across 17 facilities with regional breakdowns.
+                    Showing {allWeeklyData.length} records from your DOR Weekly Reports across 17 facilities with regional breakdowns and performance rankings.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3 text-white bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                       <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0" strokeWidth={2.5} />
-                      <span className="font-bold">2 Regional breakdowns</span>
+                      <span className="font-bold">Performance Rankings</span>
                     </div>
                     <div className="flex items-center gap-3 text-white bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                       <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0" strokeWidth={2.5} />
-                      <span className="font-bold">Mode of Treatment tracking</span>
+                      <span className="font-bold">4-Goal Scoring System</span>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeView === 'rankings' && (
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
+              <div className="p-8 bg-gradient-to-r from-yellow-900/30 via-amber-900/30 to-orange-900/30 border-b border-white/10">
+                <div className="flex items-center gap-4 mb-4">
+                  <Trophy className="w-12 h-12 text-yellow-400" strokeWidth={2.5} />
+                  <div>
+                    <h2 className="text-3xl font-black text-white tracking-tight">Performance Rankings</h2>
+                    <p className="text-slate-300 mt-2 text-lg font-medium">
+                      Facilities ranked by 4 key performance goals
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 1</div>
+                    <div className="text-sm text-white font-bold">Productivity ≥ 84%</div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 2</div>
+                    <div className="text-sm text-white font-bold">CPM &lt; $1.45</div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
+                    <div className="text-sm text-white font-bold">Med B ≥ 50% on Caseload</div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 4</div>
+                    <div className="text-sm text-white font-bold">Mode of Tx &gt; 5%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8">
+                {rankedFacilities.map((item, idx) => {
+                  const badge = getScoreBadge(item.score);
+                  const BadgeIcon = badge.icon;
+                  
+                  return (
+                    <div 
+                      key={idx}
+                      className={`mb-6 p-8 bg-gradient-to-br ${badge.bgColor} backdrop-blur-sm rounded-3xl border ${badge.borderColor} transition-all duration-300 hover:scale-102 transform`}
+                    >
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="flex items-start gap-5 flex-1">
+                          <div className="text-4xl font-black text-white w-12 text-center">
+                            #{idx + 1}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 flex-wrap mb-2">
+                              <h3 className="text-2xl font-black text-white">{item.facility.facility}</h3>
+                              <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                item.facility.region === 'Golden Coast' 
+                                  ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' 
+                                  : 'bg-blue-500/30 text-blue-200 border border-blue-400/50'
+                              }`}>
+                                {item.facility.region}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-3 flex-wrap">
+                              <div className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${badge.color} rounded-full`}>
+                                <BadgeIcon className="w-5 h-5 text-white" strokeWidth={2.5} />
+                                <span className="text-white font-black text-sm">{badge.label}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-white font-black text-xl">
+                                <span>{item.score}/4</span>
+                                <span className="text-slate-400 text-sm">Goals Met</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className={`p-4 rounded-xl border-2 ${item.goals.productivity ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            {item.goals.productivity ? (
+                              <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
+                            )}
+                            <div className="text-xs text-slate-300 font-bold uppercase">Productivity</div>
+                          </div>
+                          <div className={`text-2xl font-black ${item.goals.productivity ? 'text-emerald-300' : 'text-slate-400'}`}>
+                            {item.facility.productivity}%
+                          </div>
+                          <div className="text-xs text-slate-400 mt-1">{item.goals.productivity ? '≥ 84% ✓' : '< 84%'}</div>
+                        </div>
+
+                        <div className={`p-4 rounded-xl border-2 ${item.goals.cpm ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            {item.goals.cpm ? (
+                              <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
+                            )}
+                            <div className="text-xs text-slate-300 font-bold uppercase">CPM</div>
+                          </div>
+                          <div className={`text-2xl font-black ${item.goals.cpm ? 'text-emerald-300' : 'text-slate-400'}`}>
+                            ${item.facility.cpm}
+                          </div>
+                          <div className="text-xs text-slate-400 mt-1">{item.goals.cpm ? '< $1.45 ✓' : '≥ $1.45'}</div>
+                        </div>
+
+                        <div className={`p-4 rounded-xl border-2 ${item.goals.medB ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            {item.goals.medB ? (
+                              <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
+                            )}
+                            <div className="text-xs text-slate-300 font-bold uppercase">Med B Ratio</div>
+                          </div>
+                          <div className={`text-2xl font-black ${item.goals.medB ? 'text-emerald-300' : 'text-slate-400'}`}>
+                            {item.facility.medBEligible > 0 ? Math.round((item.facility.medBCaseload / item.facility.medBEligible) * 100) : 0}%
+                          </div>
+                          <div className="text-xs text-slate-400 mt-1">
+                            {item.facility.medBCaseload}/{item.facility.medBEligible} {item.goals.medB ? '≥ 50% ✓' : '< 50%'}
+                          </div>
+                        </div>
+
+                        <div className={`p-4 rounded-xl border-2 ${item.goals.modeOfTreatment ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            {item.goals.modeOfTreatment ? (
+                              <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
+                            )}
+                            <div className="text-xs text-slate-300 font-bold uppercase">Mode of Tx</div>
+                          </div>
+                          <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
+                            {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
+                          </div>
+                          <div className="text-xs text-slate-400 mt-1">{item.goals.modeOfTreatment ? '> 5% ✓' : '≤ 5%'}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
