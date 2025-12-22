@@ -1,46 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, FileText, ExternalLink, Activity, TrendingUp, Calendar, Search, Eye, Download, CheckCircle, BarChart3, Users, Clock, Zap, PieChart, Building2, ChevronDown, ChevronUp, Filter } from 'lucide-react';
+import React, { useState } from 'react';
+import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import facilityDataJson from './facility_data.json';
 
 export default function App() {
-  // Load real data from your CSV export
-  const [allWeeklyData, setAllWeeklyData] = useState(facilityDataJson);
-
+  const [allWeeklyData] = useState(facilityDataJson);
   const [documents, setDocuments] = useState([
-    { id: 1, name: 'Therapy Guidelines 2024.pdf', category: 'Guidelines', uploadDate: '2024-12-15', size: '2.4 MB' },
-    { id: 2, name: 'Progress Note Template.docx', category: 'Templates', uploadDate: '2024-12-10', size: '156 KB' },
-    { id: 3, name: 'Medicare B Requirements.pdf', category: 'Compliance', uploadDate: '2024-12-01', size: '1.8 MB' }
+    { id: 1, name: 'Therapy Guidelines 2025.pdf', category: 'Guidelines', uploadDate: '2025-12-15', size: '2.4 MB' },
+    { id: 2, name: 'Progress Note Template.docx', category: 'Templates', uploadDate: '2025-12-10', size: '156 KB' },
+    { id: 3, name: 'Medicare B Requirements.pdf', category: 'Compliance', uploadDate: '2025-12-01', size: '1.8 MB' }
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [activeView, setActiveView] = useState('overview');
   const [selectedWeek, setSelectedWeek] = useState('latest');
+  const [selectedRegion, setSelectedRegion] = useState('all');
   const [expandedFacility, setExpandedFacility] = useState(null);
   const [filterProductivity, setFilterProductivity] = useState('all');
   const [filterCPM, setFilterCPM] = useState('all');
 
-  // Microsoft Forms link
   const WEEKLY_REPORT_LINK = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const newDoc = {
+      setDocuments([{
         id: documents.length + 1,
         name: file.name,
         category: 'Uncategorized',
         uploadDate: new Date().toISOString().split('T')[0],
         size: `${(file.size / 1024).toFixed(0)} KB`
-      };
-      setDocuments([newDoc, ...documents]);
+      }, ...documents]);
     }
   };
 
-  // Get unique weeks for the dropdown
-  const availableWeeks = ['latest', ...Array.from(new Set(allWeeklyData.map(d => d.week))).sort((a, b) => b - a)];
+  const availableWeeks = ['latest', ...Array.from(new Set(allWeeklyData.map(d => d.week))).sort((a, b) => {
+    const numA = parseInt(a);
+    const numB = parseInt(b);
+    return numB - numA;
+  })];
 
-  // Get current week data based on selection
   const getCurrentWeekData = () => {
     if (selectedWeek === 'latest') {
       const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
@@ -49,7 +48,6 @@ export default function App() {
     return allWeeklyData.filter(d => d.week === selectedWeek);
   };
 
-  // Get historical data for a facility
   const getFacilityHistory = (facilityName) => {
     return allWeeklyData
       .filter(d => d.facility === facilityName)
@@ -58,9 +56,9 @@ export default function App() {
 
   const currentWeekData = getCurrentWeekData();
 
-  // Apply filters
   const filteredFacilities = currentWeekData.filter(facility => {
     const matchesSearch = facility.facility.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRegion = selectedRegion === 'all' || facility.region === selectedRegion;
     const matchesProductivity = 
       filterProductivity === 'all' ||
       (filterProductivity === 'high' && facility.productivity >= 84) ||
@@ -70,11 +68,10 @@ export default function App() {
       (filterCPM === 'good' && facility.cpm < 1.45) ||
       (filterCPM === 'high' && facility.cpm >= 1.45);
     
-    return matchesSearch && matchesProductivity && matchesCPM;
+    return matchesSearch && matchesRegion && matchesProductivity && matchesCPM;
   });
 
   const categories = ['all', ...new Set(documents.map(doc => doc.category))];
-
   const filteredDocs = documents.filter(doc => 
     (selectedCategory === 'all' || doc.category === selectedCategory) &&
     doc.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,10 +84,7 @@ export default function App() {
     return 'text-rose-400';
   };
 
-  const getCPMColor = (cpm) => {
-    if (cpm < 1.45) return 'text-emerald-400';
-    return 'text-rose-400';
-  };
+  const getCPMColor = (cpm) => cpm < 1.45 ? 'text-emerald-400' : 'text-rose-400';
 
   const getProductivityBg = (productivity) => {
     if (productivity >= 90) return 'from-emerald-500/20 to-teal-500/20 border-emerald-400/30';
@@ -99,12 +93,15 @@ export default function App() {
     return 'from-rose-500/20 to-red-500/20 border-rose-400/30';
   };
 
+  const goldenCoastData = currentWeekData.filter(d => d.region === 'Golden Coast');
+  const overlandData = currentWeekData.filter(d => d.region === 'Overland');
+
   const metrics = [
     { 
       label: 'Total Facilities', 
       value: new Set(allWeeklyData.map(d => d.facility)).size,
       icon: Building2, 
-      change: 'Active reporting',
+      change: '17 Active facilities',
       gradient: 'from-cyan-500 via-teal-500 to-emerald-500',
       bgGradient: 'from-cyan-50 to-teal-50'
     },
@@ -136,7 +133,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Animated Background Pattern */}
       <div className="fixed inset-0 opacity-20">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 2px 2px, rgba(100, 200, 255, 0.3) 1px, transparent 0)`,
@@ -144,7 +140,6 @@ export default function App() {
         }}></div>
       </div>
 
-      {/* Header */}
       <header className="relative bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-2xl">
         <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
@@ -180,7 +175,6 @@ export default function App() {
       </header>
 
       <div className="relative max-w-7xl mx-auto px-6 py-10">
-        {/* Navigation Tabs */}
         <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10">
           {[
             { id: 'overview', label: 'Overview', icon: Activity },
@@ -202,9 +196,8 @@ export default function App() {
           ))}
         </div>
 
-        {/* Week Selector */}
         {(activeView === 'overview' || activeView === 'facilities') && (
-          <div className="mb-6 flex items-center gap-4">
+          <div className="mb-6 flex items-center gap-4 flex-wrap">
             <label className="text-white font-bold text-lg">Viewing:</label>
             <select
               value={selectedWeek}
@@ -217,13 +210,23 @@ export default function App() {
                 </option>
               ))}
             </select>
+
+            {activeView === 'facilities' && (
+              <select
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+                className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              >
+                <option value="all" className="bg-slate-800">All Regions</option>
+                <option value="Golden Coast" className="bg-slate-800">Golden Coast</option>
+                <option value="Overland" className="bg-slate-800">Overland</option>
+              </select>
+            )}
           </div>
         )}
 
-        {/* Overview Tab */}
         {activeView === 'overview' && (
           <div className="space-y-10 animate-fadeIn">
-            {/* Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {metrics.map((metric, idx) => (
                 <div 
@@ -247,7 +250,59 @@ export default function App() {
               ))}
             </div>
 
-            {/* Data Source Info */}
+            {/* Region Comparison */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Golden Coast */}
+              <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
+                  <div>
+                    <h3 className="text-2xl font-black text-white">Golden Coast</h3>
+                    <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg Productivity</div>
+                    <div className="text-3xl font-black text-white">
+                      {Math.round(goldenCoastData.reduce((s, f) => s + f.productivity, 0) / goldenCoastData.length)}%
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg CPM</div>
+                    <div className="text-3xl font-black text-white">
+                      ${(goldenCoastData.reduce((s, f) => s + f.cpm, 0) / goldenCoastData.length).toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Overland */}
+              <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
+                  <div>
+                    <h3 className="text-2xl font-black text-white">Overland</h3>
+                    <p className="text-blue-200 font-medium">{overlandData.length} facilities</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg Productivity</div>
+                    <div className="text-3xl font-black text-white">
+                      {Math.round(overlandData.reduce((s, f) => s + f.productivity, 0) / overlandData.length)}%
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg CPM</div>
+                    <div className="text-3xl font-black text-white">
+                      ${(overlandData.reduce((s, f) => s + f.cpm, 0) / overlandData.length).toFixed(2)}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="relative bg-gradient-to-br from-indigo-900/40 via-purple-900/40 to-pink-900/40 backdrop-blur-xl rounded-3xl p-10 border border-white/20 shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10"></div>
               <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl"></div>
@@ -259,22 +314,17 @@ export default function App() {
                 <div className="flex-1">
                   <h3 className="text-3xl font-black text-white mb-3 tracking-tight">Real Data Loaded! ✓</h3>
                   <p className="text-slate-300 mb-6 text-lg font-medium">
-                    Showing {allWeeklyData.length} records from your DOR Weekly Reports across {new Set(allWeeklyData.map(d => d.facility)).size} facilities and {new Set(allWeeklyData.map(d => d.week)).size} weeks.
+                    Showing {allWeeklyData.length} records from your DOR Weekly Reports across 17 facilities with regional breakdowns.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3 text-white bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                       <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0" strokeWidth={2.5} />
-                      <span className="font-bold">Currently using exported CSV data</span>
+                      <span className="font-bold">2 Regional breakdowns</span>
                     </div>
                     <div className="flex items-center gap-3 text-white bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                       <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0" strokeWidth={2.5} />
-                      <span className="font-bold">To auto-sync: Share Excel link</span>
+                      <span className="font-bold">Mode of Treatment tracking</span>
                     </div>
-                  </div>
-                  <div className="mt-6 p-4 bg-white/5 rounded-xl border border-white/10">
-                    <p className="text-sm text-slate-400 font-medium">
-                      <strong className="text-cyan-400">Next step:</strong> Share your Excel Online file link to enable automatic updates when DORs submit weekly reports.
-                    </p>
                   </div>
                 </div>
               </div>
@@ -282,10 +332,8 @@ export default function App() {
           </div>
         )}
 
-        {/* Facilities Tab */}
         {activeView === 'facilities' && (
           <div className="space-y-6 animate-fadeIn">
-            {/* Filters */}
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
                 <div className="flex-1 min-w-[200px] relative">
@@ -321,12 +369,11 @@ export default function App() {
               </div>
             </div>
 
-            {/* Facilities List */}
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
               <div className="p-8 bg-gradient-to-r from-cyan-900/30 to-teal-900/30 border-b border-white/10">
                 <h2 className="text-3xl font-black text-white tracking-tight">Facility Performance</h2>
                 <p className="text-slate-300 mt-2 text-lg font-medium">
-                  Showing {filteredFacilities.length} facilities • Click to view historical data
+                  Showing {filteredFacilities.length} facilities {selectedRegion !== 'all' && `in ${selectedRegion}`} • Click to view historical data
                 </p>
               </div>
               
@@ -345,9 +392,18 @@ export default function App() {
                           <div className="flex items-center gap-5 flex-1">
                             <Building2 className="w-8 h-8 text-cyan-400" strokeWidth={2.5} />
                             <div className="flex-1">
-                              <h3 className="text-2xl font-black text-white tracking-tight">{facility.facility}</h3>
+                              <div className="flex items-center gap-3">
+                                <h3 className="text-2xl font-black text-white tracking-tight">{facility.facility}</h3>
+                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                  facility.region === 'Golden Coast' 
+                                    ? 'bg-amber-500/20 text-amber-300 border border-amber-400/30' 
+                                    : 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+                                }`}>
+                                  {facility.region}
+                                </span>
+                              </div>
                               <p className="text-sm text-slate-400 font-medium mt-1">
-                                {history.length} weeks of data available
+                                {history.length} weeks of data • {facility.date}
                               </p>
                             </div>
                           </div>
@@ -358,7 +414,7 @@ export default function App() {
                           )}
                         </div>
                         
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-5">
                           <div className={`bg-gradient-to-br ${getProductivityBg(facility.productivity)} backdrop-blur-sm rounded-2xl p-6 border transform hover:scale-105 transition-all duration-300`}>
                             <div className="flex items-center gap-3 mb-3">
                               <TrendingUp className={`w-5 h-5 ${getProductivityColor(facility.productivity)}`} strokeWidth={2.5} />
@@ -402,10 +458,20 @@ export default function App() {
                             <div className="text-4xl font-black text-blue-300">{facility.medBCaseload}</div>
                             <div className="text-xs text-slate-400 mt-2 font-medium">Active patients</div>
                           </div>
+
+                          {facility.modeOfTreatment !== undefined && (
+                            <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm rounded-2xl p-6 border border-orange-400/30 transform hover:scale-105 transition-all duration-300">
+                              <div className="flex items-center gap-3 mb-3">
+                                <Activity className="w-5 h-5 text-orange-300" strokeWidth={2.5} />
+                                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Mode of Tx</div>
+                              </div>
+                              <div className="text-4xl font-black text-orange-300">{facility.modeOfTreatment}%</div>
+                              <div className="text-xs text-slate-400 mt-2 font-medium">Group/Concurrent</div>
+                            </div>
+                          )}
                         </div>
                       </div>
 
-                      {/* Historical Data */}
                       {isExpanded && (
                         <div className="bg-white/3 p-8 border-t border-white/10 animate-fadeIn">
                           <h4 className="text-xl font-bold text-white mb-6">Historical Performance</h4>
@@ -414,16 +480,21 @@ export default function App() {
                               <thead>
                                 <tr className="text-left border-b border-white/10">
                                   <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Week</th>
+                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Date</th>
                                   <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Productivity</th>
                                   <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">CPM</th>
                                   <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Med B Eligible</th>
                                   <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">On Caseload</th>
+                                  {history[0].modeOfTreatment !== undefined && (
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Mode of Tx</th>
+                                  )}
                                 </tr>
                               </thead>
                               <tbody className="divide-y divide-white/5">
                                 {history.map((record, idx) => (
                                   <tr key={idx} className="hover:bg-white/5 transition-colors">
                                     <td className="py-4 text-white font-bold">{record.week}</td>
+                                    <td className="py-4 text-slate-300 font-medium">{record.date}</td>
                                     <td className={`py-4 font-bold ${getProductivityColor(record.productivity)}`}>
                                       {record.productivity}%
                                     </td>
@@ -432,6 +503,9 @@ export default function App() {
                                     </td>
                                     <td className="py-4 text-purple-300 font-bold">{record.medBEligible}</td>
                                     <td className="py-4 text-blue-300 font-bold">{record.medBCaseload}</td>
+                                    {record.modeOfTreatment !== undefined && (
+                                      <td className="py-4 text-orange-300 font-bold">{record.modeOfTreatment}%</td>
+                                    )}
                                   </tr>
                                 ))}
                               </tbody>
@@ -447,7 +521,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Documents Tab */}
         {activeView === 'documents' && (
           <div className="space-y-6 animate-fadeIn">
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
