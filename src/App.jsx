@@ -70,8 +70,8 @@ export default function App() {
       goals.productivity = true;
     }
 
-    // Goal 2: CPM < $1.45
-    if (facility.cpm < 1.45) {
+    // Goal 2: CPM ≤ $1.45
+    if (facility.cpm <= 1.45) {
       score++;
       goals.cpm = true;
     }
@@ -82,8 +82,8 @@ export default function App() {
       goals.medB = true;
     }
 
-    // Goal 4: Mode of Treatment > 5%
-    if (facility.modeOfTreatment !== undefined && facility.modeOfTreatment > 5) {
+    // Goal 4: Mode of Treatment ≥ 5%
+    if (facility.modeOfTreatment !== undefined && facility.modeOfTreatment >= 5) {
       score++;
       goals.modeOfTreatment = true;
     }
@@ -443,7 +443,7 @@ export default function App() {
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 2</div>
-                    <div className="text-sm text-white font-bold">CPM &lt; $1.45</div>
+                    <div className="text-sm text-white font-bold">CPM ≤ $1.45</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
@@ -451,7 +451,7 @@ export default function App() {
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 4</div>
-                    <div className="text-sm text-white font-bold">Mode of Tx &gt; 5%</div>
+                    <div className="text-sm text-white font-bold">Mode of Tx ≥ 5%</div>
                   </div>
                 </div>
               </div>
@@ -524,7 +524,7 @@ export default function App() {
                           <div className={`text-2xl font-black ${item.goals.cpm ? 'text-emerald-300' : 'text-slate-400'}`}>
                             ${item.facility.cpm}
                           </div>
-                          <div className="text-xs text-slate-400 mt-1">{item.goals.cpm ? '< $1.45 ✓' : '≥ $1.45'}</div>
+
                         </div>
 
                         <div className={`p-4 rounded-xl border-2 ${item.goals.medB ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
@@ -556,7 +556,7 @@ export default function App() {
                           <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
                             {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
                           </div>
-                          <div className="text-xs text-slate-400 mt-1">{item.goals.modeOfTreatment ? '> 5% ✓' : '≤ 5%'}</div>
+                          <div className="text-xs text-slate-400 mt-1">{item.goals.modeOfTreatment ? '≥ 5% ✓' : '< 5%'}</div>
                         </div>
                       </div>
                     </div>
