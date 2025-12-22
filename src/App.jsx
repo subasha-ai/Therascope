@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles } from 'lucide-react';
 import facilityDataJson from './facility_data.json';
 
 export default function App() {
@@ -18,8 +18,25 @@ export default function App() {
   const [expandedFacility, setExpandedFacility] = useState(null);
   const [filterProductivity, setFilterProductivity] = useState('all');
   const [filterCPM, setFilterCPM] = useState('all');
+  
+  // Chatbot state
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'assistant', content: 'Hi! I\'m your TheraScope AI assistant. Ask me anything about facility performance, rankings, or metrics!' }
+  ]);
+  const [chatInput, setChatInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const chatMessagesEndRef = useRef(null);
 
   const WEEKLY_REPORT_LINK = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
+
+  const scrollToBottom = () => {
+    chatMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMessages]);
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -54,7 +71,6 @@ export default function App() {
       .sort((a, b) => parseInt(b.week) - parseInt(a.week));
   };
 
-  // Calculate performance score for rankings
   const calculateScore = (facility) => {
     let score = 0;
     const goals = {
@@ -64,25 +80,21 @@ export default function App() {
       modeOfTreatment: false
     };
 
-    // Goal 1: Productivity ≥ 84%
     if (facility.productivity >= 84) {
       score++;
       goals.productivity = true;
     }
 
-    // Goal 2: CPM ≤ $1.45
     if (facility.cpm <= 1.45) {
       score++;
       goals.cpm = true;
     }
 
-    // Goal 3: Med B on Caseload ≥ 50% of Med B Eligible
     if (facility.medBEligible > 0 && (facility.medBCaseload / facility.medBEligible) >= 0.5) {
       score++;
       goals.medB = true;
     }
 
-    // Goal 4: Mode of Treatment ≥ 5%
     if (facility.modeOfTreatment !== undefined && facility.modeOfTreatment >= 5) {
       score++;
       goals.modeOfTreatment = true;
@@ -91,19 +103,137 @@ export default function App() {
     return { score, goals, facility };
   };
 
-  const currentWeekData = getCurrentWeekData();
+  const analyzeData = (query) => {
+    const currentWeekData = getCurrentWeekData();
+    const rankedFacilities = currentWeekData.map(f => calculateScore(f)).sort((a, b) => b.score - a.score);
+    
+    const lowerQuery = query.toLowerCase();
+    
+    // Check for specific facility
+    const mentionedFacility = currentWeekData.find(f => lowerQuery.includes(f.facility.toLowerCase()));
+    
+    if (mentionedFacility) {
+      const score = calculateScore(mentionedFacility);
+      return `**${mentionedFacility.facility}** (${mentionedFacility.region}):\n\n` +
+        `📊 **Performance Score:** ${score.score}/4 goals met\n\n` +
+        `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: ≥84%)\n` +
+        `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: ≤$1.45)\n` +
+        `• Med B Ratio: ${mentionedFacility.medBEligible > 0 ? Math.round((mentionedFacility.medBCaseload / mentionedFacility.medBEligible) * 100) : 0}% ${score.goals.medB ? '✅' : '❌'} (Target: ≥50%)\n` +
+        `• Mode of Treatment: ${mentionedFacility.modeOfTreatment || 0}% ${score.goals.modeOfTreatment ? '✅' : '❌'} (Target: ≥5%)`;
+    }
+    
+    // Rankings questions
+    if (lowerQuery.includes('top') || lowerQuery.includes('best') || lowerQuery.includes('rank')) {
+      const topFacilities = rankedFacilities.slice(0, 5);
+      return `**🏆 Top 5 Facilities:**\n\n` + 
+        topFacilities.map((f, idx) => 
+          `${idx + 1}. **${f.facility.facility}** - ${f.score}/4 goals (${f.facility.region})`
+        ).join('\n');
+    }
+    
+    // 4/4 performers
+    if (lowerQuery.includes('4/4') || lowerQuery.includes('all goals') || lowerQuery.includes('perfect')) {
+      const perfect = rankedFacilities.filter(f => f.score === 4);
+      if (perfect.length === 0) {
+        return `No facilities are currently meeting all 4 goals. The closest are:\n\n` +
+          rankedFacilities.filter(f => f.score === 3).slice(0, 3).map(f => 
+            `• **${f.facility.facility}** - 3/4 goals (${f.facility.region})`
+          ).join('\n');
+      }
+      return `**🎉 Facilities meeting all 4 goals:**\n\n` +
+        perfect.map(f => `• **${f.facility.facility}** (${f.facility.region})`).join('\n');
+    }
+    
+    // Region comparison
+    if (lowerQuery.includes('golden coast') || lowerQuery.includes('overland') || lowerQuery.includes('region')) {
+      const goldenCoast = currentWeekData.filter(d => d.region === 'Golden Coast');
+      const overland = currentWeekData.filter(d => d.region === 'Overland');
+      
+      return `**📍 Regional Comparison:**\n\n` +
+        `**Golden Coast** (${goldenCoast.length} facilities):\n` +
+        `• Avg Productivity: ${Math.round(goldenCoast.reduce((s, f) => s + f.productivity, 0) / goldenCoast.length)}%\n` +
+        `• Avg CPM: $${(goldenCoast.reduce((s, f) => s + f.cpm, 0) / goldenCoast.length).toFixed(2)}\n\n` +
+        `**Overland** (${overland.length} facilities):\n` +
+        `• Avg Productivity: ${Math.round(overland.reduce((s, f) => s + f.productivity, 0) / overland.length)}%\n` +
+        `• Avg CPM: $${(overland.reduce((s, f) => s + f.cpm, 0) / overland.length).toFixed(2)}`;
+    }
+    
+    // Metrics explanation
+    if (lowerQuery.includes('what is') || lowerQuery.includes('explain') || lowerQuery.includes('mean')) {
+      if (lowerQuery.includes('cpm')) {
+        return `**CPM (Cost Per Minute)** is the average cost of providing one minute of therapy.\n\n` +
+          `• **Target:** ≤ $1.45\n` +
+          `• **Lower is better** - indicates more efficient service delivery\n` +
+          `• Affected by staffing costs, productivity, and treatment intensity`;
+      }
+      if (lowerQuery.includes('productivity')) {
+        return `**Team Productivity** is the percentage of available time spent providing billable therapy services.\n\n` +
+          `• **Target:** ≥ 84%\n` +
+          `• **Higher is better** - indicates efficient use of therapist time\n` +
+          `• Includes direct patient care and documentation`;
+      }
+      if (lowerQuery.includes('med b') || lowerQuery.includes('medicare b')) {
+        return `**Medicare Part B** refers to patients whose therapy is covered under Medicare Part B insurance.\n\n` +
+          `• **Eligible:** Total patients who qualify for Med B\n` +
+          `• **On Caseload:** Actively receiving therapy\n` +
+          `• **Target:** ≥ 50% of eligible patients on caseload\n` +
+          `• Important for revenue and compliance`;
+      }
+      if (lowerQuery.includes('mode of treatment')) {
+        return `**Mode of Treatment** measures the percentage of therapy delivered in group or concurrent sessions.\n\n` +
+          `• **Target:** ≥ 5%\n` +
+          `• **Group:** Multiple patients treated simultaneously\n` +
+          `• **Concurrent:** Two patients treated at same time\n` +
+          `• Improves efficiency and patient socialization`;
+      }
+    }
+    
+    // Need improvement
+    if (lowerQuery.includes('improve') || lowerQuery.includes('struggling') || lowerQuery.includes('low')) {
+      const needsWork = rankedFacilities.filter(f => f.score <= 1).slice(0, 3);
+      if (needsWork.length === 0) {
+        return `Great news! All facilities are performing reasonably well. The lowest performers are still meeting 2+ goals.`;
+      }
+      return `**⚠️ Facilities needing attention:**\n\n` +
+        needsWork.map(f => 
+          `• **${f.facility.facility}** - ${f.score}/4 goals (${f.facility.region})\n` +
+          `  Missing: ${!f.goals.productivity ? 'Productivity ' : ''}${!f.goals.cpm ? 'CPM ' : ''}${!f.goals.medB ? 'Med B ' : ''}${!f.goals.modeOfTreatment ? 'Mode of Tx' : ''}`
+        ).join('\n\n');
+    }
+    
+    // Default response
+    return `I can help you with:\n\n` +
+      `• **Facility performance** - "How is Mountain View doing?"\n` +
+      `• **Rankings** - "Who are the top performers?"\n` +
+      `• **Comparisons** - "Compare Golden Coast vs Overland"\n` +
+      `• **Metrics** - "What is CPM?"\n` +
+      `• **Insights** - "Which facilities need improvement?"\n\n` +
+      `Try asking me a specific question!`;
+  };
 
-  // Get ranked facilities
-  const rankedFacilities = currentWeekData
-    .map(f => calculateScore(f))
-    .sort((a, b) => {
-      // First sort by score (highest first)
-      if (b.score !== a.score) return b.score - a.score;
-      // Then by productivity
-      if (b.facility.productivity !== a.facility.productivity) return b.facility.productivity - a.facility.productivity;
-      // Then by CPM (lower is better)
-      return a.facility.cpm - b.facility.cpm;
-    });
+  const handleChatSubmit = async (e) => {
+    e.preventDefault();
+    if (!chatInput.trim()) return;
+
+    const userMessage = chatInput.trim();
+    setChatMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setChatInput('');
+    setIsTyping(true);
+
+    // Simulate AI thinking time
+    setTimeout(() => {
+      const response = analyzeData(userMessage);
+      setChatMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      setIsTyping(false);
+    }, 500);
+  };
+
+  const currentWeekData = getCurrentWeekData();
+  const rankedFacilities = currentWeekData.map(f => calculateScore(f)).sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    if (b.facility.productivity !== a.facility.productivity) return b.facility.productivity - a.facility.productivity;
+    return a.facility.cpm - b.facility.cpm;
+  });
 
   const filteredFacilities = currentWeekData.filter(facility => {
     const matchesSearch = facility.facility.toLowerCase().includes(searchTerm.toLowerCase());
@@ -114,8 +244,8 @@ export default function App() {
       (filterProductivity === 'low' && facility.productivity < 84);
     const matchesCPM = 
       filterCPM === 'all' ||
-      (filterCPM === 'good' && facility.cpm < 1.45) ||
-      (filterCPM === 'high' && facility.cpm >= 1.45);
+      (filterCPM === 'good' && facility.cpm <= 1.45) ||
+      (filterCPM === 'high' && facility.cpm > 1.45);
     
     return matchesSearch && matchesRegion && matchesProductivity && matchesCPM;
   });
@@ -133,7 +263,7 @@ export default function App() {
     return 'text-rose-400';
   };
 
-  const getCPMColor = (cpm) => cpm < 1.45 ? 'text-emerald-400' : 'text-rose-400';
+  const getCPMColor = (cpm) => cpm <= 1.45 ? 'text-emerald-400' : 'text-rose-400';
 
   const getProductivityBg = (productivity) => {
     if (productivity >= 90) return 'from-emerald-500/20 to-teal-500/20 border-emerald-400/30';
@@ -404,16 +534,16 @@ export default function App() {
                 <div className="flex-1">
                   <h3 className="text-3xl font-black text-white mb-3 tracking-tight">Real Data Loaded! ✓</h3>
                   <p className="text-slate-300 mb-6 text-lg font-medium">
-                    Showing {allWeeklyData.length} records from your DOR Weekly Reports across 17 facilities with regional breakdowns and performance rankings.
+                    Showing {allWeeklyData.length} records from your DOR Weekly Reports across 17 facilities with AI-powered insights.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3 text-white bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                       <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0" strokeWidth={2.5} />
-                      <span className="font-bold">Performance Rankings</span>
+                      <span className="font-bold">AI Chatbot Assistant</span>
                     </div>
                     <div className="flex items-center gap-3 text-white bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20">
                       <CheckCircle className="w-6 h-6 text-emerald-400 flex-shrink-0" strokeWidth={2.5} />
-                      <span className="font-bold">4-Goal Scoring System</span>
+                      <span className="font-bold">Smart Analytics</span>
                     </div>
                   </div>
                 </div>
@@ -422,7 +552,7 @@ export default function App() {
           </div>
         )}
 
-        {activeView === 'rankings' && (
+{activeView === 'rankings' && (
           <div className="space-y-6 animate-fadeIn">
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
               <div className="p-8 bg-gradient-to-r from-yellow-900/30 via-amber-900/30 to-orange-900/30 border-b border-white/10">
@@ -524,7 +654,7 @@ export default function App() {
                           <div className={`text-2xl font-black ${item.goals.cpm ? 'text-emerald-300' : 'text-slate-400'}`}>
                             ${item.facility.cpm}
                           </div>
-
+                          <div className="text-xs text-slate-400 mt-1">{item.goals.cpm ? '≤ $1.45 ✓' : '> $1.45'}</div>
                         </div>
 
                         <div className={`p-4 rounded-xl border-2 ${item.goals.medB ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
@@ -567,7 +697,7 @@ export default function App() {
           </div>
         )}
 
-        {activeView === 'facilities' && (
+{activeView === 'facilities' && (
           <div className="space-y-6 animate-fadeIn">
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
@@ -663,7 +793,7 @@ export default function App() {
                             </div>
                           </div>
 
-                          <div className={`bg-gradient-to-br ${facility.cpm < 1.45 ? 'from-emerald-500/20 to-teal-500/20 border-emerald-400/30' : 'from-rose-500/20 to-red-500/20 border-rose-400/30'} backdrop-blur-sm rounded-2xl p-6 border transform hover:scale-105 transition-all duration-300`}>
+                          <div className={`bg-gradient-to-br ${facility.cpm <= 1.45 ? 'from-emerald-500/20 to-teal-500/20 border-emerald-400/30' : 'from-rose-500/20 to-red-500/20 border-rose-400/30'} backdrop-blur-sm rounded-2xl p-6 border transform hover:scale-105 transition-all duration-300`}>
                             <div className="flex items-center gap-3 mb-3">
                               <PieChart className={`w-5 h-5 ${getCPMColor(facility.cpm)}`} strokeWidth={2.5} />
                               <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">CPM</div>
@@ -672,7 +802,7 @@ export default function App() {
                               ${facility.cpm}
                             </div>
                             <div className="text-xs text-slate-400 mt-2 font-medium">
-                              {facility.cpm < 1.45 ? 'Under target ✓' : 'Above target'}
+                              {facility.cpm <= 1.45 ? 'Under target ✓' : 'Above target'}
                             </div>
                           </div>
 
@@ -832,6 +962,94 @@ export default function App() {
         )}
       </div>
 
+      {/* AI Chatbot */}
+      <div className="fixed bottom-6 right-6 z-50">
+        {chatOpen ? (
+          <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl shadow-2xl border border-white/20 w-96 h-[600px] flex flex-col overflow-hidden">
+            {/* Chat Header */}
+            <div className="bg-gradient-to-r from-cyan-500 to-teal-500 p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-white" strokeWidth={2.5} />
+                </div>
+                <div>
+                  <h3 className="text-white font-black text-lg">AI Assistant</h3>
+                  <p className="text-cyan-100 text-xs font-medium">Powered by TheraScope</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setChatOpen(false)}
+                className="text-white hover:bg-white/20 rounded-xl p-2 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {chatMessages.map((msg, idx) => (
+                <div
+                  key={idx}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] rounded-2xl p-4 ${
+                      msg.role === 'user'
+                        ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-white'
+                        : 'bg-white/10 text-slate-200 backdrop-blur-sm border border-white/20'
+                    }`}
+                  >
+                    <p className="text-sm font-medium whitespace-pre-line">{msg.content}</p>
+                  </div>
+                </div>
+              ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="bg-white/10 text-slate-200 backdrop-blur-sm border border-white/20 rounded-2xl p-4">
+                    <div className="flex gap-2">
+                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-teal-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div ref={chatMessagesEndRef} />
+            </div>
+
+            {/* Chat Input */}
+            <form onSubmit={handleChatSubmit} className="p-4 bg-white/5 backdrop-blur-sm border-t border-white/10">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Ask me anything..."
+                  className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 font-medium"
+                />
+                <button
+                  type="submit"
+                  disabled={!chatInput.trim()}
+                  className="px-4 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <button
+            onClick={() => setChatOpen(true)}
+            className="relative group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-teal-500 rounded-full blur-lg opacity-75 group-hover:opacity-100 animate-pulse transition-opacity"></div>
+            <div className="relative w-16 h-16 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-300">
+              <MessageCircle className="w-8 h-8 text-white" strokeWidth={2.5} />
+            </div>
+          </button>
+        )}
+      </div>
+
       <style jsx>{`
         @keyframes fadeIn {
           from {
@@ -859,6 +1077,19 @@ export default function App() {
 
         .animate-pulse {
           animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-25%);
+          }
+        }
+
+        .animate-bounce {
+          animation: bounce 0.6s infinite;
         }
       `}</style>
     </div>
