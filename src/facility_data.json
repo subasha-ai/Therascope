@@ -2,1665 +2,2311 @@
   {
     "week": "907",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.5,
     "cpm": 1.47,
     "medBEligible": 45,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-09-07",
+    "modeOfTreatment": 0.69
   },
   {
     "week": "907",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.0,
     "cpm": 1.36,
     "medBEligible": 31,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-07",
+    "modeOfTreatment": 13.0
   },
   {
     "week": "907",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.53,
     "medBEligible": 33,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-09-07",
+    "modeOfTreatment": 7.0
   },
   {
     "week": "907",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 86.0,
     "cpm": 1.65,
     "medBEligible": 52,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-09-07",
+    "modeOfTreatment": 5.0
   },
   {
     "week": "907",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 73.8,
     "cpm": 1.44,
     "medBEligible": 19,
-    "medBCaseload": 8
+    "medBCaseload": 8,
+    "date": "2025-09-07",
+    "modeOfTreatment": 7.95
   },
   {
     "week": "907",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.0,
     "cpm": 1.55,
     "medBEligible": 16,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-09-07",
+    "modeOfTreatment": 4.0
   },
   {
     "week": "907",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 93.9,
     "cpm": 1.25,
     "medBEligible": 12,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-09-07",
+    "modeOfTreatment": 0.0
   },
   {
     "week": "907",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 92.0,
     "cpm": 1.45,
     "medBEligible": 14,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-07",
+    "modeOfTreatment": 6.0
   },
   {
     "week": "907",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 82.0,
     "cpm": 1.37,
     "medBEligible": 7,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-07",
+    "modeOfTreatment": 1.05
   },
   {
     "week": "907",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.33,
     "medBEligible": 9,
-    "medBCaseload": 6
+    "medBCaseload": 6,
+    "date": "2025-09-07",
+    "modeOfTreatment": 4.21
   },
   {
     "week": "907",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 89.8,
     "cpm": 1.54,
     "medBEligible": 7,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-07",
+    "modeOfTreatment": 2.36
   },
   {
     "week": "907",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 83.0,
     "cpm": 1.36,
     "medBEligible": 42,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-09-07",
+    "modeOfTreatment": 5.0
   },
   {
     "week": "907",
     "facility": "West Shore PA",
+    "region": "Overland",
     "productivity": 79.9,
     "cpm": 1.49,
     "medBEligible": 56,
-    "medBCaseload": 29
+    "medBCaseload": 29,
+    "date": "2025-09-07",
+    "modeOfTreatment": 2.19
   },
   {
     "week": "907",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 87.6,
     "cpm": 1.4,
     "medBEligible": 30,
-    "medBCaseload": 21
+    "medBCaseload": 21,
+    "date": "2025-09-07",
+    "modeOfTreatment": 7.0
   },
   {
     "week": "907",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 83.2,
     "cpm": 1.52,
     "medBEligible": 75,
-    "medBCaseload": 32
+    "medBCaseload": 32,
+    "date": "2025-09-07",
+    "modeOfTreatment": 0.82
   },
   {
     "week": "907",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 85.4,
     "cpm": 1.65,
     "medBEligible": 23,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-07",
+    "modeOfTreatment": 4.99
   },
   {
     "week": "914",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.7,
     "cpm": 1.41,
     "medBEligible": 45,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-09-14",
+    "modeOfTreatment": 2.06
   },
   {
     "week": "914",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.41,
     "medBEligible": 16,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-09-14",
+    "modeOfTreatment": 6.35
   },
   {
     "week": "914",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 82.0,
     "cpm": 1.57,
     "medBEligible": 23,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-09-14",
+    "modeOfTreatment": 3.82
   },
   {
     "week": "914",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.5,
     "cpm": 1.33,
     "medBEligible": 11,
-    "medBCaseload": 6
+    "medBCaseload": 6,
+    "date": "2025-09-14",
+    "modeOfTreatment": 3.82
   },
   {
     "week": "914",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.58,
     "medBEligible": 33,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-09-14",
+    "modeOfTreatment": 7.39
   },
   {
     "week": "914",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 75.3,
     "cpm": 1.48,
     "medBEligible": 19,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-09-14",
+    "modeOfTreatment": 7.9
   },
   {
     "week": "914",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 86.4,
     "cpm": 1.33,
     "medBEligible": 11,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-09-14",
+    "modeOfTreatment": 2.72
   },
   {
     "week": "914",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 82.0,
     "cpm": 1.7,
     "medBEligible": 40,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-09-14",
+    "modeOfTreatment": 1.5
   },
   {
     "week": "914",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 86.0,
     "cpm": 1.33,
     "medBEligible": 31,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-14",
+    "modeOfTreatment": 6.0
   },
   {
     "week": "914",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 89.0,
     "cpm": 1.45,
     "medBEligible": 7,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-14",
+    "modeOfTreatment": 2.89
   },
   {
     "week": "914",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 89.4,
     "cpm": 1.36,
     "medBEligible": 30,
-    "medBCaseload": 21
+    "medBCaseload": 21,
+    "date": "2025-09-14",
+    "modeOfTreatment": 5.57
   },
   {
     "week": "914",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 78.0,
     "cpm": 1.47,
     "medBEligible": 9,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-09-14",
+    "modeOfTreatment": 2.88
   },
   {
     "week": "914",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 88.0,
     "cpm": 1.59,
     "medBEligible": 15,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-14",
+    "modeOfTreatment": 1.52
   },
   {
     "week": "914",
     "facility": "West Shore PA",
+    "region": "Overland",
     "productivity": 82.9,
     "cpm": 1.48,
     "medBEligible": 55,
-    "medBCaseload": 29
+    "medBCaseload": 29,
+    "date": "2025-09-14",
+    "modeOfTreatment": 2.52
   },
   {
     "week": "914",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.5,
     "cpm": 1.38,
     "medBEligible": 75,
-    "medBCaseload": 33
+    "medBCaseload": 33,
+    "date": "2025-09-14",
+    "modeOfTreatment": 2.0
   },
   {
-    "week": "45913",
+    "week": "914",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 85.0,
     "cpm": 1.3,
     "medBEligible": 44,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-09-14",
+    "modeOfTreatment": 5.14
   },
   {
     "week": "921",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.0,
     "cpm": 1.45,
     "medBEligible": 16,
-    "medBCaseload": 8
+    "medBCaseload": 8,
+    "date": "2025-09-21",
+    "modeOfTreatment": 3.0
   },
   {
     "week": "921",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.7,
     "cpm": 1.35,
     "medBEligible": 45,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-09-21",
+    "modeOfTreatment": 2.83
   },
   {
     "week": "921",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.38,
     "medBEligible": 30,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-21",
+    "modeOfTreatment": 4.0
   },
   {
     "week": "921",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 81.4,
     "cpm": 1.38,
     "medBEligible": 20,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-09-21",
+    "modeOfTreatment": 6.95
   },
   {
     "week": "921",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 85.0,
     "cpm": 1.27,
     "medBEligible": 11,
-    "medBCaseload": 6
+    "medBCaseload": 6,
+    "date": "2025-09-21",
+    "modeOfTreatment": 4.53
   },
   {
     "week": "921",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.3,
     "cpm": 1.56,
     "medBEligible": 33,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-09-21",
+    "modeOfTreatment": 8.58
   },
   {
     "week": "921",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 82.5,
     "cpm": 1.51,
     "medBEligible": 15,
-    "medBCaseload": 14
+    "medBCaseload": 14,
+    "date": "2025-09-21",
+    "modeOfTreatment": 2.37
   },
   {
     "week": "921",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 83.0,
     "cpm": 1.69,
     "medBEligible": 40,
-    "medBCaseload": 19
+    "medBCaseload": 19,
+    "date": "2025-09-21",
+    "modeOfTreatment": 5.0
   },
   {
     "week": "921",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 88.7,
     "cpm": 1.46,
     "medBEligible": 7,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-21",
+    "modeOfTreatment": 1.04
   },
   {
     "week": "921",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 76.0,
     "cpm": 1.48,
     "medBEligible": 9,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-21",
+    "modeOfTreatment": 1.87
   },
   {
     "week": "921",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 89.0,
     "cpm": 1.5,
     "medBEligible": 14,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-09-21",
+    "modeOfTreatment": 0.0
   },
   {
     "week": "921",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 79.0,
     "cpm": 1.44,
     "medBEligible": 41,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-09-21",
+    "modeOfTreatment": 2.51
   },
   {
     "week": "921",
     "facility": "West Shore PA",
+    "region": "Overland",
     "productivity": 82.2,
     "cpm": 1.47,
     "medBEligible": 55,
-    "medBCaseload": 30
+    "medBCaseload": 30,
+    "date": "2025-09-21",
+    "modeOfTreatment": 4.42
   },
   {
     "week": "921",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 88.6,
     "cpm": 1.39,
     "medBEligible": 23,
-    "medBCaseload": 23
+    "medBCaseload": 23,
+    "date": "2025-09-21",
+    "modeOfTreatment": 6.45
   },
   {
     "week": "921",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 83.6,
     "cpm": 1.4,
     "medBEligible": 74,
-    "medBCaseload": 34
+    "medBCaseload": 34,
+    "date": "2025-09-21",
+    "modeOfTreatment": 1.29
   },
   {
     "week": "921",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.8,
     "cpm": 1.51,
     "medBEligible": 23,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-21",
+    "modeOfTreatment": 7.36
   },
   {
     "week": "928",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.44,
     "medBEligible": 16,
-    "medBCaseload": 9
+    "medBCaseload": 9,
+    "date": "2025-09-28",
+    "modeOfTreatment": 7.0
   },
   {
     "week": "928",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.47,
     "medBEligible": 31,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-09-28",
+    "modeOfTreatment": 5.29
   },
   {
     "week": "928",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 78.9,
     "cpm": 1.44,
     "medBEligible": 20,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-09-28",
+    "modeOfTreatment": 5.95
   },
   {
     "week": "928",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 81.0,
     "cpm": 1.61,
     "medBEligible": 33,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-28",
+    "modeOfTreatment": 3.94
   },
   {
     "week": "928",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 87.0,
     "cpm": 1.25,
     "medBEligible": 11,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-09-28",
+    "modeOfTreatment": 5.08
   },
   {
     "week": "928",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 72.0,
     "cpm": 1.45,
     "medBEligible": 41,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-09-28",
+    "modeOfTreatment": 2.46
   },
   {
     "week": "928",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 86.0,
     "cpm": 1.46,
     "medBEligible": 12,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-09-28",
+    "modeOfTreatment": 2.17
   },
   {
     "week": "928",
     "facility": "West Shore PA",
+    "region": "Overland",
     "productivity": 84.2,
     "cpm": 1.46,
     "medBEligible": 55,
-    "medBCaseload": 29
+    "medBCaseload": 29,
+    "date": "2025-09-28",
+    "modeOfTreatment": 4.82
   },
   {
     "week": "928",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.68,
     "medBEligible": 40,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-09-28",
+    "modeOfTreatment": 1.0
   },
   {
     "week": "928",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 77.0,
     "cpm": 1.5,
     "medBEligible": 10,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-09-28",
+    "modeOfTreatment": 1.0
   },
   {
     "week": "928",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 83.2,
     "cpm": 1.41,
     "medBEligible": 73,
-    "medBCaseload": 34
+    "medBCaseload": 34,
+    "date": "2025-09-28",
+    "modeOfTreatment": 1.97
   },
   {
     "week": "928",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 72.0,
     "cpm": 1.98,
     "medBEligible": 8,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-09-28",
+    "modeOfTreatment": 1.0
   },
   {
     "week": "928",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 91.0,
     "cpm": 1.41,
     "medBEligible": 7,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-09-28",
+    "modeOfTreatment": 0.67
   },
   {
-    "week": "45928",
+    "week": "928",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.5,
     "cpm": 1.53,
     "medBEligible": 23,
-    "medBCaseload": 8
+    "medBCaseload": 8,
+    "date": "2025-09-28",
+    "modeOfTreatment": 4.09
   },
   {
-    "week": "45928",
+    "week": "928",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 91.3,
     "cpm": 1.34,
     "medBEligible": 29,
-    "medBCaseload": 21
+    "medBCaseload": 21,
+    "date": "2025-09-28",
+    "modeOfTreatment": 5.54
   },
   {
-    "week": "45928",
+    "week": "928",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.7,
     "cpm": 1.33,
     "medBEligible": 40,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-09-28",
+    "modeOfTreatment": 3.91
   },
   {
     "week": "1005",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.67,
     "medBEligible": 40,
-    "medBCaseload": 22
+    "medBCaseload": 22,
+    "date": "2025-10-05",
+    "modeOfTreatment": 5.0
   },
   {
     "week": "1005",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 86.0,
     "cpm": 1.32,
     "medBEligible": 29,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-10-05",
+    "modeOfTreatment": 5.0
   },
   {
     "week": "1005",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 91.0,
     "cpm": 1.42,
     "medBEligible": 22,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-10-05",
+    "modeOfTreatment": 7.0
   },
   {
     "week": "1005",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 79.8,
     "cpm": 1.43,
     "medBEligible": 19,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-10-05",
+    "modeOfTreatment": 7.1
   },
   {
     "week": "1005",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 86.5,
     "cpm": 1.46,
     "medBEligible": 12,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-10-05",
+    "modeOfTreatment": 1.76
   },
   {
     "week": "1005",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.27,
     "medBEligible": 11,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-10-05",
+    "modeOfTreatment": 4.18
   },
   {
     "week": "1005",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.8,
     "cpm": 1.49,
     "medBEligible": 22,
-    "medBCaseload": 8
+    "medBCaseload": 8,
+    "date": "2025-10-05",
+    "modeOfTreatment": 7.39
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 91.3,
     "cpm": 1.4,
     "medBEligible": 7,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-10-05",
+    "modeOfTreatment": 1.8
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "West Shore PA",
+    "region": "Overland",
     "productivity": 81.0,
     "cpm": 1.49,
     "medBEligible": 55,
-    "medBCaseload": 29
+    "medBCaseload": 29,
+    "date": "2025-10-05",
+    "modeOfTreatment": 3.5
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 76.0,
     "cpm": 1.42,
     "medBEligible": 41,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-10-05",
+    "modeOfTreatment": 3.18
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 91.1,
     "cpm": 1.28,
     "medBEligible": 40,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-10-05",
+    "modeOfTreatment": 6.94
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 82.0,
     "cpm": 1.69,
     "medBEligible": 35,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-10-05",
+    "modeOfTreatment": 6.84
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 83.0,
     "cpm": 1.41,
     "medBEligible": 74,
-    "medBCaseload": 34
+    "medBCaseload": 34,
+    "date": "2025-10-05",
+    "modeOfTreatment": 1.69
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 89.1,
     "cpm": 1.34,
     "medBEligible": 25,
-    "medBCaseload": 23
+    "medBCaseload": 23,
+    "date": "2025-10-05",
+    "modeOfTreatment": 7.21
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 67.6,
     "cpm": 2.58,
     "medBEligible": 10,
-    "medBCaseload": 0
+    "medBCaseload": 0,
+    "date": "2025-10-05",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 80.1,
     "cpm": 1.43,
     "medBEligible": 14,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-10-05",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45935",
+    "week": "1005",
     "facility": "Manresa HC",
+    "region": "Golden Coast",
     "productivity": 76.0,
     "cpm": 1.4,
     "medBEligible": 20,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-10-05",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.0,
     "cpm": 1.42,
     "medBEligible": 22,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-10-12",
+    "modeOfTreatment": 6.0
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 85.0,
     "cpm": 1.62,
     "medBEligible": 40,
-    "medBCaseload": 25
+    "medBCaseload": 25,
+    "date": "2025-10-12",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.7,
     "cpm": 1.37,
     "medBEligible": 39,
-    "medBCaseload": 20
+    "medBCaseload": 20,
+    "date": "2025-10-12",
+    "modeOfTreatment": 8.02
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 86.1,
     "cpm": 1.5,
     "medBEligible": 23,
-    "medBCaseload": 9
+    "medBCaseload": 9,
+    "date": "2025-10-12",
+    "modeOfTreatment": 6.66
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 86.4,
     "cpm": 1.47,
     "medBEligible": 13,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-10-12",
+    "modeOfTreatment": 0.89
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 89.5,
     "cpm": 1.46,
     "medBEligible": 7,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-10-12",
+    "modeOfTreatment": 1.82
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.35,
     "medBEligible": 28,
-    "medBCaseload": 8
+    "medBCaseload": 8,
+    "date": "2025-10-12",
+    "modeOfTreatment": 5.0
   },
   {
-    "week": "45949",
+    "week": "1012",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 78.0,
     "cpm": 1.47,
     "medBEligible": 20,
-    "medBCaseload": 14
+    "medBCaseload": 14,
+    "date": "2025-10-12",
+    "modeOfTreatment": 7.73
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.41,
     "medBEligible": 43,
-    "medBCaseload": 22
+    "medBCaseload": 22,
+    "date": "2025-10-12",
+    "modeOfTreatment": 3.87
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.52,
     "medBEligible": 35,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-10-12",
+    "modeOfTreatment": 8.44
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 87.0,
     "cpm": 1.21,
     "medBEligible": 10,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-10-12",
+    "modeOfTreatment": 5.69
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.46,
     "medBEligible": 70,
-    "medBCaseload": 35
+    "medBCaseload": 35,
+    "date": "2025-10-12",
+    "modeOfTreatment": 0.28
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.41,
     "medBEligible": 43,
-    "medBCaseload": 22
+    "medBCaseload": 22,
+    "date": "2025-10-12",
+    "modeOfTreatment": 3.87
   },
   {
-    "week": "45942",
+    "week": "1012",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 90.1,
     "cpm": 1.26,
     "medBEligible": 27,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-10-12",
+    "modeOfTreatment": 8.61
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.0,
     "cpm": 1.41,
     "medBEligible": 22,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-10-19",
+    "modeOfTreatment": 8.0
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.0,
     "cpm": 1.28,
     "medBEligible": 28,
-    "medBCaseload": 9
+    "medBCaseload": 9,
+    "date": "2025-10-19",
+    "modeOfTreatment": 7.0
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 85.9,
     "cpm": 1.54,
     "medBEligible": 35,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-10-19",
+    "modeOfTreatment": 7.37
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.6,
     "cpm": 1.41,
     "medBEligible": 40,
-    "medBCaseload": 22
+    "medBCaseload": 22,
+    "date": "2025-10-19",
+    "modeOfTreatment": 7.22
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.64,
     "medBEligible": 40,
-    "medBCaseload": 19
+    "medBCaseload": 19,
+    "date": "2025-10-19",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 91.5,
     "cpm": 1.4,
     "medBEligible": 7,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-10-19",
+    "modeOfTreatment": 3.1
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 82.0,
     "cpm": 1.36,
     "medBEligible": 9,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-10-19",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 82.0,
     "cpm": 1.42,
     "medBEligible": 41,
-    "medBCaseload": 21
+    "medBCaseload": 21,
+    "date": "2025-10-19",
+    "modeOfTreatment": 3.55
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.24,
     "medBEligible": 13,
-    "medBCaseload": 6
+    "medBCaseload": 6,
+    "date": "2025-10-19",
+    "modeOfTreatment": 4.06
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 89.5,
     "cpm": 1.29,
     "medBEligible": 29,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-10-19",
+    "modeOfTreatment": 9.45
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 85.1,
     "cpm": 1.42,
     "medBEligible": 14,
-    "medBCaseload": 14
+    "medBCaseload": 14,
+    "date": "2025-10-19",
+    "modeOfTreatment": 1.84
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 85.1,
     "cpm": 1.4,
     "medBEligible": 73,
-    "medBCaseload": 39
+    "medBCaseload": 39,
+    "date": "2025-10-19",
+    "modeOfTreatment": 0.76
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 78.0,
     "cpm": 1.78,
     "medBEligible": 17,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-10-19",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45949",
+    "week": "1019",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 85.3,
     "cpm": 1.49,
     "medBEligible": 23,
-    "medBCaseload": 9
+    "medBCaseload": 9,
+    "date": "2025-10-19",
+    "modeOfTreatment": 8.0
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 83.0,
     "cpm": 1.4,
     "medBEligible": 9,
-    "medBCaseload": 3
+    "medBCaseload": 3,
+    "date": "2025-10-26",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 99.0,
     "cpm": 1.4,
     "medBEligible": 17,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-10-26",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.45,
     "medBEligible": 20,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-10-26",
+    "modeOfTreatment": 8.0
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 86.0,
     "cpm": 1.34,
     "medBEligible": 26,
-    "medBCaseload": 9
+    "medBCaseload": 9,
+    "date": "2025-10-26",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.6,
     "medBEligible": 35,
-    "medBCaseload": 13
+    "medBCaseload": 13,
+    "date": "2025-10-26",
+    "modeOfTreatment": 7.26
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 85.0,
     "cpm": 1.58,
     "medBEligible": 40,
-    "medBCaseload": 20
+    "medBCaseload": 20,
+    "date": "2025-10-26",
+    "modeOfTreatment": 9.0
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 83.0,
     "cpm": 1.27,
     "medBEligible": 13,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-10-26",
+    "modeOfTreatment": 4.07
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.5,
     "cpm": 1.37,
     "medBEligible": 39,
-    "medBCaseload": 21
+    "medBCaseload": 21,
+    "date": "2025-10-26",
+    "modeOfTreatment": 8.3
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 81.2,
     "cpm": 1.38,
     "medBEligible": 41,
-    "medBCaseload": 23
+    "medBCaseload": 23,
+    "date": "2025-10-26",
+    "modeOfTreatment": 4.37
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 93.4,
     "cpm": 1.33,
     "medBEligible": 29,
-    "medBCaseload": 23
+    "medBCaseload": 23,
+    "date": "2025-10-26",
+    "modeOfTreatment": 7.91
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 88.5,
     "cpm": 1.45,
     "medBEligible": 14,
-    "medBCaseload": 14
+    "medBCaseload": 14,
+    "date": "2025-10-26",
+    "modeOfTreatment": 1.02
   },
   {
-    "week": "45956",
-    "facility": "eden hc",
+    "week": "1026",
+    "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.5,
     "cpm": 1.44,
     "medBEligible": 74,
-    "medBCaseload": 41
+    "medBCaseload": 41,
+    "date": "2025-10-26",
+    "modeOfTreatment": 2.35
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.0,
     "cpm": 1.42,
     "medBEligible": 23,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-10-26",
+    "modeOfTreatment": 8.98
   },
   {
-    "week": "45956",
+    "week": "1026",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 89.0,
     "cpm": 1.45,
     "medBEligible": 7,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-10-26",
+    "modeOfTreatment": 1.25
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.0,
     "cpm": 1.43,
     "medBEligible": 19,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-11-03",
+    "modeOfTreatment": 7.42
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.4,
     "cpm": 1.32,
     "medBEligible": 41,
-    "medBCaseload": 22
+    "medBCaseload": 22,
+    "date": "2025-11-03",
+    "modeOfTreatment": 6.03
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 89.6,
     "cpm": 1.46,
     "medBEligible": 7,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-11-03",
+    "modeOfTreatment": 2.29
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 83.0,
     "cpm": 1.19,
     "medBEligible": 13,
-    "medBCaseload": 7
+    "medBCaseload": 7,
+    "date": "2025-11-03",
+    "modeOfTreatment": 4.56
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.56,
     "medBEligible": 35,
-    "medBCaseload": 14
+    "medBCaseload": 14,
+    "date": "2025-11-03",
+    "modeOfTreatment": 3.42
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.37,
     "medBEligible": 9,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-11-03",
+    "modeOfTreatment": 3.0
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 68.0,
     "cpm": 2.22,
     "medBEligible": 15,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-11-03",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 86.0,
     "cpm": 1.33,
     "medBEligible": 26,
-    "medBCaseload": 15
+    "medBCaseload": 15,
+    "date": "2025-11-03",
+    "modeOfTreatment": 1.0
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 86.0,
     "cpm": 1.36,
     "medBEligible": 30,
-    "medBCaseload": 23
+    "medBCaseload": 23,
+    "date": "2025-11-03",
+    "modeOfTreatment": 4.14
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 79.5,
     "cpm": 1.69,
     "medBEligible": 16,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-11-03",
+    "modeOfTreatment": 1.39
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 87.8,
     "cpm": 1.33,
     "medBEligible": 33,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-11-03",
+    "modeOfTreatment": 8.27
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
     "productivity": 82.0,
     "cpm": 1.53,
     "medBEligible": 23,
-    "medBCaseload": 10
+    "medBCaseload": 10,
+    "date": "2025-11-03",
+    "modeOfTreatment": 6.69
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.6,
     "cpm": 1.43,
     "medBEligible": 74,
-    "medBCaseload": 42
+    "medBCaseload": 42,
+    "date": "2025-11-03",
+    "modeOfTreatment": 0.83
   },
   {
-    "week": "45963",
+    "week": "1103",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 83.0,
     "cpm": 1.65,
     "medBEligible": 40,
-    "medBCaseload": 22
+    "medBCaseload": 22,
+    "date": "2025-11-03",
+    "modeOfTreatment": 6.3
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.0,
     "cpm": 1.41,
     "medBEligible": 18,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-11-10",
+    "modeOfTreatment": 10.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.31,
     "medBEligible": 26,
-    "medBCaseload": 26
+    "medBCaseload": 26,
+    "date": "2025-11-10",
+    "modeOfTreatment": 5.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.31,
     "medBEligible": 26,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-11-10",
+    "modeOfTreatment": 5.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.57,
     "medBEligible": 40,
-    "medBCaseload": 21
+    "medBCaseload": 21,
+    "date": "2025-11-10",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 80.7,
     "cpm": 1.51,
     "medBEligible": 35,
-    "medBCaseload": 15
+    "medBCaseload": 15,
+    "date": "2025-11-10",
+    "modeOfTreatment": 8.14
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 80.0,
     "cpm": 1.76,
     "medBEligible": 8,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-11-10",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.41,
     "medBEligible": 12,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-11-10",
+    "modeOfTreatment": 2.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 91.9,
     "cpm": 1.3,
     "medBEligible": 42,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-11-10",
+    "modeOfTreatment": 4.5
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 91.5,
     "cpm": 1.44,
     "medBEligible": 7,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-11-10",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 85.0,
     "cpm": 1.24,
     "medBEligible": 13,
-    "medBCaseload": 6
+    "medBCaseload": 6,
+    "date": "2025-11-10",
+    "modeOfTreatment": 3.18
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 88.0,
     "cpm": 1.3,
     "medBEligible": 29,
-    "medBCaseload": 19
+    "medBCaseload": 19,
+    "date": "2025-11-10",
+    "modeOfTreatment": 6.33
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 80.8,
     "cpm": 1.61,
     "medBEligible": 15,
-    "medBCaseload": 15
+    "medBCaseload": 15,
+    "date": "2025-11-10",
+    "modeOfTreatment": 1.7
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.1,
     "cpm": 1.46,
     "medBEligible": 74,
-    "medBCaseload": 42
+    "medBCaseload": 42,
+    "date": "2025-11-10",
+    "modeOfTreatment": 0.29
   },
   {
-    "week": "45970",
+    "week": "1110",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 94.3,
     "cpm": 1.3,
     "medBEligible": 32,
-    "medBCaseload": 25
+    "medBCaseload": 25,
+    "date": "2025-11-10",
+    "modeOfTreatment": 9.72
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.0,
     "cpm": 1.4,
     "medBEligible": 17,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-11-17",
+    "modeOfTreatment": 7.25
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.9,
     "cpm": 1.38,
     "medBEligible": 45,
-    "medBCaseload": 26
+    "medBCaseload": 26,
+    "date": "2025-11-17",
+    "modeOfTreatment": 4.92
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 90.3,
     "cpm": 1.44,
     "medBEligible": 7,
-    "medBCaseload": 4
+    "medBCaseload": 4,
+    "date": "2025-11-17",
+    "modeOfTreatment": 1.0
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 83.0,
     "cpm": 1.17,
     "medBEligible": 9,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-11-17",
+    "modeOfTreatment": 2.87
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 60.0,
     "cpm": 1.73,
     "medBEligible": 17,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-11-17",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 88.0,
     "cpm": 1.25,
     "medBEligible": 11,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-11-17",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 96.2,
     "cpm": 1.25,
     "medBEligible": 32,
-    "medBCaseload": 24
+    "medBCaseload": 24,
+    "date": "2025-11-17",
+    "modeOfTreatment": 8.18
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 85.4,
     "cpm": 1.57,
     "medBEligible": 16,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-11-17",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 87.0,
     "cpm": 1.31,
     "medBEligible": 25,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-11-17",
+    "modeOfTreatment": 5.0
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 78.2,
     "cpm": 1.55,
     "medBEligible": 35,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-11-17",
+    "modeOfTreatment": 7.31
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 81.0,
     "cpm": 1.51,
     "medBEligible": 40,
-    "medBCaseload": 19
+    "medBCaseload": 19,
+    "date": "2025-11-17",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 83.1,
     "cpm": 1.41,
     "medBEligible": 73,
-    "medBCaseload": 41
+    "medBCaseload": 41,
+    "date": "2025-11-17",
+    "modeOfTreatment": 1.05
   },
   {
-    "week": "45984",
+    "week": "1117",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 86.1,
     "cpm": 1.3,
     "medBEligible": 20,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-11-17",
+    "modeOfTreatment": 7.29
   },
   {
-    "week": "45977",
+    "week": "1117",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 82.0,
     "cpm": 1.42,
     "medBEligible": 26,
-    "medBCaseload": 20
+    "medBCaseload": 20,
+    "date": "2025-11-17",
+    "modeOfTreatment": 4.62
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 93.0,
     "cpm": 1.37,
     "medBEligible": 17,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-11-24",
+    "modeOfTreatment": 8.85
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 93.0,
     "cpm": 1.21,
     "medBEligible": 26,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-11-24",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 83.0,
     "cpm": 1.43,
     "medBEligible": 35,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-11-24",
+    "modeOfTreatment": 7.2
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 85.0,
     "cpm": 1.43,
     "medBEligible": 10,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-11-24",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 73.0,
     "cpm": 1.53,
     "medBEligible": 11,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-11-24",
+    "modeOfTreatment": 20.0
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 93.7,
     "cpm": 1.33,
     "medBEligible": 45,
-    "medBCaseload": 28
+    "medBCaseload": 28,
+    "date": "2025-11-24",
+    "modeOfTreatment": 5.42
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.2,
     "medBEligible": 9,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-11-24",
+    "modeOfTreatment": 3.14
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 98.8,
     "cpm": 1.21,
     "medBEligible": 32,
-    "medBCaseload": 25
+    "medBCaseload": 25,
+    "date": "2025-11-24",
+    "modeOfTreatment": 7.81
   },
   {
-    "week": "46012",
+    "week": "1124",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 79.0,
     "cpm": 1.41,
     "medBEligible": 27,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-11-24",
+    "modeOfTreatment": 2.28
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 84.1,
     "cpm": 1.61,
     "medBEligible": 16,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-11-24",
+    "modeOfTreatment": 1.95
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 89.4,
     "cpm": 1.45,
     "medBEligible": 7,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-11-24",
+    "modeOfTreatment": 0.42
   },
   {
-    "week": "45991",
+    "week": "1124",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 81.3,
     "cpm": 1.41,
     "medBEligible": 20,
-    "medBCaseload": 11
+    "medBCaseload": 11,
+    "date": "2025-11-24",
+    "modeOfTreatment": 8.62
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.3,
     "cpm": 1.46,
     "medBEligible": 73,
-    "medBCaseload": 42
+    "medBCaseload": 42,
+    "date": "2025-11-24",
+    "modeOfTreatment": 1.53
   },
   {
-    "week": "45984",
+    "week": "1124",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 81.0,
     "cpm": 1.55,
     "medBEligible": 40,
-    "medBCaseload": 15
+    "medBCaseload": 15,
+    "date": "2025-11-24",
+    "modeOfTreatment": 5.0
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 89.0,
     "cpm": 1.44,
     "medBEligible": 17,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-12-01",
+    "modeOfTreatment": 9.37
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 88.0,
     "cpm": 1.75,
     "medBEligible": 12,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-12-01",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 77.0,
     "cpm": 1.53,
     "medBEligible": 10,
-    "medBCaseload": 0
+    "medBCaseload": 0,
+    "date": "2025-12-01",
+    "modeOfTreatment": 5.0
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 86.3,
     "cpm": 1.51,
     "medBEligible": 6,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-12-01",
+    "modeOfTreatment": 0.88
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 84.3,
     "cpm": 1.44,
     "medBEligible": 35,
-    "medBCaseload": 15
+    "medBCaseload": 15,
+    "date": "2025-12-01",
+    "modeOfTreatment": 8.95
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.9,
     "cpm": 1.39,
     "medBEligible": 49,
-    "medBCaseload": 29
+    "medBCaseload": 29,
+    "date": "2025-12-01",
+    "modeOfTreatment": 3.8
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.0,
     "cpm": 1.28,
     "medBEligible": 26,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-12-01",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.28,
     "medBEligible": 9,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-12-01",
+    "modeOfTreatment": 2.05
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 83.0,
     "cpm": 1.4,
     "medBEligible": 16,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-12-01",
+    "modeOfTreatment": 1.49
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 82.0,
     "cpm": 1.43,
     "medBEligible": 40,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-12-01",
+    "modeOfTreatment": 7.0
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 84.2,
     "cpm": 1.37,
     "medBEligible": 72,
-    "medBCaseload": 42
+    "medBCaseload": 42,
+    "date": "2025-12-01",
+    "modeOfTreatment": 1.19
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 100.0,
     "cpm": 1.17,
     "medBEligible": 32,
-    "medBCaseload": 25
+    "medBCaseload": 25,
+    "date": "2025-12-01",
+    "modeOfTreatment": 7.47
   },
   {
-    "week": "45998",
+    "week": "1201",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 79.7,
     "cpm": 1.45,
     "medBEligible": 20,
-    "medBCaseload": 6
+    "medBCaseload": 6,
+    "date": "2025-12-01",
+    "modeOfTreatment": 8.1
   },
   {
-    "week": "45991",
+    "week": "1201",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 77.6,
     "cpm": 1.46,
     "medBEligible": 26,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-12-01",
+    "modeOfTreatment": 3.09
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
     "productivity": 88.0,
     "cpm": 1.44,
     "medBEligible": 17,
-    "medBCaseload": 12
+    "medBCaseload": 12,
+    "date": "2025-12-08",
+    "modeOfTreatment": 8.0
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "The Win Post Acute",
+    "region": "Golden Coast",
     "productivity": 93.2,
     "cpm": 1.34,
     "medBEligible": 49,
-    "medBCaseload": 32
+    "medBCaseload": 32,
+    "date": "2025-12-08",
+    "modeOfTreatment": 3.43
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Pac Coast PA",
+    "region": "Golden Coast",
     "productivity": 80.3,
     "cpm": 1.51,
     "medBEligible": 35,
-    "medBCaseload": 15
+    "medBCaseload": 15,
+    "date": "2025-12-08",
+    "modeOfTreatment": 8.59
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Gilroy HC",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.45,
     "medBEligible": 40,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-12-08",
+    "modeOfTreatment": 7.0
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Bridgewood PA",
+    "region": "Overland",
     "productivity": 94.0,
     "cpm": 1.38,
     "medBEligible": 10,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-12-08",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Cedarwood PA",
+    "region": "Overland",
     "productivity": 71.0,
     "cpm": 1.68,
     "medBEligible": 4,
-    "medBCaseload": 0
+    "medBCaseload": 0,
+    "date": "2025-12-08",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
     "productivity": 90.0,
     "cpm": 1.26,
     "medBEligible": 27,
-    "medBCaseload": 18
+    "medBCaseload": 18,
+    "date": "2025-12-08",
+    "modeOfTreatment": 4.0
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Capital PA",
+    "region": "Overland",
     "productivity": 81.0,
     "cpm": 1.38,
     "medBEligible": 28,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-12-08",
+    "modeOfTreatment": 4.22
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Belmont HC",
+    "region": "Overland",
     "productivity": 84.0,
     "cpm": 1.23,
     "medBEligible": 8,
-    "medBCaseload": 2
+    "medBCaseload": 2,
+    "date": "2025-12-08",
+    "modeOfTreatment": 1.53
   },
   {
-    "week": "46005",
+    "week": "1208",
     "facility": "Golden Harbor HC",
+    "region": "Overland",
     "productivity": 80.8,
     "cpm": 1.45,
     "medBEligible": 22,
-    "medBCaseload": 1
+    "medBCaseload": 1,
+    "date": "2025-12-08",
+    "modeOfTreatment": 5.24
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
     "productivity": 86.4,
     "cpm": 1.45,
     "medBEligible": 17,
-    "medBCaseload": 17
+    "medBCaseload": 17,
+    "date": "2025-12-08",
+    "modeOfTreatment": 0.57
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "West Shore PA",
+    "region": "Overland",
     "productivity": 78.0,
     "cpm": 1.59,
     "medBEligible": 43,
-    "medBCaseload": 16
+    "medBCaseload": 16,
+    "date": "2025-12-08",
+    "modeOfTreatment": 0.0
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Mountain View HC",
+    "region": "Golden Coast",
     "productivity": 97.8,
     "cpm": 1.22,
     "medBEligible": 33,
-    "medBCaseload": 25
+    "medBCaseload": 25,
+    "date": "2025-12-08",
+    "modeOfTreatment": 3.55
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Eden HC",
+    "region": "Overland",
     "productivity": 83.1,
     "cpm": 1.3,
     "medBEligible": 72,
-    "medBCaseload": 42
+    "medBCaseload": 42,
+    "date": "2025-12-08",
+    "modeOfTreatment": 0.35
   },
   {
-    "week": "45998",
+    "week": "1208",
     "facility": "Palo Alto Post Acute",
+    "region": "Overland",
     "productivity": 86.8,
     "cpm": 1.51,
     "medBEligible": 6,
-    "medBCaseload": 5
+    "medBCaseload": 5,
+    "date": "2025-12-08",
+    "modeOfTreatment": 1.53
+  },
+  {
+    "week": "1215",
+    "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
+    "productivity": 90.0,
+    "cpm": 1.42,
+    "medBEligible": 17,
+    "medBCaseload": 13,
+    "date": "2025-12-15",
+    "modeOfTreatment": 11.56
+  },
+  {
+    "week": "1215",
+    "facility": "The Win Post Acute",
+    "region": "Golden Coast",
+    "productivity": 87.4,
+    "cpm": 1.45,
+    "medBEligible": 50,
+    "medBCaseload": 32,
+    "date": "2025-12-15",
+    "modeOfTreatment": 0.71
   }
 ]
