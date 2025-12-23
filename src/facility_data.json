@@ -2341,5 +2341,38 @@
     "medBCaseload": 16,
     "date": "2025-12-15",
     "modeOfTreatment": 3.96
+  },
+  {
+    "week": "1215",
+    "facility": "Cedarwood PA",
+    "region": "Overland",
+    "productivity": 70.0,
+    "cpm": 1.63,
+    "medBEligible": 15,
+    "medBCaseload": 0,
+    "date": "2025-12-15",
+    "modeOfTreatment": 6.0
+  },
+  {
+    "week": "1215",
+    "facility": "Bridgewood PA",
+    "region": "Overland",
+    "productivity": 96.0,
+    "cpm": 1.35,
+    "medBEligible": 15,
+    "medBCaseload": 2,
+    "date": "2025-12-15",
+    "modeOfTreatment": 0.0
+  },
+  {
+    "week": "1215",
+    "facility": "West Shore PA",
+    "region": "Overland",
+    "productivity": 78.0,
+    "cpm": 1.61,
+    "medBEligible": 43,
+    "medBCaseload": 18,
+    "date": "2025-12-15",
+    "modeOfTreatment": 0.0
   }
 ]
