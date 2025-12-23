@@ -115,16 +115,42 @@ export default function App() {
   };
 
   const handleDownloadDocument = (doc) => {
-    const link = document.createElement('a');
-    link.href = doc.content;
-    link.download = doc.name;
-    link.click();
+    try {
+      // Create a temporary link element
+      const link = document.createElement('a');
+      link.href = doc.content;
+      link.download = doc.name;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Failed to download document');
+    }
   };
 
   const handleViewDocument = (doc) => {
-    if (doc.type && (doc.type.includes('pdf') || doc.type.includes('image'))) {
-      window.open(doc.content, '_blank');
-    } else {
+    try {
+      // For PDFs and images, open in new tab
+      if (doc.type && (doc.type.includes('pdf') || doc.type.includes('image'))) {
+        const newWindow = window.open();
+        if (newWindow) {
+          if (doc.type.includes('pdf')) {
+            newWindow.document.write(`<iframe width='100%' height='100%' src='${doc.content}'></iframe>`);
+          } else {
+            newWindow.document.write(`<img src='${doc.content}' style='max-width:100%; height:auto;'/>`);
+          }
+        } else {
+          // If popup blocked, download instead
+          handleDownloadDocument(doc);
+        }
+      } else {
+        // For other file types, just download
+        handleDownloadDocument(doc);
+      }
+    } catch (error) {
+      console.error('View error:', error);
+      alert('Failed to open document. Trying download...');
       handleDownloadDocument(doc);
     }
   };
