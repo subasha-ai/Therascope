@@ -4,11 +4,8 @@ import facilityDataJson from './facility_data.json';
 
 export default function App() {
   const [allWeeklyData] = useState(facilityDataJson);
-  const [documents, setDocuments] = useState([
-    { id: 1, name: 'Therapy Guidelines 2025.pdf', category: 'Guidelines', uploadDate: '2025-12-15', size: '2.4 MB' },
-    { id: 2, name: 'Progress Note Template.docx', category: 'Templates', uploadDate: '2025-12-10', size: '156 KB' },
-    { id: 3, name: 'Medicare B Requirements.pdf', category: 'Compliance', uploadDate: '2025-12-01', size: '1.8 MB' }
-  ]);
+  const [documents, setDocuments] = useState([]);
+  const [isLoadingDocs, setIsLoadingDocs] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -38,16 +35,97 @@ export default function App() {
     scrollToBottom();
   }, [chatMessages]);
 
-  const handleFileUpload = (e) => {
+  // Load documents from storage on mount
+  useEffect(() => {
+    const loadDocuments = async () => {
+      try {
+        const result = await window.storage.list('doc:', true);
+        if (result && result.keys) {
+          const loadedDocs = [];
+          for (const key of result.keys) {
+            const docData = await window.storage.get(key, true);
+            if (docData && docData.value) {
+              loadedDocs.push(JSON.parse(docData.value));
+            }
+          }
+          setDocuments(loadedDocs.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)));
+        }
+      } catch (error) {
+        console.log('No documents yet or storage not available');
+      }
+      setIsLoadingDocs(false);
+    };
+    loadDocuments();
+  }, []);
+
+  const handleFileUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setDocuments([{
-        id: documents.length + 1,
-        name: file.name,
-        category: 'Uncategorized',
-        uploadDate: new Date().toISOString().split('T')[0],
-        size: `${(file.size / 1024).toFixed(0)} KB`
-      }, ...documents]);
+    if (!file) return;
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size must be less than 5MB');
+      return;
+    }
+
+    try {
+      // Read file as base64
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const base64Content = event.target.result;
+        
+        const newDoc = {
+          id: Date.now(),
+          name: file.name,
+          category: 'Uncategorized',
+          uploadDate: new Date().toISOString().split('T')[0],
+          size: file.size > 1024 * 1024 
+            ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+            : `${(file.size / 1024).toFixed(0)} KB`,
+          type: file.type,
+          content: base64Content
+        };
+
+        // Save to storage
+        try {
+          await window.storage.set(`doc:${newDoc.id}`, JSON.stringify(newDoc), true);
+          setDocuments(prev => [newDoc, ...prev]);
+        } catch (error) {
+          console.error('Storage error:', error);
+          alert('Failed to save document. Storage might be full.');
+        }
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload file');
+    }
+  };
+
+  const handleDeleteDocument = async (docId) => {
+    if (!confirm('Are you sure you want to delete this document?')) return;
+    
+    try {
+      await window.storage.delete(`doc:${docId}`, true);
+      setDocuments(prev => prev.filter(d => d.id !== docId));
+    } catch (error) {
+      console.error('Delete error:', error);
+      alert('Failed to delete document');
+    }
+  };
+
+  const handleDownloadDocument = (doc) => {
+    const link = document.createElement('a');
+    link.href = doc.content;
+    link.download = doc.name;
+    link.click();
+  };
+
+  const handleViewDocument = (doc) => {
+    if (doc.type && (doc.type.includes('pdf') || doc.type.includes('image'))) {
+      window.open(doc.content, '_blank');
+    } else {
+      handleDownloadDocument(doc);
     }
   };
 
@@ -1136,33 +1214,61 @@ export default function App() {
               </div>
 
               <div className="space-y-4">
-                {filteredDocs.map((doc, idx) => (
-                  <div 
-                    key={doc.id}
-                    className="flex items-center justify-between p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/15 hover:border-cyan-400/50 transition-all duration-300 group"
-                    style={{ animationDelay: `${idx * 50}ms` }}
-                  >
-                    <div className="flex items-center gap-5">
-                      <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-xl transform group-hover:rotate-6 transition-transform duration-300">
-                        <FileText className="w-7 h-7 text-white" strokeWidth={2.5} />
-                      </div>
-                      <div>
-                        <h3 className="font-black text-white text-lg">{doc.name}</h3>
-                        <p className="text-sm text-slate-400 font-medium mt-1">
-                          {doc.category} • {doc.uploadDate} • {doc.size}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <button className="p-3 text-slate-300 hover:bg-white/10 hover:text-cyan-400 rounded-xl transition-all border border-transparent hover:border-cyan-400/50">
-                        <Eye className="w-5 h-5" />
-                      </button>
-                      <button className="p-3 text-slate-300 hover:bg-white/10 hover:text-emerald-400 rounded-xl transition-all border border-transparent hover:border-emerald-400/50">
-                        <Download className="w-5 h-5" />
-                      </button>
-                    </div>
+                {isLoadingDocs ? (
+                  <div className="text-center py-12">
+                    <div className="inline-block w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-slate-400 mt-4">Loading documents...</p>
                   </div>
-                ))}
+                ) : filteredDocs.length === 0 ? (
+                  <div className="text-center py-12">
+                    <FileText className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                    <p className="text-slate-400 text-lg">No documents uploaded yet</p>
+                    <p className="text-slate-500 text-sm mt-2">Click "Upload Document" to add your first file</p>
+                  </div>
+                ) : (
+                  filteredDocs.map((doc, idx) => (
+                    <div 
+                      key={doc.id}
+                      className="flex items-center justify-between p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/15 hover:border-cyan-400/50 transition-all duration-300 group"
+                      style={{ animationDelay: `${idx * 50}ms` }}
+                    >
+                      <div className="flex items-center gap-5">
+                        <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-xl transform group-hover:rotate-6 transition-transform duration-300">
+                          <FileText className="w-7 h-7 text-white" strokeWidth={2.5} />
+                        </div>
+                        <div>
+                          <h3 className="font-black text-white text-lg">{doc.name}</h3>
+                          <p className="text-sm text-slate-400 font-medium mt-1">
+                            {doc.category} • {doc.uploadDate} • {doc.size}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <button 
+                          onClick={() => handleViewDocument(doc)}
+                          className="p-3 text-slate-300 hover:bg-white/10 hover:text-cyan-400 rounded-xl transition-all border border-transparent hover:border-cyan-400/50"
+                          title="View/Open"
+                        >
+                          <Eye className="w-5 h-5" />
+                        </button>
+                        <button 
+                          onClick={() => handleDownloadDocument(doc)}
+                          className="p-3 text-slate-300 hover:bg-white/10 hover:text-emerald-400 rounded-xl transition-all border border-transparent hover:border-emerald-400/50"
+                          title="Download"
+                        >
+                          <Download className="w-5 h-5" />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteDocument(doc.id)}
+                          className="p-3 text-slate-300 hover:bg-white/10 hover:text-rose-400 rounded-xl transition-all border border-transparent hover:border-rose-400/50"
+                          title="Delete"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           </div>
