@@ -15,6 +15,7 @@ export default function App() {
   const [expandedFacility, setExpandedFacility] = useState(null);
   const [filterProductivity, setFilterProductivity] = useState('all');
   const [filterCPM, setFilterCPM] = useState('all');
+  const [historicalView, setHistoricalView] = useState('weekly'); // 'weekly' or 'monthly'
   
   // Chatbot state
   const [chatOpen, setChatOpen] = useState(false);
@@ -173,6 +174,56 @@ export default function App() {
     return allWeeklyData
       .filter(d => d.facility === facilityName)
       .sort((a, b) => parseInt(b.week) - parseInt(a.week));
+  };
+
+  // MONTHLY ANALYTICS HELPERS
+  const getMonthFromDate = (dateStr) => {
+    const [year, month, day] = dateStr.split('-');
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${monthNames[parseInt(month) - 1]} ${year}`;
+  };
+  
+  const getMonthlyData = (facilityName) => {
+    const facilityRecords = allWeeklyData.filter(d => d.facility === facilityName);
+    
+    // Group by month
+    const monthlyGroups = {};
+    facilityRecords.forEach(record => {
+      const month = getMonthFromDate(record.date);
+      if (!monthlyGroups[month]) {
+        monthlyGroups[month] = [];
+      }
+      monthlyGroups[month].push(record);
+    });
+    
+    // Calculate monthly averages
+    const monthlyAverages = Object.keys(monthlyGroups).map(month => {
+      const records = monthlyGroups[month];
+      return {
+        month,
+        productivity: records.reduce((sum, r) => sum + r.productivity, 0) / records.length,
+        cpm: records.reduce((sum, r) => sum + r.cpm, 0) / records.length,
+        medBEligible: Math.round(records.reduce((sum, r) => sum + r.medBEligible, 0) / records.length),
+        medBCaseload: Math.round(records.reduce((sum, r) => sum + r.medBCaseload, 0) / records.length),
+        modeOfTreatment: records[0].modeOfTreatment !== undefined 
+          ? records.reduce((sum, r) => sum + (r.modeOfTreatment || 0), 0) / records.length
+          : undefined,
+        weekCount: records.length
+      };
+    });
+    
+    // Sort by date and add month-over-month changes
+    const sorted = monthlyAverages.sort((a, b) => new Date(a.month) - new Date(b.month));
+    
+    return sorted.map((month, idx) => {
+      if (idx === 0) return { ...month, productivityChange: 0, cpmChange: 0 };
+      const prevMonth = sorted[idx - 1];
+      return {
+        ...month,
+        productivityChange: month.productivity - prevMonth.productivity,
+        cpmChange: month.cpm - prevMonth.cpm
+      };
+    });
   };
 
   const calculateScore = (facility) => {
@@ -510,9 +561,54 @@ export default function App() {
         ).join('\n\n');
     }
     
+    // Monthly queries
+    if (lowerQuery.includes('month') || lowerQuery.includes('september') || lowerQuery.includes('october') || lowerQuery.includes('november') || lowerQuery.includes('december')) {
+      // Check for specific facility monthly data
+      const mentionedFacility = currentWeekData.find(f => lowerQuery.includes(f.facility.toLowerCase()));
+      
+      if (mentionedFacility) {
+        const monthlyData = getMonthlyData(mentionedFacility.facility);
+        return `**📅 Monthly Performance for ${mentionedFacility.facility}:**\n\n` +
+          monthlyData.map(m => {
+            const trend = m.productivityChange > 0 ? '↗️ Improving' : m.productivityChange < 0 ? '↘️ Declining' : '➡️ Stable';
+            return `**${m.month}** (${m.weekCount} weeks):\n` +
+              `• Productivity: ${m.productivity.toFixed(1)}% ${m.productivityChange !== undefined && m.productivityChange !== 0 ? `(${m.productivityChange > 0 ? '+' : ''}${m.productivityChange.toFixed(1)}%)` : ''}\n` +
+              `• CPM: $${m.cpm.toFixed(2)} ${m.cpmChange !== undefined && m.cpmChange !== 0 ? `(${m.cpmChange > 0 ? '+' : ''}${m.cpmChange.toFixed(2)})` : ''}\n` +
+              `• Trend: ${trend}`;
+          }).join('\n\n');
+      }
+      
+      // General monthly overview
+      const allMonths = {};
+      allWeeklyData.forEach(record => {
+        const month = getMonthFromDate(record.date);
+        if (!allMonths[month]) allMonths[month] = [];
+        allMonths[month].push(record);
+      });
+      
+      const monthlyStats = Object.keys(allMonths).sort().map(month => {
+        const records = allMonths[month];
+        return {
+          month,
+          avgProductivity: records.reduce((s, r) => s + r.productivity, 0) / records.length,
+          avgCPM: records.reduce((s, r) => s + r.cpm, 0) / records.length,
+          facilitiesReporting: new Set(records.map(r => r.facility)).size
+        };
+      });
+      
+      return `**📅 Monthly Overview:**\n\n` +
+        monthlyStats.map(m => 
+          `**${m.month}**:\n` +
+          `• Avg Productivity: ${m.avgProductivity.toFixed(1)}%\n` +
+          `• Avg CPM: $${m.avgCPM.toFixed(2)}\n` +
+          `• Facilities Reporting: ${m.facilitiesReporting}`
+        ).join('\n\n');
+    }
+    
     // Default response
     return `I can help you with:\n\n` +
       `• **Facility performance** - "How is Mountain View doing?"\n` +
+      `• **Monthly data** - "Show me monthly averages for Eden HC"\n` +
       `• **Trends** - "Which facilities improved the most?"\n` +
       `• **Rankings** - "Who are the top performers?"\n` +
       `• **Comparisons** - "Compare Eden HC to Overland average"\n` +
@@ -1150,43 +1246,134 @@ export default function App() {
 
                       {isExpanded && (
                         <div className="bg-white/3 p-8 border-t border-white/10 animate-fadeIn">
-                          <h4 className="text-xl font-bold text-white mb-6">Historical Performance</h4>
-                          <div className="overflow-x-auto">
-                            <table className="w-full">
-                              <thead>
-                                <tr className="text-left border-b border-white/10">
-                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Week</th>
-                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Date</th>
-                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Productivity</th>
-                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">CPM</th>
-                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Med B Eligible</th>
-                                  <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">On Caseload</th>
-                                  {history[0].modeOfTreatment !== undefined && (
-                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Mode of Tx</th>
-                                  )}
-                                </tr>
-                              </thead>
-                              <tbody className="divide-y divide-white/5">
-                                {history.map((record, idx) => (
-                                  <tr key={idx} className="hover:bg-white/5 transition-colors">
-                                    <td className="py-4 text-white font-bold">{record.week}</td>
-                                    <td className="py-4 text-slate-300 font-medium">{record.date}</td>
-                                    <td className={`py-4 font-bold ${getProductivityColor(record.productivity)}`}>
-                                      {record.productivity}%
-                                    </td>
-                                    <td className={`py-4 font-bold ${getCPMColor(record.cpm)}`}>
-                                      ${record.cpm}
-                                    </td>
-                                    <td className="py-4 text-purple-300 font-bold">{record.medBEligible}</td>
-                                    <td className="py-4 text-blue-300 font-bold">{record.medBCaseload}</td>
-                                    {record.modeOfTreatment !== undefined && (
-                                      <td className="py-4 text-orange-300 font-bold">{record.modeOfTreatment}%</td>
+                          <div className="flex items-center justify-between mb-6">
+                            <h4 className="text-xl font-bold text-white">Historical Performance</h4>
+                            <div className="flex gap-2 bg-white/5 rounded-xl p-1">
+                              <button
+                                onClick={() => setHistoricalView('weekly')}
+                                className={`px-4 py-2 rounded-lg font-bold transition-all ${
+                                  historicalView === 'weekly'
+                                    ? 'bg-cyan-500 text-white'
+                                    : 'text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                Weekly
+                              </button>
+                              <button
+                                onClick={() => setHistoricalView('monthly')}
+                                className={`px-4 py-2 rounded-lg font-bold transition-all ${
+                                  historicalView === 'monthly'
+                                    ? 'bg-cyan-500 text-white'
+                                    : 'text-slate-400 hover:text-white'
+                                }`}
+                              >
+                                Monthly
+                              </button>
+                            </div>
+                          </div>
+
+                          {historicalView === 'weekly' ? (
+                            <div className="overflow-x-auto">
+                              <table className="w-full">
+                                <thead>
+                                  <tr className="text-left border-b border-white/10">
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Week</th>
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Date</th>
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Productivity</th>
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">CPM</th>
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Med B Eligible</th>
+                                    <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">On Caseload</th>
+                                    {history[0].modeOfTreatment !== undefined && (
+                                      <th className="pb-4 text-sm font-bold text-slate-300 uppercase tracking-wider">Mode of Tx</th>
                                     )}
                                   </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                  {history.map((record, idx) => (
+                                    <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                      <td className="py-4 text-white font-bold">{record.week}</td>
+                                      <td className="py-4 text-slate-300 font-medium">{record.date}</td>
+                                      <td className={`py-4 font-bold ${getProductivityColor(record.productivity)}`}>
+                                        {record.productivity}%
+                                      </td>
+                                      <td className={`py-4 font-bold ${getCPMColor(record.cpm)}`}>
+                                        ${record.cpm}
+                                      </td>
+                                      <td className="py-4 text-purple-300 font-bold">{record.medBEligible}</td>
+                                      <td className="py-4 text-blue-300 font-bold">{record.medBCaseload}</td>
+                                      {record.modeOfTreatment !== undefined && (
+                                        <td className="py-4 text-orange-300 font-bold">{record.modeOfTreatment}%</td>
+                                      )}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          ) : (
+                            <div className="space-y-4">
+                              {getMonthlyData(facility.facility).map((monthData, idx) => (
+                                <div
+                                  key={idx}
+                                  className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-cyan-400/30 transition-all"
+                                >
+                                  <div className="flex items-center justify-between mb-4">
+                                    <div>
+                                      <h5 className="text-xl font-black text-white">{monthData.month}</h5>
+                                      <p className="text-sm text-slate-400">Average of {monthData.weekCount} weeks</p>
+                                    </div>
+                                    {idx > 0 && (
+                                      <div className="text-right">
+                                        {monthData.productivityChange !== 0 && (
+                                          <div className={`text-sm font-bold ${monthData.productivityChange > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                            {monthData.productivityChange > 0 ? '↗️' : '↘️'} {Math.abs(monthData.productivityChange).toFixed(1)}% productivity
+                                          </div>
+                                        )}
+                                        {monthData.cpmChange !== 0 && (
+                                          <div className={`text-sm font-bold ${monthData.cpmChange < 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                            {monthData.cpmChange < 0 ? '↗️' : '↘️'} ${Math.abs(monthData.cpmChange).toFixed(2)} CPM
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                    <div className="bg-white/5 rounded-xl p-4">
+                                      <div className="text-xs text-slate-400 mb-1">Productivity</div>
+                                      <div className={`text-2xl font-black ${getProductivityColor(monthData.productivity)}`}>
+                                        {monthData.productivity.toFixed(1)}%
+                                      </div>
+                                    </div>
+                                    <div className="bg-white/5 rounded-xl p-4">
+                                      <div className="text-xs text-slate-400 mb-1">CPM</div>
+                                      <div className={`text-2xl font-black ${getCPMColor(monthData.cpm)}`}>
+                                        ${monthData.cpm.toFixed(2)}
+                                      </div>
+                                    </div>
+                                    <div className="bg-white/5 rounded-xl p-4">
+                                      <div className="text-xs text-slate-400 mb-1">Med B Eligible</div>
+                                      <div className="text-2xl font-black text-purple-300">
+                                        {monthData.medBEligible}
+                                      </div>
+                                    </div>
+                                    <div className="bg-white/5 rounded-xl p-4">
+                                      <div className="text-xs text-slate-400 mb-1">On Caseload</div>
+                                      <div className="text-2xl font-black text-blue-300">
+                                        {monthData.medBCaseload}
+                                      </div>
+                                    </div>
+                                    {monthData.modeOfTreatment !== undefined && (
+                                      <div className="bg-white/5 rounded-xl p-4">
+                                        <div className="text-xs text-slate-400 mb-1">Mode of Tx</div>
+                                        <div className="text-2xl font-black text-orange-300">
+                                          {monthData.modeOfTreatment.toFixed(1)}%
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
