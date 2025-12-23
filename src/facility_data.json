@@ -2407,5 +2407,38 @@
     "medBCaseload": 2,
     "date": "2025-12-15",
     "modeOfTreatment": 5.2
+  },
+  {
+    "week": "1215",
+    "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
+    "productivity": 90.0,
+    "cpm": 1.27,
+    "medBEligible": 27,
+    "medBCaseload": 17,
+    "date": "2025-12-15",
+    "modeOfTreatment": 5.0
+  },
+  {
+    "week": "1215",
+    "facility": "Palo Alto Post Acute",
+    "region": "Overland",
+    "productivity": 85.6,
+    "cpm": 1.52,
+    "medBEligible": 6,
+    "medBCaseload": 4,
+    "date": "2025-12-15",
+    "modeOfTreatment": 1.08
+  },
+  {
+    "week": "1215",
+    "facility": "Eden HC",
+    "region": "Overland",
+    "productivity": 84.0,
+    "cpm": 1.46,
+    "medBEligible": 68,
+    "medBCaseload": 41,
+    "date": "2025-12-15",
+    "modeOfTreatment": 1.61
   }
 ]
