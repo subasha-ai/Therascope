@@ -2374,5 +2374,38 @@
     "medBCaseload": 18,
     "date": "2025-12-15",
     "modeOfTreatment": 0.0
+  },
+  {
+    "week": "1215",
+    "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
+    "productivity": 82.1,
+    "cpm": 1.55,
+    "medBEligible": 16,
+    "medBCaseload": 15,
+    "date": "2025-12-15",
+    "modeOfTreatment": 0.0
+  },
+  {
+    "week": "1215",
+    "facility": "Mountain View HC",
+    "region": "Golden Coast",
+    "productivity": 90.1,
+    "cpm": 1.34,
+    "medBEligible": 31,
+    "medBCaseload": 25,
+    "date": "2025-12-15",
+    "modeOfTreatment": 7.39
+  },
+  {
+    "week": "1215",
+    "facility": "Belmont HC",
+    "region": "Overland",
+    "productivity": 85.0,
+    "cpm": 1.39,
+    "medBEligible": 8,
+    "medBCaseload": 2,
+    "date": "2025-12-15",
+    "modeOfTreatment": 5.2
   }
 ]
