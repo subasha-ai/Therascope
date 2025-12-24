@@ -984,11 +984,11 @@ export default function App() {
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
-                    <div className="text-sm text-white font-bold">Med B ≥ 50% on Caseload</div>
+                    <div className="text-sm text-white font-bold">Med B Performance</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 4</div>
-                    <div className="text-sm text-white font-bold">Mode of Tx ≥ 5%</div>
+                    <div className="text-sm text-white font-bold">Mode of Treatment ≥ 5%</div>
                   </div>
                 </div>
               </div>
@@ -1046,7 +1046,6 @@ export default function App() {
                           <div className={`text-2xl font-black ${item.goals.productivity ? 'text-emerald-300' : 'text-slate-400'}`}>
                             {item.facility.productivity}%
                           </div>
-                          <div className="text-xs text-slate-400 mt-1">{item.goals.productivity ? '≥ 84% ✓' : '< 84%'}</div>
                         </div>
 
                         <div className={`p-4 rounded-xl border-2 ${item.goals.cpm ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
@@ -1061,7 +1060,6 @@ export default function App() {
                           <div className={`text-2xl font-black ${item.goals.cpm ? 'text-emerald-300' : 'text-slate-400'}`}>
                             ${item.facility.cpm}
                           </div>
-                          <div className="text-xs text-slate-400 mt-1">{item.goals.cpm ? '≤ $1.45 ✓' : '> $1.45'}</div>
                         </div>
 
                         <div className={`p-4 rounded-xl border-2 ${item.goals.medB ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
@@ -1071,13 +1069,10 @@ export default function App() {
                             ) : (
                               <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
                             )}
-                            <div className="text-xs text-slate-300 font-bold uppercase">Med B Ratio</div>
+                            <div className="text-xs text-slate-300 font-bold uppercase">Med B Performance</div>
                           </div>
                           <div className={`text-2xl font-black ${item.goals.medB ? 'text-emerald-300' : 'text-slate-400'}`}>
                             {item.facility.medBEligible > 0 ? Math.round((item.facility.medBCaseload / item.facility.medBEligible) * 100) : 0}%
-                          </div>
-                          <div className="text-xs text-slate-400 mt-1">
-                            {item.facility.medBCaseload}/{item.facility.medBEligible} {item.goals.medB ? '≥ 50% ✓' : '< 50%'}
                           </div>
                         </div>
 
@@ -1088,12 +1083,11 @@ export default function App() {
                             ) : (
                               <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
                             )}
-                            <div className="text-xs text-slate-300 font-bold uppercase">Mode of Tx</div>
+                            <div className="text-xs text-slate-300 font-bold uppercase">Mode of Treatment</div>
                           </div>
                           <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
                             {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
                           </div>
-                          <div className="text-xs text-slate-400 mt-1">{item.goals.modeOfTreatment ? '≥ 5% ✓' : '< 5%'}</div>
                         </div>
                       </div>
                     </div>
