@@ -809,7 +809,7 @@ export default function App() {
             { id: 'overview', label: 'Overview', icon: Activity },
             { id: 'rankings', label: 'Rankings', icon: Trophy },
             { id: 'facilities', label: 'All Facilities', icon: Building2 },
-            { id: 'documents', label: 'Documents', icon: FileText }
+            { id: 'resources', label: 'Resources', icon: FileText }
           ].map(tab => (
             <button
               key={tab.id}
@@ -1378,19 +1378,19 @@ export default function App() {
           </div>
         )}
 
-        {activeView === 'documents' && (
+        {activeView === 'resources' && (
           <div className="space-y-6 animate-fadeIn">
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h2 className="text-3xl font-black text-white tracking-tight">Document Library</h2>
-                  <p className="text-slate-300 mt-2 text-lg font-medium">Upload and manage therapy documentation</p>
+                  <h2 className="text-3xl font-black text-white tracking-tight">Resources</h2>
+                  <p className="text-slate-300 mt-2 text-lg font-medium">Upload and manage therapy resources & documentation</p>
                 </div>
                 <label className="relative group cursor-pointer">
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl transform hover:scale-105 font-bold">
                     <Upload className="w-5 h-5" />
-                    Upload Document
+                    Upload Resource
                   </div>
                   <input type="file" onChange={handleFileUpload} className="hidden" />
                 </label>
@@ -1401,7 +1401,7 @@ export default function App() {
                   <Search className="w-5 h-5 text-slate-400 absolute left-5 top-1/2 transform -translate-y-1/2" />
                   <input
                     type="text"
-                    placeholder="Search documents..."
+                    placeholder="Search resources..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full pl-14 pr-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-white placeholder-slate-400 font-medium"
@@ -1429,8 +1429,8 @@ export default function App() {
                 ) : filteredDocs.length === 0 ? (
                   <div className="text-center py-12">
                     <FileText className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-                    <p className="text-slate-400 text-lg">No documents uploaded yet</p>
-                    <p className="text-slate-500 text-sm mt-2">Click "Upload Document" to add your first file</p>
+                    <p className="text-slate-400 text-lg">No resources uploaded yet</p>
+                    <p className="text-slate-500 text-sm mt-2">Click "Upload Resource" to add your first file</p>
                   </div>
                 ) : (
                   filteredDocs.map((doc, idx) => (
