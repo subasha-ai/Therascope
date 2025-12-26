@@ -36,36 +36,36 @@ export default function App() {
     scrollToBottom();
   }, [chatMessages]);
 
-  // Load documents from storage on mount
+  // Load resources from shared storage on mount
   useEffect(() => {
-    const loadDocuments = async () => {
+    const loadResources = async () => {
       try {
-        const result = await window.storage.list('doc:', true);
+        const result = await window.storage.list('resource:', true);
         if (result && result.keys) {
-          const loadedDocs = [];
+          const loadedResources = [];
           for (const key of result.keys) {
-            const docData = await window.storage.get(key, true);
-            if (docData && docData.value) {
-              loadedDocs.push(JSON.parse(docData.value));
+            const resourceData = await window.storage.get(key, true);
+            if (resourceData && resourceData.value) {
+              loadedResources.push(JSON.parse(resourceData.value));
             }
           }
-          setDocuments(loadedDocs.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)));
+          setDocuments(loadedResources.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)));
         }
       } catch (error) {
-        console.log('No documents yet or storage not available');
+        console.log('No resources yet or storage not available');
       }
       setIsLoadingDocs(false);
     };
-    loadDocuments();
+    loadResources();
   }, []);
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
+    // Validate file size (2MB limit for shared storage)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File size must be less than 2MB for shared resources.\n\nTip: Compress PDFs or use smaller files for sharing.');
       return;
     }
 
@@ -75,7 +75,7 @@ export default function App() {
       reader.onload = async (event) => {
         const base64Content = event.target.result;
         
-        const newDoc = {
+        const newResource = {
           id: Date.now(),
           name: file.name,
           category: 'Uncategorized',
@@ -87,13 +87,18 @@ export default function App() {
           content: base64Content
         };
 
-        // Save to storage
+        // Save to shared storage
         try {
-          await window.storage.set(`doc:${newDoc.id}`, JSON.stringify(newDoc), true);
-          setDocuments(prev => [newDoc, ...prev]);
+          await window.storage.set(`resource:${newResource.id}`, JSON.stringify(newResource), true);
+          setDocuments(prev => [newResource, ...prev]);
+          alert('✅ Resource uploaded successfully!\n\nThis resource is now visible to all users.');
         } catch (error) {
           console.error('Storage error:', error);
-          alert('Failed to save document. Storage might be full.');
+          if (error.message && error.message.includes('quota')) {
+            alert('❌ Storage is full.\n\nPlease delete some old resources first, or use smaller files.');
+          } else {
+            alert('Failed to save resource. Please try again.');
+          }
         }
       };
       reader.readAsDataURL(file);
@@ -104,14 +109,15 @@ export default function App() {
   };
 
   const handleDeleteDocument = async (docId) => {
-    if (!confirm('Are you sure you want to delete this document?')) return;
+    if (!confirm('⚠️ Delete this resource?\n\nThis will remove it for ALL users.')) return;
     
     try {
-      await window.storage.delete(`doc:${docId}`, true);
+      await window.storage.delete(`resource:${docId}`, true);
       setDocuments(prev => prev.filter(d => d.id !== docId));
+      alert('✅ Resource deleted successfully!');
     } catch (error) {
       console.error('Delete error:', error);
-      alert('Failed to delete document');
+      alert('Failed to delete resource');
     }
   };
 
@@ -1380,6 +1386,23 @@ export default function App() {
 
         {activeView === 'resources' && (
           <div className="space-y-6 animate-fadeIn">
+            {/* Info banner */}
+            <div className="bg-gradient-to-r from-cyan-500/10 to-teal-500/10 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/30">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-cyan-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <FileText className="w-6 h-6 text-cyan-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-2">Shared Resources</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">
+                    Resources uploaded here are <strong className="text-cyan-400">visible to all users</strong>. 
+                    Perfect for sharing therapy templates, guidelines, and policies. 
+                    <span className="text-amber-300"> Max file size: 2MB</span> (compress large PDFs before uploading).
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
               <div className="flex items-center justify-between mb-8">
                 <div>
