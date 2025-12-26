@@ -36,25 +36,40 @@ export default function App() {
     scrollToBottom();
   }, [chatMessages]);
 
-  // Load resources from shared storage on mount
+  // Load resources from IndexedDB on mount
   useEffect(() => {
     const loadResources = async () => {
       try {
-        const result = await window.storage.list('resource:', true);
-        if (result && result.keys) {
-          const loadedResources = [];
-          for (const key of result.keys) {
-            const resourceData = await window.storage.get(key, true);
-            if (resourceData && resourceData.value) {
-              loadedResources.push(JSON.parse(resourceData.value));
-            }
+        const request = indexedDB.open('TheraScope', 1);
+        
+        request.onerror = () => {
+          console.log('IndexedDB error');
+          setIsLoadingDocs(false);
+        };
+        
+        request.onsuccess = () => {
+          const db = request.result;
+          const transaction = db.transaction(['resources'], 'readonly');
+          const store = transaction.objectStore('resources');
+          const getAllRequest = store.getAll();
+          
+          getAllRequest.onsuccess = () => {
+            const resources = getAllRequest.result || [];
+            setDocuments(resources.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)));
+            setIsLoadingDocs(false);
+          };
+        };
+        
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains('resources')) {
+            db.createObjectStore('resources', { keyPath: 'id' });
           }
-          setDocuments(loadedResources.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)));
-        }
+        };
       } catch (error) {
-        console.log('No resources yet or storage not available');
+        console.log('IndexedDB not available:', error);
+        setIsLoadingDocs(false);
       }
-      setIsLoadingDocs(false);
     };
     loadResources();
   }, []);
@@ -63,9 +78,9 @@ export default function App() {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file size (2MB limit for shared storage)
-    if (file.size > 2 * 1024 * 1024) {
-      alert('File size must be less than 2MB for shared resources.\n\nTip: Compress PDFs or use smaller files for sharing.');
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size must be less than 5MB');
       return;
     }
 
@@ -87,18 +102,32 @@ export default function App() {
           content: base64Content
         };
 
-        // Save to shared storage
+        // Save to IndexedDB
         try {
-          await window.storage.set(`resource:${newResource.id}`, JSON.stringify(newResource), true);
-          setDocuments(prev => [newResource, ...prev]);
-          alert('✅ Resource uploaded successfully!\n\nThis resource is now visible to all users.');
+          const request = indexedDB.open('TheraScope', 1);
+          
+          request.onsuccess = () => {
+            const db = request.result;
+            const transaction = db.transaction(['resources'], 'readwrite');
+            const store = transaction.objectStore('resources');
+            const addRequest = store.put(newResource);
+            
+            addRequest.onsuccess = () => {
+              setDocuments(prev => [newResource, ...prev]);
+              alert('✅ Resource uploaded successfully!');
+            };
+            
+            addRequest.onerror = () => {
+              alert('❌ Failed to save resource. Please try again.');
+            };
+          };
+          
+          request.onerror = () => {
+            alert('❌ Storage error. Please try again.');
+          };
         } catch (error) {
           console.error('Storage error:', error);
-          if (error.message && error.message.includes('quota')) {
-            alert('❌ Storage is full.\n\nPlease delete some old resources first, or use smaller files.');
-          } else {
-            alert('Failed to save resource. Please try again.');
-          }
+          alert('Failed to save resource');
         }
       };
       reader.readAsDataURL(file);
@@ -109,12 +138,26 @@ export default function App() {
   };
 
   const handleDeleteDocument = async (docId) => {
-    if (!confirm('⚠️ Delete this resource?\n\nThis will remove it for ALL users.')) return;
+    if (!confirm('Are you sure you want to delete this resource?')) return;
     
     try {
-      await window.storage.delete(`resource:${docId}`, true);
-      setDocuments(prev => prev.filter(d => d.id !== docId));
-      alert('✅ Resource deleted successfully!');
+      const request = indexedDB.open('TheraScope', 1);
+      
+      request.onsuccess = () => {
+        const db = request.result;
+        const transaction = db.transaction(['resources'], 'readwrite');
+        const store = transaction.objectStore('resources');
+        const deleteRequest = store.delete(docId);
+        
+        deleteRequest.onsuccess = () => {
+          setDocuments(prev => prev.filter(d => d.id !== docId));
+          alert('✅ Resource deleted successfully!');
+        };
+        
+        deleteRequest.onerror = () => {
+          alert('Failed to delete resource');
+        };
+      };
     } catch (error) {
       console.error('Delete error:', error);
       alert('Failed to delete resource');
@@ -1393,11 +1436,11 @@ export default function App() {
                   <FileText className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Shared Resources</h3>
+                  <h3 className="text-lg font-bold text-white mb-2">Personal Resources</h3>
                   <p className="text-slate-300 text-sm leading-relaxed">
-                    Resources uploaded here are <strong className="text-cyan-400">visible to all users</strong>. 
-                    Perfect for sharing therapy templates, guidelines, and policies. 
-                    <span className="text-amber-300"> Max file size: 2MB</span> (compress large PDFs before uploading).
+                    Upload therapy templates, guidelines, and documentation for quick access. 
+                    Resources are stored locally in your browser. 
+                    <span className="text-cyan-300"> Max file size: 5MB</span>
                   </p>
                 </div>
               </div>
