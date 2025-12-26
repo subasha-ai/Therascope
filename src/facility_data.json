@@ -2440,5 +2440,38 @@
     "medBCaseload": 41,
     "date": "2025-12-15",
     "modeOfTreatment": 1.61
+  },
+  {
+    "week": "1215",
+    "facility": "Capital PA",
+    "region": "Overland",
+    "productivity": 81.5,
+    "cpm": 1.39,
+    "medBEligible": 26,
+    "medBCaseload": 12,
+    "date": "2025-12-15",
+    "modeOfTreatment": 6.49
+  },
+  {
+    "week": "1215",
+    "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
+    "productivity": 90.0,
+    "cpm": 1.79,
+    "medBEligible": 18,
+    "medBCaseload": 4,
+    "date": "2025-12-15",
+    "modeOfTreatment": 0.0
+  },
+  {
+    "week": "1215",
+    "facility": "Manresa HC",
+    "region": "Golden Coast",
+    "productivity": 72.0,
+    "cpm": 1.8,
+    "medBEligible": 25,
+    "medBCaseload": 3,
+    "date": "2025-12-15",
+    "modeOfTreatment": 0.0
   }
 ]
