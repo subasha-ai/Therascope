@@ -891,15 +891,26 @@ export default function App() {
             </select>
 
             {activeView === 'facilities' && (
-              <select
-                value={selectedRegion}
-                onChange={(e) => setSelectedRegion(e.target.value)}
-                className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              >
-                <option value="all" className="bg-slate-800">All Regions</option>
-                <option value="Golden Coast" className="bg-slate-800">Golden Coast</option>
-                <option value="Overland" className="bg-slate-800">Overland</option>
-              </select>
+              <>
+                <select
+                  value={selectedRegion}
+                  onChange={(e) => setSelectedRegion(e.target.value)}
+                  className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                >
+                  <option value="all" className="bg-slate-800">All Regions</option>
+                  <option value="Golden Coast" className="bg-slate-800">Golden Coast</option>
+                  <option value="Overland" className="bg-slate-800">Overland</option>
+                </select>
+                {selectedRegion !== 'all' && (
+                  <button
+                    onClick={() => setSelectedRegion('all')}
+                    className="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold rounded-2xl hover:from-red-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-red-500/50 flex items-center gap-2"
+                  >
+                    <X className="w-4 h-4" />
+                    Clear Filter
+                  </button>
+                )}
+              </>
             )}
           </div>
         )}
@@ -930,12 +941,18 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+              <div 
+                onClick={() => {
+                  setSelectedRegion('Golden Coast');
+                  setActiveView('facilities');
+                }}
+                className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl cursor-pointer hover:border-amber-400/50 hover:shadow-amber-500/20 hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]"
+              >
                 <div className="flex items-center gap-3 mb-6">
                   <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
                   <div>
                     <h3 className="text-2xl font-black text-white">Golden Coast</h3>
-                    <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities</p>
+                    <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities • Click to view</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -975,12 +992,18 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+              <div 
+                onClick={() => {
+                  setSelectedRegion('Overland');
+                  setActiveView('facilities');
+                }}
+                className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl cursor-pointer hover:border-blue-400/50 hover:shadow-blue-500/20 hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]"
+              >
                 <div className="flex items-center gap-3 mb-6">
                   <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
                   <div>
                     <h3 className="text-2xl font-black text-white">Overland</h3>
-                    <p className="text-blue-200 font-medium">{overlandData.length} facilities</p>
+                    <p className="text-blue-200 font-medium">{overlandData.length} facilities • Click to view</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
