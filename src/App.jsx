@@ -951,6 +951,27 @@ export default function App() {
                       ${(goldenCoastData.reduce((s, f) => s + f.cpm, 0) / goldenCoastData.length).toFixed(2)}
                     </div>
                   </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-amber-200 font-bold uppercase mb-1">Med B Performance</div>
+                    <div className="text-3xl font-black text-white">
+                      {(() => {
+                        const totalCaseload = goldenCoastData.reduce((s, f) => s + f.medBCaseload, 0);
+                        const totalEligible = goldenCoastData.reduce((s, f) => s + f.medBEligible, 0);
+                        return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                      })()}%
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                    <div className="text-3xl font-black text-white">
+                      {(() => {
+                        const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
+                        return facilitiesWithMode.length > 0 
+                          ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                          : 0;
+                      })()}%
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -973,6 +994,27 @@ export default function App() {
                     <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg CPM</div>
                     <div className="text-3xl font-black text-white">
                       ${(overlandData.reduce((s, f) => s + f.cpm, 0) / overlandData.length).toFixed(2)}
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-blue-200 font-bold uppercase mb-1">Med B Performance</div>
+                    <div className="text-3xl font-black text-white">
+                      {(() => {
+                        const totalCaseload = overlandData.reduce((s, f) => s + f.medBCaseload, 0);
+                        const totalEligible = overlandData.reduce((s, f) => s + f.medBEligible, 0);
+                        return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                      })()}%
+                    </div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                    <div className="text-3xl font-black text-white">
+                      {(() => {
+                        const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
+                        return facilitiesWithMode.length > 0 
+                          ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                          : 0;
+                      })()}%
                     </div>
                   </div>
                 </div>
