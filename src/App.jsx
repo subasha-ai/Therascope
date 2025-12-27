@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles } from 'lucide-react';
+import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet } from 'lucide-react';
 import facilityDataJson from './facility_data.json';
 
 export default function App() {
@@ -25,6 +25,17 @@ export default function App() {
   const [chatInput, setChatInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatMessagesEndRef = useRef(null);
+
+  // NetHealth upload state
+  const [showNetHealthModal, setShowNetHealthModal] = useState(false);
+  const [netHealthFiles, setNetHealthFiles] = useState({
+    productivity: null,
+    cpm: null,
+    census: null,
+    mode: null
+  });
+  const [uploadProgress, setUploadProgress] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const WEEKLY_REPORT_LINK = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
 
@@ -836,18 +847,35 @@ export default function App() {
               </div>
             </div>
             
-            <a 
-              href={WEEKLY_REPORT_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="relative group"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-teal-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-2xl hover:from-cyan-600 hover:to-teal-600 transition-all duration-300 shadow-xl transform hover:scale-105 font-bold">
-                <ExternalLink className="w-5 h-5" />
+            <div className="flex gap-3 items-center">
+              <a 
+                href={WEEKLY_REPORT_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
+              >
+                <ExternalLink className="w-4 h-4" />
                 Submit Weekly Report
-              </div>
-            </a>
+              </a>
+              
+              <button
+                onClick={() => {
+                  const password = prompt('Enter admin password:');
+                  if (password === 'therascope2025') {
+                    setShowNetHealthModal(true);
+                  } else if (password !== null) {
+                    alert('Incorrect password');
+                  }
+                }}
+                className="w-10 h-10 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center transition-all border border-white/10 hover:border-white/20"
+                title="Admin Tools"
+              >
+                <svg className="w-5 h-5 text-slate-400 hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -1700,6 +1728,91 @@ export default function App() {
           </button>
         )}
       </div>
+
+      {/* NetHealth Upload Modal */}
+      {showNetHealthModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 max-w-3xl w-full border border-white/20 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-500 rounded-2xl flex items-center justify-center">
+                  <FileSpreadsheet className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-black text-white">Data Processing Tools</h2>
+                  <p className="text-slate-400 text-sm">Automated weekly data workflow</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowNetHealthModal(false)}
+                className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Instructions */}
+              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5" />
+                  Quick 5-Minute Weekly Process
+                </h3>
+                <ol className="space-y-3 text-slate-300">
+                  <li className="flex gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-sm font-bold">1</span>
+                    <span><strong className="text-white">Export 4 Reports</strong> (all facilities, current week)</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-sm font-bold">2</span>
+                    <div>
+                      <strong className="text-white">Run the data processor:</strong>
+                      <code className="block mt-2 bg-black/50 px-4 py-2 rounded-lg text-sm font-mono text-emerald-300">
+                        python process_nethealth_reports.py prod.xlsx cpm.xlsx census.xlsx mode.xlsx
+                      </code>
+                    </div>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-sm font-bold">3</span>
+                    <span><strong className="text-white">Upload the generated data file</strong> to repository</span>
+                  </li>
+                </ol>
+              </div>
+
+              {/* Required Reports */}
+              <div className="bg-white/5 rounded-2xl p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Required Data Sources:</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-sm font-bold text-cyan-400 mb-1">1. Productivity Data</div>
+                    <div className="text-xs text-slate-400">Staff efficiency metrics</div>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-sm font-bold text-purple-400 mb-1">2. Cost Data</div>
+                    <div className="text-xs text-slate-400">Financial performance metrics</div>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-sm font-bold text-pink-400 mb-1">3. Census Data</div>
+                    <div className="text-xs text-slate-400">Patient population metrics</div>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-sm font-bold text-amber-400 mb-1">4. Treatment Data</div>
+                    <div className="text-xs text-slate-400">Care delivery metrics</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setShowNetHealthModal(false)}
+                className="w-full px-6 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl transition-all"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes fadeIn {
