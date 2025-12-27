@@ -9,7 +9,7 @@ export default function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [activeView, setActiveView] = useState(isRestrictedView ? 'facilities' : 'overview');
+  const [activeView, setActiveView] = useState('overview');
   const [selectedWeek, setSelectedWeek] = useState('latest');
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [expandedFacility, setExpandedFacility] = useState(null);
@@ -36,57 +36,8 @@ export default function App() {
   });
   const [uploadProgress, setUploadProgress] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
-  
-  // App-wide password protection
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [passwordAttempt, setPasswordAttempt] = useState('');
-  const [loginType, setLoginType] = useState(null); // 'admin' or 'dor'
-  const [selectedFacilityForLogin, setSelectedFacilityForLogin] = useState('');
 
   const WEEKLY_REPORT_LINK = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
-  
-  // Password protection
-  const ADMIN_PASSWORD = 'WalkTalkWin';
-  const DOR_PASSWORD = 'StrongSteps';
-  
-  const logActivity = (activityType, details) => {
-    // Log to console (in production, this would send to a backend)
-    const logEntry = {
-      timestamp: new Date().toISOString(),
-      type: activityType,
-      user: loginType === 'admin' ? 'Admin' : `DOR - ${selectedFacilityForLogin || 'Unknown'}`,
-      facility: selectedFacilityForLogin || 'All',
-      details: details
-    };
-    console.log('Activity Log:', logEntry);
-    // In production, you would send this to your backend:
-    // fetch('/api/log-activity', { method: 'POST', body: JSON.stringify(logEntry) });
-  };
-  
-  const handlePasswordSubmit = (e) => {
-    e.preventDefault();
-    
-    if (loginType === 'admin' && passwordAttempt === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
-      logActivity('LOGIN', { success: true, loginType: 'admin' });
-      setPasswordAttempt('');
-    } else if (loginType === 'dor' && passwordAttempt === DOR_PASSWORD && selectedFacilityForLogin) {
-      setIsAuthenticated(true);
-      logActivity('LOGIN', { success: true, loginType: 'dor', facility: selectedFacilityForLogin });
-      setPasswordAttempt('');
-    } else {
-      alert('Incorrect password or missing facility selection. Please try again.');
-      logActivity('LOGIN', { success: false, loginType, facility: selectedFacilityForLogin });
-      setPasswordAttempt('');
-    }
-  };
-  
-  // Get unique facility names for dropdown
-  const allFacilities = [...new Set(allWeeklyData.map(d => d.facility))].sort();
-  
-  // Determine if user is in restricted view (DOR mode)
-  const isRestrictedView = loginType === 'dor';
-  const restrictedFacility = isRestrictedView ? selectedFacilityForLogin : null;
 
   const scrollToBottom = () => {
     chatMessagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -745,19 +696,13 @@ export default function App() {
   };
 
   const currentWeekData = getCurrentWeekData();
-  
-  // Apply facility restriction if in restricted view
-  const viewableData = isRestrictedView 
-    ? currentWeekData.filter(f => f.facility === restrictedFacility)
-    : currentWeekData;
-  
-  const rankedFacilities = viewableData.map(f => calculateScore(f)).sort((a, b) => {
+  const rankedFacilities = currentWeekData.map(f => calculateScore(f)).sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
     if (b.facility.productivity !== a.facility.productivity) return b.facility.productivity - a.facility.productivity;
     return a.facility.cpm - b.facility.cpm;
   });
 
-  const filteredFacilities = viewableData.filter(facility => {
+  const filteredFacilities = currentWeekData.filter(facility => {
     const matchesSearch = facility.facility.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRegion = selectedRegion === 'all' || facility.region === selectedRegion;
     const matchesProductivity = 
@@ -875,140 +820,6 @@ export default function App() {
     }
   ];
 
-  // Show login screen if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
-        <div className="fixed inset-0 opacity-20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(100, 200, 255, 0.3) 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
-          }}></div>
-        </div>
-
-        <div className="relative max-w-md w-full">
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
-            {/* Logo */}
-            <div className="flex flex-col items-center mb-8">
-              <div className="relative mb-4">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-2xl blur-lg opacity-75 animate-pulse"></div>
-                <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-400 via-teal-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-2xl">
-                  <Zap className="w-10 h-10 text-white" strokeWidth={2.5} />
-                </div>
-              </div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-300 bg-clip-text text-transparent">
-                TheraScope
-              </h1>
-              <p className="text-slate-400 text-sm mt-2">Secure Access Portal</p>
-            </div>
-
-            {!loginType ? (
-              /* Login Type Selection */
-              <div className="space-y-4">
-                <h2 className="text-xl font-bold text-white text-center mb-6">Select Access Type</h2>
-                <button
-                  onClick={() => setLoginType('admin')}
-                  className="w-full p-6 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 hover:from-cyan-500/30 hover:to-teal-500/30 border border-cyan-500/30 hover:border-cyan-500/50 rounded-2xl transition-all group"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-white group-hover:text-cyan-300 transition-colors">Admin Access</div>
-                      <div className="text-sm text-slate-400">Full system access</div>
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => setLoginType('dor')}
-                  className="w-full p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all group"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
-                      <Building2 className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-bold text-white group-hover:text-blue-300 transition-colors">DOR Access</div>
-                      <div className="text-sm text-slate-400">Facility-specific access</div>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            ) : (
-              /* Password Entry Form */
-              <form onSubmit={handlePasswordSubmit} className="space-y-6">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setLoginType(null);
-                    setPasswordAttempt('');
-                    setSelectedFacilityForLogin('');
-                  }}
-                  className="text-sm text-slate-400 hover:text-white flex items-center gap-2 mb-4"
-                >
-                  ← Back
-                </button>
-
-                <div>
-                  <h2 className="text-xl font-bold text-white mb-2">
-                    {loginType === 'admin' ? 'Admin Login' : 'DOR Login'}
-                  </h2>
-                  <p className="text-sm text-slate-400 mb-6">
-                    {loginType === 'admin' ? 'Enter admin password' : 'Select facility and enter DOR password'}
-                  </p>
-                </div>
-
-                {loginType === 'dor' && (
-                  <div>
-                    <label className="block text-sm font-bold text-white mb-2">Select Facility</label>
-                    <select
-                      value={selectedFacilityForLogin}
-                      onChange={(e) => setSelectedFacilityForLogin(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    >
-                      <option value="" className="bg-slate-800">Select a facility...</option>
-                      {allFacilities.map(facility => (
-                        <option key={facility} value={facility} className="bg-slate-800">{facility}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-
-                <div>
-                  <label className="block text-sm font-bold text-white mb-2">Password</label>
-                  <input
-                    type="password"
-                    value={passwordAttempt}
-                    onChange={(e) => setPasswordAttempt(e.target.value)}
-                    placeholder="Enter password"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    required
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white font-bold rounded-xl transition-all shadow-lg"
-                >
-                  Sign In
-                </button>
-              </form>
-            )}
-          </div>
-
-          <p className="text-center text-slate-500 text-sm mt-6">
-            TheraScope Analytics Platform © 2025
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="fixed inset-0 opacity-20">
@@ -1047,48 +858,34 @@ export default function App() {
                 Submit Weekly Report
               </a>
               
-              {!isRestrictedView && (
-                <button
-                  onClick={() => {
-                    const password = prompt('Enter admin password:');
-                    if (password === 'WalkTalkWin') {
-                      setShowNetHealthModal(true);
-                    } else if (password !== null) {
-                      alert('Incorrect password');
-                    }
-                  }}
-                  className="w-10 h-10 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center transition-all border border-white/10 hover:border-white/20"
-                  title="Admin Tools"
-                >
-                  <svg className="w-5 h-5 text-slate-400 hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </button>
-              )}
+              <button
+                onClick={() => {
+                  const password = prompt('Enter admin password:');
+                  if (password === 'therascope2025') {
+                    setShowNetHealthModal(true);
+                  } else if (password !== null) {
+                    alert('Incorrect password');
+                  }
+                }}
+                className="w-10 h-10 bg-white/5 hover:bg-white/10 rounded-xl flex items-center justify-center transition-all border border-white/10 hover:border-white/20"
+                title="Admin Tools"
+              >
+                <svg className="w-5 h-5 text-slate-400 hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
       </header>
 
       <div className="relative max-w-7xl mx-auto px-6 py-10">
-        {isRestrictedView && (
-          <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl">
-            <div className="flex items-center gap-3">
-              <Building2 className="w-8 h-8 text-blue-400" />
-              <div>
-                <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
-                <p className="text-blue-300 text-sm">Facility Dashboard View</p>
-              </div>
-            </div>
-          </div>
-        )}
-        
         <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10 overflow-x-auto">
           {[
-            ...(!isRestrictedView ? [{ id: 'overview', label: 'Overview', icon: Activity }] : []),
-            ...(!isRestrictedView ? [{ id: 'rankings', label: 'Rankings', icon: Trophy }] : []),
-            { id: 'facilities', label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
+            { id: 'overview', label: 'Overview', icon: Activity },
+            { id: 'rankings', label: 'Rankings', icon: Trophy },
+            { id: 'facilities', label: 'All Facilities', icon: Building2 },
             { id: 'resources', label: 'Resources', icon: FileText }
           ].map(tab => (
             <button
@@ -1171,15 +968,7 @@ export default function App() {
               ))}
             </div>
 
-            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRestrictedView ? 'relative' : ''}`}>
-              {isRestrictedView && (
-                <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-md z-10 rounded-3xl flex items-center justify-center">
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-white mb-2">Regional Metrics</p>
-                    <p className="text-slate-400">Access restricted to facility view only</p>
-                  </div>
-                </div>
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div 
                 onClick={() => {
                   setSelectedRegion('Golden Coast');
