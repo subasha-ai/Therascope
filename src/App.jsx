@@ -19,7 +19,7 @@ export default function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [activeView, setActiveView] = useState(isRestrictedView ? 'facilities' : 'overview');
+  const [activeView, setActiveView] = useState('overview');
   const [selectedWeek, setSelectedWeek] = useState('latest');
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [expandedFacility, setExpandedFacility] = useState(null);
@@ -97,6 +97,13 @@ export default function App() {
   useEffect(() => {
     scrollToBottom();
   }, [chatMessages]);
+
+  // Set default view based on login type
+  useEffect(() => {
+    if (isAuthenticated && isRestrictedView) {
+      setActiveView('facilities');
+    }
+  }, [isAuthenticated, isRestrictedView]);
 
   // Load resources from IndexedDB on mount
   useEffect(() => {
@@ -935,12 +942,8 @@ export default function App() {
                 </button>
 
                 <button
-                  onClick={() => {
-                    alert('DOR button clicked!');
-                    setLoginType('dor');
-                  }}
+                  onClick={() => setLoginType('dor')}
                   className="w-full p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all group"
-                  type="button"
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
