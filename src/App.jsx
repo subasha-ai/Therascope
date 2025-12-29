@@ -904,7 +904,7 @@ export default function App() {
           }}></div>
         </div>
 
-        <div className="relative max-w-md w-full">
+        <div className="relative max-w-md w-full" key={loginType || 'selection'}>
           <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
             {/* Logo */}
             <div className="flex flex-col items-center mb-8">
@@ -944,10 +944,7 @@ export default function App() {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    alert('DOR clicked!');
-                    setLoginType('dor');
-                  }}
+                  onClick={() => setLoginType('dor')}
                   className="w-full p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all group"
                 >
                   <div className="flex items-center gap-4">
