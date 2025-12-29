@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'; 
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet } from 'lucide-react';
 import facilityDataJson from './facility_data.json';
 
@@ -1034,7 +1034,7 @@ export default function App() {
                 <h1 className="text-3xl font-black bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-300 bg-clip-text text-transparent tracking-tight">
                   TheraScope
                 </h1>
-                <p className="text-sm text-slate-400 font-medium tracking-wide">Visibility • Control • Intelligence</p>
+                <p className="text-sm text-slate-400 font-medium tracking-wide">Visibility • Control • Intelligence <span className="ml-3 px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">✅ v2.0 NEW METRICS</span></p>
               </div>
             </div>
             
