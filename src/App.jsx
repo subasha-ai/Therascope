@@ -921,10 +921,11 @@ export default function App() {
             </div>
 
             {!loginType ? (
-              /* Login Type Selection */
               <div className="space-y-4">
                 <h2 className="text-xl font-bold text-white text-center mb-6">Select Access Type</h2>
+                
                 <button
+                  type="button"
                   onClick={() => setLoginType('admin')}
                   className="w-full p-6 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 hover:from-cyan-500/30 hover:to-teal-500/30 border border-cyan-500/30 hover:border-cyan-500/50 rounded-2xl transition-all group"
                 >
@@ -942,6 +943,7 @@ export default function App() {
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => setLoginType('dor')}
                   className="w-full p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all group"
                 >
@@ -957,7 +959,6 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              /* Password Entry Form */
               <form onSubmit={handlePasswordSubmit} className="space-y-6">
                 <button
                   type="button"
