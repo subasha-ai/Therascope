@@ -38,31 +38,31 @@ OVERLAND = [
 # Update these manually if you know they've changed significantly
 MED_B_ELIGIBLE_DEFAULTS = {
     'Belmont HC': 8,
-    'Belmont Healthcare Center': 8,  # Alternate name
+    'Belmont Healthcare Center': 8,
     'Bridgewood PA': 15,
     'Camino Ridge Post Acute': 18,
     'Capital PA': 26,
     'Cedarwood PA': 15,
     'Eden HC': 68,
-    'Eden Healthcare Center': 68,  # Alternate name
+    'Eden Healthcare Center': 68,
     'Gilroy HC': 40,
     'Golden Harbor HC': 21,
-    'Golden Harbor Healthcare Center': 21,  # Alternate name
+    'Golden Harbor Healthcare Center': 21,
     'Los Altos Post Acute': 27,
-    'Los Altos Sub-Acute': 27,  # Alternate name
+    'Los Altos Sub-Acute': 27,
     'Manresa HC': 25,
     'Morgan Hill HC': 16,
-    'Morgan Hill Healthcare Center': 16,  # Alternate name
+    'Morgan Hill Healthcare Center': 16,
     'Mountain View HC': 31,
-    'Mountain View': 31,  # Alternate name
+    'Mountain View': 31,
     'PAC Hills Post Acute': 17,
-    'Pacific Hills Manor': 17,  # Alternate name
+    'Pacific Hills Manor': 17,
     'Pac Coast PA': 35,
     'Palo Alto Post Acute': 6,
-    'Palo Alto Sub-Acute & Rehab Center': 6,  # Alternate name
+    'Palo Alto Sub-Acute & Rehab Center': 6,
     'The Win Post Acute': 50,
+    'Mission Skilled Nursing & SubA': 50,  # Same as The Win
     'West Shore PA': 43,
-    'Mission Skilled Nursing & SubA': 20,  # Estimate (not in historical data)
 }
 
 def get_region(facility_name):
@@ -90,26 +90,33 @@ def normalize_facility_name(name):
     # Specific mappings
     mapping = {
         'Gilroy Healthcare & Rehab Cent': 'Gilroy HC',
-        'Grant Cuesta Nursing & Rehab H': 'Morgan Hill HC',
+        'Grant Cuesta Nursing & Rehab H': 'Camino Ridge Post Acute',  # Same as Camino Ridge
+        'Morgan Hill Healthcare Center': 'Morgan Hill HC',
         'Mountain View Healthcare Cente': 'Mountain View HC',
+        'Mountain View': 'Mountain View HC',
         'Pacific Coast Manor': 'Pac Coast PA',
+        'Los Altos Sub-Acute': 'Los Altos Post Acute',
         'Los Altos Sub-Acute & Rehab Ce': 'Los Altos Post Acute',
+        'Palo Alto Sub-Acute & Rehab Center': 'Palo Alto Post Acute',
         'Palo Alto Sub Acute': 'Palo Alto Post Acute',
+        'Mission Skilled Nursing & SubA': 'The Win Post Acute',  # Same as The Win
+        'Eden Healthcare Center': 'Eden HC',
         'Eden Post Acute Care': 'Eden HC',
+        'Belmont Healthcare Center': 'Belmont HC',
         'Belmont Hills Health & Rehab': 'Belmont HC',
+        'Golden Harbor Healthcare Center': 'Golden Harbor HC',
         'Golden Harbor Nursing & Rehab': 'Golden Harbor HC',
         'West Shore Post Acute': 'West Shore PA',
         'Capital Post Acute': 'Capital PA',
         'Bridgewood Post Acute': 'Bridgewood PA',
         'Cedarwood Post Acute': 'Cedarwood PA',
-        'The Win Post Acute': 'The Win Post Acute',
-        'PAC Hills Post Acute': 'PAC Hills Post Acute',
-        'Camino Ridge Post Acute': 'Camino Ridge Post Acute',
+        'Pacific Hills Manor': 'PAC Hills Post Acute',
         'Manresa Healthcare Center': 'Manresa HC'
     }
     
+    # Check for exact match first (case-insensitive)
     for old, new in mapping.items():
-        if old.lower() in name.lower():
+        if name.lower() == old.lower():
             return new
     
     return name
@@ -259,8 +266,59 @@ def process_mode_of_treatment_report(filepath):
     
     return mode_data
 
-def process_all_reports(productivity_file, cpm_file, census_file, mode_file):
-    """Process all 4 NetHealth reports and generate facility_data.json"""
+def process_units_per_visit_report(filepath):
+    """Extract Units Per Visit by facility from units per visit report"""
+    df = pd.read_excel(filepath, header=None)
+    
+    upv_data = {}
+    
+    # Find all "Total for [Facility]" rows
+    for idx, row in df.iterrows():
+        if pd.notna(row.get(1)) and 'Total for' in str(row.get(1)):
+            facility_raw = str(row.get(1)).replace('Total for ', '').strip()
+            facility_name = normalize_facility_name(facility_raw)
+            
+            # Units Per Visit is in column 8
+            if len(row) > 8 and pd.notna(row.get(8)):
+                upv = row[8]
+                # It's already a number, just convert to float
+                if isinstance(upv, str):
+                    upv = float(upv)
+                upv_data[facility_name] = round(float(upv), 2)
+    
+    return upv_data
+
+def process_med_b_units_report(filepath):
+    """Extract Med B Units billed from multi-sheet report"""
+    import openpyxl
+    
+    wb = openpyxl.load_workbook(filepath)
+    units_data = {}
+    
+    for sheet_name in wb.sheetnames:
+        ws = wb[sheet_name]
+        
+        # Find facility name (Row 2, Column B)
+        facility_raw = ws['B2'].value
+        if not facility_raw:
+            continue
+        
+        facility_name = normalize_facility_name(facility_raw)
+        
+        # Find Total row (last row with "Total" in column A)
+        for row in ws.iter_rows():
+            if row[0].value == 'Total':
+                # Total Units is in column J (index 9)
+                total_units = row[9].value
+                if total_units is not None:
+                    units_data[facility_name] = int(total_units)
+                break
+    
+    return units_data
+
+
+def process_all_reports(productivity_file, cpm_file, census_file, mode_file, upv_file, medb_units_file):
+    """Process all 6 NetHealth reports and generate facility_data.json"""
     
     print("Processing NetHealth Reports...")
     print("=" * 80)
@@ -300,6 +358,14 @@ def process_all_reports(productivity_file, cpm_file, census_file, mode_file):
     mode_data = process_mode_of_treatment_report(mode_file)
     print(f"   Found {len(mode_data)} facilities")
     
+    print("5. Processing Units Per Visit Report...")
+    upv_data = process_units_per_visit_report(upv_file)
+    print(f"   Found {len(upv_data)} facilities")
+    
+    print("6. Processing Med B Units Report...")
+    medb_units_data = process_med_b_units_report(medb_units_file)
+    print(f"   Found {len(medb_units_data)} facilities")
+    
     print()
     print("Combining data...")
     print("-" * 80)
@@ -322,8 +388,10 @@ def process_all_reports(productivity_file, cpm_file, census_file, mode_file):
             'region': get_region(facility),
             'productivity': productivity_data.get(facility, 0),
             'cpm': cpm_data.get(facility, 0),
-            'medBEligible': MED_B_ELIGIBLE_DEFAULTS.get(facility, 0),  # Use historical defaults
+            'medBEligible': MED_B_ELIGIBLE_DEFAULTS.get(facility, 0),
             'medBCaseload': census_data.get(facility, 0),
+            'medBUnitsThisWeek': medb_units_data.get(facility, 0),
+            'unitsPerVisit': upv_data.get(facility, 0),
             'date': date_str
         }
         
@@ -332,7 +400,7 @@ def process_all_reports(productivity_file, cpm_file, census_file, mode_file):
             record['modeOfTreatment'] = mode_data[facility]
         
         records.append(record)
-        print(f"✓ {facility:40} | Prod: {record['productivity']:5.1f}% | CPM: ${record['cpm']:5.2f} | Med B: {record['medBCaseload']:2}/{record['medBEligible']:2} | Mode: {record.get('modeOfTreatment', 0):.1f}%")
+        print(f"✓ {facility:40} | Prod: {record['productivity']:5.1f}% | CPM: ${record['cpm']:5.2f} | Med B: {record['medBCaseload']:2}/{record['medBEligible']:2} | Units: {record['medBUnitsThisWeek']:3} | UPV: {record['unitsPerVisit']:.2f}")
     
     print()
     print(f"Total facilities processed: {len(records)}")
@@ -340,16 +408,23 @@ def process_all_reports(productivity_file, cpm_file, census_file, mode_file):
     return records
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
-        print("Usage: python process_nethealth_reports.py <productivity.xlsx> <cpm.xlsx> <census.xlsx> <mode.xlsx>")
+    if len(sys.argv) != 7:
+        print("Error: Please provide all 6 required NetHealth reports")
+        print()
+        print("Usage: python process_nethealth_reports.py <productivity.xlsx> <cpm.xlsx> <census.xlsx> <mode.xlsx> <units_per_visit.xlsx> <med_b_units.xlsx>")
+        print()
+        print("Example:")
+        print("  python process_nethealth_reports.py prod.xlsx cpm.xlsx census.xlsx mode.xlsx upv.xlsx medb.xlsx")
         sys.exit(1)
     
     productivity_file = sys.argv[1]
     cpm_file = sys.argv[2]
     census_file = sys.argv[3]
     mode_file = sys.argv[4]
+    upv_file = sys.argv[5]
+    medb_units_file = sys.argv[6]
     
-    records = process_all_reports(productivity_file, cpm_file, census_file, mode_file)
+    records = process_all_reports(productivity_file, cpm_file, census_file, mode_file, upv_file, medb_units_file)
     
     # Save to JSON
     output_file = 'facility_data_nethealth.json'
