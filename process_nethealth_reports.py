@@ -379,7 +379,7 @@ def process_all_reports(productivity_file, cpm_file, census_file, mode_file, upv
     
     records = []
     for facility in sorted(all_facilities):
-        if facility == 'Unknown' or facility == '':
+        if facility == 'Unknown' or facility == '' or facility == 'Total':
             continue
         
         record = {
