@@ -189,9 +189,9 @@ def process_cpm_report(filepath):
             
             # Look for TOTAL EXPENSES row
             if pd.notna(row.get(0)) and 'TOTAL EXPENSES' in str(row.get(0)) and current_facility:
-                # Expense Per Paid Minute is in column 13 (last column)
-                if len(row) > 13 and pd.notna(row.get(13)):
-                    cpm = row[13]
+                # Expense Per TX Minute is in column 12
+                if len(row) > 12 and pd.notna(row.get(12)):
+                    cpm = row[12]
                     # Remove $ and convert to float
                     if isinstance(cpm, str):
                         cpm = float(cpm.replace('$', '').replace(',', '').replace('(', '').replace(')', ''))
