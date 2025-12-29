@@ -845,33 +845,33 @@ export default function App() {
   const metrics = [
     { 
       label: 'Total Facilities', 
-      value: new Set(allWeeklyData.map(d => d.facility)).size,
+      value: viewableData.length,
       icon: Building2, 
-      change: '17 Active facilities',
+      change: isRestrictedView ? `${selectedFacilityForLogin} only` : `${viewableData.length} Active facilities`,
       gradient: 'from-cyan-500 via-teal-500 to-emerald-500',
       bgGradient: 'from-cyan-50 to-teal-50'
     },
     { 
-      label: 'Avg Productivity', 
-      value: `${Math.round(currentWeekData.reduce((sum, f) => sum + f.productivity, 0) / currentWeekData.length)}%`,
+      label: isRestrictedView ? 'My Productivity' : 'Avg Productivity', 
+      value: `${Math.round(viewableData.reduce((sum, f) => sum + f.productivity, 0) / viewableData.length)}%`,
       icon: TrendingUp, 
       change: selectedWeek === 'latest' ? 'This week' : `Week ${selectedWeek}`,
       gradient: 'from-emerald-500 via-green-500 to-lime-500',
       bgGradient: 'from-emerald-50 to-green-50'
     },
     { 
-      label: 'Avg CPM', 
-      value: `$${(currentWeekData.reduce((sum, f) => sum + f.cpm, 0) / currentWeekData.length).toFixed(2)}`,
+      label: isRestrictedView ? 'My CPM' : 'Avg CPM', 
+      value: `$${(viewableData.reduce((sum, f) => sum + f.cpm, 0) / viewableData.length).toFixed(2)}`,
       icon: PieChart, 
       change: selectedWeek === 'latest' ? 'This week' : `Week ${selectedWeek}`,
       gradient: 'from-violet-500 via-purple-500 to-fuchsia-500',
       bgGradient: 'from-violet-50 to-purple-50'
     },
     { 
-      label: 'Total Med B', 
-      value: currentWeekData.reduce((sum, f) => sum + f.medBEligible, 0),
+      label: isRestrictedView ? 'My Med B' : 'Total Med B', 
+      value: viewableData.reduce((sum, f) => sum + f.medBEligible, 0),
       icon: BarChart3, 
-      change: `${currentWeekData.reduce((sum, f) => sum + f.medBCaseload, 0)} on caseload`,
+      change: `${viewableData.reduce((sum, f) => sum + f.medBCaseload, 0)} on caseload`,
       gradient: 'from-rose-500 via-pink-500 to-fuchsia-500',
       bgGradient: 'from-rose-50 to-pink-50'
     }
