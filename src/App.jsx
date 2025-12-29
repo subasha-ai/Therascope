@@ -1620,17 +1620,56 @@ export default function App() {
                             <div className="text-xs text-slate-400 mt-2 font-medium">Active patients</div>
                           </div>
 
-                          {facility.modeOfTreatment !== undefined && (
-                            <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm rounded-2xl p-6 border border-orange-400/30 transform hover:scale-105 transition-all duration-300">
+                          {/* 5th Metric - Different for Admin vs DOR */}
+                          {!isRestrictedView ? (
+                            // Admin View: Med B Units This Week
+                            <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-400/30 transform hover:scale-105 transition-all duration-300">
                               <div className="flex items-center gap-3 mb-3">
-                                <Activity className="w-5 h-5 text-orange-300" strokeWidth={2.5} />
-                                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Mode of Tx</div>
+                                <BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5} />
+                                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
-                              <div className="text-4xl font-black text-orange-300">{facility.modeOfTreatment}%</div>
-                              <div className="text-xs text-slate-400 mt-2 font-medium">Group/Concurrent</div>
+                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
+                              <div className="text-xs text-slate-400 mt-2 font-medium">This week</div>
                             </div>
+                          ) : (
+                            // DOR View: Mode of Treatment
+                            facility.modeOfTreatment !== undefined && (
+                              <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm rounded-2xl p-6 border border-orange-400/30 transform hover:scale-105 transition-all duration-300">
+                                <div className="flex items-center gap-3 mb-3">
+                                  <Activity className="w-5 h-5 text-orange-300" strokeWidth={2.5} />
+                                  <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Mode of Tx</div>
+                                </div>
+                                <div className="text-4xl font-black text-orange-300">{facility.modeOfTreatment}%</div>
+                                <div className="text-xs text-slate-400 mt-2 font-medium">Group/Concurrent</div>
+                              </div>
+                            )
                           )}
                         </div>
+
+                        {/* DOR-Only Additional Metrics Row */}
+                        {isRestrictedView && (
+                          <div className="grid grid-cols-2 gap-5 mt-5 pt-5 border-t border-white/10">
+                            <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-2xl p-6 border border-purple-400/30 transform hover:scale-105 transition-all duration-300">
+                              <div className="flex items-center gap-3 mb-3">
+                                <Activity className="w-5 h-5 text-purple-300" strokeWidth={2.5} />
+                                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Units Per Visit</div>
+                              </div>
+                              <div className="text-4xl font-black text-purple-300">
+                                {facility.unitsPerVisit ? facility.unitsPerVisit.toFixed(2) : '0.00'}
+                              </div>
+                              <div className="text-xs text-slate-400 mt-2 font-medium">Operational metric</div>
+                            </div>
+
+                            <div className="bg-gradient-to-br from-blue-500/20 to-indigo-500/20 backdrop-blur-sm rounded-2xl p-6 border border-blue-400/30 transform hover:scale-105 transition-all duration-300">
+                              <div className="flex items-center gap-3 mb-3">
+                                <BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5} />
+                                <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
+                              </div>
+                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
+                              <div className="text-xs text-slate-400 mt-2 font-medium">This week</div>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {isExpanded && (
