@@ -944,7 +944,10 @@ export default function App() {
 
                 <button
                   type="button"
-                  onClick={() => setLoginType('dor')}
+                  onClick={() => {
+                    alert('DOR clicked!');
+                    setLoginType('dor');
+                  }}
                   className="w-full p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all group"
                 >
                   <div className="flex items-center gap-4">
