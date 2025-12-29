@@ -179,19 +179,33 @@ def process_cpm_report(filepath):
         df = pd.read_excel(filepath, sheet_name=sheet_name, header=None)
         
         current_facility = None
+        expense_per_tx_col = None
         
         for idx, row in df.iterrows():
             # Look for "Site of Service" lines
             if pd.notna(row.get(0)) and 'Site of Service' in str(row.get(0)):
+                # Try column 4 first, then column 3
+                facility_name = None
                 if len(row) > 4 and pd.notna(row.get(4)):
                     facility_name = str(row[4]).strip()
+                elif len(row) > 3 and pd.notna(row.get(3)):
+                    facility_name = str(row[3]).strip()
+                
+                if facility_name:
                     current_facility = normalize_facility_name(facility_name)
             
+            # Look for the header row to find "Expense Per Tx Minute" column
+            if expense_per_tx_col is None:
+                for col_idx in range(len(row)):
+                    if pd.notna(row.get(col_idx)) and 'Expense Per Tx Minute' in str(row.get(col_idx)):
+                        expense_per_tx_col = col_idx
+                        break
+            
             # Look for TOTAL EXPENSES row
-            if pd.notna(row.get(0)) and 'TOTAL EXPENSES' in str(row.get(0)) and current_facility:
-                # Expense Per TX Minute is in column 12
-                if len(row) > 12 and pd.notna(row.get(12)):
-                    cpm = row[12]
+            if pd.notna(row.get(0)) and 'TOTAL EXPENSES' in str(row.get(0)) and current_facility and expense_per_tx_col is not None:
+                # Use the column we found from the header
+                if len(row) > expense_per_tx_col and pd.notna(row.get(expense_per_tx_col)):
+                    cpm = row[expense_per_tx_col]
                     # Remove $ and convert to float
                     if isinstance(cpm, str):
                         cpm = float(cpm.replace('$', '').replace(',', '').replace('(', '').replace(')', ''))
