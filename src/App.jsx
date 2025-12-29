@@ -19,7 +19,7 @@ export default function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [activeView, setActiveView] = useState('overview');
+  const [activeView, setActiveView] = useState(isRestrictedView ? 'facilities' : 'overview');
   const [selectedWeek, setSelectedWeek] = useState('latest');
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [expandedFacility, setExpandedFacility] = useState(null);
@@ -97,13 +97,6 @@ export default function App() {
   useEffect(() => {
     scrollToBottom();
   }, [chatMessages]);
-
-  // Set default view based on login type
-  useEffect(() => {
-    if (isAuthenticated && isRestrictedView) {
-      setActiveView('facilities');
-    }
-  }, [isAuthenticated, isRestrictedView]);
 
   // Load resources from IndexedDB on mount
   useEffect(() => {
@@ -756,18 +749,9 @@ export default function App() {
   const currentWeekData = getCurrentWeekData();
   
   // Apply facility restriction if in restricted view
-  // CRITICAL: DORs can ONLY see the facility they logged in with
   const viewableData = isRestrictedView 
-    ? currentWeekData.filter(f => f.facility === selectedFacilityForLogin)
+    ? currentWeekData.filter(f => f.facility === restrictedFacility)
     : currentWeekData;
-  
-  // Extra security: If DOR somehow has no facilities, force logout
-  if (isRestrictedView && viewableData.length === 0) {
-    console.error('Security: No data for selected facility');
-    setIsAuthenticated(false);
-    setLoginType(null);
-    return null;
-  }
   
   const rankedFacilities = viewableData.map(f => calculateScore(f)).sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
@@ -904,7 +888,7 @@ export default function App() {
           }}></div>
         </div>
 
-        <div className="relative max-w-md w-full" key={loginType || 'selection'}>
+        <div className="relative max-w-md w-full">
           <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
             {/* Logo */}
             <div className="flex flex-col items-center mb-8">
@@ -921,11 +905,10 @@ export default function App() {
             </div>
 
             {!loginType ? (
+              /* Login Type Selection */
               <div className="space-y-4">
                 <h2 className="text-xl font-bold text-white text-center mb-6">Select Access Type</h2>
-                
                 <button
-                  type="button"
                   onClick={() => setLoginType('admin')}
                   className="w-full p-6 bg-gradient-to-r from-cyan-500/20 to-teal-500/20 hover:from-cyan-500/30 hover:to-teal-500/30 border border-cyan-500/30 hover:border-cyan-500/50 rounded-2xl transition-all group"
                 >
@@ -943,7 +926,6 @@ export default function App() {
                 </button>
 
                 <button
-                  type="button"
                   onClick={() => setLoginType('dor')}
                   className="w-full p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 hover:from-blue-500/30 hover:to-indigo-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-2xl transition-all group"
                 >
@@ -959,6 +941,7 @@ export default function App() {
                 </button>
               </div>
             ) : (
+              /* Password Entry Form */
               <form onSubmit={handlePasswordSubmit} className="space-y-6">
                 <button
                   type="button"
@@ -1093,16 +1076,11 @@ export default function App() {
       <div className="relative max-w-7xl mx-auto px-6 py-10">
         {isRestrictedView && (
           <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Building2 className="w-8 h-8 text-blue-400" />
-                <div>
-                  <h2 className="text-2xl font-black text-white">{selectedFacilityForLogin}</h2>
-                  <p className="text-blue-300 text-sm">Facility Dashboard View • Access Limited to This Location</p>
-                </div>
-              </div>
-              <div className="text-xs text-blue-400 bg-blue-500/20 px-3 py-1 rounded-lg">
-                🔒 Secure Session
+            <div className="flex items-center gap-3">
+              <Building2 className="w-8 h-8 text-blue-400" />
+              <div>
+                <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
+                <p className="text-blue-300 text-sm">Facility Dashboard View</p>
               </div>
             </div>
           </div>
@@ -1453,60 +1431,20 @@ export default function App() {
                           </div>
                         </div>
 
-                        {/* 4th Metric - Different for Admin vs DOR */}
-                        {!isRestrictedView ? (
-                          // Admin View: Med B Units This Week
-                          <div className="p-4 rounded-xl border-2 bg-blue-500/20 border-blue-400/50">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
-                            </div>
-                            <div className="text-2xl font-black text-blue-300">
-                              {item.facility.medBUnitsThisWeek || 0}
-                            </div>
-                            <div className="text-xs text-slate-400 mt-1">this week</div>
+                        <div className={`p-4 rounded-xl border-2 ${item.goals.modeOfTreatment ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            {item.goals.modeOfTreatment ? (
+                              <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
+                            )}
+                            <div className="text-xs text-slate-300 font-bold uppercase">Mode of Treatment</div>
                           </div>
-                        ) : (
-                          // DOR View: Mode of Treatment (kept for DORs)
-                          <div className={`p-4 rounded-xl border-2 ${item.goals.modeOfTreatment ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
-                            <div className="flex items-center gap-2 mb-2">
-                              {item.goals.modeOfTreatment ? (
-                                <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
-                              ) : (
-                                <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
-                              )}
-                              <div className="text-xs text-slate-300 font-bold uppercase">Mode of Treatment</div>
-                            </div>
-                            <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
-                              {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* DOR-Only Additional Metrics */}
-                      {isRestrictedView && (
-                        <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
-                          <div className="p-4 rounded-xl border-2 bg-purple-500/20 border-purple-400/50">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="text-xs text-slate-300 font-bold uppercase">Units Per Visit</div>
-                            </div>
-                            <div className="text-2xl font-black text-purple-300">
-                              {item.facility.unitsPerVisit ? item.facility.unitsPerVisit.toFixed(2) : '0.00'}
-                            </div>
-                            <div className="text-xs text-slate-400 mt-1">operational metric</div>
-                          </div>
-
-                          <div className="p-4 rounded-xl border-2 bg-blue-500/20 border-blue-400/50">
-                            <div className="flex items-center gap-2 mb-2">
-                              <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
-                            </div>
-                            <div className="text-2xl font-black text-blue-300">
-                              {item.facility.medBUnitsThisWeek || 0}
-                            </div>
-                            <div className="text-xs text-slate-400 mt-1">this week</div>
+                          <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
+                            {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
                           </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   );
                 })}
