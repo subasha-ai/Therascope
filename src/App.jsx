@@ -1431,20 +1431,60 @@ export default function App() {
                           </div>
                         </div>
 
-                        <div className={`p-4 rounded-xl border-2 ${item.goals.modeOfTreatment ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
-                          <div className="flex items-center gap-2 mb-2">
-                            {item.goals.modeOfTreatment ? (
-                              <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
-                            ) : (
-                              <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
-                            )}
-                            <div className="text-xs text-slate-300 font-bold uppercase">Mode of Treatment</div>
+                        {/* 4th Metric - Different for Admin vs DOR */}
+                        {!isRestrictedView ? (
+                          // Admin View: Med B Units This Week
+                          <div className="p-4 rounded-xl border-2 bg-blue-500/20 border-blue-400/50">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
+                            </div>
+                            <div className="text-2xl font-black text-blue-300">
+                              {item.facility.medBUnitsThisWeek || 0}
+                            </div>
+                            <div className="text-xs text-slate-400 mt-1">this week</div>
                           </div>
-                          <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
-                            {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
+                        ) : (
+                          // DOR View: Mode of Treatment (kept for DORs)
+                          <div className={`p-4 rounded-xl border-2 ${item.goals.modeOfTreatment ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-slate-500/10 border-slate-400/30'}`}>
+                            <div className="flex items-center gap-2 mb-2">
+                              {item.goals.modeOfTreatment ? (
+                                <CheckCircle className="w-5 h-5 text-emerald-400" strokeWidth={2.5} />
+                              ) : (
+                                <div className="w-5 h-5 rounded-full border-2 border-slate-400"></div>
+                              )}
+                              <div className="text-xs text-slate-300 font-bold uppercase">Mode of Treatment</div>
+                            </div>
+                            <div className={`text-2xl font-black ${item.goals.modeOfTreatment ? 'text-emerald-300' : 'text-slate-400'}`}>
+                              {item.facility.modeOfTreatment !== undefined ? item.facility.modeOfTreatment : 0}%
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* DOR-Only Additional Metrics */}
+                      {isRestrictedView && (
+                        <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/10">
+                          <div className="p-4 rounded-xl border-2 bg-purple-500/20 border-purple-400/50">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-xs text-slate-300 font-bold uppercase">Units Per Visit</div>
+                            </div>
+                            <div className="text-2xl font-black text-purple-300">
+                              {item.facility.unitsPerVisit ? item.facility.unitsPerVisit.toFixed(2) : '0.00'}
+                            </div>
+                            <div className="text-xs text-slate-400 mt-1">operational metric</div>
+                          </div>
+
+                          <div className="p-4 rounded-xl border-2 bg-blue-500/20 border-blue-400/50">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
+                            </div>
+                            <div className="text-2xl font-black text-blue-300">
+                              {item.facility.medBUnitsThisWeek || 0}
+                            </div>
+                            <div className="text-xs text-slate-400 mt-1">this week</div>
                           </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                   );
                 })}
