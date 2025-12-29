@@ -1219,17 +1219,27 @@ export default function App() {
                       })()}%
                     </div>
                   </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
-                    <div className="text-3xl font-black text-white">
-                      {(() => {
-                        const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
-                        return facilitiesWithMode.length > 0 
-                          ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
-                          : 0;
-                      })()}%
+                  {/* 4th Metric - Admin: Med B Units, DOR: Mode of Treatment */}
+                  {!isRestrictedView ? (
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Med B Units</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(goldenCoastData.reduce((s, f) => s + (f.medBUnitsThisWeek || 0), 0))}
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -1270,17 +1280,27 @@ export default function App() {
                       })()}%
                     </div>
                   </div>
-                  <div className="bg-white/10 rounded-xl p-4">
-                    <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
-                    <div className="text-3xl font-black text-white">
-                      {(() => {
-                        const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
-                        return facilitiesWithMode.length > 0 
-                          ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
-                          : 0;
-                      })()}%
+                  {/* 4th Metric - Admin: Med B Units, DOR: Mode of Treatment */}
+                  {!isRestrictedView ? (
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Med B Units</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(overlandData.reduce((s, f) => s + (f.medBUnitsThisWeek || 0), 0))}
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
