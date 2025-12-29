@@ -970,7 +970,7 @@ export default function App() {
                       <div className="text-sm text-slate-400">Facility-specific access</div>
                     </div>
                   </div>
-                </button>
+                </div>
               </div>
             ) : (
               /* Password Entry Form */
