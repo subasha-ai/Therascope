@@ -2642,5 +2642,57 @@
     "modeOfTreatment": 2.35,
     "date": "2026-12-13",
     "week": "1026"
+  },
+  {
+    "week": "1221",
+    "facility": "Capital PA",
+    "region": "Overland",
+    "productivity": 83.5,
+    "cpm": 1.36,
+    "medBEligible": 26,
+    "medBCaseload": 12,
+    "medBUnitsThisWeek": 121,
+    "unitsPerVisit": 3.03,
+    "date": "2025-12-21",
+    "modeOfTreatment": 6.35
+  },
+  {
+    "week": "1221",
+    "facility": "Manresa HC",
+    "region": "Golden Coast",
+    "productivity": 74.0,
+    "cpm": 1.67,
+    "medBEligible": 25,
+    "medBCaseload": 4,
+    "medBUnitsThisWeek": 15,
+    "unitsPerVisit": 1.5,
+    "date": "2025-12-21",
+    "modeOfTreatment": 0.0
+  },
+  {
+    "week": "1221",
+    "facility": "Mountain View HC",
+    "region": "Golden Coast",
+    "productivity": 89.1,
+    "cpm": 1.35,
+    "medBEligible": 31,
+    "medBCaseload": 24,
+    "medBUnitsThisWeek": 183,
+    "unitsPerVisit": 3.16,
+    "date": "2025-12-21",
+    "modeOfTreatment": 8.21
+  },
+  {
+    "week": "1221",
+    "facility": "Pac Coast PA",
+    "region": "Golden Coast",
+    "productivity": 87.8,
+    "cpm": 1.47,
+    "medBEligible": 35,
+    "medBCaseload": 12,
+    "medBUnitsThisWeek": 66,
+    "unitsPerVisit": 2.75,
+    "date": "2025-12-21",
+    "modeOfTreatment": 6.18
   }
 ]
