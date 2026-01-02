@@ -7,7 +7,7 @@
     "medBEligible": 8,
     "medBCaseload": 6,
     "modeOfTreatment": 4.21,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -18,7 +18,7 @@
     "medBEligible": 8,
     "medBCaseload": 6,
     "modeOfTreatment": 3.82,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -29,7 +29,7 @@
     "medBEligible": 8,
     "medBCaseload": 6,
     "modeOfTreatment": 4.53,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -40,7 +40,7 @@
     "medBEligible": 8,
     "medBCaseload": 5,
     "modeOfTreatment": 5.08,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -51,7 +51,7 @@
     "medBEligible": 8,
     "medBCaseload": 5,
     "modeOfTreatment": 4.18,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -62,7 +62,7 @@
     "medBEligible": 8,
     "medBCaseload": 4,
     "modeOfTreatment": 5.69,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -73,7 +73,7 @@
     "medBEligible": 8,
     "medBCaseload": 6,
     "modeOfTreatment": 4.06,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -84,7 +84,7 @@
     "medBEligible": 8,
     "medBCaseload": 7,
     "modeOfTreatment": 4.07,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -95,7 +95,7 @@
     "medBEligible": 8,
     "medBCaseload": 7,
     "modeOfTreatment": 4.56,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -106,7 +106,7 @@
     "medBEligible": 8,
     "medBCaseload": 6,
     "modeOfTreatment": 3.18,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -117,7 +117,7 @@
     "medBEligible": 8,
     "medBCaseload": 2,
     "modeOfTreatment": 2.87,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -128,7 +128,7 @@
     "medBEligible": 8,
     "medBCaseload": 2,
     "modeOfTreatment": 3.14,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -139,7 +139,7 @@
     "medBEligible": 8,
     "medBCaseload": 2,
     "modeOfTreatment": 2.05,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -150,7 +150,7 @@
     "medBEligible": 8,
     "medBCaseload": 2,
     "modeOfTreatment": 1.53,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -161,7 +161,7 @@
     "medBEligible": 8,
     "medBCaseload": 2,
     "modeOfTreatment": 5.2,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -185,7 +185,7 @@
     "medBEligible": 15,
     "medBCaseload": 3,
     "modeOfTreatment": 6.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -196,7 +196,7 @@
     "medBEligible": 15,
     "medBCaseload": 3,
     "modeOfTreatment": 1.52,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -207,7 +207,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -218,7 +218,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 1.0,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -229,7 +229,7 @@
     "medBEligible": 15,
     "medBCaseload": 0,
     "modeOfTreatment": 0.0,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -240,7 +240,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -251,7 +251,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -262,7 +262,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -273,7 +273,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -284,7 +284,7 @@
     "medBEligible": 15,
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -295,7 +295,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -306,7 +306,7 @@
     "medBEligible": 15,
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -317,7 +317,7 @@
     "medBEligible": 15,
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -328,7 +328,7 @@
     "medBEligible": 15,
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -352,7 +352,7 @@
     "medBEligible": 18,
     "medBCaseload": 3,
     "modeOfTreatment": 4.99,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -363,7 +363,7 @@
     "medBEligible": 18,
     "medBCaseload": 4,
     "modeOfTreatment": 3.82,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -374,7 +374,7 @@
     "medBEligible": 18,
     "medBCaseload": 5,
     "modeOfTreatment": 7.36,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -385,7 +385,7 @@
     "medBEligible": 18,
     "medBCaseload": 8,
     "modeOfTreatment": 4.09,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -396,7 +396,7 @@
     "medBEligible": 18,
     "medBCaseload": 8,
     "modeOfTreatment": 7.39,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -407,7 +407,7 @@
     "medBEligible": 18,
     "medBCaseload": 9,
     "modeOfTreatment": 6.66,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -418,7 +418,7 @@
     "medBEligible": 18,
     "medBCaseload": 9,
     "modeOfTreatment": 8.0,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -429,7 +429,7 @@
     "medBEligible": 18,
     "medBCaseload": 10,
     "modeOfTreatment": 8.98,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -440,7 +440,7 @@
     "medBEligible": 18,
     "medBCaseload": 10,
     "modeOfTreatment": 6.69,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -451,7 +451,7 @@
     "medBEligible": 18,
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -475,7 +475,7 @@
     "medBEligible": 20,
     "medBCaseload": 2,
     "modeOfTreatment": 5.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -486,7 +486,7 @@
     "medBEligible": 20,
     "medBCaseload": 2,
     "modeOfTreatment": 5.14,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -497,7 +497,7 @@
     "medBEligible": 20,
     "medBCaseload": 10,
     "modeOfTreatment": 2.51,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -508,7 +508,7 @@
     "medBEligible": 20,
     "medBCaseload": 24,
     "modeOfTreatment": 2.46,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -519,7 +519,7 @@
     "medBEligible": 20,
     "medBCaseload": 24,
     "modeOfTreatment": 3.18,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -530,18 +530,7 @@
     "medBEligible": 20,
     "medBCaseload": 22,
     "modeOfTreatment": 3.87,
-    "date": "2026-09-06",
-    "week": "1012"
-  },
-  {
-    "facility": "Capital PA",
-    "region": "Overland",
-    "productivity": 84.0,
-    "cpm": 1.41,
-    "medBEligible": 20,
-    "medBCaseload": 22,
-    "modeOfTreatment": 3.87,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -552,7 +541,7 @@
     "medBEligible": 20,
     "medBCaseload": 21,
     "modeOfTreatment": 3.55,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -563,7 +552,7 @@
     "medBEligible": 20,
     "medBCaseload": 23,
     "modeOfTreatment": 4.37,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -574,7 +563,7 @@
     "medBEligible": 20,
     "medBCaseload": 23,
     "modeOfTreatment": 4.14,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -585,7 +574,7 @@
     "medBEligible": 20,
     "medBCaseload": 19,
     "modeOfTreatment": 6.33,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -596,7 +585,7 @@
     "medBEligible": 20,
     "medBCaseload": 20,
     "modeOfTreatment": 4.62,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -607,7 +596,7 @@
     "medBEligible": 20,
     "medBCaseload": 17,
     "modeOfTreatment": 2.28,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -618,7 +607,7 @@
     "medBEligible": 20,
     "medBCaseload": 17,
     "modeOfTreatment": 3.09,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -629,7 +618,7 @@
     "medBEligible": 20,
     "medBCaseload": 16,
     "modeOfTreatment": 4.22,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -640,7 +629,7 @@
     "medBEligible": 20,
     "medBCaseload": 12,
     "modeOfTreatment": 6.49,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -651,7 +640,7 @@
     "medBEligible": 15,
     "medBCaseload": 3,
     "modeOfTreatment": 1.05,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -662,7 +651,7 @@
     "medBEligible": 15,
     "medBCaseload": 7,
     "modeOfTreatment": 2.88,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -673,7 +662,7 @@
     "medBEligible": 15,
     "medBCaseload": 5,
     "modeOfTreatment": 1.87,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -684,7 +673,7 @@
     "medBEligible": 15,
     "medBCaseload": 4,
     "modeOfTreatment": 1.0,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -695,7 +684,7 @@
     "medBEligible": 15,
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -706,7 +695,7 @@
     "medBEligible": 15,
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -717,7 +706,7 @@
     "medBEligible": 15,
     "medBCaseload": 3,
     "modeOfTreatment": 4.0,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -728,7 +717,7 @@
     "medBEligible": 15,
     "medBCaseload": 2,
     "modeOfTreatment": 3.0,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -739,7 +728,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 2.0,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -750,7 +739,7 @@
     "medBEligible": 15,
     "medBCaseload": 2,
     "modeOfTreatment": 4.0,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -761,7 +750,7 @@
     "medBEligible": 15,
     "medBCaseload": 1,
     "modeOfTreatment": 20.0,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -772,7 +761,7 @@
     "medBEligible": 15,
     "medBCaseload": 0,
     "modeOfTreatment": 5.0,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -783,7 +772,7 @@
     "medBEligible": 15,
     "medBCaseload": 0,
     "modeOfTreatment": 0.0,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -794,7 +783,7 @@
     "medBEligible": 15,
     "medBCaseload": 0,
     "modeOfTreatment": 6.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -818,7 +807,7 @@
     "medBEligible": 68,
     "medBCaseload": 32,
     "modeOfTreatment": 0.82,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -829,7 +818,7 @@
     "medBEligible": 68,
     "medBCaseload": 33,
     "modeOfTreatment": 2.0,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -840,7 +829,7 @@
     "medBEligible": 68,
     "medBCaseload": 34,
     "modeOfTreatment": 1.29,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -851,7 +840,7 @@
     "medBEligible": 68,
     "medBCaseload": 34,
     "modeOfTreatment": 1.97,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -862,7 +851,7 @@
     "medBEligible": 68,
     "medBCaseload": 34,
     "modeOfTreatment": 1.69,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -873,7 +862,7 @@
     "medBEligible": 68,
     "medBCaseload": 35,
     "modeOfTreatment": 0.28,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -884,7 +873,7 @@
     "medBEligible": 68,
     "medBCaseload": 39,
     "modeOfTreatment": 0.76,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -895,7 +884,7 @@
     "medBEligible": 68,
     "medBCaseload": 42,
     "modeOfTreatment": 0.83,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -906,7 +895,7 @@
     "medBEligible": 68,
     "medBCaseload": 42,
     "modeOfTreatment": 0.29,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -917,7 +906,7 @@
     "medBEligible": 68,
     "medBCaseload": 41,
     "modeOfTreatment": 1.05,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -928,7 +917,7 @@
     "medBEligible": 68,
     "medBCaseload": 42,
     "modeOfTreatment": 1.53,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -939,7 +928,7 @@
     "medBEligible": 68,
     "medBCaseload": 42,
     "modeOfTreatment": 1.19,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -950,7 +939,7 @@
     "medBEligible": 68,
     "medBCaseload": 42,
     "modeOfTreatment": 0.35,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -961,7 +950,7 @@
     "medBEligible": 68,
     "medBCaseload": 41,
     "modeOfTreatment": 1.61,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -985,7 +974,7 @@
     "medBEligible": 40,
     "medBCaseload": 11,
     "modeOfTreatment": 5.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -996,7 +985,7 @@
     "medBEligible": 40,
     "medBCaseload": 13,
     "modeOfTreatment": 1.5,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -1007,7 +996,7 @@
     "medBEligible": 40,
     "medBCaseload": 19,
     "modeOfTreatment": 5.0,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -1018,7 +1007,7 @@
     "medBEligible": 40,
     "medBCaseload": 18,
     "modeOfTreatment": 1.0,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -1029,7 +1018,7 @@
     "medBEligible": 40,
     "medBCaseload": 22,
     "modeOfTreatment": 5.0,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1040,7 +1029,7 @@
     "medBEligible": 40,
     "medBCaseload": 25,
     "modeOfTreatment": 4.0,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -1051,7 +1040,7 @@
     "medBEligible": 40,
     "medBCaseload": 19,
     "modeOfTreatment": 4.0,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -1062,7 +1051,7 @@
     "medBEligible": 40,
     "medBCaseload": 20,
     "modeOfTreatment": 9.0,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -1073,7 +1062,7 @@
     "medBEligible": 40,
     "medBCaseload": 22,
     "modeOfTreatment": 6.3,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -1084,7 +1073,7 @@
     "medBEligible": 40,
     "medBCaseload": 21,
     "modeOfTreatment": 4.0,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -1095,7 +1084,7 @@
     "medBEligible": 40,
     "medBCaseload": 19,
     "modeOfTreatment": 4.0,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -1106,7 +1095,7 @@
     "medBEligible": 40,
     "medBCaseload": 15,
     "modeOfTreatment": 5.0,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -1117,7 +1106,7 @@
     "medBEligible": 40,
     "medBCaseload": 16,
     "modeOfTreatment": 7.0,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -1128,7 +1117,7 @@
     "medBEligible": 40,
     "medBCaseload": 18,
     "modeOfTreatment": 7.0,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -1139,7 +1128,7 @@
     "medBEligible": 40,
     "medBCaseload": 18,
     "modeOfTreatment": 7.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -1163,7 +1152,7 @@
     "medBEligible": 21,
     "medBCaseload": 8,
     "modeOfTreatment": 7.95,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -1174,7 +1163,7 @@
     "medBEligible": 21,
     "medBCaseload": 7,
     "modeOfTreatment": 7.9,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -1185,7 +1174,7 @@
     "medBEligible": 21,
     "medBCaseload": 12,
     "modeOfTreatment": 6.95,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -1196,7 +1185,7 @@
     "medBEligible": 21,
     "medBCaseload": 10,
     "modeOfTreatment": 5.95,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -1207,7 +1196,7 @@
     "medBEligible": 21,
     "medBCaseload": 10,
     "modeOfTreatment": 7.1,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1218,7 +1207,7 @@
     "medBEligible": 21,
     "medBCaseload": 14,
     "modeOfTreatment": 7.73,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -1229,7 +1218,7 @@
     "medBEligible": 21,
     "medBCaseload": 12,
     "modeOfTreatment": 7.29,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -1240,7 +1229,7 @@
     "medBEligible": 21,
     "medBCaseload": 11,
     "modeOfTreatment": 8.62,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -1251,7 +1240,7 @@
     "medBEligible": 21,
     "medBCaseload": 6,
     "modeOfTreatment": 8.1,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -1262,7 +1251,7 @@
     "medBEligible": 21,
     "medBCaseload": 1,
     "modeOfTreatment": 5.24,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -1273,7 +1262,7 @@
     "medBEligible": 21,
     "medBCaseload": 1,
     "modeOfTreatment": 5.67,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -1297,7 +1286,7 @@
     "medBEligible": 27,
     "medBCaseload": 5,
     "modeOfTreatment": 13.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -1308,7 +1297,7 @@
     "medBEligible": 27,
     "medBCaseload": 5,
     "modeOfTreatment": 6.0,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -1319,7 +1308,7 @@
     "medBEligible": 27,
     "medBCaseload": 5,
     "modeOfTreatment": 4.0,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -1330,7 +1319,7 @@
     "medBEligible": 27,
     "medBCaseload": 4,
     "modeOfTreatment": 5.29,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -1341,7 +1330,7 @@
     "medBEligible": 27,
     "medBCaseload": 7,
     "modeOfTreatment": 5.0,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1352,7 +1341,7 @@
     "medBEligible": 27,
     "medBCaseload": 8,
     "modeOfTreatment": 5.0,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -1363,7 +1352,7 @@
     "medBEligible": 27,
     "medBCaseload": 9,
     "modeOfTreatment": 7.0,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -1374,7 +1363,7 @@
     "medBEligible": 27,
     "medBCaseload": 9,
     "modeOfTreatment": 4.0,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -1385,7 +1374,7 @@
     "medBEligible": 27,
     "medBCaseload": 15,
     "modeOfTreatment": 1.0,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -1396,18 +1385,7 @@
     "medBEligible": 27,
     "medBCaseload": 26,
     "modeOfTreatment": 5.0,
-    "date": "2028-07-23",
-    "week": "1110"
-  },
-  {
-    "facility": "Los Altos Post Acute",
-    "region": "Golden Coast",
-    "productivity": 88.0,
-    "cpm": 1.31,
-    "medBEligible": 27,
-    "medBCaseload": 17,
-    "modeOfTreatment": 5.0,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -1418,7 +1396,7 @@
     "medBEligible": 27,
     "medBCaseload": 18,
     "modeOfTreatment": 5.0,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -1429,7 +1407,7 @@
     "medBEligible": 27,
     "medBCaseload": 18,
     "modeOfTreatment": 4.0,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -1440,7 +1418,7 @@
     "medBEligible": 27,
     "medBCaseload": 17,
     "modeOfTreatment": 4.0,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -1451,7 +1429,7 @@
     "medBEligible": 27,
     "medBCaseload": 18,
     "modeOfTreatment": 4.0,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -1462,7 +1440,7 @@
     "medBEligible": 27,
     "medBCaseload": 17,
     "modeOfTreatment": 5.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -1486,7 +1464,7 @@
     "medBEligible": 12,
     "medBCaseload": 11,
     "modeOfTreatment": 0.0,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1497,7 +1475,7 @@
     "medBEligible": 12,
     "medBCaseload": 3,
     "modeOfTreatment": 0.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -1508,7 +1486,7 @@
     "medBEligible": 16,
     "medBCaseload": 11,
     "modeOfTreatment": 0.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -1519,7 +1497,7 @@
     "medBEligible": 16,
     "medBCaseload": 13,
     "modeOfTreatment": 2.72,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -1530,7 +1508,7 @@
     "medBEligible": 16,
     "medBCaseload": 14,
     "modeOfTreatment": 2.37,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -1541,7 +1519,7 @@
     "medBEligible": 16,
     "medBCaseload": 12,
     "modeOfTreatment": 2.17,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -1552,7 +1530,7 @@
     "medBEligible": 16,
     "medBCaseload": 12,
     "modeOfTreatment": 1.76,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1563,7 +1541,7 @@
     "medBEligible": 16,
     "medBCaseload": 13,
     "modeOfTreatment": 0.89,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -1574,7 +1552,7 @@
     "medBEligible": 16,
     "medBCaseload": 14,
     "modeOfTreatment": 1.84,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -1585,7 +1563,7 @@
     "medBEligible": 16,
     "medBCaseload": 14,
     "modeOfTreatment": 1.02,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -1596,7 +1574,7 @@
     "medBEligible": 16,
     "medBCaseload": 16,
     "modeOfTreatment": 1.39,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -1607,7 +1585,7 @@
     "medBEligible": 16,
     "medBCaseload": 15,
     "modeOfTreatment": 1.7,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -1618,7 +1596,7 @@
     "medBEligible": 16,
     "medBCaseload": 16,
     "modeOfTreatment": 0.0,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -1629,7 +1607,7 @@
     "medBEligible": 16,
     "medBCaseload": 16,
     "modeOfTreatment": 1.95,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -1640,7 +1618,7 @@
     "medBEligible": 16,
     "medBCaseload": 16,
     "modeOfTreatment": 1.49,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -1651,7 +1629,7 @@
     "medBEligible": 16,
     "medBCaseload": 17,
     "modeOfTreatment": 0.57,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -1662,7 +1640,7 @@
     "medBEligible": 16,
     "medBCaseload": 15,
     "modeOfTreatment": 0.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -1686,7 +1664,7 @@
     "medBEligible": 14,
     "medBCaseload": 21,
     "modeOfTreatment": 7.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -1697,7 +1675,7 @@
     "medBEligible": 14,
     "medBCaseload": 21,
     "modeOfTreatment": 5.57,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -1708,7 +1686,7 @@
     "medBEligible": 14,
     "medBCaseload": 23,
     "modeOfTreatment": 6.45,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -1719,7 +1697,7 @@
     "medBEligible": 14,
     "medBCaseload": 21,
     "modeOfTreatment": 5.54,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -1730,7 +1708,7 @@
     "medBEligible": 14,
     "medBCaseload": 23,
     "modeOfTreatment": 7.21,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1741,7 +1719,7 @@
     "medBEligible": 14,
     "medBCaseload": 24,
     "modeOfTreatment": 8.61,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -1752,7 +1730,7 @@
     "medBEligible": 14,
     "medBCaseload": 24,
     "modeOfTreatment": 9.45,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -1763,7 +1741,7 @@
     "medBEligible": 14,
     "medBCaseload": 23,
     "modeOfTreatment": 7.91,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -1774,7 +1752,7 @@
     "medBEligible": 14,
     "medBCaseload": 24,
     "modeOfTreatment": 8.27,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -1785,7 +1763,7 @@
     "medBEligible": 14,
     "medBCaseload": 25,
     "modeOfTreatment": 9.72,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -1796,7 +1774,7 @@
     "medBEligible": 14,
     "medBCaseload": 24,
     "modeOfTreatment": 8.18,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -1807,7 +1785,7 @@
     "medBEligible": 14,
     "medBCaseload": 25,
     "modeOfTreatment": 7.81,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -1818,7 +1796,7 @@
     "medBEligible": 14,
     "medBCaseload": 25,
     "modeOfTreatment": 7.47,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -1829,7 +1807,7 @@
     "medBEligible": 14,
     "medBCaseload": 25,
     "modeOfTreatment": 3.55,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -1840,7 +1818,7 @@
     "medBEligible": 14,
     "medBCaseload": 25,
     "modeOfTreatment": 7.39,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -1851,7 +1829,7 @@
     "medBEligible": 17,
     "medBCaseload": 7,
     "modeOfTreatment": 4.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -1862,7 +1840,7 @@
     "medBEligible": 17,
     "medBCaseload": 7,
     "modeOfTreatment": 6.35,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -1873,7 +1851,7 @@
     "medBEligible": 17,
     "medBCaseload": 8,
     "modeOfTreatment": 3.0,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -1884,7 +1862,7 @@
     "medBEligible": 17,
     "medBCaseload": 9,
     "modeOfTreatment": 7.0,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -1895,7 +1873,7 @@
     "medBEligible": 17,
     "medBCaseload": 11,
     "modeOfTreatment": 7.0,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -1906,7 +1884,7 @@
     "medBEligible": 17,
     "medBCaseload": 11,
     "modeOfTreatment": 6.0,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -1917,7 +1895,7 @@
     "medBEligible": 17,
     "medBCaseload": 10,
     "modeOfTreatment": 8.0,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -1928,7 +1906,7 @@
     "medBEligible": 17,
     "medBCaseload": 10,
     "modeOfTreatment": 8.0,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -1939,7 +1917,7 @@
     "medBEligible": 17,
     "medBCaseload": 11,
     "modeOfTreatment": 7.42,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -1950,7 +1928,7 @@
     "medBEligible": 17,
     "medBCaseload": 11,
     "modeOfTreatment": 10.0,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -1961,7 +1939,7 @@
     "medBEligible": 17,
     "medBCaseload": 11,
     "modeOfTreatment": 7.25,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -1972,7 +1950,7 @@
     "medBEligible": 17,
     "medBCaseload": 12,
     "modeOfTreatment": 8.85,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -1983,7 +1961,7 @@
     "medBEligible": 17,
     "medBCaseload": 12,
     "modeOfTreatment": 9.37,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -1994,7 +1972,7 @@
     "medBEligible": 17,
     "medBCaseload": 12,
     "modeOfTreatment": 8.0,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -2005,7 +1983,7 @@
     "medBEligible": 17,
     "medBCaseload": 13,
     "modeOfTreatment": 11.56,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -2029,7 +2007,7 @@
     "medBEligible": 18,
     "medBCaseload": 4,
     "modeOfTreatment": 7.0,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -2040,7 +2018,7 @@
     "medBEligible": 18,
     "medBCaseload": 4,
     "modeOfTreatment": 7.39,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -2051,7 +2029,7 @@
     "medBEligible": 18,
     "medBCaseload": 7,
     "modeOfTreatment": 8.58,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -2062,7 +2040,7 @@
     "medBEligible": 18,
     "medBCaseload": 5,
     "modeOfTreatment": 3.94,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -2073,7 +2051,7 @@
     "medBEligible": 18,
     "medBCaseload": 11,
     "modeOfTreatment": 6.84,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -2084,7 +2062,7 @@
     "medBEligible": 18,
     "medBCaseload": 13,
     "modeOfTreatment": 8.44,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -2095,7 +2073,7 @@
     "medBEligible": 18,
     "medBCaseload": 13,
     "modeOfTreatment": 7.37,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -2106,7 +2084,7 @@
     "medBEligible": 18,
     "medBCaseload": 13,
     "modeOfTreatment": 7.26,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -2117,7 +2095,7 @@
     "medBEligible": 18,
     "medBCaseload": 14,
     "modeOfTreatment": 3.42,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -2128,7 +2106,7 @@
     "medBEligible": 18,
     "medBCaseload": 15,
     "modeOfTreatment": 8.14,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -2139,7 +2117,7 @@
     "medBEligible": 18,
     "medBCaseload": 17,
     "modeOfTreatment": 7.31,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -2150,7 +2128,7 @@
     "medBEligible": 18,
     "medBCaseload": 18,
     "modeOfTreatment": 7.2,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -2161,7 +2139,7 @@
     "medBEligible": 18,
     "medBCaseload": 15,
     "modeOfTreatment": 8.95,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -2172,7 +2150,7 @@
     "medBEligible": 18,
     "medBCaseload": 15,
     "modeOfTreatment": 8.59,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -2183,7 +2161,7 @@
     "medBEligible": 18,
     "medBCaseload": 16,
     "modeOfTreatment": 3.96,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -2194,7 +2172,7 @@
     "medBEligible": 6,
     "medBCaseload": 3,
     "modeOfTreatment": 2.36,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -2205,7 +2183,7 @@
     "medBEligible": 6,
     "medBCaseload": 3,
     "modeOfTreatment": 2.89,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -2216,7 +2194,7 @@
     "medBEligible": 6,
     "medBCaseload": 3,
     "modeOfTreatment": 1.04,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -2227,7 +2205,7 @@
     "medBEligible": 6,
     "medBCaseload": 3,
     "modeOfTreatment": 0.67,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -2238,7 +2216,7 @@
     "medBEligible": 6,
     "medBCaseload": 2,
     "modeOfTreatment": 1.8,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -2249,7 +2227,7 @@
     "medBEligible": 6,
     "medBCaseload": 2,
     "modeOfTreatment": 1.82,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -2260,7 +2238,7 @@
     "medBEligible": 6,
     "medBCaseload": 2,
     "modeOfTreatment": 3.1,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -2271,7 +2249,7 @@
     "medBEligible": 6,
     "medBCaseload": 2,
     "modeOfTreatment": 1.25,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -2282,7 +2260,7 @@
     "medBEligible": 6,
     "medBCaseload": 2,
     "modeOfTreatment": 2.29,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -2293,7 +2271,7 @@
     "medBEligible": 6,
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -2304,7 +2282,7 @@
     "medBEligible": 6,
     "medBCaseload": 4,
     "modeOfTreatment": 1.0,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -2315,7 +2293,7 @@
     "medBEligible": 6,
     "medBCaseload": 5,
     "modeOfTreatment": 0.42,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -2326,7 +2304,7 @@
     "medBEligible": 6,
     "medBCaseload": 5,
     "modeOfTreatment": 0.88,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -2337,7 +2315,7 @@
     "medBEligible": 6,
     "medBCaseload": 5,
     "modeOfTreatment": 1.53,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -2348,7 +2326,7 @@
     "medBEligible": 6,
     "medBCaseload": 4,
     "modeOfTreatment": 1.08,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -2372,7 +2350,7 @@
     "medBEligible": 50,
     "medBCaseload": 11,
     "modeOfTreatment": 0.69,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -2383,7 +2361,7 @@
     "medBEligible": 50,
     "medBCaseload": 13,
     "modeOfTreatment": 2.06,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -2394,7 +2372,7 @@
     "medBEligible": 50,
     "medBCaseload": 17,
     "modeOfTreatment": 2.83,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -2405,7 +2383,7 @@
     "medBEligible": 50,
     "medBCaseload": 17,
     "modeOfTreatment": 3.91,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -2416,7 +2394,7 @@
     "medBEligible": 50,
     "medBCaseload": 18,
     "modeOfTreatment": 6.94,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -2427,7 +2405,7 @@
     "medBEligible": 50,
     "medBCaseload": 20,
     "modeOfTreatment": 8.02,
-    "date": "2026-09-06",
+    "date": "2025-10-12",
     "week": "1012"
   },
   {
@@ -2438,7 +2416,7 @@
     "medBEligible": 50,
     "medBCaseload": 22,
     "modeOfTreatment": 7.22,
-    "date": "2026-10-25",
+    "date": "2025-10-19",
     "week": "1019"
   },
   {
@@ -2449,7 +2427,7 @@
     "medBEligible": 50,
     "medBCaseload": 21,
     "modeOfTreatment": 8.3,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
@@ -2460,7 +2438,7 @@
     "medBEligible": 50,
     "medBCaseload": 22,
     "modeOfTreatment": 6.03,
-    "date": "2028-06-04",
+    "date": "2025-11-03",
     "week": "1103"
   },
   {
@@ -2471,7 +2449,7 @@
     "medBEligible": 50,
     "medBCaseload": 24,
     "modeOfTreatment": 4.5,
-    "date": "2028-07-23",
+    "date": "2025-11-10",
     "week": "1110"
   },
   {
@@ -2482,7 +2460,7 @@
     "medBEligible": 50,
     "medBCaseload": 26,
     "modeOfTreatment": 4.92,
-    "date": "2028-09-10",
+    "date": "2025-11-17",
     "week": "1117"
   },
   {
@@ -2493,7 +2471,7 @@
     "medBEligible": 50,
     "medBCaseload": 28,
     "modeOfTreatment": 5.42,
-    "date": "2028-10-29",
+    "date": "2025-11-24",
     "week": "1124"
   },
   {
@@ -2504,7 +2482,7 @@
     "medBEligible": 50,
     "medBCaseload": 29,
     "modeOfTreatment": 3.8,
-    "date": "2030-04-21",
+    "date": "2025-12-01",
     "week": "1201"
   },
   {
@@ -2515,7 +2493,7 @@
     "medBEligible": 50,
     "medBCaseload": 32,
     "modeOfTreatment": 3.43,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -2526,7 +2504,7 @@
     "medBEligible": 50,
     "medBCaseload": 32,
     "modeOfTreatment": 0.71,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -2550,7 +2528,7 @@
     "medBEligible": 43,
     "medBCaseload": 29,
     "modeOfTreatment": 2.19,
-    "date": "2024-09-01",
+    "date": "2025-09-07",
     "week": "907"
   },
   {
@@ -2561,7 +2539,7 @@
     "medBEligible": 43,
     "medBCaseload": 29,
     "modeOfTreatment": 2.52,
-    "date": "2024-10-20",
+    "date": "2025-09-14",
     "week": "914"
   },
   {
@@ -2572,7 +2550,7 @@
     "medBEligible": 43,
     "medBCaseload": 30,
     "modeOfTreatment": 4.42,
-    "date": "2024-12-08",
+    "date": "2025-09-21",
     "week": "921"
   },
   {
@@ -2583,7 +2561,7 @@
     "medBEligible": 43,
     "medBCaseload": 29,
     "modeOfTreatment": 4.82,
-    "date": "2025-01-26",
+    "date": "2025-09-28",
     "week": "928"
   },
   {
@@ -2594,7 +2572,7 @@
     "medBEligible": 43,
     "medBCaseload": 29,
     "modeOfTreatment": 3.5,
-    "date": "2026-07-19",
+    "date": "2025-10-05",
     "week": "1005"
   },
   {
@@ -2605,7 +2583,7 @@
     "medBEligible": 43,
     "medBCaseload": 16,
     "modeOfTreatment": 0.0,
-    "date": "2030-06-09",
+    "date": "2025-12-08",
     "week": "1208"
   },
   {
@@ -2616,7 +2594,7 @@
     "medBEligible": 43,
     "medBCaseload": 18,
     "modeOfTreatment": 0.0,
-    "date": "2030-07-28",
+    "date": "2025-12-15",
     "week": "1215"
   },
   {
@@ -2633,14 +2611,14 @@
     "modeOfTreatment": 0.0
   },
   {
-    "facility": "eden hc",
+    "facility": "Eden HC",
     "region": "Unknown",
     "productivity": 84.5,
     "cpm": 1.44,
     "medBEligible": 0,
     "medBCaseload": 41,
     "modeOfTreatment": 2.35,
-    "date": "2026-12-13",
+    "date": "2025-10-26",
     "week": "1026"
   },
   {
