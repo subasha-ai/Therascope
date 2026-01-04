@@ -636,7 +636,7 @@ export default function App() {
     if (lowerQuery.includes('what is') || lowerQuery.includes('explain') || lowerQuery.includes('mean')) {
       if (lowerQuery.includes('cpm')) {
         return `**CPM (Cost Per Minute)** is the average cost of providing one minute of therapy.\n\n` +
-          `• **Target:** ≤ $1.45\n` +
+          `• **Target:** <= $1.45\n` +
           `• **Lower is better** - indicates more efficient service delivery\n` +
           `• Affected by staffing costs, productivity, and treatment intensity`;
       }
@@ -909,7 +909,7 @@ export default function App() {
       head: [['Metric', 'Your Result', 'Goal', 'Status']],
       body: [
         ['Productivity', `${facility.productivity}%`, '>= 84%', facility.productivity >= 84 ? '✓ Met' : '✗ Not Met'],
-        ['CPM', `$${facility.cpm}`, '≤$1.45', facility.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'],
+        ['CPM', `$${facility.cpm}`, '<= $1.45', facility.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'],
         ['Med B Performance', `${medBPct}%`, '', '']
       ],
       theme: 'grid',
@@ -1633,7 +1633,7 @@ export default function App() {
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 2</div>
-                    <div className="text-sm text-white font-bold">CPM ≤ $1.45</div>
+                    <div className="text-sm text-white font-bold">CPM <= $1.45</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
@@ -1823,7 +1823,7 @@ export default function App() {
                 >
                   <option value="all" className="bg-slate-800">All CPM</option>
                   <option value="good" className="bg-slate-800">&lt;$1.45 (Good)</option>
-                  <option value="high" className="bg-slate-800">≥$1.45 (High)</option>
+                  <option value="high" className="bg-slate-800">>= $1.45 (High)</option>
                 </select>
               </div>
             </div>
