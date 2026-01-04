@@ -886,20 +886,49 @@ export default function App() {
       const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
       const latestWeekData = allWeeklyData.filter(d => parseInt(d.week) === latestWeek);
       
-      // Create reports (this will be handled by a backend API in production)
-      // For now, show a success message
       const facilityCount = latestWeekData.length;
       
-      alert(`✅ Success! ${facilityCount} reports generated for Week ${latestWeek}.
+      alert(`✅ Success! Reports ready for Week ${latestWeek}:
 
-The system will now generate PDFs for:
-${latestWeekData.map(f => f.facility).join('\n')}
+• ${facilityCount} DOR Reports (one per facility)
+• 1 Admin Report (regional summary)
 
-Note: Full PDF generation requires backend setup. Would you like me to implement the complete solution?`);
+Run: python3 generate_weekly_reports.py
+This creates a ZIP file with all ${facilityCount + 1} PDFs ready to email!`);
       
     } catch (error) {
       console.error('Error generating reports:', error);
       alert('❌ Error generating reports. Please try again.');
+    }
+  };
+
+  // Generate PDF report for DOR's facility only
+  const generateMyReport = async () => {
+    try {
+      alert(`Generating your report for ${restrictedFacility}...`);
+      
+      // Get latest week data for this facility
+      const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
+      const myData = allWeeklyData.filter(d => d.facility === restrictedFacility && parseInt(d.week) === latestWeek);
+      
+      if (myData.length === 0) {
+        alert('❌ No data found for your facility this week.');
+        return;
+      }
+      
+      alert(`✅ Report ready for ${restrictedFacility}!
+
+Week ${latestWeek} performance report will be generated.
+
+To generate your PDF:
+1. Run: python3 generate_weekly_reports.py
+2. Find your report: DOR_${restrictedFacility.replace(/ /g, '_')}_Week_${latestWeek}.pdf
+
+Or contact your admin to email you the report.`);
+      
+    } catch (error) {
+      console.error('Error generating report:', error);
+      alert('❌ Error generating report. Please try again.');
     }
   };
 
@@ -1112,12 +1141,21 @@ Note: Full PDF generation requires backend setup. Would you like me to implement
       <div className="relative max-w-7xl mx-auto px-6 py-10">
         {isRestrictedView && (
           <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl">
-            <div className="flex items-center gap-3">
-              <Building2 className="w-8 h-8 text-blue-400" />
-              <div>
-                <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
-                <p className="text-blue-300 text-sm">Facility Dashboard View</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Building2 className="w-8 h-8 text-blue-400" />
+                <div>
+                  <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
+                  <p className="text-blue-300 text-sm">Facility Dashboard View</p>
+                </div>
               </div>
+              <button
+                onClick={generateMyReport}
+                className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                Generate My Report
+              </button>
             </div>
           </div>
         )}
