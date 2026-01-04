@@ -349,7 +349,7 @@ export default function App() {
       modeOfTreatment: false
     };
 
-    if (facility.productivity >= 84) {
+    if (facility.productivity >= 84%) {
       score++;
       goals.productivity = true;
     }
