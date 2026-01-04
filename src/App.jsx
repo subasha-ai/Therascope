@@ -1633,7 +1633,7 @@ export default function App() {
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 2</div>
-                    <div className="text-sm text-white font-bold">CPM <= $1.45</div>
+                    <div className="text-sm text-white font-bold">CPM &lt;= $1.45</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
