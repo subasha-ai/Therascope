@@ -451,8 +451,8 @@ export default function App() {
       
       let response = `**${mentionedFacility.facility}** (${mentionedFacility.region}):\n\n`;
       response += `📊 **Performance Score:** ${score.score}/4 goals met\n\n`;
-      response += `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: ≥84%)\n`;
-      response += `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: ≤$1.45)\n`;
+      response += `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: >= 84%)\n`;
+      response += `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: <= $1.45)\n`;
       response += `• Med B Ratio: ${mentionedFacility.medBEligible > 0 ? Math.round((mentionedFacility.medBCaseload / mentionedFacility.medBEligible) * 100) : 0}% ${score.goals.medB ? '✅' : '❌'} (Target: ≥50%)\n`;
       response += `• Mode of Treatment: ${mentionedFacility.modeOfTreatment || 0}% ${score.goals.modeOfTreatment ? '✅' : '❌'} (Target: ≥5%)\n\n`;
       
