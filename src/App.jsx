@@ -1823,7 +1823,7 @@ export default function App() {
                 >
                   <option value="all" className="bg-slate-800">All CPM</option>
                   <option value="good" className="bg-slate-800">&lt;$1.45 (Good)</option>
-                  <option value="high" className="bg-slate-800">>= $1.45 (High)</option>
+                  <option value="high" className="bg-slate-800">>=$1.45 (High)</option>
                 </select>
               </div>
             </div>
