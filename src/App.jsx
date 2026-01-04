@@ -877,59 +877,292 @@ export default function App() {
     }
   ];
 
-  // Generate PDF reports for all facilities
+  // Generate PDF reports for all facilities - Downloads ZIP with all PDFs
   const generateAllReports = async () => {
     try {
-      alert('Generating reports for all 17 facilities... This may take a moment.');
+      const confirmed = window.confirm('Generate reports for all 17 facilities + 1 admin report?\n\nThis will create 18 PDFs and download as a ZIP file.');
+      if (!confirmed) return;
+
+      alert('Generating 18 PDFs... This may take 30-60 seconds. Please wait.');
       
       // Get latest week data
       const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
       const latestWeekData = allWeeklyData.filter(d => parseInt(d.week) === latestWeek);
       
-      const facilityCount = latestWeekData.length;
+      // Import JSZip dynamically
+      const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm')).default;
+      const zip = new JSZip();
       
-      alert(`✅ Success! Reports ready for Week ${latestWeek}:
-
-• ${facilityCount} DOR Reports (one per facility)
-• 1 Admin Report (regional summary)
-
-Run: python3 generate_weekly_reports.py
-This creates a ZIP file with all ${facilityCount + 1} PDFs ready to email!`);
+      // Generate DOR reports
+      for (const facility of latestWeekData) {
+        const facilityHistory = allWeeklyData
+          .filter(d => d.facility === facility.facility)
+          .sort((a, b) => parseInt(a.week) - parseInt(b.week))
+          .slice(-4);
+        
+        const pdfBlob = await generateDORPDF(facility, facilityHistory, latestWeek);
+        const filename = `DOR_${facility.facility.replace(/ /g, '_')}_Week_${latestWeek}.pdf`;
+        zip.file(filename, pdfBlob);
+      }
+      
+      // Generate Admin report
+      const adminPdfBlob = await generateAdminPDF(latestWeekData, latestWeek);
+      zip.file(`ADMIN_Weekly_Report_Week_${latestWeek}.pdf`, adminPdfBlob);
+      
+      // Download ZIP
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      const url = URL.createObjectURL(zipBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Weekly_Reports_Week_${latestWeek}.zip`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ Success! Downloaded:\n• 17 DOR Reports\n• 1 Admin Report\n\nCheck your Downloads folder for the ZIP file!`);
       
     } catch (error) {
       console.error('Error generating reports:', error);
-      alert('❌ Error generating reports. Please try again.');
+      alert('❌ Error generating reports. Please try again or use the Python script.');
     }
   };
 
   // Generate PDF report for DOR's facility only
   const generateMyReport = async () => {
     try {
-      alert(`Generating your report for ${restrictedFacility}...`);
+      const confirmed = window.confirm(`Generate your report for ${restrictedFacility}?`);
+      if (!confirmed) return;
       
-      // Get latest week data for this facility
+      alert('Generating your PDF... Please wait.');
+      
       const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
-      const myData = allWeeklyData.filter(d => d.facility === restrictedFacility && parseInt(d.week) === latestWeek);
+      const myData = allWeeklyData.filter(d => d.facility === restrictedFacility && parseInt(d.week) === latestWeek)[0];
       
-      if (myData.length === 0) {
+      if (!myData) {
         alert('❌ No data found for your facility this week.');
         return;
       }
       
-      alert(`✅ Report ready for ${restrictedFacility}!
-
-Week ${latestWeek} performance report will be generated.
-
-To generate your PDF:
-1. Run: python3 generate_weekly_reports.py
-2. Find your report: DOR_${restrictedFacility.replace(/ /g, '_')}_Week_${latestWeek}.pdf
-
-Or contact your admin to email you the report.`);
+      const facilityHistory = allWeeklyData
+        .filter(d => d.facility === restrictedFacility)
+        .sort((a, b) => parseInt(a.week) - parseInt(b.week))
+        .slice(-4);
+      
+      const pdfBlob = await generateDORPDF(myData, facilityHistory, latestWeek);
+      
+      // Download PDF
+      const url = URL.createObjectURL(pdfBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `DOR_${restrictedFacility.replace(/ /g, '_')}_Week_${latestWeek}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ Success! Downloaded your report for Week ${latestWeek}!\n\nCheck your Downloads folder.`);
       
     } catch (error) {
       console.error('Error generating report:', error);
       alert('❌ Error generating report. Please try again.');
     }
+  };
+
+  // Generate DOR PDF using jsPDF
+  const generateDORPDF = async (facility, history, week) => {
+    const { jsPDF } = await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm');
+    const doc = new jsPDF();
+    
+    // Title
+    doc.setFontSize(24);
+    doc.setTextColor(8, 145, 178);
+    doc.text('TheraScope', 105, 20, { align: 'center' });
+    
+    doc.setFontSize(16);
+    doc.setTextColor(71, 85, 105);
+    doc.text('Weekly Performance Report', 105, 30, { align: 'center' });
+    
+    // Facility Info
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+    doc.text(`Facility: ${facility.facility}`, 20, 45);
+    doc.text(`Report Week: ${facility.date}`, 20, 52);
+    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 20, 59);
+    
+    // Performance Metrics
+    doc.setFontSize(14);
+    doc.setTextColor(8, 145, 178);
+    doc.text('Performance Metrics', 20, 75);
+    
+    const medBPct = facility.medBEligible > 0 ? Math.round((facility.medBCaseload / facility.medBEligible) * 100) : 0;
+    
+    doc.autoTable({
+      startY: 80,
+      head: [['Metric', 'Your Result', 'Goal', 'Status']],
+      body: [
+        ['Productivity', `${facility.productivity}%`, '≥84%', facility.productivity >= 84 ? '✓ Met' : '✗ Not Met'],
+        ['CPM', `$${facility.cpm}`, '≤$1.45', facility.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'],
+        ['Med B Performance', `${medBPct}%`, '', '']
+      ],
+      theme: 'grid',
+      headStyles: { fillColor: [8, 145, 178] }
+    });
+    
+    // DOR Metrics
+    let yPos = doc.lastAutoTable.finalY + 15;
+    doc.setFontSize(14);
+    doc.setTextColor(8, 145, 178);
+    doc.text('DOR-Specific Metrics', 20, yPos);
+    
+    doc.autoTable({
+      startY: yPos + 5,
+      head: [['Metric', 'This Week']],
+      body: [
+        ['Med B Units Billed', facility.medBUnitsThisWeek || 'N/A'],
+        ['Units Per Visit', facility.unitsPerVisit || 'N/A'],
+        ['Mode of Treatment', `${facility.modeOfTreatment || 0}%`]
+      ],
+      theme: 'grid',
+      headStyles: { fillColor: [99, 102, 241] }
+    });
+    
+    // 4-Week Trend
+    if (history.length > 0) {
+      yPos = doc.lastAutoTable.finalY + 15;
+      doc.setFontSize(14);
+      doc.setTextColor(8, 145, 178);
+      doc.text('4-Week Trend', 20, yPos);
+      
+      doc.autoTable({
+        startY: yPos + 5,
+        head: [['Week', 'Productivity', 'CPM', 'Med B Caseload']],
+        body: history.map(h => [h.date, `${h.productivity}%`, `$${h.cpm}`, h.medBCaseload]),
+        theme: 'grid',
+        headStyles: { fillColor: [20, 184, 166] }
+      });
+    }
+    
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Confidential - For Director of Rehab Only', 105, 280, { align: 'center' });
+    
+    return doc.output('blob');
+  };
+
+  // Generate Admin PDF
+  const generateAdminPDF = async (data, week) => {
+    const { jsPDF } = await import('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/+esm');
+    const doc = new jsPDF({ orientation: 'landscape' });
+    
+    const goldenCoast = data.filter(d => d.region === 'Golden Coast').sort((a, b) => a.facility.localeCompare(b.facility));
+    const overland = data.filter(d => d.region === 'Overland').sort((a, b) => a.facility.localeCompare(b.facility));
+    
+    // Title
+    doc.setFontSize(24);
+    doc.setTextColor(8, 145, 178);
+    doc.text('TheraScope', 148, 15, { align: 'center' });
+    
+    doc.setFontSize(16);
+    doc.setTextColor(71, 85, 105);
+    doc.text('Weekly Admin Performance Report', 148, 25, { align: 'center' });
+    
+    // Info
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    doc.text(`Week: ${data[0]?.date || 'N/A'}`, 20, 35);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 20, 40);
+    doc.text(`Total Facilities: ${data.length}`, 20, 45);
+    
+    // Golden Coast
+    doc.setFontSize(14);
+    doc.setTextColor(217, 119, 6);
+    doc.text('Golden Coast Region', 20, 55);
+    
+    const gcData = goldenCoast.map(f => [
+      f.facility,
+      `${f.productivity}%`,
+      `$${f.cpm}`,
+      f.medBEligible,
+      f.medBCaseload,
+      f.medBUnitsThisWeek || 'N/A'
+    ]);
+    
+    const gcAvgProd = goldenCoast.reduce((s, f) => s + f.productivity, 0) / goldenCoast.length;
+    const gcAvgCpm = goldenCoast.reduce((s, f) => s + f.cpm, 0) / goldenCoast.length;
+    const gcTotalEligible = goldenCoast.reduce((s, f) => s + f.medBEligible, 0);
+    const gcTotalCaseload = goldenCoast.reduce((s, f) => s + f.medBCaseload, 0);
+    const gcTotalUnits = goldenCoast.reduce((s, f) => s + (f.medBUnitsThisWeek || 0), 0);
+    
+    gcData.push(['TOTALS/AVG', `${gcAvgProd.toFixed(1)}%`, `$${gcAvgCpm.toFixed(2)}`, gcTotalEligible, gcTotalCaseload, gcTotalUnits]);
+    
+    doc.autoTable({
+      startY: 60,
+      head: [['Facility', 'Productivity', 'CPM', 'Med B Eligible', 'Med B Caseload', 'Med B Units']],
+      body: gcData,
+      theme: 'grid',
+      headStyles: { fillColor: [217, 119, 6] },
+      bodyStyles: { fontSize: 9 },
+      columnStyles: { 0: { cellWidth: 55 } }
+    });
+    
+    // Overland
+    let yPos = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(14);
+    doc.setTextColor(59, 130, 246);
+    doc.text('Overland Region', 20, yPos);
+    
+    const ovData = overland.map(f => [
+      f.facility,
+      `${f.productivity}%`,
+      `$${f.cpm}`,
+      f.medBEligible,
+      f.medBCaseload,
+      f.medBUnitsThisWeek || 'N/A'
+    ]);
+    
+    const ovAvgProd = overland.reduce((s, f) => s + f.productivity, 0) / overland.length;
+    const ovAvgCpm = overland.reduce((s, f) => s + f.cpm, 0) / overland.length;
+    const ovTotalEligible = overland.reduce((s, f) => s + f.medBEligible, 0);
+    const ovTotalCaseload = overland.reduce((s, f) => s + f.medBCaseload, 0);
+    const ovTotalUnits = overland.reduce((s, f) => s + (f.medBUnitsThisWeek || 0), 0);
+    
+    ovData.push(['TOTALS/AVG', `${ovAvgProd.toFixed(1)}%`, `$${ovAvgCpm.toFixed(2)}`, ovTotalEligible, ovTotalCaseload, ovTotalUnits]);
+    
+    doc.autoTable({
+      startY: yPos + 5,
+      head: [['Facility', 'Productivity', 'CPM', 'Med B Eligible', 'Med B Caseload', 'Med B Units']],
+      body: ovData,
+      theme: 'grid',
+      headStyles: { fillColor: [59, 130, 246] },
+      bodyStyles: { fontSize: 9 },
+      columnStyles: { 0: { cellWidth: 55 } }
+    });
+    
+    // Summary
+    yPos = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(14);
+    doc.setTextColor(20, 184, 166);
+    doc.text('Company-Wide Summary', 20, yPos);
+    
+    doc.autoTable({
+      startY: yPos + 5,
+      head: [['Metric', 'Golden Coast', 'Overland', 'Total/Average']],
+      body: [
+        ['Facilities', goldenCoast.length, overland.length, data.length],
+        ['Avg Productivity', `${gcAvgProd.toFixed(1)}%`, `${ovAvgProd.toFixed(1)}%`, `${((gcAvgProd + ovAvgProd) / 2).toFixed(1)}%`],
+        ['Avg CPM', `$${gcAvgCpm.toFixed(2)}`, `$${ovAvgCpm.toFixed(2)}`, `$${((gcAvgCpm + ovAvgCpm) / 2).toFixed(2)}`],
+        ['Total Med B Eligible', gcTotalEligible, ovTotalEligible, gcTotalEligible + ovTotalEligible],
+        ['Total Med B Caseload', gcTotalCaseload, ovTotalCaseload, gcTotalCaseload + ovTotalCaseload],
+        ['Total Med B Units', gcTotalUnits, ovTotalUnits, gcTotalUnits + ovTotalUnits]
+      ],
+      theme: 'grid',
+      headStyles: { fillColor: [20, 184, 166] }
+    });
+    
+    // Footer
+    doc.setFontSize(8);
+    doc.setTextColor(100, 116, 139);
+    doc.text('Confidential - For Administrative Use Only', 148, 200, { align: 'center' });
+    
+    return doc.output('blob');
   };
 
   // Show login screen if not authenticated
