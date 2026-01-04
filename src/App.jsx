@@ -2670,7 +2670,7 @@ For professional PDF format, contact your administrator
         .animate-bounce {
           animation: bounce 0.6s infinite;
         }
-      </style>
+      `}</style>
     </div>
   );
 }
