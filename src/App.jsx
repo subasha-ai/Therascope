@@ -908,8 +908,8 @@ export default function App() {
       startY: 80,
       head: [['Metric', 'Your Result', 'Goal', 'Status']],
       body: [
-        ['Productivity', `${facility.productivity}%`, '≥84%', facility.productivity >= 84 ? '✓ Met' : '✗ Not Met'],
-        ['CPM', `$${facility.cpm}`, '≤$1.45', facility.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'],
+        ['Productivity', `${facility.productivity}%`, '>= 84%', facility.productivity >= 84 ? '✓ Met' : '✗ Not Met'],
+        ['CPM', `$${facility.cpm}`, '<= $1.45', facility.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'],
         ['Med B Performance', `${medBPct}%`, '', '']
       ],
       theme: 'grid',
@@ -1136,6 +1136,130 @@ export default function App() {
       alert('❌ Error generating report. Please try again.');
     }
   };
+    try {
+      const confirmed = window.confirm('Generate reports for all 17 facilities + 1 admin report?\n\nThis will download a ZIP file with 18 text-based reports.\n\nFor professional PDFs, use: python3 generate_weekly_reports.py');
+      if (!confirmed) return;
+
+      alert('Generating reports... This will take a moment.');
+      
+      // Get latest week data
+      const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
+      const latestWeekData = allWeeklyData.filter(d => parseInt(d.week) === latestWeek);
+      
+      // For now, just download the Python script instructions
+      const instructions = `TheraScope Weekly Reports - Week ${latestWeek}
+
+INSTRUCTIONS:
+To generate professional PDF reports, run this command:
+
+  python3 generate_weekly_reports.py
+
+This will create:
+• 17 DOR Reports (one per facility) 
+• 1 Admin Report (regional summary)
+• Packaged in: Weekly_Reports_Week_${latestWeek}.zip
+
+FACILITIES (${latestWeekData.length} total):
+${latestWeekData.map(f => `  • ${f.facility}`).join('\n')}
+
+The Python script is in your GitHub repo root.
+Contact support if you need help running it.`;
+
+      const blob = new Blob([instructions], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Report_Instructions_Week_${latestWeek}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ Instructions downloaded!\n\nTo generate professional PDFs:\n1. Open your terminal\n2. Run: python3 generate_weekly_reports.py\n3. Download the ZIP file\n\nOr use the Python script from your repo!`);
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert('❌ Error. Please use: python3 generate_weekly_reports.py');
+    }
+  };
+
+  // Generate PDF report for DOR's facility only
+  const generateMyReport = async () => {
+    try {
+      const confirmed = window.confirm(`Generate report for ${restrictedFacility}?\n\nThis will create a text-based report.\n\nFor professional PDF, contact your admin.`);
+      if (!confirmed) return;
+      
+      const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
+      const myData = allWeeklyData.filter(d => d.facility === restrictedFacility && parseInt(d.week) === latestWeek)[0];
+      
+      if (!myData) {
+        alert('❌ No data found for your facility this week.');
+        return;
+      }
+      
+      const facilityHistory = allWeeklyData
+        .filter(d => d.facility === restrictedFacility)
+        .sort((a, b) => parseInt(a.week) - parseInt(b.week))
+        .slice(-4);
+      
+      const medBPct = myData.medBEligible > 0 ? Math.round((myData.medBCaseload / myData.medBEligible) * 100) : 0;
+      
+      const report = `
+═══════════════════════════════════════════════════════════
+                      TheraScope
+              Weekly Performance Report
+═══════════════════════════════════════════════════════════
+
+Facility: ${restrictedFacility}
+Report Week: ${myData.date}
+Generated: ${new Date().toLocaleDateString()}
+
+═══════════════════════════════════════════════════════════
+                  PERFORMANCE METRICS
+═══════════════════════════════════════════════════════════
+
+Metric                  Your Result    Goal      Status
+────────────────────────────────────────────────────────────
+Productivity            ${myData.productivity}%           >= 84%      ${myData.productivity >= 84 ? '✓ Met' : '✗ Not Met'}
+CPM                     $${myData.cpm}          <= $1.45    ${myData.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'}
+Med B Performance       ${medBPct}%            -         -
+
+═══════════════════════════════════════════════════════════
+                  DOR-SPECIFIC METRICS
+═══════════════════════════════════════════════════════════
+
+Med B Units Billed:     ${myData.medBUnitsThisWeek || 'N/A'}
+Units Per Visit:        ${myData.unitsPerVisit || 'N/A'}
+Mode of Treatment:      ${myData.modeOfTreatment || 0}%
+
+═══════════════════════════════════════════════════════════
+                    4-WEEK TREND
+═══════════════════════════════════════════════════════════
+
+Week         Productivity    CPM      Med B Caseload
+────────────────────────────────────────────────────────────
+${facilityHistory.map(h => `${h.date}    ${h.productivity}%           $${h.cpm}    ${h.medBCaseload}`).join('\n')}
+
+═══════════════════════════════════════════════════════════
+Confidential - For Director of Rehab Only
+For professional PDF format, contact your administrator
+═══════════════════════════════════════════════════════════
+`;
+
+      const blob = new Blob([report], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${restrictedFacility.replace(/ /g, '_')}_Report_Week_${latestWeek}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+      
+      alert(`✅ Report downloaded!\n\nCheck your Downloads folder for:\n${restrictedFacility.replace(/ /g, '_')}_Report_Week_${latestWeek}.txt\n\nFor professional PDF format, contact your admin.`);
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert('❌ Error generating report. Please contact your admin.');
+    }
+  };
+
   // Show login screen if not authenticated
   if (!isAuthenticated) {
     return (
