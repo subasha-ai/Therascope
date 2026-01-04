@@ -349,7 +349,7 @@ export default function App() {
       modeOfTreatment: false
     };
 
-    if (facility.productivity >= 84%) {
+    if (facility.productivity >= 84) {
       score++;
       goals.productivity = true;
     }
@@ -642,7 +642,7 @@ export default function App() {
       }
       if (lowerQuery.includes('productivity')) {
         return `**Team Productivity** is the percentage of available time spent providing billable therapy services.\n\n` +
-          `• **Target:** ≥ 84%\n` +
+          `• **Target:** >= 84%\n` +
           `• **Higher is better** - indicates efficient use of therapist time\n` +
           `• Includes direct patient care and documentation`;
       }
@@ -908,7 +908,7 @@ export default function App() {
       startY: 80,
       head: [['Metric', 'Your Result', 'Goal', 'Status']],
       body: [
-        ['Productivity', `${facility.productivity}%`, '≥84%', facility.productivity >= 84 ? '✓ Met' : '✗ Not Met'],
+        ['Productivity', `${facility.productivity}%`, '>= 84%', facility.productivity >= 84 ? '✓ Met' : '✗ Not Met'],
         ['CPM', `$${facility.cpm}`, '≤$1.45', facility.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'],
         ['Med B Performance', `${medBPct}%`, '', '']
       ],
@@ -1629,7 +1629,7 @@ export default function App() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 1</div>
-                    <div className="text-sm text-white font-bold">Productivity ≥ 84%</div>
+                    <div className="text-sm text-white font-bold">Productivity >= 84%</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 2</div>
@@ -1812,7 +1812,7 @@ export default function App() {
                   className="px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-white font-bold"
                 >
                   <option value="all" className="bg-slate-800">All Productivity</option>
-                  <option value="high" className="bg-slate-800">≥84% (Meeting Goal)</option>
+                  <option value="high" className="bg-slate-800">>=84% (Meeting Goal)</option>
                   <option value="low" className="bg-slate-800">&lt;84% (Below Goal)</option>
                 </select>
 
