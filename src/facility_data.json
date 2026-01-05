@@ -2681,7 +2681,7 @@
     "cpm": 1.4,
     "medBEligible": 8,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 17,
     "unitsPerVisit": 2.83,
     "date": "2025-12-28"
   },
@@ -2693,7 +2693,7 @@
     "cpm": 1.58,
     "medBEligible": 15,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 17,
     "unitsPerVisit": 2.13,
     "date": "2025-12-28"
   },
@@ -2705,7 +2705,7 @@
     "cpm": 1.59,
     "medBEligible": 18,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 19,
     "unitsPerVisit": 2.71,
     "date": "2025-12-28"
   },
@@ -2717,7 +2717,7 @@
     "cpm": 1.39,
     "medBEligible": 26,
     "medBCaseload": 8,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 111,
     "unitsPerVisit": 3.26,
     "date": "2025-12-28"
   },
@@ -2741,7 +2741,7 @@
     "cpm": 1.35,
     "medBEligible": 68,
     "medBCaseload": 39,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 388,
     "unitsPerVisit": 2.68,
     "date": "2025-12-28"
   },
@@ -2753,7 +2753,7 @@
     "cpm": 1.51,
     "medBEligible": 40,
     "medBCaseload": 7,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 75,
     "unitsPerVisit": 3.26,
     "date": "2025-12-28"
   },
@@ -2765,7 +2765,7 @@
     "cpm": 1.36,
     "medBEligible": 21,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 66,
     "unitsPerVisit": 3.67,
     "date": "2025-12-28"
   },
@@ -2777,7 +2777,7 @@
     "cpm": 0,
     "medBEligible": 27,
     "medBCaseload": 19,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 241,
     "unitsPerVisit": 2.87,
     "date": "2025-12-28"
   },
@@ -2789,7 +2789,7 @@
     "cpm": 1.43,
     "medBEligible": 25,
     "medBCaseload": 4,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 14,
     "unitsPerVisit": 1.75,
     "date": "2025-12-28"
   },
@@ -2801,7 +2801,7 @@
     "cpm": 1.33,
     "medBEligible": 16,
     "medBCaseload": 15,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 126,
     "unitsPerVisit": 3.41,
     "date": "2025-12-28"
   },
@@ -2813,7 +2813,7 @@
     "cpm": 1.34,
     "medBEligible": 31,
     "medBCaseload": 23,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 78,
     "unitsPerVisit": 3.39,
     "date": "2025-12-28"
   },
@@ -2825,7 +2825,7 @@
     "cpm": 1.39,
     "medBEligible": 17,
     "medBCaseload": 9,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 88,
     "unitsPerVisit": 3.52,
     "date": "2025-12-28"
   },
@@ -2837,7 +2837,7 @@
     "cpm": 0,
     "medBEligible": 35,
     "medBCaseload": 12,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 106,
     "unitsPerVisit": 2.65,
     "date": "2025-12-28"
   },
@@ -2849,7 +2849,7 @@
     "cpm": 1.38,
     "medBEligible": 6,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 16,
     "unitsPerVisit": 2.67,
     "date": "2025-12-28"
   },
@@ -2861,7 +2861,7 @@
     "cpm": 1.46,
     "medBEligible": 50,
     "medBCaseload": 30,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 251,
     "unitsPerVisit": 2.85,
     "date": "2025-12-28"
   },
@@ -2873,7 +2873,7 @@
     "cpm": 1.57,
     "medBEligible": 43,
     "medBCaseload": 16,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 42,
     "unitsPerVisit": 2.63,
     "date": "2025-12-28"
   }
