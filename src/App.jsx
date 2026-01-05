@@ -2627,7 +2627,6 @@ For professional PDF format, contact your administrator
             </div>
           </div>
         </div>
-      )}
     </div>
   );
 }
