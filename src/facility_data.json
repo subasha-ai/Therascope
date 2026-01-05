@@ -2683,7 +2683,8 @@
     "medBCaseload": 2,
     "medBUnitsThisWeek": 17,
     "unitsPerVisit": 2.83,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 3.84
   },
   {
     "week": "1228",
@@ -2695,7 +2696,8 @@
     "medBCaseload": 2,
     "medBUnitsThisWeek": 17,
     "unitsPerVisit": 2.13,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 2.54
   },
   {
     "week": "1228",
@@ -2707,7 +2709,8 @@
     "medBCaseload": 5,
     "medBUnitsThisWeek": 19,
     "unitsPerVisit": 2.71,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 1.28
   },
   {
     "week": "1228",
@@ -2719,7 +2722,8 @@
     "medBCaseload": 8,
     "medBUnitsThisWeek": 111,
     "unitsPerVisit": 3.26,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 3.03
   },
   {
     "week": "1228",
@@ -2731,7 +2735,8 @@
     "medBCaseload": 0,
     "medBUnitsThisWeek": 0,
     "unitsPerVisit": 0,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 2.06
   },
   {
     "week": "1228",
@@ -2743,7 +2748,8 @@
     "medBCaseload": 39,
     "medBUnitsThisWeek": 388,
     "unitsPerVisit": 2.68,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 2.09
   },
   {
     "week": "1228",
@@ -2755,7 +2761,8 @@
     "medBCaseload": 7,
     "medBUnitsThisWeek": 75,
     "unitsPerVisit": 3.26,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 2.91
   },
   {
     "week": "1228",
@@ -2767,7 +2774,8 @@
     "medBCaseload": 5,
     "medBUnitsThisWeek": 66,
     "unitsPerVisit": 3.67,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 4.48
   },
   {
     "week": "1228",
@@ -2779,7 +2787,8 @@
     "medBCaseload": 19,
     "medBUnitsThisWeek": 241,
     "unitsPerVisit": 2.87,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 1.39
   },
   {
     "week": "1228",
@@ -2791,7 +2800,8 @@
     "medBCaseload": 4,
     "medBUnitsThisWeek": 14,
     "unitsPerVisit": 1.75,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 0.0
   },
   {
     "week": "1228",
@@ -2803,7 +2813,8 @@
     "medBCaseload": 15,
     "medBUnitsThisWeek": 126,
     "unitsPerVisit": 3.41,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 1.81
   },
   {
     "week": "1228",
@@ -2815,7 +2826,8 @@
     "medBCaseload": 23,
     "medBUnitsThisWeek": 78,
     "unitsPerVisit": 3.39,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 6.88
   },
   {
     "week": "1228",
@@ -2827,7 +2839,8 @@
     "medBCaseload": 9,
     "medBUnitsThisWeek": 88,
     "unitsPerVisit": 3.52,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 8.17
   },
   {
     "week": "1228",
@@ -2839,7 +2852,8 @@
     "medBCaseload": 12,
     "medBUnitsThisWeek": 106,
     "unitsPerVisit": 2.65,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 8.01
   },
   {
     "week": "1228",
@@ -2851,7 +2865,8 @@
     "medBCaseload": 2,
     "medBUnitsThisWeek": 16,
     "unitsPerVisit": 2.67,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 0.0
   },
   {
     "week": "1228",
@@ -2863,7 +2878,8 @@
     "medBCaseload": 30,
     "medBUnitsThisWeek": 251,
     "unitsPerVisit": 2.85,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 0.78
   },
   {
     "week": "1228",
@@ -2875,6 +2891,7 @@
     "medBCaseload": 16,
     "medBUnitsThisWeek": 42,
     "unitsPerVisit": 2.63,
-    "date": "2025-12-28"
+    "date": "2025-12-28",
+    "modeOfTreatment": 3.71
   }
 ]
