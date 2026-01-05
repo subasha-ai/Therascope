@@ -403,7 +403,7 @@ export default function App() {
       const recs = [];
       
       if (!goals.productivity) {
-        recs.push(`**Productivity (${facility.productivity}% - Target: ≥84%):**
+        recs.push(`**Productivity (${facility.productivity}% - Target: >= 84%):**
 • Review scheduling efficiency - eliminate gaps between patients
 • Reduce documentation time - use templates and voice-to-text
 • Optimize patient scheduling - group patients by location/therapy type
@@ -412,7 +412,7 @@ export default function App() {
       }
       
       if (!goals.cpm) {
-        recs.push(`**CPM ($${facility.cpm} - Target: ≤$1.45):**
+        recs.push(`**CPM ($${facility.cpm} - Target: <= $1.45):**
 • Increase productivity to spread fixed costs over more billable time
 • Review staffing levels - are there too many travelers or premium staff?
 • Optimize treatment intensity - ensure appropriate visit frequencies
@@ -451,8 +451,8 @@ export default function App() {
       
       let response = `**${mentionedFacility.facility}** (${mentionedFacility.region}):\n\n`;
       response += `📊 **Performance Score:** ${score.score}/4 goals met\n\n`;
-      response += `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: ≥84%)\n`;
-      response += `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: ≤$1.45)\n`;
+      response += `• Productivity: ${mentionedFacility.productivity}% ${score.goals.productivity ? '✅' : '❌'} (Target: >= 84%)\n`;
+      response += `• CPM: $${mentionedFacility.cpm} ${score.goals.cpm ? '✅' : '❌'} (Target: <= $1.45)\n`;
       response += `• Med B Ratio: ${mentionedFacility.medBEligible > 0 ? Math.round((mentionedFacility.medBCaseload / mentionedFacility.medBEligible) * 100) : 0}% ${score.goals.medB ? '✅' : '❌'} (Target: ≥50%)\n`;
       response += `• Mode of Treatment: ${mentionedFacility.modeOfTreatment || 0}% ${score.goals.modeOfTreatment ? '✅' : '❌'} (Target: ≥5%)\n\n`;
       
@@ -636,13 +636,13 @@ export default function App() {
     if (lowerQuery.includes('what is') || lowerQuery.includes('explain') || lowerQuery.includes('mean')) {
       if (lowerQuery.includes('cpm')) {
         return `**CPM (Cost Per Minute)** is the average cost of providing one minute of therapy.\n\n` +
-          `• **Target:** ≤ $1.45\n` +
+          `• **Target:** <= $1.45\n` +
           `• **Lower is better** - indicates more efficient service delivery\n` +
           `• Affected by staffing costs, productivity, and treatment intensity`;
       }
       if (lowerQuery.includes('productivity')) {
         return `**Team Productivity** is the percentage of available time spent providing billable therapy services.\n\n` +
-          `• **Target:** ≥ 84%\n` +
+          `• **Target:** >= 84%\n` +
           `• **Higher is better** - indicates efficient use of therapist time\n` +
           `• Includes direct patient care and documentation`;
       }
@@ -948,42 +948,6 @@ export default function App() {
       });
     }
     
-    // Add Best Practices & Recommendations
-    yPos = doc.lastAutoTable.finalY + 15;
-    doc.setFontSize(14);
-    doc.setTextColor(139, 92, 246);
-    doc.text('Best Practices & Recommendations', 20, yPos);
-    
-    const recommendations = [];
-    
-    // CPM recommendations
-    if (facility.cpm > 1.45) {
-      recommendations.push(['CPM Improvement', 'Consider increasing concurrent/group treatments where medically appropriate to improve CPM. Review treatment plans to ensure optimal grouping opportunities.']);
-    }
-    
-    // Productivity recommendations
-    if (facility.productivity < 84) {
-      recommendations.push(['Productivity', 'Review team productivity including per diem staff to ensure optimal efficiency. Verify all staff members are meeting individual productivity targets.']);
-    }
-    
-    // Med B best practices (always shown)
-    recommendations.push(['Med B Growth', 'Monitor long-term care populations for any functional declines. Coordinate with MDS/RNA to identify residents who may benefit from skilled services. Ensure timely evaluations for potential Medicare beneficiaries.']);
-    
-    if (recommendations.length > 0) {
-      doc.autoTable({
-        startY: yPos + 5,
-        head: [['Focus Area', 'Recommendation']],
-        body: recommendations,
-        theme: 'grid',
-        headStyles: { fillColor: [139, 92, 246] },
-        bodyStyles: { fontSize: 9 },
-        columnStyles: { 
-          0: { cellWidth: 40, fontStyle: 'bold' },
-          1: { cellWidth: 130 }
-        }
-      });
-    }
-    
     doc.setFontSize(8);
     doc.setTextColor(100, 116, 139);
     doc.text('Confidential - For Director of Rehab Only', 105, 280, { align: 'center' });
@@ -1089,71 +1053,6 @@ export default function App() {
       headStyles: { fillColor: [20, 184, 166] }
     });
     
-    // Add new page for Strategic Focus
-    doc.addPage();
-    
-    doc.setFontSize(20);
-    doc.setTextColor(8, 145, 178);
-    doc.text('Strategic Focus & Facility Updates', 148, 20, { align: 'center' });
-    
-    // Golden Coast Strategic Notes
-    doc.setFontSize(14);
-    doc.setTextColor(217, 119, 6);
-    doc.text('GOLDEN COAST REGION', 20, 35);
-    
-    const gcStrategic = [
-      ['PAC Hills', 'Performing well, maintain current trajectory'],
-      ['Gilroy', 'High traveler reliance; priority to reduce travelers and boost CPM. DOR productivity improvement needed.'],
-      ['Camino Ridge PA', 'New DOR starts January - facility in rebuilding phase. 2 travelers, continued staffing growth planned.'],
-      ['LAPA', 'Strong performance overall. Focus: increase Med B units. No travelers.'],
-      ['PAC Coast', 'Top-heavy staffing (more therapists than assistants). PRN and some FT productivity concerns - ongoing DOR education. Rubato implementation for SI billing upcoming.'],
-      ['Morgan Hill', 'Outlier facility with 3 FT therapists including DOR.'],
-      ['The Win', 'Currently 2 travelers, focus on reduction. Strong sensory program performance.'],
-      ['Mountain View HC', 'Zero travelers as of February. DOR returning January. Good SI utilization.']
-    ];
-    
-    doc.autoTable({
-      startY: 40,
-      head: [['Facility', 'Strategic Focus & Updates']],
-      body: gcStrategic,
-      theme: 'grid',
-      headStyles: { fillColor: [217, 119, 6], fontSize: 10 },
-      bodyStyles: { fontSize: 8 },
-      columnStyles: { 
-        0: { cellWidth: 50, fontStyle: 'bold' },
-        1: { cellWidth: 220 }
-      }
-    });
-    
-    // Overland Strategic Notes
-    yPos = doc.lastAutoTable.finalY + 15;
-    doc.setFontSize(14);
-    doc.setTextColor(59, 130, 246);
-    doc.text('OVERLAND REGION', 20, yPos);
-    
-    const ovStrategic = [
-      ['Eden', 'Very stable with 4 travelers. Great Med B/SI utilization.'],
-      ['Capital', '1 PTA traveler. Overall doing OK. DOR working on Ultramist for LTC to help with DC.'],
-      ['Palo Alto', 'DOR difficulty with LOS management. 3 travelers (1 converted to FT). Admin to work with DOR on expectations.'],
-      ['West Shore', 'Finally gained FT staff. Only 1 COTA traveler. Stable staff. Rebuilding mode for Med B. Rubato to be launched for SI billing.'],
-      ['Golden Harbor', 'Rubato to be launched for SI billing. Need additional OT staff (1 traveler). Team needs behavioral health education for behavioral residents.'],
-      ['Belmont', 'CRITICAL: Current OT staff unhappy and may quit - facility rebuilding needed. 2 travelers (PT/OT). Med B units negligible, work with DOR.'],
-      ['BW/CW', 'Med B non-existent. 2 travelers. Rebuilding mode with staffing.']
-    ];
-    
-    doc.autoTable({
-      startY: yPos + 5,
-      head: [['Facility', 'Strategic Focus & Updates']],
-      body: ovStrategic,
-      theme: 'grid',
-      headStyles: { fillColor: [59, 130, 246], fontSize: 10 },
-      bodyStyles: { fontSize: 8 },
-      columnStyles: { 
-        0: { cellWidth: 50, fontStyle: 'bold' },
-        1: { cellWidth: 220 }
-      }
-    });
-    
     doc.setFontSize(8);
     doc.setTextColor(100, 116, 139);
     doc.text('Confidential - For Administrative Use Only', 148, 200, { align: 'center' });
@@ -1237,130 +1136,6 @@ export default function App() {
       alert('❌ Error generating report. Please try again.');
     }
   };
-    try {
-      const confirmed = window.confirm('Generate reports for all 17 facilities + 1 admin report?\n\nThis will download a ZIP file with 18 text-based reports.\n\nFor professional PDFs, use: python3 generate_weekly_reports.py');
-      if (!confirmed) return;
-
-      alert('Generating reports... This will take a moment.');
-      
-      // Get latest week data
-      const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
-      const latestWeekData = allWeeklyData.filter(d => parseInt(d.week) === latestWeek);
-      
-      // For now, just download the Python script instructions
-      const instructions = `TheraScope Weekly Reports - Week ${latestWeek}
-
-INSTRUCTIONS:
-To generate professional PDF reports, run this command:
-
-  python3 generate_weekly_reports.py
-
-This will create:
-• 17 DOR Reports (one per facility) 
-• 1 Admin Report (regional summary)
-• Packaged in: Weekly_Reports_Week_${latestWeek}.zip
-
-FACILITIES (${latestWeekData.length} total):
-${latestWeekData.map(f => `  • ${f.facility}`).join('\n')}
-
-The Python script is in your GitHub repo root.
-Contact support if you need help running it.`;
-
-      const blob = new Blob([instructions], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Report_Instructions_Week_${latestWeek}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-      
-      alert(`✅ Instructions downloaded!\n\nTo generate professional PDFs:\n1. Open your terminal\n2. Run: python3 generate_weekly_reports.py\n3. Download the ZIP file\n\nOr use the Python script from your repo!`);
-      
-    } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Error. Please use: python3 generate_weekly_reports.py');
-    }
-  };
-
-  // Generate PDF report for DOR's facility only
-  const generateMyReport = async () => {
-    try {
-      const confirmed = window.confirm(`Generate report for ${restrictedFacility}?\n\nThis will create a text-based report.\n\nFor professional PDF, contact your admin.`);
-      if (!confirmed) return;
-      
-      const latestWeek = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
-      const myData = allWeeklyData.filter(d => d.facility === restrictedFacility && parseInt(d.week) === latestWeek)[0];
-      
-      if (!myData) {
-        alert('❌ No data found for your facility this week.');
-        return;
-      }
-      
-      const facilityHistory = allWeeklyData
-        .filter(d => d.facility === restrictedFacility)
-        .sort((a, b) => parseInt(a.week) - parseInt(b.week))
-        .slice(-4);
-      
-      const medBPct = myData.medBEligible > 0 ? Math.round((myData.medBCaseload / myData.medBEligible) * 100) : 0;
-      
-      const report = `
-═══════════════════════════════════════════════════════════
-                      TheraScope
-              Weekly Performance Report
-═══════════════════════════════════════════════════════════
-
-Facility: ${restrictedFacility}
-Report Week: ${myData.date}
-Generated: ${new Date().toLocaleDateString()}
-
-═══════════════════════════════════════════════════════════
-                  PERFORMANCE METRICS
-═══════════════════════════════════════════════════════════
-
-Metric                  Your Result    Goal      Status
-────────────────────────────────────────────────────────────
-Productivity            ${myData.productivity}%           >= 84%      ${myData.productivity >= 84 ? '✓ Met' : '✗ Not Met'}
-CPM                     $${myData.cpm}          <= $1.45    ${myData.cpm <= 1.45 ? '✓ Met' : '✗ Not Met'}
-Med B Performance       ${medBPct}%            -         -
-
-═══════════════════════════════════════════════════════════
-                  DOR-SPECIFIC METRICS
-═══════════════════════════════════════════════════════════
-
-Med B Units Billed:     ${myData.medBUnitsThisWeek || 'N/A'}
-Units Per Visit:        ${myData.unitsPerVisit || 'N/A'}
-Mode of Treatment:      ${myData.modeOfTreatment || 0}%
-
-═══════════════════════════════════════════════════════════
-                    4-WEEK TREND
-═══════════════════════════════════════════════════════════
-
-Week         Productivity    CPM      Med B Caseload
-────────────────────────────────────────────────────────────
-${facilityHistory.map(h => `${h.date}    ${h.productivity}%           $${h.cpm}    ${h.medBCaseload}`).join('\n')}
-
-═══════════════════════════════════════════════════════════
-Confidential - For Director of Rehab Only
-For professional PDF format, contact your administrator
-═══════════════════════════════════════════════════════════
-`;
-
-      const blob = new Blob([report], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${restrictedFacility.replace(/ /g, '_')}_Report_Week_${latestWeek}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-      
-      alert(`✅ Report downloaded!\n\nCheck your Downloads folder for:\n${restrictedFacility.replace(/ /g, '_')}_Report_Week_${latestWeek}.txt\n\nFor professional PDF format, contact your admin.`);
-      
-    } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Error generating report. Please contact your admin.');
-    }
-  };
-
   // Show login screen if not authenticated
   if (!isAuthenticated) {
     return (
@@ -1851,18 +1626,22 @@ For professional PDF format, contact your administrator
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 1</div>
-                    <div className="text-sm text-white font-bold">Productivity ≥ 84%</div>
+                    <div className="text-sm text-white font-bold">Productivity >= 84%</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 2</div>
-                    <div className="text-sm text-white font-bold">CPM ≤ $1.45</div>
+                    <div className="text-sm text-white font-bold">CPM &lt;= $1.45</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
                     <div className="text-sm text-white font-bold">Med B Performance</div>
+                  </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 4</div>
+                    <div className="text-sm text-white font-bold">Mode of Treatment ≥ 5%</div>
                   </div>
                 </div>
               </div>
@@ -2033,7 +1812,7 @@ For professional PDF format, contact your administrator
                   className="px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500 text-white font-bold"
                 >
                   <option value="all" className="bg-slate-800">All Productivity</option>
-                  <option value="high" className="bg-slate-800">≥84% (Meeting Goal)</option>
+                  <option value="high" className="bg-slate-800">>=84% (Meeting Goal)</option>
                   <option value="low" className="bg-slate-800">&lt;84% (Below Goal)</option>
                 </select>
 
@@ -2044,7 +1823,7 @@ For professional PDF format, contact your administrator
                 >
                   <option value="all" className="bg-slate-800">All CPM</option>
                   <option value="good" className="bg-slate-800">&lt;$1.45 (Good)</option>
-                  <option value="high" className="bg-slate-800">≥$1.45 (High)</option>
+                  <option value="high" className="bg-slate-800">>=$1.45 (High)</option>
                 </select>
               </div>
             </div>
@@ -2620,8 +2399,53 @@ For professional PDF format, contact your administrator
               >
                 Close
               </button>
-     </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-fadeIn > * {
+          animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
+        .animate-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-25%);
+          }
+        }
+
+        .animate-bounce {
+          animation: bounce 0.6s infinite;
+        }
+      `}</style>
     </div>
-  </div>
   );
 }
