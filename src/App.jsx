@@ -1621,12 +1621,12 @@ export default function App() {
                   <div>
                     <h2 className="text-3xl font-black text-white tracking-tight">Performance Rankings</h2>
                     <p className="text-slate-300 mt-2 text-lg font-medium">
-                      Facilities ranked by 3 key performance goals
+                      Facilities ranked by 4 key performance goals
                     </p>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 1</div>
                     <div className="text-sm text-white font-bold">Productivity >= 84%</div>
@@ -1639,9 +1639,13 @@ export default function App() {
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
                     <div className="text-sm text-white font-bold">Med B Performance</div>
                   </div>
+                  <div className="bg-white/10 rounded-xl p-4">
+                    <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 4</div>
+                    <div className="text-sm text-white font-bold">Mode of Treatment ≥ 5%</div>
                   </div>
                 </div>
               </div>
+
               <div className="p-8">
                 {rankedFacilities.map((item, idx) => {
                   const badge = getScoreBadge(item.score);
