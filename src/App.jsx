@@ -2624,8 +2624,8 @@ For professional PDF format, contact your administrator
               >
                 Close
               </button>
-       </div>
+     </div>
     </div>
   </div>
- );
-}      
+  );
+}
