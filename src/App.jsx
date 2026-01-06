@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet } from 'lucide-react';
+import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet, DollarSign } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import JSZip from 'jszip';
@@ -1942,6 +1942,19 @@ export default function App() {
                               </div>
                             )
                           )}
+                          {/* 6th Metric - Admin Only: Medicare Revenue */}
+                        {!isRestrictedView && facility.medicareMPPRRevenue && (
+                          <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-sm rounded-2xl p-6 border border-emerald-400/30 transform hover:scale-105 transition-all duration-300">
+                            <div className="flex items-center gap-3 mb-3">
+                              <DollarSign className="w-5 h-5 text-emerald-300" strokeWidth={2.5} />
+                              <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Medicare Rev</div>
+                            </div>
+                            <div className="text-3xl font-black text-emerald-300">
+                              ${(facility.medicareMPPRRevenue / 1000).toFixed(1)}k
+                            </div>
+                            <div className="text-xs text-slate-400 mt-2 font-medium">Est. w/MPPR</div>
+                          </div>
+                        )}
                         </div>
 
                         {/* DOR-Only Additional Metrics Row */}
@@ -2062,7 +2075,7 @@ export default function App() {
                                       </div>
                                     )}
                                   </div>
-                                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                                  <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
                                     <div className="bg-white/5 rounded-xl p-4">
                                       <div className="text-xs text-slate-400 mb-1">Productivity</div>
                                       <div className={`text-2xl font-black ${getProductivityColor(monthData.productivity)}`}>
