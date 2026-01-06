@@ -2710,7 +2710,9 @@
     "medBUnitsThisWeek": 19,
     "unitsPerVisit": 2.71,
     "date": "2025-12-28",
-    "modeOfTreatment": 1.28
+    "modeOfTreatment": 1.28,
+    "medicareGrossRevenue": 12432.42,
+    "medicareMPPRRevenue": 9324.32
   },
   {
     "week": "1228",
@@ -2762,7 +2764,9 @@
     "medBUnitsThisWeek": 75,
     "unitsPerVisit": 3.26,
     "date": "2025-12-28",
-    "modeOfTreatment": 2.91
+    "modeOfTreatment": 2.91,
+    "medicareGrossRevenue": 21402.85,
+    "medicareMPPRRevenue": 16052.14
   },
   {
     "week": "1228",
@@ -2782,13 +2786,15 @@
     "facility": "Los Altos Post Acute",
     "region": "Golden Coast",
     "productivity": 87.6,
-    "cpm": 1.30,
+    "cpm": 1.3,
     "medBEligible": 27,
     "medBCaseload": 19,
     "medBUnitsThisWeek": 241,
     "unitsPerVisit": 2.87,
     "date": "2025-12-28",
-    "modeOfTreatment": 1.39
+    "modeOfTreatment": 1.39,
+    "medicareGrossRevenue": 33269.06,
+    "medicareMPPRRevenue": 24951.8
   },
   {
     "week": "1228",
@@ -2801,7 +2807,9 @@
     "medBUnitsThisWeek": 14,
     "unitsPerVisit": 1.75,
     "date": "2025-12-28",
-    "modeOfTreatment": 0.0
+    "modeOfTreatment": 0.0,
+    "medicareGrossRevenue": 3968.96,
+    "medicareMPPRRevenue": 2976.72
   },
   {
     "week": "1228",
@@ -2814,7 +2822,9 @@
     "medBUnitsThisWeek": 126,
     "unitsPerVisit": 3.41,
     "date": "2025-12-28",
-    "modeOfTreatment": 1.81
+    "modeOfTreatment": 1.81,
+    "medicareGrossRevenue": 37080.76,
+    "medicareMPPRRevenue": 27810.57
   },
   {
     "week": "1228",
@@ -2827,7 +2837,9 @@
     "medBUnitsThisWeek": 78,
     "unitsPerVisit": 3.39,
     "date": "2025-12-28",
-    "modeOfTreatment": 6.88
+    "modeOfTreatment": 6.88,
+    "medicareGrossRevenue": 53113.33,
+    "medicareMPPRRevenue": 39835.0
   },
   {
     "week": "1228",
@@ -2840,7 +2852,9 @@
     "medBUnitsThisWeek": 88,
     "unitsPerVisit": 3.52,
     "date": "2025-12-28",
-    "modeOfTreatment": 8.17
+    "modeOfTreatment": 8.17,
+    "medicareGrossRevenue": 26645.97,
+    "medicareMPPRRevenue": 19984.48
   },
   {
     "week": "1228",
@@ -2853,7 +2867,9 @@
     "medBUnitsThisWeek": 106,
     "unitsPerVisit": 2.65,
     "date": "2025-12-28",
-    "modeOfTreatment": 8.01
+    "modeOfTreatment": 8.01,
+    "medicareGrossRevenue": 20331.99,
+    "medicareMPPRRevenue": 15248.99
   },
   {
     "week": "1228",
@@ -2879,7 +2895,9 @@
     "medBUnitsThisWeek": 251,
     "unitsPerVisit": 2.85,
     "date": "2025-12-28",
-    "modeOfTreatment": 0.78
+    "modeOfTreatment": 0.78,
+    "medicareGrossRevenue": 67193.82,
+    "medicareMPPRRevenue": 50395.36
   },
   {
     "week": "1228",
