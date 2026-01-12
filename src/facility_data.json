@@ -8,7 +8,7 @@
     "medBCaseload": 6,
     "modeOfTreatment": 4.21,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Belmont HC",
@@ -19,7 +19,7 @@
     "medBCaseload": 6,
     "modeOfTreatment": 3.82,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Belmont HC",
@@ -30,7 +30,7 @@
     "medBCaseload": 6,
     "modeOfTreatment": 4.53,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Belmont HC",
@@ -41,7 +41,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 5.08,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Belmont HC",
@@ -52,7 +52,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 4.18,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Belmont HC",
@@ -63,7 +63,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 5.69,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Belmont HC",
@@ -74,7 +74,7 @@
     "medBCaseload": 6,
     "modeOfTreatment": 4.06,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Belmont HC",
@@ -85,7 +85,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 4.07,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Belmont HC",
@@ -96,7 +96,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 4.56,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Belmont HC",
@@ -107,7 +107,7 @@
     "medBCaseload": 6,
     "modeOfTreatment": 3.18,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Belmont HC",
@@ -118,7 +118,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 2.87,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Belmont HC",
@@ -129,7 +129,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 3.14,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Belmont HC",
@@ -140,7 +140,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 2.05,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Belmont HC",
@@ -151,7 +151,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.53,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Belmont HC",
@@ -162,10 +162,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 5.2,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Belmont HC",
     "region": "Overland",
     "productivity": 90.2,
@@ -186,7 +186,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 6.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Bridgewood PA",
@@ -197,7 +197,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 1.52,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Bridgewood PA",
@@ -208,7 +208,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Bridgewood PA",
@@ -219,7 +219,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 1.0,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Bridgewood PA",
@@ -230,7 +230,7 @@
     "medBCaseload": 0,
     "modeOfTreatment": 0.0,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Bridgewood PA",
@@ -241,7 +241,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Bridgewood PA",
@@ -252,7 +252,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Bridgewood PA",
@@ -263,7 +263,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Bridgewood PA",
@@ -274,7 +274,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Bridgewood PA",
@@ -285,7 +285,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Bridgewood PA",
@@ -296,7 +296,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Bridgewood PA",
@@ -307,7 +307,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Bridgewood PA",
@@ -318,7 +318,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Bridgewood PA",
@@ -329,10 +329,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Bridgewood PA",
     "region": "Overland",
     "productivity": 83.0,
@@ -353,7 +353,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 4.99,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -364,7 +364,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 3.82,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -375,7 +375,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 7.36,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -386,7 +386,7 @@
     "medBCaseload": 8,
     "modeOfTreatment": 4.09,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -397,7 +397,7 @@
     "medBCaseload": 8,
     "modeOfTreatment": 7.39,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -408,7 +408,7 @@
     "medBCaseload": 9,
     "modeOfTreatment": 6.66,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -419,7 +419,7 @@
     "medBCaseload": 9,
     "modeOfTreatment": 8.0,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -430,7 +430,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 8.98,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -441,7 +441,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 6.69,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -452,10 +452,10 @@
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Camino Ridge Post Acute",
     "region": "Golden Coast",
     "productivity": 84.2,
@@ -476,7 +476,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 5.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Capital PA",
@@ -487,7 +487,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 5.14,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Capital PA",
@@ -498,7 +498,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 2.51,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Capital PA",
@@ -509,7 +509,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 2.46,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Capital PA",
@@ -520,7 +520,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 3.18,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Capital PA",
@@ -531,7 +531,7 @@
     "medBCaseload": 22,
     "modeOfTreatment": 3.87,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Capital PA",
@@ -542,7 +542,7 @@
     "medBCaseload": 21,
     "modeOfTreatment": 3.55,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Capital PA",
@@ -553,7 +553,7 @@
     "medBCaseload": 23,
     "modeOfTreatment": 4.37,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Capital PA",
@@ -564,7 +564,7 @@
     "medBCaseload": 23,
     "modeOfTreatment": 4.14,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Capital PA",
@@ -575,7 +575,7 @@
     "medBCaseload": 19,
     "modeOfTreatment": 6.33,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Capital PA",
@@ -586,7 +586,7 @@
     "medBCaseload": 20,
     "modeOfTreatment": 4.62,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Capital PA",
@@ -597,7 +597,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 2.28,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Capital PA",
@@ -608,7 +608,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 3.09,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Capital PA",
@@ -619,7 +619,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 4.22,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Capital PA",
@@ -630,7 +630,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 6.49,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
     "facility": "Cedarwood PA",
@@ -641,7 +641,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 1.05,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Cedarwood PA",
@@ -652,7 +652,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 2.88,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Cedarwood PA",
@@ -663,7 +663,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 1.87,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Cedarwood PA",
@@ -674,7 +674,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 1.0,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Cedarwood PA",
@@ -685,7 +685,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Cedarwood PA",
@@ -696,7 +696,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Cedarwood PA",
@@ -707,7 +707,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 4.0,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Cedarwood PA",
@@ -718,7 +718,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 3.0,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Cedarwood PA",
@@ -729,7 +729,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 2.0,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Cedarwood PA",
@@ -740,7 +740,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 4.0,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Cedarwood PA",
@@ -751,7 +751,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 20.0,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Cedarwood PA",
@@ -762,7 +762,7 @@
     "medBCaseload": 0,
     "modeOfTreatment": 5.0,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Cedarwood PA",
@@ -773,7 +773,7 @@
     "medBCaseload": 0,
     "modeOfTreatment": 0.0,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Cedarwood PA",
@@ -784,10 +784,10 @@
     "medBCaseload": 0,
     "modeOfTreatment": 6.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Cedarwood PA",
     "region": "Overland",
     "productivity": 79.0,
@@ -808,7 +808,7 @@
     "medBCaseload": 32,
     "modeOfTreatment": 0.82,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Eden HC",
@@ -819,7 +819,7 @@
     "medBCaseload": 33,
     "modeOfTreatment": 2.0,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Eden HC",
@@ -830,7 +830,7 @@
     "medBCaseload": 34,
     "modeOfTreatment": 1.29,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Eden HC",
@@ -841,7 +841,7 @@
     "medBCaseload": 34,
     "modeOfTreatment": 1.97,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Eden HC",
@@ -852,7 +852,7 @@
     "medBCaseload": 34,
     "modeOfTreatment": 1.69,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Eden HC",
@@ -863,7 +863,7 @@
     "medBCaseload": 35,
     "modeOfTreatment": 0.28,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Eden HC",
@@ -874,7 +874,7 @@
     "medBCaseload": 39,
     "modeOfTreatment": 0.76,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Eden HC",
@@ -885,7 +885,7 @@
     "medBCaseload": 42,
     "modeOfTreatment": 0.83,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Eden HC",
@@ -896,7 +896,7 @@
     "medBCaseload": 42,
     "modeOfTreatment": 0.29,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Eden HC",
@@ -907,7 +907,7 @@
     "medBCaseload": 41,
     "modeOfTreatment": 1.05,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Eden HC",
@@ -918,7 +918,7 @@
     "medBCaseload": 42,
     "modeOfTreatment": 1.53,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Eden HC",
@@ -929,7 +929,7 @@
     "medBCaseload": 42,
     "modeOfTreatment": 1.19,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Eden HC",
@@ -940,7 +940,7 @@
     "medBCaseload": 42,
     "modeOfTreatment": 0.35,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Eden HC",
@@ -951,10 +951,10 @@
     "medBCaseload": 41,
     "modeOfTreatment": 1.61,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Eden HC",
     "region": "Overland",
     "productivity": 84.9,
@@ -975,7 +975,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 5.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Gilroy HC",
@@ -986,7 +986,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 1.5,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Gilroy HC",
@@ -997,7 +997,7 @@
     "medBCaseload": 19,
     "modeOfTreatment": 5.0,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Gilroy HC",
@@ -1008,7 +1008,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 1.0,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Gilroy HC",
@@ -1019,7 +1019,7 @@
     "medBCaseload": 22,
     "modeOfTreatment": 5.0,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Gilroy HC",
@@ -1030,7 +1030,7 @@
     "medBCaseload": 25,
     "modeOfTreatment": 4.0,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Gilroy HC",
@@ -1041,7 +1041,7 @@
     "medBCaseload": 19,
     "modeOfTreatment": 4.0,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Gilroy HC",
@@ -1052,7 +1052,7 @@
     "medBCaseload": 20,
     "modeOfTreatment": 9.0,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Gilroy HC",
@@ -1063,7 +1063,7 @@
     "medBCaseload": 22,
     "modeOfTreatment": 6.3,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Gilroy HC",
@@ -1074,7 +1074,7 @@
     "medBCaseload": 21,
     "modeOfTreatment": 4.0,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Gilroy HC",
@@ -1085,7 +1085,7 @@
     "medBCaseload": 19,
     "modeOfTreatment": 4.0,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Gilroy HC",
@@ -1096,7 +1096,7 @@
     "medBCaseload": 15,
     "modeOfTreatment": 5.0,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Gilroy HC",
@@ -1107,7 +1107,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 7.0,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Gilroy HC",
@@ -1118,7 +1118,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 7.0,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Gilroy HC",
@@ -1129,10 +1129,10 @@
     "medBCaseload": 18,
     "modeOfTreatment": 7.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Gilroy HC",
     "region": "Golden Coast",
     "productivity": 90.1,
@@ -1153,7 +1153,7 @@
     "medBCaseload": 8,
     "modeOfTreatment": 7.95,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1164,7 +1164,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 7.9,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1175,7 +1175,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 6.95,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1186,7 +1186,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 5.95,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1197,7 +1197,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 7.1,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1208,7 +1208,7 @@
     "medBCaseload": 14,
     "modeOfTreatment": 7.73,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1219,7 +1219,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 7.29,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1230,7 +1230,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 8.62,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1241,7 +1241,7 @@
     "medBCaseload": 6,
     "modeOfTreatment": 8.1,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1252,7 +1252,7 @@
     "medBCaseload": 1,
     "modeOfTreatment": 5.24,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Golden Harbor HC",
@@ -1263,10 +1263,10 @@
     "medBCaseload": 1,
     "modeOfTreatment": 5.67,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Golden Harbor HC",
     "region": "Overland",
     "productivity": 86.8,
@@ -1287,7 +1287,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 13.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1298,7 +1298,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 6.0,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1309,7 +1309,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 4.0,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1320,7 +1320,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 5.29,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1331,7 +1331,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 5.0,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1342,7 +1342,7 @@
     "medBCaseload": 8,
     "modeOfTreatment": 5.0,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1353,7 +1353,7 @@
     "medBCaseload": 9,
     "modeOfTreatment": 7.0,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1364,7 +1364,7 @@
     "medBCaseload": 9,
     "modeOfTreatment": 4.0,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1375,7 +1375,7 @@
     "medBCaseload": 15,
     "modeOfTreatment": 1.0,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1386,7 +1386,7 @@
     "medBCaseload": 26,
     "modeOfTreatment": 5.0,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1397,7 +1397,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 5.0,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1408,7 +1408,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 4.0,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1419,7 +1419,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 4.0,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1430,7 +1430,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 4.0,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1441,10 +1441,10 @@
     "medBCaseload": 17,
     "modeOfTreatment": 5.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Los Altos Post Acute",
     "region": "Golden Coast",
     "productivity": 93.4,
@@ -1465,7 +1465,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 0.0,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Manresa HC",
@@ -1476,7 +1476,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1487,7 +1487,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 0.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1498,7 +1498,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 2.72,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1509,7 +1509,7 @@
     "medBCaseload": 14,
     "modeOfTreatment": 2.37,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1520,7 +1520,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 2.17,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1531,7 +1531,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 1.76,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1542,7 +1542,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 0.89,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1553,7 +1553,7 @@
     "medBCaseload": 14,
     "modeOfTreatment": 1.84,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1564,7 +1564,7 @@
     "medBCaseload": 14,
     "modeOfTreatment": 1.02,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1575,7 +1575,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 1.39,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1586,7 +1586,7 @@
     "medBCaseload": 15,
     "modeOfTreatment": 1.7,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1597,7 +1597,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 0.0,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1608,7 +1608,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 1.95,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1619,7 +1619,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 1.49,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1630,7 +1630,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 0.57,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Morgan Hill HC",
@@ -1641,10 +1641,10 @@
     "medBCaseload": 15,
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Morgan Hill HC",
     "region": "Golden Coast",
     "productivity": 90.4,
@@ -1665,7 +1665,7 @@
     "medBCaseload": 21,
     "modeOfTreatment": 7.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Mountain View HC",
@@ -1676,7 +1676,7 @@
     "medBCaseload": 21,
     "modeOfTreatment": 5.57,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Mountain View HC",
@@ -1687,7 +1687,7 @@
     "medBCaseload": 23,
     "modeOfTreatment": 6.45,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Mountain View HC",
@@ -1698,7 +1698,7 @@
     "medBCaseload": 21,
     "modeOfTreatment": 5.54,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Mountain View HC",
@@ -1709,7 +1709,7 @@
     "medBCaseload": 23,
     "modeOfTreatment": 7.21,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Mountain View HC",
@@ -1720,7 +1720,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 8.61,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Mountain View HC",
@@ -1731,7 +1731,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 9.45,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Mountain View HC",
@@ -1742,7 +1742,7 @@
     "medBCaseload": 23,
     "modeOfTreatment": 7.91,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Mountain View HC",
@@ -1753,7 +1753,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 8.27,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Mountain View HC",
@@ -1764,7 +1764,7 @@
     "medBCaseload": 25,
     "modeOfTreatment": 9.72,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Mountain View HC",
@@ -1775,7 +1775,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 8.18,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Mountain View HC",
@@ -1786,7 +1786,7 @@
     "medBCaseload": 25,
     "modeOfTreatment": 7.81,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Mountain View HC",
@@ -1797,7 +1797,7 @@
     "medBCaseload": 25,
     "modeOfTreatment": 7.47,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Mountain View HC",
@@ -1808,7 +1808,7 @@
     "medBCaseload": 25,
     "modeOfTreatment": 3.55,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Mountain View HC",
@@ -1819,7 +1819,7 @@
     "medBCaseload": 25,
     "modeOfTreatment": 7.39,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1830,7 +1830,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 4.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1841,7 +1841,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 6.35,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1852,7 +1852,7 @@
     "medBCaseload": 8,
     "modeOfTreatment": 3.0,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1863,7 +1863,7 @@
     "medBCaseload": 9,
     "modeOfTreatment": 7.0,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1874,7 +1874,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 7.0,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1885,7 +1885,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 6.0,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1896,7 +1896,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 8.0,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1907,7 +1907,7 @@
     "medBCaseload": 10,
     "modeOfTreatment": 8.0,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1918,7 +1918,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 7.42,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1929,7 +1929,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 10.0,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1940,7 +1940,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 7.25,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1951,7 +1951,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 8.85,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1962,7 +1962,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 9.37,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1973,7 +1973,7 @@
     "medBCaseload": 12,
     "modeOfTreatment": 8.0,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1984,10 +1984,10 @@
     "medBCaseload": 13,
     "modeOfTreatment": 11.56,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "PAC Hills Post Acute",
     "region": "Golden Coast",
     "productivity": 90.3,
@@ -2008,7 +2008,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 7.0,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Pac Coast PA",
@@ -2019,7 +2019,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 7.39,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Pac Coast PA",
@@ -2030,7 +2030,7 @@
     "medBCaseload": 7,
     "modeOfTreatment": 8.58,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Pac Coast PA",
@@ -2041,7 +2041,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 3.94,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Pac Coast PA",
@@ -2052,7 +2052,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 6.84,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Pac Coast PA",
@@ -2063,7 +2063,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 8.44,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Pac Coast PA",
@@ -2074,7 +2074,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 7.37,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Pac Coast PA",
@@ -2085,7 +2085,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 7.26,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Pac Coast PA",
@@ -2096,7 +2096,7 @@
     "medBCaseload": 14,
     "modeOfTreatment": 3.42,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Pac Coast PA",
@@ -2107,7 +2107,7 @@
     "medBCaseload": 15,
     "modeOfTreatment": 8.14,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Pac Coast PA",
@@ -2118,7 +2118,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 7.31,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Pac Coast PA",
@@ -2129,7 +2129,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 7.2,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Pac Coast PA",
@@ -2140,7 +2140,7 @@
     "medBCaseload": 15,
     "modeOfTreatment": 8.95,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Pac Coast PA",
@@ -2151,7 +2151,7 @@
     "medBCaseload": 15,
     "modeOfTreatment": 8.59,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Pac Coast PA",
@@ -2162,7 +2162,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 3.96,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2173,7 +2173,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 2.36,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2184,7 +2184,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 2.89,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2195,7 +2195,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 1.04,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2206,7 +2206,7 @@
     "medBCaseload": 3,
     "modeOfTreatment": 0.67,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2217,7 +2217,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.8,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2228,7 +2228,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.82,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2239,7 +2239,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 3.1,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2250,7 +2250,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.25,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2261,7 +2261,7 @@
     "medBCaseload": 2,
     "modeOfTreatment": 2.29,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2272,7 +2272,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2283,7 +2283,7 @@
     "medBCaseload": 4,
     "modeOfTreatment": 1.0,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2294,7 +2294,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 0.42,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2305,7 +2305,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 0.88,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2316,7 +2316,7 @@
     "medBCaseload": 5,
     "modeOfTreatment": 1.53,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2327,10 +2327,10 @@
     "medBCaseload": 4,
     "modeOfTreatment": 1.08,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Palo Alto Post Acute",
     "region": "Overland",
     "productivity": 90.2,
@@ -2351,7 +2351,7 @@
     "medBCaseload": 11,
     "modeOfTreatment": 0.69,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "The Win Post Acute",
@@ -2362,7 +2362,7 @@
     "medBCaseload": 13,
     "modeOfTreatment": 2.06,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "The Win Post Acute",
@@ -2373,7 +2373,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 2.83,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "The Win Post Acute",
@@ -2384,7 +2384,7 @@
     "medBCaseload": 17,
     "modeOfTreatment": 3.91,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "The Win Post Acute",
@@ -2395,7 +2395,7 @@
     "medBCaseload": 18,
     "modeOfTreatment": 6.94,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "The Win Post Acute",
@@ -2406,7 +2406,7 @@
     "medBCaseload": 20,
     "modeOfTreatment": 8.02,
     "date": "2025-10-12",
-    "week": "1012"
+    "week": "251012"
   },
   {
     "facility": "The Win Post Acute",
@@ -2417,7 +2417,7 @@
     "medBCaseload": 22,
     "modeOfTreatment": 7.22,
     "date": "2025-10-19",
-    "week": "1019"
+    "week": "251019"
   },
   {
     "facility": "The Win Post Acute",
@@ -2428,7 +2428,7 @@
     "medBCaseload": 21,
     "modeOfTreatment": 8.3,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
     "facility": "The Win Post Acute",
@@ -2439,7 +2439,7 @@
     "medBCaseload": 22,
     "modeOfTreatment": 6.03,
     "date": "2025-11-03",
-    "week": "1103"
+    "week": "251103"
   },
   {
     "facility": "The Win Post Acute",
@@ -2450,7 +2450,7 @@
     "medBCaseload": 24,
     "modeOfTreatment": 4.5,
     "date": "2025-11-10",
-    "week": "1110"
+    "week": "251110"
   },
   {
     "facility": "The Win Post Acute",
@@ -2461,7 +2461,7 @@
     "medBCaseload": 26,
     "modeOfTreatment": 4.92,
     "date": "2025-11-17",
-    "week": "1117"
+    "week": "251117"
   },
   {
     "facility": "The Win Post Acute",
@@ -2472,7 +2472,7 @@
     "medBCaseload": 28,
     "modeOfTreatment": 5.42,
     "date": "2025-11-24",
-    "week": "1124"
+    "week": "251124"
   },
   {
     "facility": "The Win Post Acute",
@@ -2483,7 +2483,7 @@
     "medBCaseload": 29,
     "modeOfTreatment": 3.8,
     "date": "2025-12-01",
-    "week": "1201"
+    "week": "251201"
   },
   {
     "facility": "The Win Post Acute",
@@ -2494,7 +2494,7 @@
     "medBCaseload": 32,
     "modeOfTreatment": 3.43,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "The Win Post Acute",
@@ -2505,10 +2505,10 @@
     "medBCaseload": 32,
     "modeOfTreatment": 0.71,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "The Win Post Acute",
     "region": "Golden Coast",
     "productivity": 89.9,
@@ -2529,7 +2529,7 @@
     "medBCaseload": 29,
     "modeOfTreatment": 2.19,
     "date": "2025-09-07",
-    "week": "907"
+    "week": "25907"
   },
   {
     "facility": "West Shore PA",
@@ -2540,7 +2540,7 @@
     "medBCaseload": 29,
     "modeOfTreatment": 2.52,
     "date": "2025-09-14",
-    "week": "914"
+    "week": "25914"
   },
   {
     "facility": "West Shore PA",
@@ -2551,7 +2551,7 @@
     "medBCaseload": 30,
     "modeOfTreatment": 4.42,
     "date": "2025-09-21",
-    "week": "921"
+    "week": "25921"
   },
   {
     "facility": "West Shore PA",
@@ -2562,7 +2562,7 @@
     "medBCaseload": 29,
     "modeOfTreatment": 4.82,
     "date": "2025-09-28",
-    "week": "928"
+    "week": "25928"
   },
   {
     "facility": "West Shore PA",
@@ -2573,7 +2573,7 @@
     "medBCaseload": 29,
     "modeOfTreatment": 3.5,
     "date": "2025-10-05",
-    "week": "1005"
+    "week": "251005"
   },
   {
     "facility": "West Shore PA",
@@ -2584,7 +2584,7 @@
     "medBCaseload": 16,
     "modeOfTreatment": 0.0,
     "date": "2025-12-08",
-    "week": "1208"
+    "week": "251208"
   },
   {
     "facility": "West Shore PA",
@@ -2595,10 +2595,10 @@
     "medBCaseload": 18,
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
-    "week": "1215"
+    "week": "251215"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "West Shore PA",
     "region": "Overland",
     "productivity": 76.7,
@@ -2619,10 +2619,10 @@
     "medBCaseload": 41,
     "modeOfTreatment": 2.35,
     "date": "2025-10-26",
-    "week": "1026"
+    "week": "251026"
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Capital PA",
     "region": "Overland",
     "productivity": 83.5,
@@ -2635,7 +2635,7 @@
     "modeOfTreatment": 6.35
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Manresa HC",
     "region": "Golden Coast",
     "productivity": 74.0,
@@ -2648,7 +2648,7 @@
     "modeOfTreatment": 0.0
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Mountain View HC",
     "region": "Golden Coast",
     "productivity": 89.1,
@@ -2661,7 +2661,7 @@
     "modeOfTreatment": 8.21
   },
   {
-    "week": "1221",
+    "week": "251221",
     "facility": "Pac Coast PA",
     "region": "Golden Coast",
     "productivity": 87.8,
@@ -2674,7 +2674,7 @@
     "modeOfTreatment": 6.18
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Belmont HC",
     "region": "Overland",
     "productivity": 88.3,
@@ -2689,7 +2689,7 @@
     "medicareMPPRRevenue": 4091.07
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Bridgewood PA",
     "region": "Overland",
     "productivity": 78.3,
@@ -2704,7 +2704,7 @@
     "medicareMPPRRevenue": 2425.82
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Camino Ridge Post Acute",
     "region": "Golden Coast",
     "productivity": 83.4,
@@ -2719,7 +2719,7 @@
     "medicareMPPRRevenue": 10194.58
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Capital PA",
     "region": "Overland",
     "productivity": 82.1,
@@ -2734,7 +2734,7 @@
     "medicareMPPRRevenue": 29508.23
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Cedarwood PA",
     "region": "Overland",
     "productivity": 78.7,
@@ -2747,7 +2747,7 @@
     "modeOfTreatment": 2.06
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Eden HC",
     "region": "Overland",
     "productivity": 86.4,
@@ -2762,7 +2762,7 @@
     "medicareMPPRRevenue": 78060.88
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Gilroy HC",
     "region": "Golden Coast",
     "productivity": 88.5,
@@ -2777,7 +2777,7 @@
     "medicareMPPRRevenue": 17550.34
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Golden Harbor HC",
     "region": "Overland",
     "productivity": 83.8,
@@ -2792,7 +2792,7 @@
     "medicareMPPRRevenue": 5316.28
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Los Altos Post Acute",
     "region": "Golden Coast",
     "productivity": 87.6,
@@ -2807,7 +2807,7 @@
     "medicareMPPRRevenue": 27280.63
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Manresa HC",
     "region": "Golden Coast",
     "productivity": 84.8,
@@ -2822,7 +2822,7 @@
     "medicareMPPRRevenue": 3254.55
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Morgan Hill HC",
     "region": "Golden Coast",
     "productivity": 95.7,
@@ -2837,7 +2837,7 @@
     "medicareMPPRRevenue": 30406.22
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Mountain View HC",
     "region": "Golden Coast",
     "productivity": 90.1,
@@ -2852,7 +2852,7 @@
     "medicareMPPRRevenue": 43552.93
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "PAC Hills Post Acute",
     "region": "Golden Coast",
     "productivity": 91.2,
@@ -2867,7 +2867,7 @@
     "medicareMPPRRevenue": 21849.7
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Pac Coast PA",
     "region": "Golden Coast",
     "productivity": 88.8,
@@ -2882,7 +2882,7 @@
     "medicareMPPRRevenue": 16672.23
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "Palo Alto Post Acute",
     "region": "Overland",
     "productivity": 89.8,
@@ -2897,7 +2897,7 @@
     "medicareMPPRRevenue": 7276.32
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "The Win Post Acute",
     "region": "Golden Coast",
     "productivity": 87.4,
@@ -2912,7 +2912,7 @@
     "medicareMPPRRevenue": 55098.93
   },
   {
-    "week": "1228",
+    "week": "251228",
     "facility": "West Shore PA",
     "region": "Overland",
     "productivity": 78.2,
@@ -2927,7 +2927,7 @@
     "medicareMPPRRevenue": 10512.24
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Camino Ridge Post Acute",
     "region": "Golden Coast",
     "productivity": 71.6,
@@ -2942,7 +2942,7 @@
     "medicareMPPRRevenue": 886.53
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Gilroy HC",
     "region": "Golden Coast",
     "productivity": 84.7,
@@ -2957,7 +2957,7 @@
     "medicareMPPRRevenue": 6834.03
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Los Altos Post Acute",
     "region": "Golden Coast",
     "productivity": 87.7,
@@ -2972,7 +2972,7 @@
     "medicareMPPRRevenue": 8929.41
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Manresa HC",
     "region": "Golden Coast",
     "productivity": 78.2,
@@ -2987,7 +2987,7 @@
     "medicareMPPRRevenue": 1044.84
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Morgan Hill HC",
     "region": "Golden Coast",
     "productivity": 93.7,
@@ -3002,7 +3002,7 @@
     "medicareMPPRRevenue": 5348.25
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Mountain View HC",
     "region": "Golden Coast",
     "productivity": 89.4,
@@ -3017,7 +3017,7 @@
     "medicareMPPRRevenue": 11948.13
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "PAC Hills Post Acute",
     "region": "Golden Coast",
     "productivity": 87.6,
@@ -3031,7 +3031,7 @@
     "medicareMPPRRevenue": 5505.58
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "Pac Coast PA",
     "region": "Golden Coast",
     "productivity": 83.2,
@@ -3046,7 +3046,7 @@
     "medicareMPPRRevenue": 4864.95
   },
   {
-    "week": "0104",
+    "week": "260104",
     "facility": "The Win Post Acute",
     "region": "Golden Coast",
     "productivity": 87.2,
