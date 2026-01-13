@@ -854,12 +854,27 @@ export default function App() {
 
   const getCPMColor = (cpm) => cpm <= 1.45 ? 'text-emerald-400' : 'text-rose-400';
 
-  // Format week number (YYMMDD) to readable date (MM/DD)
+  // Format week number to readable date (MM/DD)
+  // Handles both 5-digit (25907) and 6-digit (250907) formats
   const formatWeekLabel = (week) => {
-    if (!week || week.length !== 6) return week;
-    const month = week.substring(2, 4);
-    const day = week.substring(4, 6);
-    return `${month}/${day}`;
+    if (!week) return week;
+    const weekStr = String(week);
+    
+    // Handle 5-digit format (missing leading zero in month: 25907)
+    if (weekStr.length === 5) {
+      const month = '0' + weekStr.substring(2, 3);  // Add leading 0 to month
+      const day = weekStr.substring(3, 5);
+      return `${month}/${day}`;
+    }
+    
+    // Handle 6-digit format (YYMMDD: 250907)
+    if (weekStr.length === 6) {
+      const month = weekStr.substring(2, 4);
+      const day = weekStr.substring(4, 6);
+      return `${month}/${day}`;
+    }
+    
+    return week;  // Return as-is if neither format
   };
 
   const getProductivityBg = (productivity) => {
