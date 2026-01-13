@@ -854,6 +854,14 @@ export default function App() {
 
   const getCPMColor = (cpm) => cpm <= 1.45 ? 'text-emerald-400' : 'text-rose-400';
 
+  // Format week number (YYMMDD) to readable date (MM/DD)
+  const formatWeekLabel = (week) => {
+    if (!week || week.length !== 6) return week;
+    const month = week.substring(2, 4);
+    const day = week.substring(4, 6);
+    return `${month}/${day}`;
+  };
+
   const getProductivityBg = (productivity) => {
     if (productivity >= 90) return 'from-emerald-500/20 to-teal-500/20 border-emerald-400/30';
     if (productivity >= 84) return 'from-teal-500/20 to-cyan-500/20 border-teal-400/30';
@@ -1673,6 +1681,7 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
+                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1733,6 +1742,7 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
+                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1794,6 +1804,7 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
+                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1844,6 +1855,7 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
+                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1898,6 +1910,7 @@ export default function App() {
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
                         data={getRegionalTrends('Golden Coast')}
+                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1948,6 +1961,7 @@ export default function App() {
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
                         data={getRegionalTrends('Golden Coast')}
+                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
