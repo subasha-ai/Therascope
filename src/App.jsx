@@ -416,6 +416,7 @@ export default function App() {
       // Convert to strings and compare numerically
       return String(a).localeCompare(String(b), undefined, { numeric: true });
     });
+    
     const recentWeeks = allWeeks.slice(-16);
     
     const trendData = recentWeeks.map(week => {
@@ -1933,14 +1934,30 @@ export default function App() {
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                   <h3 className="text-lg font-black text-white mb-4">Productivity by Region</h3>
                   <ResponsiveContainer width="100%" height={250}>
-                    <LineChart>
+                    <LineChart data={(() => {
+                      // Combine both regions' data into single dataset
+                      const goldenCoast = getRegionalTrends('Golden Coast');
+                      const overland = getRegionalTrends('Overland');
+                      
+                      // Create map of all unique weeks
+                      const weekMap = new Map();
+                      
+                      goldenCoast.forEach(d => {
+                        weekMap.set(d.week, { week: d.week, goldenCoastProd: d.productivity });
+                      });
+                      
+                      overland.forEach(d => {
+                        const existing = weekMap.get(d.week) || { week: d.week };
+                        weekMap.set(d.week, { ...existing, overlandProd: d.productivity });
+                      });
+                      
+                      return Array.from(weekMap.values());
+                    })()}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                       <XAxis 
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        data={getRegionalTrends('Golden Coast')}
-                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1960,8 +1977,7 @@ export default function App() {
                       />
                       <Line 
                         type="monotone" 
-                        dataKey="productivity" 
-                        data={getRegionalTrends('Golden Coast')}
+                        dataKey="goldenCoastProd" 
                         stroke="#06b6d4" 
                         strokeWidth={3}
                         name="Golden Coast"
@@ -1969,8 +1985,7 @@ export default function App() {
                       />
                       <Line 
                         type="monotone" 
-                        dataKey="productivity" 
-                        data={getRegionalTrends('Overland')}
+                        dataKey="overlandProd" 
                         stroke="#f59e0b" 
                         strokeWidth={3}
                         name="Overland"
@@ -1984,14 +1999,30 @@ export default function App() {
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                   <h3 className="text-lg font-black text-white mb-4">CPM by Region</h3>
                   <ResponsiveContainer width="100%" height={250}>
-                    <LineChart>
+                    <LineChart data={(() => {
+                      // Combine both regions' data into single dataset
+                      const goldenCoast = getRegionalTrends('Golden Coast');
+                      const overland = getRegionalTrends('Overland');
+                      
+                      // Create map of all unique weeks
+                      const weekMap = new Map();
+                      
+                      goldenCoast.forEach(d => {
+                        weekMap.set(d.week, { week: d.week, goldenCoastCPM: d.cpm });
+                      });
+                      
+                      overland.forEach(d => {
+                        const existing = weekMap.get(d.week) || { week: d.week };
+                        weekMap.set(d.week, { ...existing, overlandCPM: d.cpm });
+                      });
+                      
+                      return Array.from(weekMap.values());
+                    })()}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                       <XAxis 
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        data={getRegionalTrends('Golden Coast')}
-                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -2012,8 +2043,7 @@ export default function App() {
                       />
                       <Line 
                         type="monotone" 
-                        dataKey="cpm" 
-                        data={getRegionalTrends('Golden Coast')}
+                        dataKey="goldenCoastCPM" 
                         stroke="#06b6d4" 
                         strokeWidth={3}
                         name="Golden Coast"
@@ -2021,8 +2051,7 @@ export default function App() {
                       />
                       <Line 
                         type="monotone" 
-                        dataKey="cpm" 
-                        data={getRegionalTrends('Overland')}
+                        dataKey="overlandCPM" 
                         stroke="#f59e0b" 
                         strokeWidth={3}
                         name="Overland"
