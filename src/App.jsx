@@ -855,26 +855,39 @@ export default function App() {
   const getCPMColor = (cpm) => cpm <= 1.45 ? 'text-emerald-400' : 'text-rose-400';
 
   // Format week number to readable date (MM/DD)
-  // Handles both 5-digit (25907) and 6-digit (250907) formats
+  // Handles multiple formats: 5-digit (25907), 6-digit (250907), and already-formatted dates
   const formatWeekLabel = (week) => {
     if (!week) return week;
-    const weekStr = String(week);
     
-    // Handle 5-digit format (missing leading zero in month: 25907)
-    if (weekStr.length === 5) {
-      const month = '0' + weekStr.substring(2, 3);  // Add leading 0 to month
+    // Convert to string and remove any whitespace
+    let weekStr = String(week).trim();
+    
+    // If already formatted (contains /), return as-is
+    if (weekStr.includes('/')) return weekStr;
+    
+    // Remove any non-digit characters
+    weekStr = weekStr.replace(/\D/g, '');
+    
+    // Handle different lengths
+    if (weekStr.length === 4) {
+      // Format: MMDD (1026 -> 10/26)
+      const month = weekStr.substring(0, 2);
+      const day = weekStr.substring(2, 4);
+      return `${month}/${day}`;
+    } else if (weekStr.length === 5) {
+      // Format: YMMDD (25907 -> 09/07)
+      const month = '0' + weekStr.substring(2, 3);
       const day = weekStr.substring(3, 5);
       return `${month}/${day}`;
-    }
-    
-    // Handle 6-digit format (YYMMDD: 250907)
-    if (weekStr.length === 6) {
+    } else if (weekStr.length === 6) {
+      // Format: YYMMDD (251026 -> 10/26)
       const month = weekStr.substring(2, 4);
       const day = weekStr.substring(4, 6);
       return `${month}/${day}`;
     }
     
-    return week;  // Return as-is if neither format
+    // Return original if no format matched
+    return week;
   };
 
   const getProductivityBg = (productivity) => {
