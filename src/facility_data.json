@@ -2952,7 +2952,9 @@
     "medBCaseload": 30,
     "modeOfTreatment": 4.42,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 301,
+    "medicareMPPRRevenue": 11127.26
   },
   {
     "facility": "The Win Post Acute",
@@ -2963,7 +2965,9 @@
     "medBCaseload": 17,
     "modeOfTreatment": 2.83,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 148,
+    "medicareMPPRRevenue": 5604.95
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2974,7 +2978,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 1.04,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 26,
+    "medicareMPPRRevenue": 858.31
   },
   {
     "facility": "Pac Coast PA",
@@ -2985,7 +2991,9 @@
     "medBCaseload": 7,
     "modeOfTreatment": 8.58,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 67,
+    "medicareMPPRRevenue": 2513.78
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -2996,7 +3004,9 @@
     "medBCaseload": 8,
     "modeOfTreatment": 3.0,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 76,
+    "medicareMPPRRevenue": 3028.97
   },
   {
     "facility": "Mountain View HC",
@@ -3007,7 +3017,9 @@
     "medBCaseload": 23,
     "modeOfTreatment": 6.45,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 257,
+    "medicareMPPRRevenue": 12214.9
   },
   {
     "facility": "Morgan Hill HC",
@@ -3018,7 +3030,9 @@
     "medBCaseload": 14,
     "modeOfTreatment": 2.37,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 125,
+    "medicareMPPRRevenue": 4084.44
   },
   {
     "facility": "Los Altos Post Acute",
@@ -3029,7 +3043,9 @@
     "medBCaseload": 5,
     "modeOfTreatment": 4.0,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 39,
+    "medicareMPPRRevenue": 1421.42
   },
   {
     "facility": "Golden Harbor HC",
@@ -3040,7 +3056,9 @@
     "medBCaseload": 12,
     "modeOfTreatment": 6.95,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 150,
+    "medicareMPPRRevenue": 6245.34
   },
   {
     "facility": "Gilroy HC",
@@ -3051,7 +3069,9 @@
     "medBCaseload": 19,
     "modeOfTreatment": 5.0,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 211,
+    "medicareMPPRRevenue": 8460.8
   },
   {
     "facility": "Eden HC",
@@ -3062,7 +3082,9 @@
     "medBCaseload": 34,
     "modeOfTreatment": 1.29,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 424,
+    "medicareMPPRRevenue": 17188.0
   },
   {
     "facility": "Cedarwood PA",
@@ -3073,7 +3095,9 @@
     "medBCaseload": 5,
     "modeOfTreatment": 1.87,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 112,
+    "medicareMPPRRevenue": 3559.03
   },
   {
     "facility": "Capital PA",
@@ -3084,7 +3108,9 @@
     "medBCaseload": 10,
     "modeOfTreatment": 2.51,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 25,
+    "medicareMPPRRevenue": 719.21
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -3095,7 +3121,9 @@
     "medBCaseload": 5,
     "modeOfTreatment": 7.36,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 31,
+    "medicareMPPRRevenue": 1025.81
   },
   {
     "facility": "Bridgewood PA",
@@ -3106,7 +3134,9 @@
     "medBCaseload": 1,
     "modeOfTreatment": 0.0,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 52,
+    "medicareMPPRRevenue": 1568.78
   },
   {
     "facility": "Belmont HC",
@@ -3117,7 +3147,9 @@
     "medBCaseload": 6,
     "modeOfTreatment": 4.53,
     "date": "2025-09-21",
-    "week": "250921"
+    "week": "250921",
+    "medBUnitsThisWeek": 75,
+    "medicareMPPRRevenue": 4940.3
   },
   {
     "facility": "West Shore PA",
@@ -3128,7 +3160,9 @@
     "medBCaseload": 29,
     "modeOfTreatment": 2.52,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 291,
+    "medicareMPPRRevenue": 12240.42
   },
   {
     "facility": "The Win Post Acute",
@@ -3139,7 +3173,9 @@
     "medBCaseload": 13,
     "modeOfTreatment": 2.06,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 121,
+    "medicareMPPRRevenue": 4748.32
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -3150,7 +3186,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 2.89,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 12,
+    "medicareMPPRRevenue": 400.61
   },
   {
     "facility": "Pac Coast PA",
@@ -3161,7 +3199,9 @@
     "medBCaseload": 4,
     "modeOfTreatment": 7.39,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 45,
+    "medicareMPPRRevenue": 1507.16
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -3172,7 +3212,9 @@
     "medBCaseload": 7,
     "modeOfTreatment": 6.35,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 108,
+    "medicareMPPRRevenue": 3931.78
   },
   {
     "facility": "Mountain View HC",
@@ -3183,7 +3225,9 @@
     "medBCaseload": 21,
     "modeOfTreatment": 5.57,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 238,
+    "medicareMPPRRevenue": 11436.33
   },
   {
     "facility": "Morgan Hill HC",
@@ -3194,7 +3238,9 @@
     "medBCaseload": 13,
     "modeOfTreatment": 2.72,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 166,
+    "medicareMPPRRevenue": 5404.46
   },
   {
     "facility": "Los Altos Post Acute",
@@ -3205,7 +3251,9 @@
     "medBCaseload": 5,
     "modeOfTreatment": 6.0,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 25,
+    "medicareMPPRRevenue": 950.74
   },
   {
     "facility": "Golden Harbor HC",
@@ -3216,7 +3264,9 @@
     "medBCaseload": 7,
     "modeOfTreatment": 7.9,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 60,
+    "medicareMPPRRevenue": 2103.79
   },
   {
     "facility": "Gilroy HC",
@@ -3227,7 +3277,9 @@
     "medBCaseload": 13,
     "modeOfTreatment": 1.5,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 164,
+    "medicareMPPRRevenue": 6739.19
   },
   {
     "facility": "Eden HC",
@@ -3238,7 +3290,9 @@
     "medBCaseload": 33,
     "modeOfTreatment": 2.0,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 402,
+    "medicareMPPRRevenue": 15659.31
   },
   {
     "facility": "Cedarwood PA",
@@ -3249,7 +3303,9 @@
     "medBCaseload": 7,
     "modeOfTreatment": 2.88,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 101,
+    "medicareMPPRRevenue": 3496.82
   },
   {
     "facility": "Capital PA",
@@ -3260,7 +3316,9 @@
     "medBCaseload": 2,
     "modeOfTreatment": 5.14,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 31,
+    "medicareMPPRRevenue": 913.74
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -3271,7 +3329,9 @@
     "medBCaseload": 4,
     "modeOfTreatment": 3.82,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 30,
+    "medicareMPPRRevenue": 1062.11
   },
   {
     "facility": "Bridgewood PA",
@@ -3282,7 +3342,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 1.52,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 62,
+    "medicareMPPRRevenue": 1865.16
   },
   {
     "facility": "Belmont HC",
@@ -3293,7 +3355,9 @@
     "medBCaseload": 6,
     "modeOfTreatment": 3.82,
     "date": "2025-09-14",
-    "week": "250914"
+    "week": "250914",
+    "medBUnitsThisWeek": 59,
+    "medicareMPPRRevenue": 3886.37
   },
   {
     "facility": "West Shore PA",
@@ -3304,7 +3368,9 @@
     "medBCaseload": 29,
     "modeOfTreatment": 2.19,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 257,
+    "medicareMPPRRevenue": 9736.27
   },
   {
     "facility": "The Win Post Acute",
@@ -3315,7 +3381,9 @@
     "medBCaseload": 11,
     "modeOfTreatment": 0.69,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 112,
+    "medicareMPPRRevenue": 4100.52
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -3326,7 +3394,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 2.36,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 22,
+    "medicareMPPRRevenue": 743.6
   },
   {
     "facility": "Pac Coast PA",
@@ -3337,7 +3407,9 @@
     "medBCaseload": 4,
     "modeOfTreatment": 7.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 51,
+    "medicareMPPRRevenue": 1800.76
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -3348,7 +3420,9 @@
     "medBCaseload": 7,
     "modeOfTreatment": 4.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 124,
+    "medicareMPPRRevenue": 4307.84
   },
   {
     "facility": "Mountain View HC",
@@ -3359,7 +3433,9 @@
     "medBCaseload": 21,
     "modeOfTreatment": 7.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 252,
+    "medicareMPPRRevenue": 12334.96
   },
   {
     "facility": "Morgan Hill HC",
@@ -3370,7 +3446,9 @@
     "medBCaseload": 11,
     "modeOfTreatment": 0.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 142,
+    "medicareMPPRRevenue": 4365.25
   },
   {
     "facility": "Los Altos Post Acute",
@@ -3381,7 +3459,9 @@
     "medBCaseload": 5,
     "modeOfTreatment": 13.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 27,
+    "medicareMPPRRevenue": 1003.2
   },
   {
     "facility": "Golden Harbor HC",
@@ -3392,7 +3472,9 @@
     "medBCaseload": 8,
     "modeOfTreatment": 7.95,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 37,
+    "medicareMPPRRevenue": 1289.05
   },
   {
     "facility": "Gilroy HC",
@@ -3403,7 +3485,9 @@
     "medBCaseload": 11,
     "modeOfTreatment": 5.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 117,
+    "medicareMPPRRevenue": 4684.85
   },
   {
     "facility": "Eden HC",
@@ -3414,7 +3498,9 @@
     "medBCaseload": 32,
     "modeOfTreatment": 0.82,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 548,
+    "medicareMPPRRevenue": 20668.46
   },
   {
     "facility": "Cedarwood PA",
@@ -3425,7 +3511,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 1.05,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 58,
+    "medicareMPPRRevenue": 2300.7
   },
   {
     "facility": "Capital PA",
@@ -3436,7 +3524,9 @@
     "medBCaseload": 2,
     "modeOfTreatment": 5.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 32,
+    "medicareMPPRRevenue": 974.51
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -3447,7 +3537,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 4.99,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 18,
+    "medicareMPPRRevenue": 598.4
   },
   {
     "facility": "Bridgewood PA",
@@ -3458,7 +3550,9 @@
     "medBCaseload": 3,
     "modeOfTreatment": 6.0,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 58,
+    "medicareMPPRRevenue": 1874.5
   },
   {
     "facility": "Belmont HC",
@@ -3469,6 +3563,8 @@
     "medBCaseload": 6,
     "modeOfTreatment": 4.21,
     "date": "2025-09-07",
-    "week": "250907"
+    "week": "250907",
+    "medBUnitsThisWeek": 64,
+    "medicareMPPRRevenue": 4150.59
   }
 ]
