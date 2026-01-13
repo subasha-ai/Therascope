@@ -7,7 +7,7 @@
     "date": "2026-01-04",
     "modeOfTreatment": 0.06,
     "medBUnitsThisWeek": 87,
-    "medBEligible": 15,
+    "medBEligible": 43,
     "medBCaseload": 15,
     "cpm": 1.48
   },
@@ -33,7 +33,7 @@
     "week": "260104",
     "date": "2026-01-04",
     "medBUnitsThisWeek": 10,
-    "medBEligible": 2,
+    "medBEligible": 6,
     "medBCaseload": 2,
     "modeOfTreatment": 0,
     "cpm": 1.48
@@ -103,7 +103,7 @@
     "region": "Golden Coast",
     "productivity": 78.2,
     "cpm": 1.51,
-    "medBEligible": 25,
+    "medBEligible": 34,
     "medBCaseload": 4,
     "medBUnitsThisWeek": 20,
     "unitsPerVisit": 2.22,
@@ -118,7 +118,7 @@
     "region": "Golden Coast",
     "productivity": 87.7,
     "cpm": 1.3,
-    "medBEligible": 27,
+    "medBEligible": 29,
     "medBCaseload": 20,
     "medBUnitsThisWeek": 259,
     "unitsPerVisit": 2.88,
@@ -135,7 +135,7 @@
     "date": "2026-01-04",
     "modeOfTreatment": 0.09,
     "medBUnitsThisWeek": 53,
-    "medBEligible": 5,
+    "medBEligible": 22,
     "medBCaseload": 5,
     "cpm": 1.61
   },
@@ -162,7 +162,7 @@
     "date": "2026-01-04",
     "modeOfTreatment": 0.03,
     "medBUnitsThisWeek": 415,
-    "medBEligible": 41,
+    "medBEligible": 73,
     "medBCaseload": 41,
     "cpm": 1.51
   },
@@ -173,7 +173,7 @@
     "week": "260104",
     "date": "2026-01-04",
     "modeOfTreatment": 0.01,
-    "medBEligible": 0,
+    "medBEligible": 4,
     "medBCaseload": 0,
     "medBUnitsThisWeek": 0,
     "cpm": 1.47
@@ -186,7 +186,7 @@
     "date": "2026-01-04",
     "modeOfTreatment": 0.05,
     "medBUnitsThisWeek": 131,
-    "medBEligible": 11,
+    "medBEligible": 28,
     "medBCaseload": 11,
     "cpm": 1.41
   },
@@ -212,7 +212,7 @@
     "week": "260104",
     "date": "2026-01-04",
     "medBUnitsThisWeek": 32,
-    "medBEligible": 5,
+    "medBEligible": 14,
     "medBCaseload": 5,
     "modeOfTreatment": 0,
     "cpm": 1.93
@@ -225,7 +225,7 @@
     "date": "2026-01-04",
     "modeOfTreatment": 0.04,
     "medBUnitsThisWeek": 15,
-    "medBEligible": 4,
+    "medBEligible": 12,
     "medBCaseload": 4,
     "cpm": 1.4
   },
