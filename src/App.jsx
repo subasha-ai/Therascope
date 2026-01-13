@@ -375,8 +375,10 @@ export default function App() {
 
   // Get last 4 months of data for trends
   const getLast4MonthsTrends = () => {
-    // Get all unique weeks, sorted
-    const allWeeks = [...new Set(allWeeklyData.map(d => d.week))].sort();
+    // Get all unique weeks and sort numerically (not alphabetically!)
+    const allWeeks = [...new Set(allWeeklyData.map(d => d.week))].sort((a, b) => {
+      return String(a).localeCompare(String(b), undefined, { numeric: true });
+    });
     
     // Get last 16-18 weeks (roughly 4 months)
     const recentWeeks = allWeeks.slice(-16);
@@ -392,11 +394,8 @@ export default function App() {
       const totalMedicareRevenue = weekData.reduce((sum, d) => sum + (d.medicareMPPRRevenue || 0), 0);
       const totalFacilities = weekData.length;
       
-      // Format week for display (e.g., "251228" -> "12/28")
-      const weekLabel = week.length === 6 ? `${week.slice(2,4)}/${week.slice(4,6)}` : week;
-      
       return {
-        week: weekLabel,
+        week: formatWeekLabel(week),  // Use our formatter function!
         fullWeek: week,
         productivity: parseFloat(avgProductivity.toFixed(1)),
         cpm: parseFloat(avgCPM.toFixed(2)),
@@ -412,7 +411,11 @@ export default function App() {
 
   // Get regional trends
   const getRegionalTrends = (region) => {
-    const allWeeks = [...new Set(allWeeklyData.map(d => d.week))].sort();
+    // Get unique weeks and sort numerically (not alphabetically!)
+    const allWeeks = [...new Set(allWeeklyData.map(d => d.week))].sort((a, b) => {
+      // Convert to strings and compare numerically
+      return String(a).localeCompare(String(b), undefined, { numeric: true });
+    });
     const recentWeeks = allWeeks.slice(-16);
     
     const trendData = recentWeeks.map(week => {
@@ -422,10 +425,9 @@ export default function App() {
       
       const avgProductivity = weekData.reduce((sum, d) => sum + (d.productivity || 0), 0) / weekData.length;
       const avgCPM = weekData.reduce((sum, d) => sum + (d.cpm || 0), 0) / weekData.length;
-      const weekLabel = week.length === 6 ? `${week.slice(2,4)}/${week.slice(4,6)}` : week;
       
       return {
-        week: weekLabel,
+        week: formatWeekLabel(week),  // Use our formatter function!
         productivity: parseFloat(avgProductivity.toFixed(1)),
         cpm: parseFloat(avgCPM.toFixed(2))
       };
