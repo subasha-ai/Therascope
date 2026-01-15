@@ -5,12 +5,13 @@
     "productivity": 85.0,
     "week": "260104",
     "date": "2026-01-04",
-    "modeOfTreatment": 5.10,
+    "modeOfTreatment": 5.1,
     "medBUnitsThisWeek": 87,
     "medBEligible": 43,
     "medBCaseload": 15,
     "cpm": 1.48,
-    "medicareMPPRRevenue": 3343.18
+    "medicareMPPRRevenue": 3343.18,
+    "unitsPerVisit": 2.72
   },
   {
     "week": "260104",
@@ -38,7 +39,8 @@
     "medBCaseload": 2,
     "modeOfTreatment": 0.35,
     "cpm": 1.48,
-    "medicareMPPRRevenue": 323.19
+    "medicareMPPRRevenue": 323.19,
+    "unitsPerVisit": 3.33
   },
   {
     "week": "260104",
@@ -140,7 +142,8 @@
     "medBEligible": 22,
     "medBCaseload": 5,
     "cpm": 1.61,
-    "medicareMPPRRevenue": 1989.39
+    "medicareMPPRRevenue": 1989.39,
+    "unitsPerVisit": 3.53
   },
   {
     "week": "260104",
@@ -163,12 +166,13 @@
     "productivity": 77.4,
     "week": "260104",
     "date": "2026-01-04",
-    "modeOfTreatment": 0.03,
+    "modeOfTreatment": 1.5,
     "medBUnitsThisWeek": 415,
     "medBEligible": 73,
     "medBCaseload": 41,
     "cpm": 1.51,
-    "medicareMPPRRevenue": 17114.67
+    "medicareMPPRRevenue": 17114.67,
+    "unitsPerVisit": 2.8
   },
   {
     "facility": "Cedarwood PA",
@@ -176,7 +180,7 @@
     "productivity": 77.0,
     "week": "260104",
     "date": "2026-01-04",
-    "modeOfTreatment": 0.70,
+    "modeOfTreatment": 0.7,
     "medBEligible": 4,
     "medBCaseload": 0,
     "medBUnitsThisWeek": 0,
@@ -193,7 +197,8 @@
     "medBEligible": 28,
     "medBCaseload": 11,
     "cpm": 1.41,
-    "medicareMPPRRevenue": 4129.03
+    "medicareMPPRRevenue": 4129.03,
+    "unitsPerVisit": 3.33
   },
   {
     "week": "260104",
@@ -219,9 +224,10 @@
     "medBUnitsThisWeek": 32,
     "medBEligible": 14,
     "medBCaseload": 5,
-    "modeOfTreatment": 0,
+    "modeOfTreatment": 0.0,
     "cpm": 1.93,
-    "medicareMPPRRevenue": 1201.25
+    "medicareMPPRRevenue": 1201.25,
+    "unitsPerVisit": 2.29
   },
   {
     "facility": "Belmont HC",
@@ -234,7 +240,8 @@
     "medBEligible": 12,
     "medBCaseload": 4,
     "cpm": 1.4,
-    "medicareMPPRRevenue": 1061.68
+    "medicareMPPRRevenue": 1061.68,
+    "unitsPerVisit": 2.5
   },
   {
     "week": "251228",
