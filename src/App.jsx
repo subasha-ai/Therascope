@@ -55,7 +55,29 @@ export default function App() {
   
   // Password protection
   const ADMIN_PASSWORD = 'WalkTalkWin';
-  const DOR_PASSWORD = 'StrongSteps';
+  
+  // DOR passwords - each facility has unique password
+  const DOR_PASSWORDS = {
+    // Golden Coast Region
+    'The Win Post Acute': 'WinningSteps',
+    'Mountain View HC': 'MountainStride',
+    'Morgan Hill HC': 'HillClimber',
+    'Los Altos Post Acute': 'AltosRise',
+    'Gilroy HC': 'GilroyGrowth',
+    'Manresa HC': 'ManresaMoves',
+    'PAC Hills Post Acute': 'HillsideHeal',
+    'Pac Coast PA': 'CoastalCare',
+    'Camino Ridge Post Acute': 'RidgeWalk',
+    // Overland Region
+    'Eden HC': 'EdenElevate',
+    'West Shore PA': 'ShoreStrong',
+    'Golden Harbor HC': 'HarborHealth',
+    'Belmont HC': 'BelmontBoost',
+    'Palo Alto Post Acute': 'AltoPace',
+    'Bridgewood PA': 'BridgeSteps',
+    'Cedarwood PA': 'CedarStride',
+    'Capital PA': 'CapitalCare'
+  };
   
   const logActivity = (activityType, details) => {
     // Log to console (in production, this would send to a backend)
@@ -78,12 +100,20 @@ export default function App() {
       setIsAuthenticated(true);
       logActivity('LOGIN', { success: true, loginType: 'admin' });
       setPasswordAttempt('');
-    } else if (loginType === 'dor' && passwordAttempt === DOR_PASSWORD && selectedFacilityForLogin) {
-      setIsAuthenticated(true);
-      logActivity('LOGIN', { success: true, loginType: 'dor', facility: selectedFacilityForLogin });
-      setPasswordAttempt('');
+    } else if (loginType === 'dor' && selectedFacilityForLogin) {
+      // Check if password matches the facility-specific password
+      const correctPassword = DOR_PASSWORDS[selectedFacilityForLogin];
+      if (passwordAttempt === correctPassword) {
+        setIsAuthenticated(true);
+        logActivity('LOGIN', { success: true, loginType: 'dor', facility: selectedFacilityForLogin });
+        setPasswordAttempt('');
+      } else {
+        alert('Incorrect password. Please try again.');
+        logActivity('LOGIN', { success: false, loginType, facility: selectedFacilityForLogin });
+        setPasswordAttempt('');
+      }
     } else {
-      alert('Incorrect password or missing facility selection. Please try again.');
+      alert('Missing facility selection. Please select your facility.');
       logActivity('LOGIN', { success: false, loginType, facility: selectedFacilityForLogin });
       setPasswordAttempt('');
     }
