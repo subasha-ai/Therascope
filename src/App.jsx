@@ -55,6 +55,7 @@ export default function App() {
   
   // Password protection
   const ADMIN_PASSWORD = 'WalkTalkWin';
+  const MASTER_DOR_PASSWORD = 'StrongSteps'; // Works for all facilities (for you)
   
   // DOR passwords - each facility has unique password
   const DOR_PASSWORDS = {
@@ -101,9 +102,9 @@ export default function App() {
       logActivity('LOGIN', { success: true, loginType: 'admin' });
       setPasswordAttempt('');
     } else if (loginType === 'dor' && selectedFacilityForLogin) {
-      // Check if password matches the facility-specific password
+      // Check if password matches the master password OR facility-specific password
       const correctPassword = DOR_PASSWORDS[selectedFacilityForLogin];
-      if (passwordAttempt === correctPassword) {
+      if (passwordAttempt === MASTER_DOR_PASSWORD || passwordAttempt === correctPassword) {
         setIsAuthenticated(true);
         logActivity('LOGIN', { success: true, loginType: 'dor', facility: selectedFacilityForLogin });
         setPasswordAttempt('');
@@ -113,7 +114,7 @@ export default function App() {
         setPasswordAttempt('');
       }
     } else {
-      alert('Missing facility selection. Please select your facility.');
+      alert('Incorrect password or missing facility selection. Please try again.');
       logActivity('LOGIN', { success: false, loginType, facility: selectedFacilityForLogin });
       setPasswordAttempt('');
     }
