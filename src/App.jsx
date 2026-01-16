@@ -1583,15 +1583,7 @@ export default function App() {
               ))}
             </div>
 
-            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 ${isRestrictedView ? 'relative' : ''}`}>
-              {isRestrictedView && (
-                <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-md z-10 rounded-3xl flex items-center justify-center">
-                  <div className="text-center">
-                    <p className="text-xl font-bold text-white mb-2">Regional Metrics</p>
-                    <p className="text-slate-400">Access restricted to facility view only</p>
-                  </div>
-                </div>
-              )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div 
                 onClick={() => {
                   setSelectedRegion('Golden Coast');
@@ -1715,7 +1707,8 @@ export default function App() {
               </div>
             </div>
 
-            {/* 4-MONTH TRENDS SECTION */}
+            {/* 4-MONTH TRENDS SECTION - Admin Only */}
+            {!isRestrictedView && (
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
               <div className="mb-6">
                 <h2 className="text-2xl font-black text-white tracking-tight mb-2">📈 Performance Trends</h2>
@@ -1951,6 +1944,7 @@ export default function App() {
                 
               </div>
             </div>
+            )}
             
             {/* REGIONAL COMPARISON */}
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
