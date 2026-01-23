@@ -2299,6 +2299,126 @@ export default function App() {
 
 {activeView === 'facilities' && (
           <div className="space-y-6 animate-fadeIn">
+            {/* DOR Overview Cards */}
+            {isRestrictedView && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {metrics.map((metric, idx) => (
+                  <div 
+                    key={idx}
+                    className={`relative bg-gradient-to-br ${metric.bgGradient} rounded-3xl p-8 shadow-2xl border border-white/20 hover:shadow-cyan-500/20 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group overflow-hidden`}
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-3xl"></div>
+                    <div className="relative">
+                      <div className={`w-16 h-16 bg-gradient-to-br ${metric.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-xl transform group-hover:rotate-12 transition-transform duration-500`}>
+                        <metric.icon className="w-8 h-8 text-white" strokeWidth={2.5} />
+                      </div>
+                      <div className="text-5xl font-black text-slate-900 mb-2 tracking-tight">{metric.value}</div>
+                      <div className="text-sm text-slate-700 font-bold mb-3 uppercase tracking-wide">{metric.label}</div>
+                      <div className={`inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 bg-gradient-to-r ${metric.gradient} text-white rounded-full shadow-lg`}>
+                        <TrendingUp className="w-3 h-3" />
+                        {metric.change}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {/* DOR Regional Cards */}
+            {isRestrictedView && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Golden Coast</h3>
+                      <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg Productivity</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(goldenCoastData.reduce((s, f) => s + f.productivity, 0) / goldenCoastData.length)}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg CPM</div>
+                      <div className="text-3xl font-black text-white">
+                        ${(goldenCoastData.reduce((s, f) => s + f.cpm, 0) / goldenCoastData.length).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Med B Performance</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const totalCaseload = goldenCoastData.reduce((s, f) => s + f.medBCaseload, 0);
+                          const totalEligible = goldenCoastData.reduce((s, f) => s + f.medBEligible, 0);
+                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                        })()}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Overland</h3>
+                      <p className="text-blue-200 font-medium">{overlandData.length} facilities</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg Productivity</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(overlandData.reduce((s, f) => s + f.productivity, 0) / overlandData.length)}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg CPM</div>
+                      <div className="text-3xl font-black text-white">
+                        ${(overlandData.reduce((s, f) => s + f.cpm, 0) / overlandData.length).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Med B Performance</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const totalCaseload = overlandData.reduce((s, f) => s + f.medBCaseload, 0);
+                          const totalEligible = overlandData.reduce((s, f) => s + f.medBEligible, 0);
+                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                        })()}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
                 <div className="flex-1 min-w-[200px] relative">
