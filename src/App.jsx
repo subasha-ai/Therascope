@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet, DollarSign } from 'lucide-react';
+import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet, DollarSign, ArrowLeft } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -2491,6 +2491,19 @@ export default function App() {
 
                       {isExpanded && (
                         <div className="bg-white/3 p-8 border-t border-white/10 animate-fadeIn">
+                          {/* Back Button for DOR View */}
+                          {isRestrictedView && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setExpandedFacility(null);
+                              }}
+                              className="mb-6 flex items-center gap-2 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 rounded-xl text-cyan-300 font-bold transition-all duration-300 hover:scale-105"
+                            >
+                              <ArrowLeft className="w-4 h-4" />
+                              Back to Overview
+                            </button>
+                          )}
                           <div className="flex items-center justify-between mb-6">
                             <h4 className="text-xl font-bold text-white">Historical Performance</h4>
                             <div className="flex gap-2 bg-white/5 rounded-xl p-1">
