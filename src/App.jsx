@@ -2497,6 +2497,7 @@ export default function App() {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setExpandedFacility(null);
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
                               }}
                               className="mb-6 flex items-center gap-2 px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 rounded-xl text-cyan-300 font-bold transition-all duration-300 hover:scale-105"
                             >
