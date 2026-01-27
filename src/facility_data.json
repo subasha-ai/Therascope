@@ -3835,10 +3835,7 @@
     "modeOfTreatment": 0.2,
     "medBEligible": 6,
     "medBCaseload": 0,
-    "unitsPerVisit": 0.0,
-    "medBUnitsThisWeek": 0,
-    "medicareGrossRevenue": 0.0,
-    "medicareMPPRRevenue": 0.0
+    "unitsPerVisit": 0.0
   },
   {
     "week": "260118",
@@ -3850,10 +3847,7 @@
     "modeOfTreatment": 6.56,
     "medBEligible": 40,
     "medBCaseload": 16,
-    "unitsPerVisit": 3.38,
-    "medBUnitsThisWeek": 220,
-    "medicareGrossRevenue": 8648.73,
-    "medicareMPPRRevenue": 7091.96
+    "unitsPerVisit": 3.38
   },
   {
     "week": "260118",
@@ -3865,10 +3859,7 @@
     "modeOfTreatment": 0.25,
     "medBEligible": 15,
     "medBCaseload": 10,
-    "unitsPerVisit": 2.8,
-    "medBUnitsThisWeek": 115,
-    "medicareGrossRevenue": 4520.93,
-    "medicareMPPRRevenue": 3707.16
+    "unitsPerVisit": 2.8
   },
   {
     "week": "260118",
@@ -3880,10 +3871,7 @@
     "modeOfTreatment": 0,
     "medBEligible": 30,
     "medBCaseload": 18,
-    "unitsPerVisit": 2.7,
-    "medBUnitsThisWeek": 213,
-    "medicareGrossRevenue": 8373.54,
-    "medicareMPPRRevenue": 6866.3
+    "unitsPerVisit": 2.7
   },
   {
     "week": "260118",
@@ -3895,10 +3883,7 @@
     "modeOfTreatment": 0,
     "medBEligible": 35,
     "medBCaseload": 5,
-    "unitsPerVisit": 1.79,
-    "medBUnitsThisWeek": 25,
-    "medicareGrossRevenue": 982.81,
-    "medicareMPPRRevenue": 805.9
+    "unitsPerVisit": 1.79
   },
   {
     "week": "260118",
@@ -3910,10 +3895,7 @@
     "modeOfTreatment": 4.55,
     "medBEligible": 29,
     "medBCaseload": 12,
-    "unitsPerVisit": 2.79,
-    "medBUnitsThisWeek": 95,
-    "medicareGrossRevenue": 3734.68,
-    "medicareMPPRRevenue": 3062.44
+    "unitsPerVisit": 2.79
   },
   {
     "week": "260118",
@@ -3925,10 +3907,7 @@
     "modeOfTreatment": 4.21,
     "medBEligible": 17,
     "medBCaseload": 12,
-    "unitsPerVisit": 3.82,
-    "medBUnitsThisWeek": 145,
-    "medicareGrossRevenue": 5700.3,
-    "medicareMPPRRevenue": 4674.24
+    "unitsPerVisit": 3.82
   },
   {
     "week": "260118",
@@ -3940,10 +3919,7 @@
     "modeOfTreatment": 6.79,
     "medBEligible": 11,
     "medBCaseload": 5,
-    "unitsPerVisit": 2.92,
-    "medBUnitsThisWeek": 38,
-    "medicareGrossRevenue": 1466.77,
-    "medicareMPPRRevenue": 1202.75
+    "unitsPerVisit": 2.92
   },
   {
     "week": "260118",
@@ -3955,10 +3931,7 @@
     "modeOfTreatment": 0,
     "medBEligible": 5,
     "medBCaseload": 12,
-    "unitsPerVisit": 1.85,
-    "medBUnitsThisWeek": 24,
-    "medicareGrossRevenue": 813.47,
-    "medicareMPPRRevenue": 667.05
+    "unitsPerVisit": 1.85
   },
   {
     "week": "260118",
@@ -3970,10 +3943,7 @@
     "modeOfTreatment": 6.42,
     "medBEligible": 28,
     "medBCaseload": 9,
-    "unitsPerVisit": 3.34,
-    "medBUnitsThisWeek": 107,
-    "medicareGrossRevenue": 3626.72,
-    "medicareMPPRRevenue": 2973.91
+    "unitsPerVisit": 3.34
   },
   {
     "week": "260118",
@@ -3985,10 +3955,7 @@
     "modeOfTreatment": 3.01,
     "medBEligible": 5,
     "medBCaseload": 0,
-    "unitsPerVisit": 0.0,
-    "medBUnitsThisWeek": 0,
-    "medicareGrossRevenue": 0.0,
-    "medicareMPPRRevenue": 0.0
+    "unitsPerVisit": 0.0
   },
   {
     "week": "260118",
@@ -4000,10 +3967,7 @@
     "modeOfTreatment": 1.33,
     "medBEligible": 64,
     "medBCaseload": 45,
-    "unitsPerVisit": 2.8,
-    "medBUnitsThisWeek": 423,
-    "medicareGrossRevenue": 16327.46,
-    "medicareMPPRRevenue": 13388.52
+    "unitsPerVisit": 2.8
   },
   {
     "week": "260118",
@@ -4015,10 +3979,7 @@
     "modeOfTreatment": 3.66,
     "medBEligible": 21,
     "medBCaseload": 10,
-    "unitsPerVisit": 3.5,
-    "medBUnitsThisWeek": 91,
-    "medicareGrossRevenue": 3512.53,
-    "medicareMPPRRevenue": 2880.27
+    "unitsPerVisit": 3.5
   },
   {
     "week": "260118",
@@ -4026,14 +3987,11 @@
     "region": "Golden Coast",
     "productivity": 93.1,
     "date": "2026-01-18",
-    "cpm": 1.34,
+    "cpm": 0.0,
     "modeOfTreatment": 0,
     "medBEligible": 16,
     "medBCaseload": 16,
-    "unitsPerVisit": 3.29,
-    "medBUnitsThisWeek": 168,
-    "medicareGrossRevenue": 6604.48,
-    "medicareMPPRRevenue": 5415.68
+    "unitsPerVisit": 3.29
   },
   {
     "week": "260118",
@@ -4045,10 +4003,7 @@
     "modeOfTreatment": 6.22,
     "medBEligible": 34,
     "medBCaseload": 22,
-    "unitsPerVisit": 3.63,
-    "medBUnitsThisWeek": 214,
-    "medicareGrossRevenue": 8412.85,
-    "medicareMPPRRevenue": 6898.54
+    "unitsPerVisit": 3.63
   },
   {
     "week": "260118",
@@ -4060,9 +4015,21 @@
     "modeOfTreatment": 4.73,
     "medBEligible": 41,
     "medBCaseload": 14,
-    "unitsPerVisit": 2.33,
-    "medBUnitsThisWeek": 49,
-    "medicareGrossRevenue": 1891.36,
-    "medicareMPPRRevenue": 1550.92
+    "unitsPerVisit": 2.33
+  },
+  {
+    "week": "260118",
+    "facility": "The Win Post Acute",
+    "region": "Golden Coast",
+    "productivity": 92.8,
+    "cpm": 1.41,
+    "medBEligible": 34,
+    "medBCaseload": 36,
+    "medBUnitsThisWeek": 327,
+    "unitsPerVisit": 3.37,
+    "date": "2026-01-18",
+    "modeOfTreatment": 5.07,
+    "medicareGrossRevenue": 12854.37,
+    "medicareMPPRRevenue": 10540.58
   }
 ]
