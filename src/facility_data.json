@@ -10,7 +10,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 257,
-    "medicareMPPRRevenue": 9736.27
+    "medicareMPPRRevenue": 9736.27,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -23,7 +24,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 112,
-    "medicareMPPRRevenue": 4100.52
+    "medicareMPPRRevenue": 4100.52,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -36,7 +38,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 22,
-    "medicareMPPRRevenue": 743.6
+    "medicareMPPRRevenue": 743.6,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -49,7 +52,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 51,
-    "medicareMPPRRevenue": 1800.76
+    "medicareMPPRRevenue": 1800.76,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -62,7 +66,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 124,
-    "medicareMPPRRevenue": 4307.84
+    "medicareMPPRRevenue": 4307.84,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -75,7 +80,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 252,
-    "medicareMPPRRevenue": 12334.96
+    "medicareMPPRRevenue": 12334.96,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -88,7 +94,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 142,
-    "medicareMPPRRevenue": 4365.25
+    "medicareMPPRRevenue": 4365.25,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -101,7 +108,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 27,
-    "medicareMPPRRevenue": 1003.2
+    "medicareMPPRRevenue": 1003.2,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -114,7 +122,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 37,
-    "medicareMPPRRevenue": 1289.05
+    "medicareMPPRRevenue": 1289.05,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -127,7 +136,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 117,
-    "medicareMPPRRevenue": 4684.85
+    "medicareMPPRRevenue": 4684.85,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -140,7 +150,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 548,
-    "medicareMPPRRevenue": 20668.46
+    "medicareMPPRRevenue": 20668.46,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -153,7 +164,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 58,
-    "medicareMPPRRevenue": 2300.7
+    "medicareMPPRRevenue": 2300.7,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -166,7 +178,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 32,
-    "medicareMPPRRevenue": 974.51
+    "medicareMPPRRevenue": 974.51,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -179,7 +192,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 18,
-    "medicareMPPRRevenue": 598.4
+    "medicareMPPRRevenue": 598.4,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -192,7 +206,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 58,
-    "medicareMPPRRevenue": 1874.5
+    "medicareMPPRRevenue": 1874.5,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -205,7 +220,8 @@
     "date": "2025-09-07",
     "week": "250907",
     "medBUnitsThisWeek": 64,
-    "medicareMPPRRevenue": 4150.59
+    "medicareMPPRRevenue": 4150.59,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "West Shore PA",
@@ -217,8 +233,9 @@
     "modeOfTreatment": 2.52,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 291,
-    "medicareMPPRRevenue": 12240.42
+    "medBUnitsThisWeek": 548,
+    "medicareMPPRRevenue": 21976.69,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -230,8 +247,9 @@
     "modeOfTreatment": 2.06,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 121,
-    "medicareMPPRRevenue": 4748.32
+    "medBUnitsThisWeek": 233,
+    "medicareMPPRRevenue": 8848.84,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -243,8 +261,9 @@
     "modeOfTreatment": 2.89,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 12,
-    "medicareMPPRRevenue": 400.61
+    "medBUnitsThisWeek": 34,
+    "medicareMPPRRevenue": 1144.21,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -256,8 +275,9 @@
     "modeOfTreatment": 7.39,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 45,
-    "medicareMPPRRevenue": 1507.16
+    "medBUnitsThisWeek": 96,
+    "medicareMPPRRevenue": 3307.92,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -269,8 +289,9 @@
     "modeOfTreatment": 6.35,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 108,
-    "medicareMPPRRevenue": 3931.78
+    "medBUnitsThisWeek": 232,
+    "medicareMPPRRevenue": 8239.62,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -282,8 +303,9 @@
     "modeOfTreatment": 5.57,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 238,
-    "medicareMPPRRevenue": 11436.33
+    "medBUnitsThisWeek": 490,
+    "medicareMPPRRevenue": 23771.29,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -295,8 +317,9 @@
     "modeOfTreatment": 2.72,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 166,
-    "medicareMPPRRevenue": 5404.46
+    "medBUnitsThisWeek": 308,
+    "medicareMPPRRevenue": 9769.71,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -308,8 +331,9 @@
     "modeOfTreatment": 6.0,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 25,
-    "medicareMPPRRevenue": 950.74
+    "medBUnitsThisWeek": 52,
+    "medicareMPPRRevenue": 1953.94,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -321,8 +345,9 @@
     "modeOfTreatment": 7.9,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 60,
-    "medicareMPPRRevenue": 2103.79
+    "medBUnitsThisWeek": 97,
+    "medicareMPPRRevenue": 3392.84,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -334,8 +359,9 @@
     "modeOfTreatment": 1.5,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 164,
-    "medicareMPPRRevenue": 6739.19
+    "medBUnitsThisWeek": 281,
+    "medicareMPPRRevenue": 11424.04,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -347,8 +373,9 @@
     "modeOfTreatment": 2.0,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 402,
-    "medicareMPPRRevenue": 15659.31
+    "medBUnitsThisWeek": 950,
+    "medicareMPPRRevenue": 36327.77,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -360,8 +387,9 @@
     "modeOfTreatment": 2.88,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 101,
-    "medicareMPPRRevenue": 3496.82
+    "medBUnitsThisWeek": 159,
+    "medicareMPPRRevenue": 5797.52,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -373,8 +401,9 @@
     "modeOfTreatment": 5.14,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 31,
-    "medicareMPPRRevenue": 913.74
+    "medBUnitsThisWeek": 63,
+    "medicareMPPRRevenue": 1888.25,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -386,8 +415,9 @@
     "modeOfTreatment": 3.82,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 30,
-    "medicareMPPRRevenue": 1062.11
+    "medBUnitsThisWeek": 48,
+    "medicareMPPRRevenue": 1660.51,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -399,8 +429,9 @@
     "modeOfTreatment": 1.52,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 62,
-    "medicareMPPRRevenue": 1865.16
+    "medBUnitsThisWeek": 120,
+    "medicareMPPRRevenue": 3739.66,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -412,8 +443,9 @@
     "modeOfTreatment": 3.82,
     "date": "2025-09-14",
     "week": "250914",
-    "medBUnitsThisWeek": 59,
-    "medicareMPPRRevenue": 3886.37
+    "medBUnitsThisWeek": 123,
+    "medicareMPPRRevenue": 8036.96,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "West Shore PA",
@@ -425,8 +457,9 @@
     "modeOfTreatment": 4.42,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 301,
-    "medicareMPPRRevenue": 11127.26
+    "medBUnitsThisWeek": 849,
+    "medicareMPPRRevenue": 33103.95,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -438,8 +471,9 @@
     "modeOfTreatment": 2.83,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 148,
-    "medicareMPPRRevenue": 5604.95
+    "medBUnitsThisWeek": 381,
+    "medicareMPPRRevenue": 14453.79,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -451,8 +485,9 @@
     "modeOfTreatment": 1.04,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 26,
-    "medicareMPPRRevenue": 858.31
+    "medBUnitsThisWeek": 60,
+    "medicareMPPRRevenue": 2002.52,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -464,8 +499,9 @@
     "modeOfTreatment": 8.58,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 67,
-    "medicareMPPRRevenue": 2513.78
+    "medBUnitsThisWeek": 163,
+    "medicareMPPRRevenue": 5821.7,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -477,8 +513,9 @@
     "modeOfTreatment": 3.0,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 76,
-    "medicareMPPRRevenue": 3028.97
+    "medBUnitsThisWeek": 308,
+    "medicareMPPRRevenue": 11268.59,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -490,8 +527,9 @@
     "modeOfTreatment": 6.45,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 257,
-    "medicareMPPRRevenue": 12214.9
+    "medBUnitsThisWeek": 747,
+    "medicareMPPRRevenue": 35986.19,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -503,8 +541,9 @@
     "modeOfTreatment": 2.37,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 125,
-    "medicareMPPRRevenue": 4084.44
+    "medBUnitsThisWeek": 433,
+    "medicareMPPRRevenue": 13854.15,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -516,8 +555,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 39,
-    "medicareMPPRRevenue": 1421.42
+    "medBUnitsThisWeek": 91,
+    "medicareMPPRRevenue": 3375.36,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -529,8 +569,9 @@
     "modeOfTreatment": 6.95,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 150,
-    "medicareMPPRRevenue": 6245.34
+    "medBUnitsThisWeek": 247,
+    "medicareMPPRRevenue": 9638.18,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -542,8 +583,9 @@
     "modeOfTreatment": 5.0,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 211,
-    "medicareMPPRRevenue": 8460.8
+    "medBUnitsThisWeek": 492,
+    "medicareMPPRRevenue": 19884.84,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -555,8 +597,9 @@
     "modeOfTreatment": 1.29,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 424,
-    "medicareMPPRRevenue": 17188.0
+    "medBUnitsThisWeek": 1374,
+    "medicareMPPRRevenue": 53515.77,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -568,8 +611,9 @@
     "modeOfTreatment": 1.87,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 112,
-    "medicareMPPRRevenue": 3559.03
+    "medBUnitsThisWeek": 271,
+    "medicareMPPRRevenue": 9356.55,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -581,8 +625,9 @@
     "modeOfTreatment": 2.51,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 25,
-    "medicareMPPRRevenue": 719.21
+    "medBUnitsThisWeek": 88,
+    "medicareMPPRRevenue": 2607.46,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -594,8 +639,9 @@
     "modeOfTreatment": 7.36,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 31,
-    "medicareMPPRRevenue": 1025.81
+    "medBUnitsThisWeek": 79,
+    "medicareMPPRRevenue": 2686.32,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -607,8 +653,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 52,
-    "medicareMPPRRevenue": 1568.78
+    "medBUnitsThisWeek": 172,
+    "medicareMPPRRevenue": 5308.44,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -620,8 +667,9 @@
     "modeOfTreatment": 4.53,
     "date": "2025-09-21",
     "week": "250921",
-    "medBUnitsThisWeek": 75,
-    "medicareMPPRRevenue": 4940.3
+    "medBUnitsThisWeek": 198,
+    "medicareMPPRRevenue": 12977.26,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "West Shore PA",
@@ -633,8 +681,9 @@
     "modeOfTreatment": 4.82,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 387,
-    "medicareMPPRRevenue": 14233.67
+    "medBUnitsThisWeek": 1236,
+    "medicareMPPRRevenue": 47337.62,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -645,7 +694,10 @@
     "medBCaseload": 17,
     "modeOfTreatment": 3.91,
     "date": "2025-09-28",
-    "week": "250928"
+    "week": "250928",
+    "medBUnitsThisWeek": 381,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 14453.79
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -656,7 +708,10 @@
     "medBCaseload": 3,
     "modeOfTreatment": 0.67,
     "date": "2025-09-28",
-    "week": "250928"
+    "week": "250928",
+    "medBUnitsThisWeek": 60,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 2002.52
   },
   {
     "facility": "Pac Coast PA",
@@ -668,8 +723,9 @@
     "modeOfTreatment": 3.94,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 65,
-    "medicareMPPRRevenue": 2441.67
+    "medBUnitsThisWeek": 228,
+    "medicareMPPRRevenue": 8263.37,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -681,8 +737,9 @@
     "modeOfTreatment": 7.0,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 107,
-    "medicareMPPRRevenue": 4148.42
+    "medBUnitsThisWeek": 415,
+    "medicareMPPRRevenue": 15417.01,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -694,8 +751,9 @@
     "modeOfTreatment": 5.54,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 271,
-    "medicareMPPRRevenue": 12660.87
+    "medBUnitsThisWeek": 1018,
+    "medicareMPPRRevenue": 48647.06,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -707,8 +765,9 @@
     "modeOfTreatment": 2.17,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 189,
-    "medicareMPPRRevenue": 6223.73
+    "medBUnitsThisWeek": 622,
+    "medicareMPPRRevenue": 20077.88,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -720,8 +779,9 @@
     "modeOfTreatment": 5.29,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 42,
-    "medicareMPPRRevenue": 1581.67
+    "medBUnitsThisWeek": 133,
+    "medicareMPPRRevenue": 4957.03,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -733,8 +793,9 @@
     "modeOfTreatment": 5.95,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 27,
-    "medicareMPPRRevenue": 963.81
+    "medBUnitsThisWeek": 274,
+    "medicareMPPRRevenue": 10601.99,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -746,8 +807,9 @@
     "modeOfTreatment": 1.0,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 221,
-    "medicareMPPRRevenue": 7780.08
+    "medBUnitsThisWeek": 713,
+    "medicareMPPRRevenue": 27664.92,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -759,8 +821,9 @@
     "modeOfTreatment": 1.97,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 423,
-    "medicareMPPRRevenue": 16803.81
+    "medBUnitsThisWeek": 1797,
+    "medicareMPPRRevenue": 70319.58,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -772,8 +835,9 @@
     "modeOfTreatment": 1.0,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 62,
-    "medicareMPPRRevenue": 1921.94
+    "medBUnitsThisWeek": 333,
+    "medicareMPPRRevenue": 11278.49,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -785,8 +849,9 @@
     "modeOfTreatment": 2.46,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 188,
-    "medicareMPPRRevenue": 6689.77
+    "medBUnitsThisWeek": 276,
+    "medicareMPPRRevenue": 9297.23,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -798,8 +863,9 @@
     "modeOfTreatment": 4.09,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 72,
-    "medicareMPPRRevenue": 2533.36
+    "medBUnitsThisWeek": 151,
+    "medicareMPPRRevenue": 5219.68,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -811,8 +877,9 @@
     "modeOfTreatment": 1.0,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 24,
-    "medicareMPPRRevenue": 675.15
+    "medBUnitsThisWeek": 196,
+    "medicareMPPRRevenue": 5983.59,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -824,8 +891,9 @@
     "modeOfTreatment": 5.08,
     "date": "2025-09-28",
     "week": "250928",
-    "medBUnitsThisWeek": 56,
-    "medicareMPPRRevenue": 3656.19
+    "medBUnitsThisWeek": 254,
+    "medicareMPPRRevenue": 16633.45,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "West Shore PA",
@@ -838,7 +906,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 323,
-    "medicareMPPRRevenue": 11332.17
+    "medicareMPPRRevenue": 11332.17,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -849,7 +918,10 @@
     "medBCaseload": 18,
     "modeOfTreatment": 6.94,
     "date": "2025-10-05",
-    "week": "251005"
+    "week": "251005",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -860,7 +932,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.8,
     "date": "2025-10-05",
-    "week": "251005"
+    "week": "251005",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -873,7 +948,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 84,
-    "medicareMPPRRevenue": 3179.81
+    "medicareMPPRRevenue": 3179.81,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -886,7 +962,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 138,
-    "medicareMPPRRevenue": 5416.43
+    "medicareMPPRRevenue": 5416.43,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -899,7 +976,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 287,
-    "medicareMPPRRevenue": 12728.96
+    "medicareMPPRRevenue": 12728.96,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -912,7 +990,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 142,
-    "medicareMPPRRevenue": 4533.41
+    "medicareMPPRRevenue": 4533.41,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Manresa HC",
@@ -925,7 +1004,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 60,
-    "medicareMPPRRevenue": 2405.39
+    "medicareMPPRRevenue": 2405.39,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -938,7 +1018,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 77,
-    "medicareMPPRRevenue": 3269.93
+    "medicareMPPRRevenue": 3269.93,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -951,7 +1032,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 113,
-    "medicareMPPRRevenue": 4592.25
+    "medicareMPPRRevenue": 4592.25,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -964,7 +1046,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 222,
-    "medicareMPPRRevenue": 8227.95
+    "medicareMPPRRevenue": 8227.95,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -977,7 +1060,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 384,
-    "medicareMPPRRevenue": 15316.0
+    "medicareMPPRRevenue": 15316.0,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -990,7 +1074,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 38,
-    "medicareMPPRRevenue": 1164.93
+    "medicareMPPRRevenue": 1164.93,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -1003,7 +1088,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 237,
-    "medicareMPPRRevenue": 7205.96
+    "medicareMPPRRevenue": 7205.96,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -1016,7 +1102,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 109,
-    "medicareMPPRRevenue": 4249.77
+    "medicareMPPRRevenue": 4249.77,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -1029,7 +1116,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 20,
-    "medicareMPPRRevenue": 575.36
+    "medicareMPPRRevenue": 575.36,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -1042,7 +1130,8 @@
     "date": "2025-10-05",
     "week": "251005",
     "medBUnitsThisWeek": 54,
-    "medicareMPPRRevenue": 3465.67
+    "medicareMPPRRevenue": 3465.67,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -1053,7 +1142,10 @@
     "medBCaseload": 20,
     "modeOfTreatment": 8.02,
     "date": "2025-10-12",
-    "week": "251012"
+    "week": "251012",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -1064,7 +1156,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.82,
     "date": "2025-10-12",
-    "week": "251012"
+    "week": "251012",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -1076,8 +1171,9 @@
     "modeOfTreatment": 8.44,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 95,
-    "medicareMPPRRevenue": 3655.57
+    "medBUnitsThisWeek": 179,
+    "medicareMPPRRevenue": 6835.38,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1089,8 +1185,9 @@
     "modeOfTreatment": 6.0,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 148,
-    "medicareMPPRRevenue": 5827.41
+    "medBUnitsThisWeek": 286,
+    "medicareMPPRRevenue": 11243.84,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -1102,8 +1199,9 @@
     "modeOfTreatment": 8.61,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 284,
-    "medicareMPPRRevenue": 13262.29
+    "medBUnitsThisWeek": 571,
+    "medicareMPPRRevenue": 25991.25,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -1115,8 +1213,9 @@
     "modeOfTreatment": 0.89,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 165,
-    "medicareMPPRRevenue": 5289.1
+    "medBUnitsThisWeek": 307,
+    "medicareMPPRRevenue": 9822.51,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1128,8 +1227,9 @@
     "modeOfTreatment": 5.0,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 60,
-    "medicareMPPRRevenue": 2385.12
+    "medBUnitsThisWeek": 137,
+    "medicareMPPRRevenue": 5655.05,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -1141,8 +1241,9 @@
     "modeOfTreatment": 7.73,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 132,
-    "medicareMPPRRevenue": 5459.76
+    "medBUnitsThisWeek": 245,
+    "medicareMPPRRevenue": 10052.01,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -1154,8 +1255,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 226,
-    "medicareMPPRRevenue": 8534.64
+    "medBUnitsThisWeek": 448,
+    "medicareMPPRRevenue": 16762.59,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -1167,8 +1269,9 @@
     "modeOfTreatment": 0.28,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 574,
-    "medicareMPPRRevenue": 23055.44
+    "medBUnitsThisWeek": 958,
+    "medicareMPPRRevenue": 38371.44,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -1180,8 +1283,9 @@
     "modeOfTreatment": 3.87,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 221,
-    "medicareMPPRRevenue": 6481.52
+    "medBUnitsThisWeek": 458,
+    "medicareMPPRRevenue": 13687.48,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -1193,8 +1297,9 @@
     "modeOfTreatment": 6.66,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 117,
-    "medicareMPPRRevenue": 4167.46
+    "medBUnitsThisWeek": 226,
+    "medicareMPPRRevenue": 8417.23,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -1206,8 +1311,9 @@
     "modeOfTreatment": 5.69,
     "date": "2025-10-12",
     "week": "251012",
-    "medBUnitsThisWeek": 58,
-    "medicareMPPRRevenue": 3791.11
+    "medBUnitsThisWeek": 112,
+    "medicareMPPRRevenue": 7256.78,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -1218,7 +1324,10 @@
     "medBCaseload": 22,
     "modeOfTreatment": 7.22,
     "date": "2025-10-19",
-    "week": "251019"
+    "week": "251019",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -1229,7 +1338,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 3.1,
     "date": "2025-10-19",
-    "week": "251019"
+    "week": "251019",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -1241,8 +1353,9 @@
     "modeOfTreatment": 7.37,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 83,
-    "medicareMPPRRevenue": 2993.66
+    "medBUnitsThisWeek": 262,
+    "medicareMPPRRevenue": 9829.04,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1254,8 +1367,9 @@
     "modeOfTreatment": 8.0,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 134,
-    "medicareMPPRRevenue": 4836.77
+    "medBUnitsThisWeek": 420,
+    "medicareMPPRRevenue": 16080.61,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -1267,8 +1381,9 @@
     "modeOfTreatment": 9.45,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 277,
-    "medicareMPPRRevenue": 13004.59
+    "medBUnitsThisWeek": 848,
+    "medicareMPPRRevenue": 38995.84,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -1280,8 +1395,9 @@
     "modeOfTreatment": 1.84,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 196,
-    "medicareMPPRRevenue": 6548.2
+    "medBUnitsThisWeek": 503,
+    "medicareMPPRRevenue": 16370.71,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1293,8 +1409,9 @@
     "modeOfTreatment": 7.0,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 74,
-    "medicareMPPRRevenue": 2879.15
+    "medBUnitsThisWeek": 211,
+    "medicareMPPRRevenue": 8534.2,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -1306,8 +1423,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 230,
-    "medicareMPPRRevenue": 7968.45
+    "medBUnitsThisWeek": 678,
+    "medicareMPPRRevenue": 24731.04,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -1319,8 +1437,9 @@
     "modeOfTreatment": 0.76,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 518,
-    "medicareMPPRRevenue": 21232.01
+    "medBUnitsThisWeek": 1476,
+    "medicareMPPRRevenue": 59603.45,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -1332,8 +1451,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 22,
-    "medicareMPPRRevenue": 707.58
+    "medBUnitsThisWeek": 60,
+    "medicareMPPRRevenue": 1872.51,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -1345,8 +1465,9 @@
     "modeOfTreatment": 3.55,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 227,
-    "medicareMPPRRevenue": 6790.39
+    "medBUnitsThisWeek": 685,
+    "medicareMPPRRevenue": 20477.87,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -1358,8 +1479,9 @@
     "modeOfTreatment": 8.0,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 115,
-    "medicareMPPRRevenue": 4057.81
+    "medBUnitsThisWeek": 341,
+    "medicareMPPRRevenue": 12475.04,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -1371,8 +1493,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 7,
-    "medicareMPPRRevenue": 194.27
+    "medBUnitsThisWeek": 27,
+    "medicareMPPRRevenue": 769.63,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -1384,8 +1507,9 @@
     "modeOfTreatment": 4.06,
     "date": "2025-10-19",
     "week": "251019",
-    "medBUnitsThisWeek": 52,
-    "medicareMPPRRevenue": 3348.77
+    "medBUnitsThisWeek": 164,
+    "medicareMPPRRevenue": 10605.55,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -1396,7 +1520,10 @@
     "medBCaseload": 21,
     "modeOfTreatment": 8.3,
     "date": "2025-10-26",
-    "week": "251026"
+    "week": "251026",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -1407,7 +1534,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 1.25,
     "date": "2025-10-26",
-    "week": "251026"
+    "week": "251026",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -1419,8 +1549,9 @@
     "modeOfTreatment": 7.26,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 92,
-    "medicareMPPRRevenue": 3150.14
+    "medBUnitsThisWeek": 354,
+    "medicareMPPRRevenue": 12979.18,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1432,8 +1563,9 @@
     "modeOfTreatment": 8.0,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 127,
-    "medicareMPPRRevenue": 4704.3
+    "medBUnitsThisWeek": 547,
+    "medicareMPPRRevenue": 20784.91,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -1445,8 +1577,9 @@
     "modeOfTreatment": 7.91,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 283,
-    "medicareMPPRRevenue": 12576.77
+    "medBUnitsThisWeek": 1131,
+    "medicareMPPRRevenue": 51572.61,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -1458,8 +1591,9 @@
     "modeOfTreatment": 1.02,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 197,
-    "medicareMPPRRevenue": 6146.21
+    "medBUnitsThisWeek": 700,
+    "medicareMPPRRevenue": 22516.92,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1471,8 +1605,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 83,
-    "medicareMPPRRevenue": 3287.49
+    "medBUnitsThisWeek": 294,
+    "medicareMPPRRevenue": 11821.69,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -1484,8 +1619,9 @@
     "modeOfTreatment": 9.0,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 217,
-    "medicareMPPRRevenue": 7610.21
+    "medBUnitsThisWeek": 895,
+    "medicareMPPRRevenue": 32341.25,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -1497,8 +1633,9 @@
     "modeOfTreatment": 2.35,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 565,
-    "medicareMPPRRevenue": 22537.23
+    "medBUnitsThisWeek": 2041,
+    "medicareMPPRRevenue": 82140.68,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -1510,8 +1647,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 27,
-    "medicareMPPRRevenue": 843.05
+    "medBUnitsThisWeek": 87,
+    "medicareMPPRRevenue": 2715.56,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -1523,8 +1661,9 @@
     "modeOfTreatment": 4.37,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 315,
-    "medicareMPPRRevenue": 9322.0
+    "medBUnitsThisWeek": 1000,
+    "medicareMPPRRevenue": 29799.87,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -1536,8 +1675,9 @@
     "modeOfTreatment": 8.98,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 103,
-    "medicareMPPRRevenue": 3857.36
+    "medBUnitsThisWeek": 444,
+    "medicareMPPRRevenue": 16332.4,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -1549,8 +1689,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 9,
-    "medicareMPPRRevenue": 261.08
+    "medBUnitsThisWeek": 36,
+    "medicareMPPRRevenue": 1030.71,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -1562,8 +1703,9 @@
     "modeOfTreatment": 4.07,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 64,
-    "medicareMPPRRevenue": 4219.97
+    "medBUnitsThisWeek": 228,
+    "medicareMPPRRevenue": 14825.52,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -1574,7 +1716,10 @@
     "medBCaseload": 22,
     "modeOfTreatment": 6.03,
     "date": "2025-11-03",
-    "week": "251103"
+    "week": "251103",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -1585,7 +1730,10 @@
     "medBCaseload": 2,
     "modeOfTreatment": 2.29,
     "date": "2025-11-03",
-    "week": "251103"
+    "week": "251103",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -1598,7 +1746,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 125,
-    "medicareMPPRRevenue": 4659.58
+    "medicareMPPRRevenue": 4659.58,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1611,7 +1760,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 161,
-    "medicareMPPRRevenue": 5955.73
+    "medicareMPPRRevenue": 5955.73,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -1624,7 +1774,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 308,
-    "medicareMPPRRevenue": 13665.87
+    "medicareMPPRRevenue": 13665.87,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -1637,7 +1788,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 231,
-    "medicareMPPRRevenue": 8006.87
+    "medicareMPPRRevenue": 8006.87,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1650,7 +1802,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 149,
-    "medicareMPPRRevenue": 6224.41
+    "medicareMPPRRevenue": 6224.41,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -1663,7 +1816,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 252,
-    "medicareMPPRRevenue": 8750.2
+    "medicareMPPRRevenue": 8750.2,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -1676,7 +1830,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 628,
-    "medicareMPPRRevenue": 25093.65
+    "medicareMPPRRevenue": 25093.65,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -1689,7 +1844,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 17,
-    "medicareMPPRRevenue": 506.23
+    "medicareMPPRRevenue": 506.23,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -1702,7 +1858,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 316,
-    "medicareMPPRRevenue": 9379.0
+    "medicareMPPRRevenue": 9379.0,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -1715,7 +1872,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 134,
-    "medicareMPPRRevenue": 5044.14
+    "medicareMPPRRevenue": 5044.14,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -1728,7 +1886,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 6,
-    "medicareMPPRRevenue": 183.15
+    "medicareMPPRRevenue": 183.15,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -1741,7 +1900,8 @@
     "date": "2025-11-03",
     "week": "251103",
     "medBUnitsThisWeek": 52,
-    "medicareMPPRRevenue": 3360.15
+    "medicareMPPRRevenue": 3360.15,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -1752,7 +1912,10 @@
     "medBCaseload": 24,
     "modeOfTreatment": 4.5,
     "date": "2025-11-10",
-    "week": "251110"
+    "week": "251110",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -1763,7 +1926,10 @@
     "medBCaseload": 4,
     "modeOfTreatment": 0.0,
     "date": "2025-11-10",
-    "week": "251110"
+    "week": "251110",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -1775,8 +1941,9 @@
     "modeOfTreatment": 8.14,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 112,
-    "medicareMPPRRevenue": 3975.02
+    "medBUnitsThisWeek": 237,
+    "medicareMPPRRevenue": 8634.6,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1788,8 +1955,9 @@
     "modeOfTreatment": 10.0,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 154,
-    "medicareMPPRRevenue": 5650.33
+    "medBUnitsThisWeek": 315,
+    "medicareMPPRRevenue": 11606.06,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -1801,8 +1969,9 @@
     "modeOfTreatment": 9.72,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 319,
-    "medicareMPPRRevenue": 14279.53
+    "medBUnitsThisWeek": 627,
+    "medicareMPPRRevenue": 27945.4,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -1814,8 +1983,9 @@
     "modeOfTreatment": 1.7,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 200,
-    "medicareMPPRRevenue": 6705.43
+    "medBUnitsThisWeek": 431,
+    "medicareMPPRRevenue": 14712.3,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1827,8 +1997,9 @@
     "modeOfTreatment": 5.0,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 134,
-    "medicareMPPRRevenue": 4827.07
+    "medBUnitsThisWeek": 283,
+    "medicareMPPRRevenue": 11051.48,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -1840,8 +2011,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 238,
-    "medicareMPPRRevenue": 8611.01
+    "medBUnitsThisWeek": 490,
+    "medicareMPPRRevenue": 17361.21,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -1853,8 +2025,9 @@
     "modeOfTreatment": 0.29,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 621,
-    "medicareMPPRRevenue": 24169.7
+    "medBUnitsThisWeek": 1249,
+    "medicareMPPRRevenue": 49263.35,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -1866,8 +2039,9 @@
     "modeOfTreatment": 2.0,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 20,
-    "medicareMPPRRevenue": 624.66
+    "medBUnitsThisWeek": 37,
+    "medicareMPPRRevenue": 1130.89,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -1879,8 +2053,9 @@
     "modeOfTreatment": 6.33,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 294,
-    "medicareMPPRRevenue": 8708.9
+    "medBUnitsThisWeek": 610,
+    "medicareMPPRRevenue": 18087.9,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -1892,8 +2067,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 6,
-    "medicareMPPRRevenue": 170.72
+    "medBUnitsThisWeek": 12,
+    "medicareMPPRRevenue": 353.87,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -1905,8 +2081,9 @@
     "modeOfTreatment": 3.18,
     "date": "2025-11-10",
     "week": "251110",
-    "medBUnitsThisWeek": 64,
-    "medicareMPPRRevenue": 4215.72
+    "medBUnitsThisWeek": 116,
+    "medicareMPPRRevenue": 7575.87,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -1917,7 +2094,10 @@
     "medBCaseload": 26,
     "modeOfTreatment": 4.92,
     "date": "2025-11-17",
-    "week": "251117"
+    "week": "251117",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -1928,7 +2108,10 @@
     "medBCaseload": 4,
     "modeOfTreatment": 1.0,
     "date": "2025-11-17",
-    "week": "251117"
+    "week": "251117",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -1940,8 +2123,9 @@
     "modeOfTreatment": 7.31,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 121,
-    "medicareMPPRRevenue": 4395.43
+    "medBUnitsThisWeek": 358,
+    "medicareMPPRRevenue": 13030.03,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -1953,8 +2137,9 @@
     "modeOfTreatment": 7.25,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 156,
-    "medicareMPPRRevenue": 5504.16
+    "medBUnitsThisWeek": 471,
+    "medicareMPPRRevenue": 17110.22,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -1966,8 +2151,9 @@
     "modeOfTreatment": 8.18,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 331,
-    "medicareMPPRRevenue": 14265.54
+    "medBUnitsThisWeek": 958,
+    "medicareMPPRRevenue": 42210.94,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -1979,8 +2165,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 271,
-    "medicareMPPRRevenue": 9065.24
+    "medBUnitsThisWeek": 702,
+    "medicareMPPRRevenue": 23777.54,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1992,8 +2179,9 @@
     "modeOfTreatment": 5.0,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 213,
-    "medicareMPPRRevenue": 7521.02
+    "medBUnitsThisWeek": 496,
+    "medicareMPPRRevenue": 18572.5,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -2006,7 +2194,8 @@
     "date": "2025-11-17",
     "week": "251117",
     "medBUnitsThisWeek": 57,
-    "medicareMPPRRevenue": 2424.04
+    "medicareMPPRRevenue": 2424.04,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -2018,8 +2207,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 180,
-    "medicareMPPRRevenue": 6294.64
+    "medBUnitsThisWeek": 670,
+    "medicareMPPRRevenue": 23655.85,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -2031,8 +2221,9 @@
     "modeOfTreatment": 1.05,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 496,
-    "medicareMPPRRevenue": 17569.62
+    "medBUnitsThisWeek": 1745,
+    "medicareMPPRRevenue": 66832.97,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -2044,8 +2235,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 2,
-    "medicareMPPRRevenue": 125.85
+    "medBUnitsThisWeek": 39,
+    "medicareMPPRRevenue": 1256.74,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -2057,8 +2249,9 @@
     "modeOfTreatment": 4.62,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 290,
-    "medicareMPPRRevenue": 8926.32
+    "medBUnitsThisWeek": 900,
+    "medicareMPPRRevenue": 27014.22,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -2070,8 +2263,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 18,
-    "medicareMPPRRevenue": 642.61
+    "medBUnitsThisWeek": 30,
+    "medicareMPPRRevenue": 996.48,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -2083,8 +2277,9 @@
     "modeOfTreatment": 2.87,
     "date": "2025-11-17",
     "week": "251117",
-    "medBUnitsThisWeek": 18,
-    "medicareMPPRRevenue": 1068.12
+    "medBUnitsThisWeek": 134,
+    "medicareMPPRRevenue": 8643.99,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -2095,7 +2290,10 @@
     "medBCaseload": 28,
     "modeOfTreatment": 5.42,
     "date": "2025-11-24",
-    "week": "251124"
+    "week": "251124",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2106,7 +2304,10 @@
     "medBCaseload": 5,
     "modeOfTreatment": 0.42,
     "date": "2025-11-24",
-    "week": "251124"
+    "week": "251124",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -2118,8 +2319,9 @@
     "modeOfTreatment": 7.2,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 107,
-    "medicareMPPRRevenue": 3839.97
+    "medBUnitsThisWeek": 465,
+    "medicareMPPRRevenue": 16870.0,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -2131,8 +2333,9 @@
     "modeOfTreatment": 8.85,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 108,
-    "medicareMPPRRevenue": 3864.57
+    "medBUnitsThisWeek": 579,
+    "medicareMPPRRevenue": 20974.79,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -2144,8 +2347,9 @@
     "modeOfTreatment": 7.81,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 330,
-    "medicareMPPRRevenue": 14349.89
+    "medBUnitsThisWeek": 1288,
+    "medicareMPPRRevenue": 56560.83,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -2157,8 +2361,9 @@
     "modeOfTreatment": 1.95,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 208,
-    "medicareMPPRRevenue": 7241.76
+    "medBUnitsThisWeek": 910,
+    "medicareMPPRRevenue": 31019.3,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -2170,8 +2375,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 148,
-    "medicareMPPRRevenue": 5290.76
+    "medBUnitsThisWeek": 644,
+    "medicareMPPRRevenue": 23863.26,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -2183,8 +2389,9 @@
     "modeOfTreatment": 8.62,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 54,
-    "medicareMPPRRevenue": 2125.19
+    "medBUnitsThisWeek": 111,
+    "medicareMPPRRevenue": 4549.23,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -2196,8 +2403,9 @@
     "modeOfTreatment": 5.0,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 89,
-    "medicareMPPRRevenue": 3220.03
+    "medBUnitsThisWeek": 759,
+    "medicareMPPRRevenue": 26875.88,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -2209,8 +2417,9 @@
     "modeOfTreatment": 1.53,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 391,
-    "medicareMPPRRevenue": 14013.09
+    "medBUnitsThisWeek": 2136,
+    "medicareMPPRRevenue": 80846.06,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -2221,7 +2430,10 @@
     "medBCaseload": 1,
     "modeOfTreatment": 20.0,
     "date": "2025-11-24",
-    "week": "251124"
+    "week": "251124",
+    "medBUnitsThisWeek": 39,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 1256.74
   },
   {
     "facility": "Capital PA",
@@ -2233,8 +2445,9 @@
     "modeOfTreatment": 2.28,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 314,
-    "medicareMPPRRevenue": 9550.4
+    "medBUnitsThisWeek": 1214,
+    "medicareMPPRRevenue": 36564.62,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -2246,8 +2459,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 13,
-    "medicareMPPRRevenue": 362.41
+    "medBUnitsThisWeek": 43,
+    "medicareMPPRRevenue": 1358.89,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -2259,8 +2473,9 @@
     "modeOfTreatment": 3.14,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 6,
-    "medicareMPPRRevenue": 336.45
+    "medBUnitsThisWeek": 140,
+    "medicareMPPRRevenue": 8980.44,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -2271,7 +2486,10 @@
     "medBCaseload": 29,
     "modeOfTreatment": 3.8,
     "date": "2025-12-01",
-    "week": "251201"
+    "week": "251201",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2282,7 +2500,10 @@
     "medBCaseload": 5,
     "modeOfTreatment": 0.88,
     "date": "2025-12-01",
-    "week": "251201"
+    "week": "251201",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -2295,7 +2516,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 135,
-    "medicareMPPRRevenue": 4843.91
+    "medicareMPPRRevenue": 4843.91,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -2308,7 +2530,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 123,
-    "medicareMPPRRevenue": 4585.79
+    "medicareMPPRRevenue": 4585.79,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -2321,7 +2544,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 313,
-    "medicareMPPRRevenue": 13674.63
+    "medicareMPPRRevenue": 13674.63,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -2334,7 +2558,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 240,
-    "medicareMPPRRevenue": 8052.1
+    "medicareMPPRRevenue": 8052.1,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -2347,7 +2572,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 150,
-    "medicareMPPRRevenue": 5328.66
+    "medicareMPPRRevenue": 5328.66,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -2360,7 +2586,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 34,
-    "medicareMPPRRevenue": 1273.79
+    "medicareMPPRRevenue": 1273.79,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -2373,7 +2600,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 132,
-    "medicareMPPRRevenue": 4815.26
+    "medicareMPPRRevenue": 4815.26,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -2386,7 +2614,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 584,
-    "medicareMPPRRevenue": 22933.72
+    "medicareMPPRRevenue": 22933.72,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -2397,7 +2626,10 @@
     "medBCaseload": 0,
     "modeOfTreatment": 5.0,
     "date": "2025-12-01",
-    "week": "251201"
+    "week": "251201",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -2410,7 +2642,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 296,
-    "medicareMPPRRevenue": 9410.31
+    "medicareMPPRRevenue": 9410.31,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -2423,7 +2656,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 22,
-    "medicareMPPRRevenue": 626.52
+    "medicareMPPRRevenue": 626.52,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -2436,7 +2670,8 @@
     "date": "2025-12-01",
     "week": "251201",
     "medBUnitsThisWeek": 18,
-    "medicareMPPRRevenue": 1185.67
+    "medicareMPPRRevenue": 1185.67,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "West Shore PA",
@@ -2449,7 +2684,8 @@
     "date": "2025-12-08",
     "week": "251208",
     "medBUnitsThisWeek": 58,
-    "medicareMPPRRevenue": 2255.99
+    "medicareMPPRRevenue": 2255.99,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -2460,7 +2696,10 @@
     "medBCaseload": 32,
     "modeOfTreatment": 3.43,
     "date": "2025-12-08",
-    "week": "251208"
+    "week": "251208",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2471,7 +2710,10 @@
     "medBCaseload": 5,
     "modeOfTreatment": 1.53,
     "date": "2025-12-08",
-    "week": "251208"
+    "week": "251208",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -2483,8 +2725,9 @@
     "modeOfTreatment": 8.59,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 99,
-    "medicareMPPRRevenue": 3280.39
+    "medBUnitsThisWeek": 234,
+    "medicareMPPRRevenue": 8124.3,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -2496,8 +2739,9 @@
     "modeOfTreatment": 8.0,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 152,
-    "medicareMPPRRevenue": 5543.89
+    "medBUnitsThisWeek": 275,
+    "medicareMPPRRevenue": 10129.68,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -2509,8 +2753,9 @@
     "modeOfTreatment": 3.55,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 279,
-    "medicareMPPRRevenue": 11452.3
+    "medBUnitsThisWeek": 592,
+    "medicareMPPRRevenue": 25126.93,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -2522,8 +2767,9 @@
     "modeOfTreatment": 0.57,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 226,
-    "medicareMPPRRevenue": 7713.9
+    "medBUnitsThisWeek": 466,
+    "medicareMPPRRevenue": 15766.0,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -2535,8 +2781,9 @@
     "modeOfTreatment": 4.0,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 167,
-    "medicareMPPRRevenue": 5714.04
+    "medBUnitsThisWeek": 317,
+    "medicareMPPRRevenue": 11042.7,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -2548,8 +2795,9 @@
     "modeOfTreatment": 5.24,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 30,
-    "medicareMPPRRevenue": 1113.52
+    "medBUnitsThisWeek": 64,
+    "medicareMPPRRevenue": 2387.31,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -2561,8 +2809,9 @@
     "modeOfTreatment": 7.0,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 135,
-    "medicareMPPRRevenue": 4808.16
+    "medBUnitsThisWeek": 267,
+    "medicareMPPRRevenue": 9623.42,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -2574,8 +2823,9 @@
     "modeOfTreatment": 0.35,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 439,
-    "medicareMPPRRevenue": 15505.96
+    "medBUnitsThisWeek": 1023,
+    "medicareMPPRRevenue": 38439.68,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -2586,7 +2836,10 @@
     "medBCaseload": 0,
     "modeOfTreatment": 0.0,
     "date": "2025-12-08",
-    "week": "251208"
+    "week": "251208",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -2598,8 +2851,9 @@
     "modeOfTreatment": 4.22,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 224,
-    "medicareMPPRRevenue": 7015.42
+    "medBUnitsThisWeek": 520,
+    "medicareMPPRRevenue": 16425.73,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -2611,8 +2865,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 17,
-    "medicareMPPRRevenue": 483.46
+    "medBUnitsThisWeek": 39,
+    "medicareMPPRRevenue": 1109.98,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -2624,8 +2879,9 @@
     "modeOfTreatment": 1.53,
     "date": "2025-12-08",
     "week": "251208",
-    "medBUnitsThisWeek": 11,
-    "medicareMPPRRevenue": 724.58
+    "medBUnitsThisWeek": 29,
+    "medicareMPPRRevenue": 1910.25,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "West Shore PA",
@@ -2637,8 +2893,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 81,
-    "medicareMPPRRevenue": 3074.72
+    "medBUnitsThisWeek": 139,
+    "medicareMPPRRevenue": 5330.71,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "The Win Post Acute",
@@ -2649,7 +2906,10 @@
     "medBCaseload": 32,
     "modeOfTreatment": 0.71,
     "date": "2025-12-15",
-    "week": "251215"
+    "week": "251215",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Palo Alto Post Acute",
@@ -2660,7 +2920,10 @@
     "medBCaseload": 4,
     "modeOfTreatment": 1.08,
     "date": "2025-12-15",
-    "week": "251215"
+    "week": "251215",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
@@ -2672,8 +2935,9 @@
     "modeOfTreatment": 3.96,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 105,
-    "medicareMPPRRevenue": 3604.67
+    "medBUnitsThisWeek": 339,
+    "medicareMPPRRevenue": 11728.97,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "PAC Hills Post Acute",
@@ -2685,8 +2949,9 @@
     "modeOfTreatment": 11.56,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 148,
-    "medicareMPPRRevenue": 5585.49
+    "medBUnitsThisWeek": 423,
+    "medicareMPPRRevenue": 15715.17,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Mountain View HC",
@@ -2698,8 +2963,9 @@
     "modeOfTreatment": 7.39,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 180,
-    "medicareMPPRRevenue": 7317.37
+    "medBUnitsThisWeek": 772,
+    "medicareMPPRRevenue": 32444.3,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Morgan Hill HC",
@@ -2711,8 +2977,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 222,
-    "medicareMPPRRevenue": 7278.6
+    "medBUnitsThisWeek": 688,
+    "medicareMPPRRevenue": 23044.6,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Manresa HC",
@@ -2725,7 +2992,8 @@
     "date": "2025-12-15",
     "week": "251215",
     "medBUnitsThisWeek": 7,
-    "medicareMPPRRevenue": 609.42
+    "medicareMPPRRevenue": 609.42,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Los Altos Post Acute",
@@ -2737,8 +3005,9 @@
     "modeOfTreatment": 5.0,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 176,
-    "medicareMPPRRevenue": 5928.64
+    "medBUnitsThisWeek": 493,
+    "medicareMPPRRevenue": 16971.34,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
@@ -2750,8 +3019,9 @@
     "modeOfTreatment": 5.67,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 18,
-    "medicareMPPRRevenue": 597.85
+    "medBUnitsThisWeek": 82,
+    "medicareMPPRRevenue": 2985.16,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Gilroy HC",
@@ -2763,8 +3033,9 @@
     "modeOfTreatment": 7.0,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 110,
-    "medicareMPPRRevenue": 3835.69
+    "medBUnitsThisWeek": 377,
+    "medicareMPPRRevenue": 13459.11,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Eden HC",
@@ -2776,8 +3047,9 @@
     "modeOfTreatment": 1.61,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 451,
-    "medicareMPPRRevenue": 18460.05
+    "medBUnitsThisWeek": 1474,
+    "medicareMPPRRevenue": 56899.73,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -2788,7 +3060,10 @@
     "medBCaseload": 0,
     "modeOfTreatment": 6.0,
     "date": "2025-12-15",
-    "week": "251215"
+    "week": "251215",
+    "medBUnitsThisWeek": 0,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -2800,8 +3075,9 @@
     "modeOfTreatment": 6.49,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 238,
-    "medicareMPPRRevenue": 7042.85
+    "medBUnitsThisWeek": 758,
+    "medicareMPPRRevenue": 23468.58,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Camino Ridge Post Acute",
@@ -2814,7 +3090,8 @@
     "date": "2025-12-15",
     "week": "251215",
     "medBUnitsThisWeek": 65,
-    "medicareMPPRRevenue": 2485.81
+    "medicareMPPRRevenue": 2485.81,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Bridgewood PA",
@@ -2826,8 +3103,9 @@
     "modeOfTreatment": 0.0,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 23,
-    "medicareMPPRRevenue": 662.09
+    "medBUnitsThisWeek": 62,
+    "medicareMPPRRevenue": 1772.07,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -2839,8 +3117,9 @@
     "modeOfTreatment": 5.2,
     "date": "2025-12-15",
     "week": "251215",
-    "medBUnitsThisWeek": 12,
-    "medicareMPPRRevenue": 790.45
+    "medBUnitsThisWeek": 41,
+    "medicareMPPRRevenue": 2700.7,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2850,11 +3129,12 @@
     "cpm": 1.58,
     "medBEligible": 43,
     "medBCaseload": 17,
-    "medBUnitsThisWeek": 62,
+    "medBUnitsThisWeek": 201,
     "unitsPerVisit": 2.95,
     "date": "2025-12-21",
     "modeOfTreatment": 0.0,
-    "medicareMPPRRevenue": 2251.83
+    "medicareMPPRRevenue": 7582.54,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2867,7 +3147,9 @@
     "medBUnitsThisWeek": 255,
     "unitsPerVisit": 2.58,
     "date": "2025-12-21",
-    "modeOfTreatment": 0.93
+    "modeOfTreatment": 0.93,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "week": "251221",
@@ -2880,7 +3162,9 @@
     "medBUnitsThisWeek": 11,
     "unitsPerVisit": 2.75,
     "date": "2025-12-21",
-    "modeOfTreatment": 0.46
+    "modeOfTreatment": 0.46,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "week": "251221",
@@ -2890,11 +3174,12 @@
     "cpm": 1.47,
     "medBEligible": 35,
     "medBCaseload": 12,
-    "medBUnitsThisWeek": 66,
+    "medBUnitsThisWeek": 405,
     "unitsPerVisit": 2.75,
     "date": "2025-12-21",
     "modeOfTreatment": 6.18,
-    "medicareMPPRRevenue": 2421.89
+    "medicareMPPRRevenue": 14150.86,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2904,11 +3189,12 @@
     "cpm": 1.42,
     "medBEligible": 17,
     "medBCaseload": 11,
-    "medBUnitsThisWeek": 101,
+    "medBUnitsThisWeek": 524,
     "unitsPerVisit": 3.26,
     "date": "2025-12-21",
     "modeOfTreatment": 7.77,
-    "medicareMPPRRevenue": 3970.1
+    "medicareMPPRRevenue": 19685.27,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2918,11 +3204,12 @@
     "cpm": 1.35,
     "medBEligible": 31,
     "medBCaseload": 24,
-    "medBUnitsThisWeek": 183,
+    "medBUnitsThisWeek": 955,
     "unitsPerVisit": 3.16,
     "date": "2025-12-21",
     "modeOfTreatment": 8.21,
-    "medicareMPPRRevenue": 7963.29
+    "medicareMPPRRevenue": 40407.59,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2932,11 +3219,12 @@
     "cpm": 1.53,
     "medBEligible": 16,
     "medBCaseload": 15,
-    "medBUnitsThisWeek": 152,
+    "medBUnitsThisWeek": 840,
     "unitsPerVisit": 3.3,
     "date": "2025-12-21",
     "modeOfTreatment": 0.0,
-    "medicareMPPRRevenue": 4759.0
+    "medicareMPPRRevenue": 27803.6,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2946,11 +3234,12 @@
     "cpm": 1.67,
     "medBEligible": 25,
     "medBCaseload": 4,
-    "medBUnitsThisWeek": 15,
+    "medBUnitsThisWeek": 22,
     "unitsPerVisit": 1.5,
     "date": "2025-12-21",
     "modeOfTreatment": 0.0,
-    "medicareMPPRRevenue": 1371.48
+    "medicareMPPRRevenue": 1980.9,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2960,11 +3249,12 @@
     "cpm": 1.19,
     "medBEligible": 27,
     "medBCaseload": 17,
-    "medBUnitsThisWeek": 143,
+    "medBUnitsThisWeek": 636,
     "unitsPerVisit": 2.86,
     "date": "2025-12-21",
     "modeOfTreatment": 5.71,
-    "medicareMPPRRevenue": 4749.36
+    "medicareMPPRRevenue": 21720.7,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2974,11 +3264,12 @@
     "cpm": 1.32,
     "medBEligible": 21,
     "medBCaseload": 4,
-    "medBUnitsThisWeek": 34,
+    "medBUnitsThisWeek": 116,
     "unitsPerVisit": 3.4,
     "date": "2025-12-21",
     "modeOfTreatment": 5.07,
-    "medicareMPPRRevenue": 1399.91
+    "medicareMPPRRevenue": 4385.07,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -2988,11 +3279,12 @@
     "cpm": 1.47,
     "medBEligible": 40,
     "medBCaseload": 10,
-    "medBUnitsThisWeek": 62,
+    "medBUnitsThisWeek": 439,
     "unitsPerVisit": 3.26,
     "date": "2025-12-21",
     "modeOfTreatment": 2.78,
-    "medicareMPPRRevenue": 2361.62
+    "medicareMPPRRevenue": 15820.73,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -3002,11 +3294,12 @@
     "cpm": 1.39,
     "medBEligible": 68,
     "medBCaseload": 41,
-    "medBUnitsThisWeek": 326,
+    "medBUnitsThisWeek": 1800,
     "unitsPerVisit": 2.76,
     "date": "2025-12-21",
     "modeOfTreatment": 2.15,
-    "medicareMPPRRevenue": 13641.39
+    "medicareMPPRRevenue": 70541.12,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -3019,7 +3312,9 @@
     "medBUnitsThisWeek": 0,
     "unitsPerVisit": 0,
     "date": "2025-12-21",
-    "modeOfTreatment": 8.56
+    "modeOfTreatment": 8.56,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "week": "251221",
@@ -3029,11 +3324,12 @@
     "cpm": 1.36,
     "medBEligible": 26,
     "medBCaseload": 12,
-    "medBUnitsThisWeek": 121,
+    "medBUnitsThisWeek": 879,
     "unitsPerVisit": 3.03,
     "date": "2025-12-21",
     "modeOfTreatment": 6.35,
-    "medicareMPPRRevenue": 3588.45
+    "medicareMPPRRevenue": 27057.03,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -3043,11 +3339,12 @@
     "cpm": 1.44,
     "medBEligible": 18,
     "medBCaseload": 6,
-    "medBUnitsThisWeek": 29,
+    "medBUnitsThisWeek": 94,
     "unitsPerVisit": 2.07,
     "date": "2025-12-21",
     "modeOfTreatment": 2.06,
-    "medicareMPPRRevenue": 1229.95
+    "medicareMPPRRevenue": 3715.76,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -3057,11 +3354,12 @@
     "cpm": 1.47,
     "medBEligible": 15,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 14,
+    "medBUnitsThisWeek": 76,
     "unitsPerVisit": 2.0,
     "date": "2025-12-21",
     "modeOfTreatment": 2.88,
-    "medicareMPPRRevenue": 398.27
+    "medicareMPPRRevenue": 2170.34,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251221",
@@ -3071,11 +3369,12 @@
     "cpm": 1.38,
     "medBEligible": 8,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 7,
+    "medBUnitsThisWeek": 48,
     "unitsPerVisit": 1.75,
     "date": "2025-12-21",
     "modeOfTreatment": 2.89,
-    "medicareMPPRRevenue": 461.09
+    "medicareMPPRRevenue": 3161.79,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "251228",
@@ -3085,12 +3384,12 @@
     "cpm": 1.57,
     "medBEligible": 43,
     "medBCaseload": 16,
-    "medBUnitsThisWeek": 42,
+    "medBUnitsThisWeek": 243,
     "unitsPerVisit": 2.63,
     "date": "2025-12-28",
     "modeOfTreatment": 3.71,
     "medicareGrossRevenue": 12819.81,
-    "medicareMPPRRevenue": 1441.99
+    "medicareMPPRRevenue": 9024.53
   },
   {
     "week": "251228",
@@ -3100,7 +3399,7 @@
     "cpm": 1.46,
     "medBEligible": 50,
     "medBCaseload": 30,
-    "medBUnitsThisWeek": 251,
+    "medBUnitsThisWeek": 506,
     "unitsPerVisit": 2.85,
     "date": "2025-12-28",
     "modeOfTreatment": 0.78,
@@ -3115,7 +3414,7 @@
     "cpm": 1.38,
     "medBEligible": 6,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 16,
+    "medBUnitsThisWeek": 27,
     "unitsPerVisit": 2.67,
     "date": "2025-12-28",
     "modeOfTreatment": 0.0,
@@ -3130,12 +3429,12 @@
     "cpm": 1.47,
     "medBEligible": 35,
     "medBCaseload": 12,
-    "medBUnitsThisWeek": 106,
+    "medBUnitsThisWeek": 511,
     "unitsPerVisit": 2.65,
     "date": "2025-12-28",
     "modeOfTreatment": 8.01,
     "medicareGrossRevenue": 20331.99,
-    "medicareMPPRRevenue": 3691.82
+    "medicareMPPRRevenue": 17842.68
   },
   {
     "week": "251228",
@@ -3145,12 +3444,12 @@
     "cpm": 1.39,
     "medBEligible": 17,
     "medBCaseload": 9,
-    "medBUnitsThisWeek": 88,
+    "medBUnitsThisWeek": 612,
     "unitsPerVisit": 3.52,
     "date": "2025-12-28",
     "modeOfTreatment": 8.17,
     "medicareGrossRevenue": 26645.97,
-    "medicareMPPRRevenue": 3170.09
+    "medicareMPPRRevenue": 22855.36
   },
   {
     "week": "251228",
@@ -3160,12 +3459,12 @@
     "cpm": 1.34,
     "medBEligible": 31,
     "medBCaseload": 23,
-    "medBUnitsThisWeek": 78,
+    "medBUnitsThisWeek": 1033,
     "unitsPerVisit": 3.39,
     "date": "2025-12-28",
     "modeOfTreatment": 6.88,
     "medicareGrossRevenue": 53113.33,
-    "medicareMPPRRevenue": 3731.02
+    "medicareMPPRRevenue": 44138.61
   },
   {
     "week": "251228",
@@ -3175,12 +3474,12 @@
     "cpm": 1.33,
     "medBEligible": 16,
     "medBCaseload": 15,
-    "medBUnitsThisWeek": 126,
+    "medBUnitsThisWeek": 966,
     "unitsPerVisit": 3.41,
     "date": "2025-12-28",
     "modeOfTreatment": 1.81,
     "medicareGrossRevenue": 37080.76,
-    "medicareMPPRRevenue": 4057.02
+    "medicareMPPRRevenue": 31860.62
   },
   {
     "week": "251228",
@@ -3190,12 +3489,12 @@
     "cpm": 1.43,
     "medBEligible": 25,
     "medBCaseload": 4,
-    "medBUnitsThisWeek": 14,
+    "medBUnitsThisWeek": 36,
     "unitsPerVisit": 1.75,
     "date": "2025-12-28",
     "modeOfTreatment": 0.0,
     "medicareGrossRevenue": 3968.96,
-    "medicareMPPRRevenue": 1097.37
+    "medicareMPPRRevenue": 3078.27
   },
   {
     "week": "251228",
@@ -3205,12 +3504,12 @@
     "cpm": 1.3,
     "medBEligible": 27,
     "medBCaseload": 19,
-    "medBUnitsThisWeek": 241,
+    "medBUnitsThisWeek": 877,
     "unitsPerVisit": 2.87,
     "date": "2025-12-28",
     "modeOfTreatment": 1.39,
     "medicareGrossRevenue": 33269.06,
-    "medicareMPPRRevenue": 8617.02
+    "medicareMPPRRevenue": 30337.72
   },
   {
     "week": "251228",
@@ -3220,12 +3519,12 @@
     "cpm": 1.36,
     "medBEligible": 21,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 66,
+    "medBUnitsThisWeek": 182,
     "unitsPerVisit": 3.67,
     "date": "2025-12-28",
     "modeOfTreatment": 4.48,
     "medicareGrossRevenue": 6483.27,
-    "medicareMPPRRevenue": 2231.28
+    "medicareMPPRRevenue": 6616.35
   },
   {
     "week": "251228",
@@ -3235,12 +3534,12 @@
     "cpm": 1.51,
     "medBEligible": 40,
     "medBCaseload": 7,
-    "medBUnitsThisWeek": 75,
+    "medBUnitsThisWeek": 514,
     "unitsPerVisit": 3.26,
     "date": "2025-12-28",
     "modeOfTreatment": 2.91,
     "medicareGrossRevenue": 21402.85,
-    "medicareMPPRRevenue": 2808.74
+    "medicareMPPRRevenue": 18629.47
   },
   {
     "week": "251228",
@@ -3250,12 +3549,12 @@
     "cpm": 1.35,
     "medBEligible": 68,
     "medBCaseload": 39,
-    "medBUnitsThisWeek": 388,
+    "medBUnitsThisWeek": 2188,
     "unitsPerVisit": 2.68,
     "date": "2025-12-28",
     "modeOfTreatment": 2.09,
     "medicareGrossRevenue": 95196.2,
-    "medicareMPPRRevenue": 16055.39
+    "medicareMPPRRevenue": 86596.51
   },
   {
     "week": "251228",
@@ -3268,7 +3567,9 @@
     "medBUnitsThisWeek": 0,
     "unitsPerVisit": 0,
     "date": "2025-12-28",
-    "modeOfTreatment": 2.06
+    "modeOfTreatment": 2.06,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "week": "251228",
@@ -3278,12 +3579,12 @@
     "cpm": 1.39,
     "medBEligible": 26,
     "medBCaseload": 8,
-    "medBUnitsThisWeek": 111,
+    "medBUnitsThisWeek": 990,
     "unitsPerVisit": 3.26,
     "date": "2025-12-28",
     "modeOfTreatment": 3.03,
     "medicareGrossRevenue": 35985.65,
-    "medicareMPPRRevenue": 3511.14
+    "medicareMPPRRevenue": 30568.17
   },
   {
     "week": "251228",
@@ -3293,12 +3594,12 @@
     "cpm": 1.59,
     "medBEligible": 18,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 19,
+    "medBUnitsThisWeek": 113,
     "unitsPerVisit": 2.71,
     "date": "2025-12-28",
     "modeOfTreatment": 1.28,
     "medicareGrossRevenue": 12432.42,
-    "medicareMPPRRevenue": 707.18
+    "medicareMPPRRevenue": 4422.94
   },
   {
     "week": "251228",
@@ -3308,12 +3609,12 @@
     "cpm": 1.58,
     "medBEligible": 15,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 17,
+    "medBUnitsThisWeek": 93,
     "unitsPerVisit": 2.13,
     "date": "2025-12-28",
     "modeOfTreatment": 2.54,
     "medicareGrossRevenue": 2958.32,
-    "medicareMPPRRevenue": 533.14
+    "medicareMPPRRevenue": 2703.48
   },
   {
     "week": "251228",
@@ -3323,12 +3624,12 @@
     "cpm": 1.4,
     "medBEligible": 8,
     "medBCaseload": 2,
-    "medBUnitsThisWeek": 17,
+    "medBUnitsThisWeek": 65,
     "unitsPerVisit": 2.83,
     "date": "2025-12-28",
     "modeOfTreatment": 3.84,
     "medicareGrossRevenue": 4989.11,
-    "medicareMPPRRevenue": 1061.02
+    "medicareMPPRRevenue": 4222.81
   },
   {
     "facility": "West Shore PA",
@@ -3342,7 +3643,8 @@
     "medBCaseload": 15,
     "cpm": 1.48,
     "medicareMPPRRevenue": 3343.18,
-    "unitsPerVisit": 2.72
+    "unitsPerVisit": 2.72,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "260104",
@@ -3371,7 +3673,8 @@
     "modeOfTreatment": 0.35,
     "cpm": 1.48,
     "medicareMPPRRevenue": 323.19,
-    "unitsPerVisit": 3.33
+    "unitsPerVisit": 3.33,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "260104",
@@ -3474,7 +3777,8 @@
     "medBCaseload": 5,
     "cpm": 1.61,
     "medicareMPPRRevenue": 1989.39,
-    "unitsPerVisit": 3.53
+    "unitsPerVisit": 3.53,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "260104",
@@ -3503,7 +3807,8 @@
     "medBCaseload": 41,
     "cpm": 1.51,
     "medicareMPPRRevenue": 17114.67,
-    "unitsPerVisit": 2.8
+    "unitsPerVisit": 2.8,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Cedarwood PA",
@@ -3515,7 +3820,9 @@
     "medBEligible": 4,
     "medBCaseload": 0,
     "medBUnitsThisWeek": 0,
-    "cpm": 1.47
+    "cpm": 1.47,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "facility": "Capital PA",
@@ -3529,7 +3836,8 @@
     "medBCaseload": 11,
     "cpm": 1.41,
     "medicareMPPRRevenue": 4129.03,
-    "unitsPerVisit": 3.33
+    "unitsPerVisit": 3.33,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "260104",
@@ -3558,7 +3866,8 @@
     "modeOfTreatment": 0.0,
     "cpm": 1.93,
     "medicareMPPRRevenue": 1201.25,
-    "unitsPerVisit": 2.29
+    "unitsPerVisit": 2.29,
+    "medicareGrossRevenue": 0
   },
   {
     "facility": "Belmont HC",
@@ -3572,7 +3881,8 @@
     "medBCaseload": 4,
     "cpm": 1.4,
     "medicareMPPRRevenue": 1061.68,
-    "unitsPerVisit": 2.5
+    "unitsPerVisit": 2.5,
+    "medicareGrossRevenue": 0
   },
   {
     "week": "260111",
@@ -3582,12 +3892,12 @@
     "cpm": 1.43,
     "medBEligible": 8,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 43,
+    "medBUnitsThisWeek": 58,
     "unitsPerVisit": 3.07,
     "date": "2026-01-11",
     "modeOfTreatment": 6.42,
     "medicareGrossRevenue": 3510.14,
-    "medicareMPPRRevenue": 2878.31
+    "medicareMPPRRevenue": 3939.99
   },
   {
     "week": "260111",
@@ -3597,12 +3907,12 @@
     "cpm": 1.82,
     "medBEligible": 15,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 23,
+    "medBUnitsThisWeek": 55,
     "unitsPerVisit": 2.09,
     "date": "2026-01-11",
     "modeOfTreatment": 0.0,
     "medicareGrossRevenue": 849.69,
-    "medicareMPPRRevenue": 696.75
+    "medicareMPPRRevenue": 1898.0
   },
   {
     "week": "260111",
@@ -3612,12 +3922,12 @@
     "cpm": 1.79,
     "medBEligible": 18,
     "medBCaseload": 9,
-    "medBUnitsThisWeek": 65,
+    "medBUnitsThisWeek": 83,
     "unitsPerVisit": 2.95,
     "date": "2026-01-11",
     "modeOfTreatment": 0.12,
-    "medicareGrossRevenue": 3455.4,
-    "medicareMPPRRevenue": 2833.43
+    "medicareGrossRevenue": 4536.53,
+    "medicareMPPRRevenue": 3719.96
   },
   {
     "week": "260111",
@@ -3627,12 +3937,12 @@
     "cpm": 1.48,
     "medBEligible": 26,
     "medBCaseload": 12,
-    "medBUnitsThisWeek": 135,
+    "medBUnitsThisWeek": 266,
     "unitsPerVisit": 3.38,
     "date": "2026-01-11",
     "modeOfTreatment": 6.15,
     "medicareGrossRevenue": 4942.55,
-    "medicareMPPRRevenue": 4052.89
+    "medicareMPPRRevenue": 8181.92
   },
   {
     "week": "260111",
@@ -3645,7 +3955,9 @@
     "medBUnitsThisWeek": 0,
     "unitsPerVisit": 0,
     "date": "2026-01-11",
-    "modeOfTreatment": 2.11
+    "modeOfTreatment": 2.11,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 0
   },
   {
     "week": "260111",
@@ -3655,12 +3967,12 @@
     "cpm": 1.4,
     "medBEligible": 68,
     "medBCaseload": 45,
-    "medBUnitsThisWeek": 369,
+    "medBUnitsThisWeek": 784,
     "unitsPerVisit": 2.62,
     "date": "2026-01-11",
     "modeOfTreatment": 1.71,
     "medicareGrossRevenue": 17760.16,
-    "medicareMPPRRevenue": 14563.33
+    "medicareMPPRRevenue": 31678.0
   },
   {
     "week": "260111",
@@ -3670,12 +3982,12 @@
     "cpm": 1.52,
     "medBEligible": 40,
     "medBCaseload": 14,
-    "medBUnitsThisWeek": 161,
+    "medBUnitsThisWeek": 335,
     "unitsPerVisit": 3.1,
     "date": "2026-01-11",
     "modeOfTreatment": 8.83,
-    "medicareGrossRevenue": 7009.11,
-    "medicareMPPRRevenue": 5747.47
+    "medicareGrossRevenue": 15343.29,
+    "medicareMPPRRevenue": 12581.5
   },
   {
     "week": "260111",
@@ -3685,12 +3997,12 @@
     "cpm": 1.51,
     "medBEligible": 21,
     "medBCaseload": 9,
-    "medBUnitsThisWeek": 101,
+    "medBUnitsThisWeek": 154,
     "unitsPerVisit": 3.48,
     "date": "2026-01-11",
     "modeOfTreatment": 6.22,
     "medicareGrossRevenue": 4916.99,
-    "medicareMPPRRevenue": 4031.93
+    "medicareMPPRRevenue": 6021.32
   },
   {
     "week": "260111",
@@ -3700,12 +4012,12 @@
     "cpm": 1.36,
     "medBEligible": 27,
     "medBCaseload": 21,
-    "medBUnitsThisWeek": 211,
+    "medBUnitsThisWeek": 470,
     "unitsPerVisit": 2.78,
     "date": "2026-01-11",
     "modeOfTreatment": 0.0,
-    "medicareGrossRevenue": 9236.86,
-    "medicareMPPRRevenue": 7574.23
+    "medicareGrossRevenue": 20126.39,
+    "medicareMPPRRevenue": 16503.64
   },
   {
     "week": "260111",
@@ -3715,12 +4027,12 @@
     "cpm": 1.62,
     "medBEligible": 25,
     "medBCaseload": 5,
-    "medBUnitsThisWeek": 31,
+    "medBUnitsThisWeek": 51,
     "unitsPerVisit": 2.58,
     "date": "2026-01-11",
     "modeOfTreatment": 0.0,
-    "medicareGrossRevenue": 2191.98,
-    "medicareMPPRRevenue": 1797.42
+    "medicareGrossRevenue": 3466.18,
+    "medicareMPPRRevenue": 2842.26
   },
   {
     "week": "260111",
@@ -3730,12 +4042,12 @@
     "cpm": 1.56,
     "medBEligible": 16,
     "medBCaseload": 15,
-    "medBUnitsThisWeek": 181,
+    "medBUnitsThisWeek": 348,
     "unitsPerVisit": 3.18,
     "date": "2026-01-11",
     "modeOfTreatment": 0.46,
-    "medicareGrossRevenue": 6982.66,
-    "medicareMPPRRevenue": 5725.78
+    "medicareGrossRevenue": 13504.91,
+    "medicareMPPRRevenue": 11074.03
   },
   {
     "week": "260111",
@@ -3745,12 +4057,12 @@
     "cpm": 1.47,
     "medBEligible": 31,
     "medBCaseload": 25,
-    "medBUnitsThisWeek": 237,
+    "medBUnitsThisWeek": 499,
     "unitsPerVisit": 3.43,
     "date": "2026-01-11",
     "modeOfTreatment": 7.16,
-    "medicareGrossRevenue": 12545.67,
-    "medicareMPPRRevenue": 10287.45
+    "medicareGrossRevenue": 27116.56,
+    "medicareMPPRRevenue": 22235.58
   },
   {
     "week": "260111",
@@ -3760,12 +4072,12 @@
     "cpm": 1.45,
     "medBEligible": 17,
     "medBCaseload": 11,
-    "medBUnitsThisWeek": 136,
+    "medBUnitsThisWeek": 290,
     "unitsPerVisit": 3.78,
     "date": "2026-01-11",
     "modeOfTreatment": 5.92,
-    "medicareGrossRevenue": 5788.67,
-    "medicareMPPRRevenue": 4746.71
+    "medicareGrossRevenue": 12502.79,
+    "medicareMPPRRevenue": 10252.29
   },
   {
     "week": "260111",
@@ -3775,12 +4087,12 @@
     "cpm": 1.64,
     "medBEligible": 35,
     "medBCaseload": 12,
-    "medBUnitsThisWeek": 76,
+    "medBUnitsThisWeek": 212,
     "unitsPerVisit": 2.38,
     "date": "2026-01-11",
     "modeOfTreatment": 5.63,
-    "medicareGrossRevenue": 3015.27,
-    "medicareMPPRRevenue": 2472.52
+    "medicareGrossRevenue": 8948.14,
+    "medicareMPPRRevenue": 7337.47
   },
   {
     "week": "260111",
@@ -3790,10 +4102,12 @@
     "cpm": 1.47,
     "medBEligible": 6,
     "medBCaseload": 0,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 10,
     "unitsPerVisit": 0,
     "date": "2026-01-11",
-    "modeOfTreatment": 0.62
+    "modeOfTreatment": 0.62,
+    "medicareGrossRevenue": 0,
+    "medicareMPPRRevenue": 323.19
   },
   {
     "week": "260111",
@@ -3803,12 +4117,12 @@
     "cpm": 1.43,
     "medBEligible": 50,
     "medBCaseload": 35,
-    "medBUnitsThisWeek": 387,
+    "medBUnitsThisWeek": 754,
     "unitsPerVisit": 3.39,
     "date": "2026-01-11",
     "modeOfTreatment": 4.21,
-    "medicareGrossRevenue": 19428.04,
-    "medicareMPPRRevenue": 15930.99
+    "medicareGrossRevenue": 38180.26,
+    "medicareMPPRRevenue": 31307.81
   },
   {
     "week": "260111",
@@ -3818,12 +4132,12 @@
     "cpm": 1.48,
     "medBEligible": 43,
     "medBCaseload": 14,
-    "medBUnitsThisWeek": 45,
+    "medBUnitsThisWeek": 132,
     "unitsPerVisit": 2.81,
     "date": "2026-01-11",
     "modeOfTreatment": 4.57,
     "medicareGrossRevenue": 1959.71,
-    "medicareMPPRRevenue": 1606.96
+    "medicareMPPRRevenue": 4950.14
   },
   {
     "week": "260118",
@@ -3836,9 +4150,9 @@
     "medBEligible": 6,
     "medBCaseload": 0,
     "unitsPerVisit": 0.0,
-    "medBUnitsThisWeek": 0,
+    "medBUnitsThisWeek": 10,
     "medicareGrossRevenue": 0.0,
-    "medicareMPPRRevenue": 0.0
+    "medicareMPPRRevenue": 323.19
   },
   {
     "week": "260118",
@@ -3851,9 +4165,9 @@
     "medBEligible": 40,
     "medBCaseload": 16,
     "unitsPerVisit": 3.38,
-    "medBUnitsThisWeek": 220,
-    "medicareGrossRevenue": 8648.73,
-    "medicareMPPRRevenue": 7091.96
+    "medBUnitsThisWeek": 555,
+    "medicareGrossRevenue": 23992.02,
+    "medicareMPPRRevenue": 19673.46
   },
   {
     "week": "260118",
@@ -3866,9 +4180,9 @@
     "medBEligible": 15,
     "medBCaseload": 10,
     "unitsPerVisit": 2.8,
-    "medBUnitsThisWeek": 115,
-    "medicareGrossRevenue": 4520.93,
-    "medicareMPPRRevenue": 3707.16
+    "medBUnitsThisWeek": 198,
+    "medicareGrossRevenue": 9057.46,
+    "medicareMPPRRevenue": 7427.12
   },
   {
     "week": "260118",
@@ -3881,9 +4195,9 @@
     "medBEligible": 30,
     "medBCaseload": 18,
     "unitsPerVisit": 2.7,
-    "medBUnitsThisWeek": 213,
-    "medicareGrossRevenue": 8373.54,
-    "medicareMPPRRevenue": 6866.3
+    "medBUnitsThisWeek": 683,
+    "medicareGrossRevenue": 28499.93,
+    "medicareMPPRRevenue": 23369.94
   },
   {
     "week": "260118",
@@ -3896,9 +4210,9 @@
     "medBEligible": 35,
     "medBCaseload": 5,
     "unitsPerVisit": 1.79,
-    "medBUnitsThisWeek": 25,
-    "medicareGrossRevenue": 982.81,
-    "medicareMPPRRevenue": 805.9
+    "medBUnitsThisWeek": 76,
+    "medicareGrossRevenue": 4448.99,
+    "medicareMPPRRevenue": 3648.16
   },
   {
     "week": "260118",
@@ -3911,9 +4225,9 @@
     "medBEligible": 29,
     "medBCaseload": 12,
     "unitsPerVisit": 2.79,
-    "medBUnitsThisWeek": 95,
-    "medicareGrossRevenue": 3734.68,
-    "medicareMPPRRevenue": 3062.44
+    "medBUnitsThisWeek": 307,
+    "medicareGrossRevenue": 12682.82,
+    "medicareMPPRRevenue": 10399.91
   },
   {
     "week": "260118",
@@ -3926,9 +4240,9 @@
     "medBEligible": 17,
     "medBCaseload": 12,
     "unitsPerVisit": 3.82,
-    "medBUnitsThisWeek": 145,
-    "medicareGrossRevenue": 5700.3,
-    "medicareMPPRRevenue": 4674.24
+    "medBUnitsThisWeek": 435,
+    "medicareGrossRevenue": 18203.09,
+    "medicareMPPRRevenue": 14926.53
   },
   {
     "week": "260118",
@@ -3941,9 +4255,9 @@
     "medBEligible": 11,
     "medBCaseload": 5,
     "unitsPerVisit": 2.92,
-    "medBUnitsThisWeek": 38,
-    "medicareGrossRevenue": 1466.77,
-    "medicareMPPRRevenue": 1202.75
+    "medBUnitsThisWeek": 96,
+    "medicareGrossRevenue": 4976.91,
+    "medicareMPPRRevenue": 5142.74
   },
   {
     "week": "260118",
@@ -3956,9 +4270,9 @@
     "medBEligible": 5,
     "medBCaseload": 12,
     "unitsPerVisit": 1.85,
-    "medBUnitsThisWeek": 24,
-    "medicareGrossRevenue": 813.47,
-    "medicareMPPRRevenue": 667.05
+    "medBUnitsThisWeek": 79,
+    "medicareGrossRevenue": 1663.16,
+    "medicareMPPRRevenue": 2565.05
   },
   {
     "week": "260118",
@@ -3971,9 +4285,9 @@
     "medBEligible": 28,
     "medBCaseload": 9,
     "unitsPerVisit": 3.34,
-    "medBUnitsThisWeek": 107,
-    "medicareGrossRevenue": 3626.72,
-    "medicareMPPRRevenue": 2973.91
+    "medBUnitsThisWeek": 373,
+    "medicareGrossRevenue": 8569.27,
+    "medicareMPPRRevenue": 11155.83
   },
   {
     "week": "260118",
@@ -4001,9 +4315,9 @@
     "medBEligible": 64,
     "medBCaseload": 45,
     "unitsPerVisit": 2.8,
-    "medBUnitsThisWeek": 423,
-    "medicareGrossRevenue": 16327.46,
-    "medicareMPPRRevenue": 13388.52
+    "medBUnitsThisWeek": 1207,
+    "medicareGrossRevenue": 34087.62,
+    "medicareMPPRRevenue": 45066.52
   },
   {
     "week": "260118",
@@ -4016,9 +4330,9 @@
     "medBEligible": 21,
     "medBCaseload": 10,
     "unitsPerVisit": 3.5,
-    "medBUnitsThisWeek": 91,
-    "medicareGrossRevenue": 3512.53,
-    "medicareMPPRRevenue": 2880.27
+    "medBUnitsThisWeek": 245,
+    "medicareGrossRevenue": 8429.52,
+    "medicareMPPRRevenue": 8901.59
   },
   {
     "week": "260118",
@@ -4031,9 +4345,9 @@
     "medBEligible": 16,
     "medBCaseload": 16,
     "unitsPerVisit": 3.29,
-    "medBUnitsThisWeek": 168,
-    "medicareGrossRevenue": 6604.48,
-    "medicareMPPRRevenue": 5415.68
+    "medBUnitsThisWeek": 516,
+    "medicareGrossRevenue": 20109.39,
+    "medicareMPPRRevenue": 16489.71
   },
   {
     "week": "260118",
@@ -4046,9 +4360,9 @@
     "medBEligible": 34,
     "medBCaseload": 22,
     "unitsPerVisit": 3.63,
-    "medBUnitsThisWeek": 214,
-    "medicareGrossRevenue": 8412.85,
-    "medicareMPPRRevenue": 6898.54
+    "medBUnitsThisWeek": 713,
+    "medicareGrossRevenue": 35529.41,
+    "medicareMPPRRevenue": 29134.12
   },
   {
     "week": "260118",
@@ -4061,9 +4375,9 @@
     "medBEligible": 41,
     "medBCaseload": 14,
     "unitsPerVisit": 2.33,
-    "medBUnitsThisWeek": 49,
-    "medicareGrossRevenue": 1891.36,
-    "medicareMPPRRevenue": 1550.92
+    "medBUnitsThisWeek": 181,
+    "medicareGrossRevenue": 3851.07,
+    "medicareMPPRRevenue": 6501.06
   },
   {
     "week": "260118",
@@ -4071,13 +4385,13 @@
     "region": "Golden Coast",
     "productivity": 92.8,
     "cpm": 1.41,
-    "medBEligible": 50,
+    "medBEligible": 34,
     "medBCaseload": 36,
-    "medBUnitsThisWeek": 327,
+    "medBUnitsThisWeek": 1081,
     "unitsPerVisit": 3.37,
     "date": "2026-01-18",
     "modeOfTreatment": 5.07,
-    "medicareGrossRevenue": 12854.37,
-    "medicareMPPRRevenue": 10540.58
+    "medicareGrossRevenue": 51035.41,
+    "medicareMPPRRevenue": 41849.04
   }
 ]
