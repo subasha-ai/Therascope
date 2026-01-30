@@ -406,34 +406,62 @@ export default function App() {
 
   // Get last 4 months of data for trends
   const getLast4MonthsTrends = () => {
-    // Get all unique weeks and sort numerically (not alphabetically!)
-    const allWeeks = [...new Set(allWeeklyData.map(d => d.week))].sort((a, b) => {
-      return String(a).localeCompare(String(b), undefined, { numeric: true });
+    // Group data by month
+    const monthlyData = {};
+    
+    allWeeklyData.forEach(record => {
+      const date = new Date(record.date);
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+      
+      if (!monthlyData[monthKey]) {
+        monthlyData[monthKey] = [];
+      }
+      monthlyData[monthKey].push(record);
     });
     
-    // Get last 16-18 weeks (roughly 4 months)
-    const recentWeeks = allWeeks.slice(-16);
+    // Get last 4 months
+    const sortedMonths = Object.keys(monthlyData).sort();
+    const last4Months = sortedMonths.slice(-4);
     
-    // Calculate company-wide metrics for each week
-    const trendData = recentWeeks.map(week => {
-      const weekData = allWeeklyData.filter(d => d.week === week);
+    // Calculate metrics for each month
+    const trendData = last4Months.map(monthKey => {
+      const monthRecords = monthlyData[monthKey];
       
-      // Calculate averages/totals
-      const avgProductivity = weekData.reduce((sum, d) => sum + (d.productivity || 0), 0) / weekData.length;
-      const avgCPM = weekData.reduce((sum, d) => sum + (d.cpm || 0), 0) / weekData.length;
-      const totalMedBUnits = weekData.reduce((sum, d) => sum + (d.medBUnitsThisWeek || 0), 0);
-      const totalMedicareRevenue = weekData.reduce((sum, d) => sum + (d.medicareMPPRRevenue || 0), 0);
-      const totalFacilities = weekData.length;
+      // Group by facility to get last week's MTD values
+      const facilitiesByMonth = {};
+      monthRecords.forEach(record => {
+        if (!facilitiesByMonth[record.facility]) {
+          facilitiesByMonth[record.facility] = [];
+        }
+        facilitiesByMonth[record.facility].push(record);
+      });
+      
+      // For each facility, get the last week's data (which has MTD totals)
+      const lastWeekData = Object.keys(facilitiesByMonth).map(facility => {
+        const facilityRecords = facilitiesByMonth[facility].sort((a, b) => a.date.localeCompare(b.date));
+        return facilityRecords[facilityRecords.length - 1]; // Last week = MTD total for month
+      });
+      
+      // Calculate averages for productivity/CPM, use MTD totals for units/revenue
+      const avgProductivity = lastWeekData.reduce((sum, d) => sum + (d.productivity || 0), 0) / lastWeekData.length;
+      const avgCPM = lastWeekData.reduce((sum, d) => sum + (d.cpm || 0), 0) / lastWeekData.length;
+      const totalMedBUnits = lastWeekData.reduce((sum, d) => sum + (d.medBUnitsThisWeek || 0), 0);
+      const totalMedicareRevenue = lastWeekData.reduce((sum, d) => sum + (d.medicareMPPRRevenue || 0), 0);
+      
+      // Format month label (e.g., "Oct 2025")
+      const [year, month] = monthKey.split('-');
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const monthLabel = `${monthNames[parseInt(month) - 1]} ${year}`;
       
       return {
-        week: formatWeekLabel(week),  // Use our formatter function!
-        fullWeek: week,
+        week: monthLabel,  // Using "week" key for compatibility, but showing month
+        fullWeek: monthKey,
         productivity: parseFloat(avgProductivity.toFixed(1)),
         cpm: parseFloat(avgCPM.toFixed(2)),
         medBUnits: totalMedBUnits,
         medicareRevenue: Math.round(totalMedicareRevenue / 1000), // in thousands
-        facilities: totalFacilities,
-        date: weekData[0]?.date || ''
+        facilities: lastWeekData.length,
+        date: monthKey
       };
     });
     
@@ -1736,7 +1764,6 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1797,7 +1824,6 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1859,7 +1885,6 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -1910,7 +1935,6 @@ export default function App() {
                         dataKey="week" 
                         stroke="#94a3b8" 
                         style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        tickFormatter={formatWeekLabel}
                       />
                       <YAxis 
                         stroke="#94a3b8" 
@@ -2553,7 +2577,7 @@ export default function App() {
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
                               <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
-                              <div className="text-xs text-slate-400 mt-2 font-medium">This week</div>
+                              <div className="text-xs text-slate-400 mt-2 font-medium">MTD</div>
                             </div>
                           ) : (
                             // DOR View: Mode of Treatment
@@ -2578,7 +2602,7 @@ export default function App() {
                             <div className="text-3xl font-black text-emerald-300">
                               ${(facility.medicareMPPRRevenue / 1000).toFixed(1)}k
                             </div>
-                            <div className="text-xs text-slate-400 mt-2 font-medium">Est. w/MPPR</div>
+                            <div className="text-xs text-slate-400 mt-2 font-medium">MTD w/MPPR</div>
                           </div>
                         )}
                         </div>
@@ -2603,7 +2627,7 @@ export default function App() {
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
                               <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
-                              <div className="text-xs text-slate-400 mt-2 font-medium">This week</div>
+                              <div className="text-xs text-slate-400 mt-2 font-medium">MTD</div>
                             </div>
                           </div>
                         )}
