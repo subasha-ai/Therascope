@@ -4177,7 +4177,7 @@
     "date": "2026-01-18",
     "cpm": 1.64,
     "modeOfTreatment": 0.25,
-    "medBEligible": 15,
+    "medBEligible": 35,
     "medBCaseload": 10,
     "unitsPerVisit": 2.8,
     "medBUnitsThisWeek": 198,
