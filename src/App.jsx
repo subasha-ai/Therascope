@@ -345,12 +345,18 @@ export default function App() {
     // Calculate monthly averages
     const monthlyAverages = Object.keys(monthlyGroups).map(month => {
       const records = monthlyGroups[month];
+      // Sort by date to get last week's MTD values
+      const sortedRecords = records.sort((a, b) => a.date.localeCompare(b.date));
+      const lastWeekRecord = sortedRecords[sortedRecords.length - 1];
+      
       return {
         month,
         productivity: records.reduce((sum, r) => sum + r.productivity, 0) / records.length,
         cpm: records.reduce((sum, r) => sum + r.cpm, 0) / records.length,
         medBEligible: Math.round(records.reduce((sum, r) => sum + r.medBEligible, 0) / records.length),
         medBCaseload: Math.round(records.reduce((sum, r) => sum + r.medBCaseload, 0) / records.length),
+        medBUnitsThisWeek: lastWeekRecord.medBUnitsThisWeek || 0,
+        medicareMPPRRevenue: lastWeekRecord.medicareMPPRRevenue || 0,
         modeOfTreatment: records[0].modeOfTreatment !== undefined 
           ? records.reduce((sum, r) => sum + (r.modeOfTreatment || 0), 0) / records.length
           : undefined,
@@ -1920,7 +1926,7 @@ export default function App() {
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                   <h3 className="text-lg font-black text-emerald-300 mb-4 flex items-center gap-2">
                     <DollarSign className="w-5 h-5" />
-                    Medicare Revenue (Weekly)
+                    Medicare Revenue
                   </h3>
                   <ResponsiveContainer width="100%" height={250}>
                     <AreaChart data={getLast4MonthsTrends()}>
@@ -2317,6 +2323,21 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Medicare Rev</div>
                             </div>
                             <div className="text-xl font-black text-emerald-300">
+                              ${((item.facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
+                            </div>
+                            <div className="text-xs text-slate-400 mt-1">MTD w/MPPR</div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Admin-Only Additional Metrics */}
+                      {!isRestrictedView && (
+                        <div className="grid grid-cols-1 gap-4 mt-4 pt-4 border-t border-white/10">
+                          <div className="p-4 rounded-xl border-2 bg-emerald-500/20 border-emerald-400/50">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-xs text-slate-300 font-bold uppercase">Medicare Revenue</div>
+                            </div>
+                            <div className="text-2xl font-black text-emerald-300">
                               ${((item.facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD w/MPPR</div>
@@ -2785,6 +2806,14 @@ export default function App() {
                                         {monthData.medBCaseload}
                                       </div>
                                     </div>
+                                    {!isRestrictedView && (
+                                      <div className="bg-white/5 rounded-xl p-4">
+                                        <div className="text-xs text-slate-400 mb-1">Med B Revenue</div>
+                                        <div className="text-2xl font-black text-emerald-300">
+                                          ${((monthData.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
+                                        </div>
+                                      </div>
+                                    )}
                                     {monthData.modeOfTreatment !== undefined && (
                                       <div className="bg-white/5 rounded-xl p-4">
                                         <div className="text-xs text-slate-400 mb-1">Mode of Tx</div>
