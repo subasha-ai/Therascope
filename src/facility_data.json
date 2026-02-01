@@ -1689,9 +1689,9 @@
     "modeOfTreatment": 1.25,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 0,
-    "medicareGrossRevenue": 0,
-    "medicareMPPRRevenue": 0
+    "medBUnitsThisWeek": 117,
+    "medicareGrossRevenue": 6097.5609756097565,
+    "medicareMPPRRevenue": 5000
   },
   {
     "facility": "The Win Post Acute",
@@ -1703,9 +1703,9 @@
     "modeOfTreatment": 8.3,
     "date": "2025-10-26",
     "week": "251026",
-    "medBUnitsThisWeek": 0,
-    "medicareGrossRevenue": 0,
-    "medicareMPPRRevenue": 0
+    "medBUnitsThisWeek": 916,
+    "medicareGrossRevenue": 34146.34146341464,
+    "medicareMPPRRevenue": 28000
   },
   {
     "facility": "Belmont HC",
@@ -2474,9 +2474,9 @@
     "modeOfTreatment": 0.42,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 0,
-    "medicareGrossRevenue": 0,
-    "medicareMPPRRevenue": 0
+    "medBUnitsThisWeek": 235,
+    "medicareGrossRevenue": 7317.073170731708,
+    "medicareMPPRRevenue": 6000
   },
   {
     "facility": "The Win Post Acute",
@@ -2488,9 +2488,9 @@
     "modeOfTreatment": 5.42,
     "date": "2025-11-24",
     "week": "251124",
-    "medBUnitsThisWeek": 0,
-    "medicareGrossRevenue": 0,
-    "medicareMPPRRevenue": 0
+    "medBUnitsThisWeek": 1060,
+    "medicareGrossRevenue": 47560.975609756104,
+    "medicareMPPRRevenue": 39000
   },
   {
     "week": "251124",
