@@ -1029,11 +1029,11 @@
     "medBEligible": 12,
     "medBCaseload": 11,
     "modeOfTreatment": 0.0,
-    "date": "2025-10-05",
-    "week": "251005",
-    "medBUnitsThisWeek": 60,
-    "medicareMPPRRevenue": 2405.39,
-    "medicareGrossRevenue": 0
+    "date": "2025-10-26",
+    "week": "251026",
+    "medBUnitsThisWeek": 197,
+    "medicareMPPRRevenue": 2000,
+    "medicareGrossRevenue": 2439.0243902439024
   },
   {
     "facility": "Morgan Hill HC",
@@ -1127,11 +1127,11 @@
     "medBEligible": 43,
     "medBCaseload": 29,
     "modeOfTreatment": 3.5,
-    "date": "2025-10-05",
-    "week": "251005",
-    "medBUnitsThisWeek": 323,
-    "medicareMPPRRevenue": 11332.17,
-    "medicareGrossRevenue": 0
+    "date": "2025-10-26",
+    "week": "251026",
+    "medBUnitsThisWeek": 1200,
+    "medicareMPPRRevenue": 44000,
+    "medicareGrossRevenue": 53658.53658536586
   },
   {
     "facility": "Belmont HC",
@@ -1211,11 +1211,11 @@
     "medBEligible": 21,
     "medBCaseload": 14,
     "modeOfTreatment": 7.73,
-    "date": "2025-10-12",
-    "week": "251012",
-    "medBUnitsThisWeek": 245,
-    "medicareMPPRRevenue": 10052.01,
-    "medicareGrossRevenue": 0
+    "date": "2025-10-26",
+    "week": "251026",
+    "medBUnitsThisWeek": 502,
+    "medicareMPPRRevenue": 20000,
+    "medicareGrossRevenue": 24390.243902439026
   },
   {
     "facility": "Los Altos Post Acute",
@@ -1743,11 +1743,11 @@
     "medBEligible": 18,
     "medBCaseload": 10,
     "modeOfTreatment": 6.69,
-    "date": "2025-11-03",
-    "week": "251103",
-    "medBUnitsThisWeek": 134,
-    "medicareMPPRRevenue": 5044.14,
-    "medicareGrossRevenue": 0
+    "date": "2025-11-24",
+    "week": "251124",
+    "medBUnitsThisWeek": 432,
+    "medicareMPPRRevenue": 14000,
+    "medicareGrossRevenue": 17073.17073170732
   },
   {
     "facility": "Capital PA",
