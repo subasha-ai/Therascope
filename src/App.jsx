@@ -828,7 +828,7 @@ export default function App() {
         return `**📅 Monthly Performance for ${mentionedFacility.facility}:**\n\n` +
           monthlyData.map(m => {
             const trend = m.productivityChange > 0 ? '↗️ Improving' : m.productivityChange < 0 ? '↘️ Declining' : '➡️ Stable';
-            return `**${m.month}** (${m.weekCount} weeks):\n` +
+            return `**${m.month}** (MTD):\n` +
               `• Productivity: ${m.productivity.toFixed(1)}% ${m.productivityChange !== undefined && m.productivityChange !== 0 ? `(${m.productivityChange > 0 ? '+' : ''}${m.productivityChange.toFixed(1)}%)` : ''}\n` +
               `• CPM: $${m.cpm.toFixed(2)} ${m.cpmChange !== undefined && m.cpmChange !== 0 ? `(${m.cpmChange > 0 ? '+' : ''}${m.cpmChange.toFixed(2)})` : ''}\n` +
               `• Trend: ${trend}`;
@@ -2777,7 +2777,7 @@ export default function App() {
                                   <div className="flex items-center justify-between mb-4">
                                     <div>
                                       <h5 className="text-xl font-black text-white">{monthData.month}</h5>
-                                      <p className="text-sm text-slate-400">Average of {monthData.weekCount} weeks</p>
+                                      <p className="text-sm text-slate-400">Month Total</p>
                                     </div>
                                     {idx > 0 && (
                                       <div className="text-right">
