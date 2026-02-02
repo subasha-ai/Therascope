@@ -211,7 +211,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 135,
-    "medicareMPPRRevenue": 4261.95,
+    "medicareMPPRRevenue": 8046.77,
     "medicareGrossRevenue": 0
   },
   {
@@ -426,7 +426,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 110,
-    "medicareMPPRRevenue": 3319.8,
+    "medicareMPPRRevenue": 3244.37,
     "medicareGrossRevenue": 0
   },
   {
@@ -613,7 +613,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 321,
-    "medicareMPPRRevenue": 9806.55,
+    "medicareMPPRRevenue": 12166.67,
     "medicareGrossRevenue": 0
   },
   {
@@ -828,7 +828,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 533,
-    "medicareMPPRRevenue": 16085.94,
+    "medicareMPPRRevenue": 16018.56,
     "medicareGrossRevenue": 0
   },
   {
@@ -1257,7 +1257,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 1656,
-    "medicareMPPRRevenue": 49978.08,
+    "medicareMPPRRevenue": 53660.84,
     "medicareGrossRevenue": 0
   },
   {
@@ -1472,12 +1472,12 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 733,
-    "medicareMPPRRevenue": 22393.15,
+    "medicareMPPRRevenue": 26090.77,
     "medicareGrossRevenue": 0
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 73.8,
     "cpm": 1.44,
     "medBEligible": 21,
@@ -1491,7 +1491,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 75.3,
     "cpm": 1.48,
     "medBEligible": 21,
@@ -1505,7 +1505,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 81.4,
     "cpm": 1.38,
     "medBEligible": 21,
@@ -1519,7 +1519,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 78.9,
     "cpm": 1.44,
     "medBEligible": 21,
@@ -1533,7 +1533,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 78.0,
     "cpm": 1.47,
     "medBEligible": 21,
@@ -1547,7 +1547,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 81.3,
     "cpm": 1.41,
     "medBEligible": 21,
@@ -1561,7 +1561,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 79.7,
     "cpm": 1.45,
     "medBEligible": 21,
@@ -1575,7 +1575,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 80.8,
     "cpm": 1.45,
     "medBEligible": 21,
@@ -1589,7 +1589,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 80.7,
     "cpm": 1.47,
     "medBEligible": 21,
@@ -1678,7 +1678,7 @@
   },
   {
     "facility": "Golden Harbor HC",
-    "region": "Golden Coast",
+    "region": "Overland",
     "productivity": 81.3,
     "cpm": 1.48,
     "medBEligible": 21,
@@ -1687,7 +1687,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 379,
-    "medicareMPPRRevenue": 11438.22,
+    "medicareMPPRRevenue": 13670.61,
     "medicareGrossRevenue": 0
   },
   {
@@ -1902,12 +1902,12 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 974,
-    "medicareMPPRRevenue": 29755.7,
+    "medicareMPPRRevenue": 33961.36,
     "medicareGrossRevenue": 0
   },
   {
     "facility": "Manresa HC",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 76.0,
     "cpm": 1.4,
     "medBEligible": 12,
@@ -1936,7 +1936,7 @@
   },
   {
     "facility": "Manresa HC",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 72.0,
     "cpm": 1.8,
     "medBEligible": 12,
@@ -2025,7 +2025,7 @@
   },
   {
     "facility": "Manresa HC",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 75.0,
     "cpm": 1.64,
     "medBEligible": 35,
@@ -2034,7 +2034,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 110,
-    "medicareMPPRRevenue": 3360.5,
+    "medicareMPPRRevenue": 7452.69,
     "medicareGrossRevenue": 0
   },
   {
@@ -2249,7 +2249,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 680,
-    "medicareMPPRRevenue": 20774.0,
+    "medicareMPPRRevenue": 21125.5,
     "medicareGrossRevenue": 0
   },
   {
@@ -2464,7 +2464,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 970,
-    "medicareMPPRRevenue": 29633.5,
+    "medicareMPPRRevenue": 43510.7,
     "medicareGrossRevenue": 0
   },
   {
@@ -2678,12 +2678,12 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 614,
-    "medicareMPPRRevenue": 19383.98,
+    "medicareMPPRRevenue": 18139.92,
     "medicareGrossRevenue": 0
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.53,
     "medBEligible": 18,
@@ -2697,7 +2697,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.58,
     "medBEligible": 18,
@@ -2711,7 +2711,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 84.3,
     "cpm": 1.56,
     "medBEligible": 18,
@@ -2725,7 +2725,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 81.0,
     "cpm": 1.61,
     "medBEligible": 18,
@@ -2739,7 +2739,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 84.0,
     "cpm": 1.6,
     "medBEligible": 18,
@@ -2753,7 +2753,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 83.0,
     "cpm": 1.43,
     "medBEligible": 18,
@@ -2767,7 +2767,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 84.3,
     "cpm": 1.44,
     "medBEligible": 18,
@@ -2781,7 +2781,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 80.3,
     "cpm": 1.51,
     "medBEligible": 18,
@@ -2795,7 +2795,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 84.5,
     "cpm": 1.59,
     "medBEligible": 18,
@@ -2884,7 +2884,7 @@
   },
   {
     "facility": "Pac Coast PA",
-    "region": "Overland",
+    "region": "Golden Coast",
     "productivity": 85.0,
     "cpm": 1.57,
     "medBEligible": 29,
@@ -2893,7 +2893,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 443,
-    "medicareMPPRRevenue": 13985.51,
+    "medicareMPPRRevenue": 13559.59,
     "medicareGrossRevenue": 0
   },
   {
@@ -3108,7 +3108,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 53,
-    "medicareMPPRRevenue": 1619.15,
+    "medicareMPPRRevenue": 2043.61,
     "medicareGrossRevenue": 0
   },
   {
@@ -3323,7 +3323,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 1520,
-    "medicareMPPRRevenue": 46436.0,
+    "medicareMPPRRevenue": 58315.23,
     "medicareGrossRevenue": 0
   },
   {
@@ -3525,7 +3525,7 @@
     "date": "2026-01-25",
     "week": "260125",
     "medBUnitsThisWeek": 275,
-    "medicareMPPRRevenue": 8299.5,
+    "medicareMPPRRevenue": 9105.12,
     "medicareGrossRevenue": 0
   }
 ]
