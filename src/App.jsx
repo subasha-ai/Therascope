@@ -443,8 +443,14 @@ export default function App() {
       });
       
       // For each facility, get the last week's data (which has MTD totals)
+      // FIXED: Sort by week number instead of date string for bulletproof sorting
       const lastWeekData = Object.keys(facilitiesByMonth).map(facility => {
-        const facilityRecords = facilitiesByMonth[facility].sort((a, b) => a.date.localeCompare(b.date));
+        const facilityRecords = facilitiesByMonth[facility].sort((a, b) => {
+          // Sort by week number (e.g., 260125 > 260118)
+          const weekA = parseInt(a.week);
+          const weekB = parseInt(b.week);
+          return weekA - weekB;
+        });
         return facilityRecords[facilityRecords.length - 1]; // Last week = MTD total for month
       });
       
@@ -471,20 +477,7 @@ export default function App() {
       };
     });
     
-    
-    // HARDCODED FIX: Override November 2025 values
-    const fixedTrendData = trendData.map(month => {
-      if (month.week === 'Nov 2025') {
-        return {
-          ...month,
-          medBUnits: 10482,
-          medicareRevenue: 391
-        };
-      }
-      return month;
-    });
-    
-    return fixedTrendData;
+    return trendData;
   };
 
   // Get regional trends
