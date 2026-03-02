@@ -342,24 +342,28 @@ export default function App() {
       monthlyGroups[month].push(record);
     });
     
-    // Calculate monthly averages
+    // Get last week's MTD values for each month
     const monthlyAverages = Object.keys(monthlyGroups).map(month => {
       const records = monthlyGroups[month];
-      // Sort by date to get last week's MTD values
-      const sortedRecords = records.sort((a, b) => a.date.localeCompare(b.date));
+      // FIXED: Sort by week number instead of date string for reliable sorting
+      const sortedRecords = records.sort((a, b) => {
+        const weekA = parseInt(a.week);
+        const weekB = parseInt(b.week);
+        return weekA - weekB;
+      });
       const lastWeekRecord = sortedRecords[sortedRecords.length - 1];
       
       return {
         month,
-        productivity: records.reduce((sum, r) => sum + r.productivity, 0) / records.length,
-        cpm: records.reduce((sum, r) => sum + r.cpm, 0) / records.length,
-        medBEligible: Math.round(records.reduce((sum, r) => sum + r.medBEligible, 0) / records.length),
-        medBCaseload: Math.round(records.reduce((sum, r) => sum + r.medBCaseload, 0) / records.length),
+        // FIXED: Use last week's MTD values instead of averaging
+        productivity: lastWeekRecord.productivity,
+        cpm: lastWeekRecord.cpm,
+        medBEligible: lastWeekRecord.medBEligible,
+        medBCaseload: lastWeekRecord.medBCaseload,
         medBUnitsThisWeek: lastWeekRecord.medBUnitsThisWeek || 0,
         medicareMPPRRevenue: lastWeekRecord.medicareMPPRRevenue || 0,
-        modeOfTreatment: records[0].modeOfTreatment !== undefined 
-          ? records.reduce((sum, r) => sum + (r.modeOfTreatment || 0), 0) / records.length
-          : undefined,
+        modeOfTreatment: lastWeekRecord.modeOfTreatment,
+        unitsPerVisit: lastWeekRecord.unitsPerVisit,
         weekCount: records.length
       };
     });
