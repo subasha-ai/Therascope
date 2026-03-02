@@ -355,15 +355,15 @@ export default function App() {
       
       return {
         month,
-        // FIXED: Use last week's MTD values instead of averaging
-        productivity: lastWeekRecord.productivity,
-        cpm: lastWeekRecord.cpm,
+        // Use MONTHLY values if available (for last week), otherwise use regular values
+        productivity: lastWeekRecord.productivityMonthly || lastWeekRecord.productivity,
+        cpm: lastWeekRecord.cpmMonthly || lastWeekRecord.cpm,
         medBEligible: lastWeekRecord.medBEligible,
         medBCaseload: lastWeekRecord.medBCaseload,
         medBUnitsThisWeek: lastWeekRecord.medBUnitsThisWeek || 0,
         medicareMPPRRevenue: lastWeekRecord.medicareMPPRRevenue || 0,
-        modeOfTreatment: lastWeekRecord.modeOfTreatment,
-        unitsPerVisit: lastWeekRecord.unitsPerVisit,
+        modeOfTreatment: lastWeekRecord.modeMonthly || lastWeekRecord.modeOfTreatment,
+        unitsPerVisit: lastWeekRecord.upvMonthly || lastWeekRecord.unitsPerVisit,
         weekCount: records.length
       };
     });
@@ -481,22 +481,7 @@ export default function App() {
       };
     });
     
-    
-    // HARDCODED FIX - Override Nov, Jan, Feb with correct values
-    const fixedTrendData = trendData.map(month => {
-      if (month.week === 'Nov 2025') {
-        return { ...month, medBUnits: 10482, medicareRevenue: 391 };
-      }
-      if (month.week === 'Jan 2026') {
-        return { ...month, medBUnits: 9506, medicareRevenue: 324 };
-      }
-      if (month.week === 'Feb 2026') {
-        return { ...month, medBUnits: 10111, medicareRevenue: 352 };
-      }
-      return month;
-    });
-    
-    return fixedTrendData;
+    return trendData;
   };
 
   // Get regional trends
