@@ -261,6 +261,21 @@
     "unitsPerVisit": 1.94
   },
   {
+    "facility": "Belmont HC",
+    "region": "Overland",
+    "productivity": 85.8,
+    "cpm": 1.45,
+    "medBEligible": 10,
+    "medBCaseload": 6,
+    "modeOfTreatment": 5.27,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 149,
+    "medicareMPPRRevenue": 8099.2300000000005,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.19
+  },
+  {
     "facility": "Bridgewood PA",
     "region": "Overland",
     "productivity": 92.0,
@@ -522,6 +537,21 @@
     "unitsPerVisit": 2.57
   },
   {
+    "facility": "Bridgewood PA",
+    "region": "Overland",
+    "productivity": 80.6,
+    "cpm": 1.61,
+    "medBEligible": 12,
+    "medBCaseload": 4,
+    "modeOfTreatment": 5.95,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 91,
+    "medicareMPPRRevenue": 2654.03,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.53
+  },
+  {
     "facility": "Camino Ridge Post Acute",
     "region": "Golden Coast",
     "productivity": 85.4,
@@ -753,6 +783,21 @@
     "medicareMPPRRevenue": 14596.96,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 2.76
+  },
+  {
+    "facility": "Camino Ridge Post Acute",
+    "region": "Golden Coast",
+    "productivity": 82.6,
+    "cpm": 1.62,
+    "medBEligible": 30,
+    "medBCaseload": 12,
+    "modeOfTreatment": 2.1,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 568,
+    "medicareMPPRRevenue": 19942.129999999997,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.93
   },
   {
     "facility": "Capital PA",
@@ -1016,6 +1061,21 @@
     "unitsPerVisit": 3.37
   },
   {
+    "facility": "Capital PA",
+    "region": "Overland",
+    "productivity": 78.6,
+    "cpm": 1.37,
+    "medBEligible": 26,
+    "medBCaseload": 10,
+    "modeOfTreatment": 5.15,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 572,
+    "medicareMPPRRevenue": 15734.7,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.42
+  },
+  {
     "facility": "Cedarwood PA",
     "region": "Overland",
     "productivity": 82.0,
@@ -1274,6 +1334,21 @@
     "medicareMPPRRevenue": 174.4,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 4.0
+  },
+  {
+    "facility": "Cedarwood PA",
+    "region": "Overland",
+    "productivity": 76.1,
+    "cpm": 1.51,
+    "medBEligible": 12,
+    "medBCaseload": 1,
+    "modeOfTreatment": 1.8,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 26,
+    "medicareMPPRRevenue": 805.38,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.71
   },
   {
     "facility": "Eden HC",
@@ -1537,6 +1612,21 @@
     "unitsPerVisit": 2.84
   },
   {
+    "facility": "Eden HC",
+    "region": "Overland",
+    "productivity": 83.2,
+    "cpm": 1.49,
+    "medBEligible": 61,
+    "medBCaseload": 44,
+    "modeOfTreatment": 1.02,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 1539,
+    "medicareMPPRRevenue": 48655.85,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.87
+  },
+  {
     "facility": "Gilroy HC",
     "region": "Golden Coast",
     "productivity": 86.0,
@@ -1796,6 +1886,21 @@
     "medicareMPPRRevenue": 22509.56,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 3.52
+  },
+  {
+    "facility": "Gilroy HC",
+    "region": "Golden Coast",
+    "productivity": 85.7,
+    "cpm": 1.54,
+    "medBEligible": 54,
+    "medBCaseload": 22,
+    "modeOfTreatment": 7.14,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 921,
+    "medicareMPPRRevenue": 33206.11,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.56
   },
   {
     "facility": "Golden Harbor HC",
@@ -2059,6 +2164,21 @@
     "unitsPerVisit": 3.44
   },
   {
+    "facility": "Golden Harbor HC",
+    "region": "Overland",
+    "productivity": 82.7,
+    "cpm": 1.46,
+    "medBEligible": 20,
+    "medBCaseload": 14,
+    "modeOfTreatment": 3.48,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 645,
+    "medicareMPPRRevenue": 23387.170000000002,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.52
+  },
+  {
     "facility": "Los Altos Post Acute",
     "region": "Golden Coast",
     "productivity": 87.0,
@@ -2320,6 +2440,21 @@
     "unitsPerVisit": 2.78
   },
   {
+    "facility": "Los Altos Post Acute",
+    "region": "Golden Coast",
+    "productivity": 87.9,
+    "cpm": 1.3,
+    "medBEligible": 27,
+    "medBCaseload": 15,
+    "modeOfTreatment": 4.36,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 685,
+    "medicareMPPRRevenue": 22761.93,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.88
+  },
+  {
     "facility": "Manresa HC",
     "region": "Golden Coast",
     "productivity": 76.0,
@@ -2496,6 +2631,21 @@
     "medicareMPPRRevenue": 6713.91,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 2.24
+  },
+  {
+    "facility": "Manresa HC",
+    "region": "Golden Coast",
+    "productivity": 88.0,
+    "cpm": 1.6,
+    "medBEligible": 35,
+    "medBCaseload": 8,
+    "modeOfTreatment": 0.14,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 204,
+    "medicareMPPRRevenue": 8849.92,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.06
   },
   {
     "facility": "Morgan Hill HC",
@@ -2759,6 +2909,21 @@
     "unitsPerVisit": 2.91
   },
   {
+    "facility": "Morgan Hill HC",
+    "region": "Golden Coast",
+    "productivity": 83.5,
+    "cpm": 1.51,
+    "medBEligible": 18,
+    "medBCaseload": 15,
+    "modeOfTreatment": 2.67,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 614,
+    "medicareMPPRRevenue": 18737.9,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.12
+  },
+  {
     "facility": "Mountain View HC",
     "region": "Golden Coast",
     "productivity": 87.6,
@@ -3020,6 +3185,21 @@
     "unitsPerVisit": 3.48
   },
   {
+    "facility": "Mountain View HC",
+    "region": "Golden Coast",
+    "productivity": 98.9,
+    "cpm": 1.24,
+    "medBEligible": 36,
+    "medBCaseload": 22,
+    "modeOfTreatment": 6.27,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 848,
+    "medicareMPPRRevenue": 38888.340000000004,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.62
+  },
+  {
     "facility": "PAC Hills Post Acute",
     "region": "Golden Coast",
     "productivity": 87.0,
@@ -3278,6 +3458,21 @@
     "medicareMPPRRevenue": 10964.48,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 3.26
+  },
+  {
+    "facility": "PAC Hills Post Acute",
+    "region": "Golden Coast",
+    "productivity": 88.8,
+    "cpm": 1.48,
+    "medBEligible": 17,
+    "medBCaseload": 11,
+    "modeOfTreatment": 5.24,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 533,
+    "medicareMPPRRevenue": 15897.14,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.39
   },
   {
     "facility": "Pac Coast PA",
@@ -3541,6 +3736,21 @@
     "unitsPerVisit": 2.66
   },
   {
+    "facility": "Pac Coast PA",
+    "region": "Golden Coast",
+    "productivity": 84.3,
+    "cpm": 1.56,
+    "medBEligible": 26,
+    "medBCaseload": 8,
+    "modeOfTreatment": 4.76,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 382,
+    "medicareMPPRRevenue": 11791.82,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.6
+  },
+  {
     "facility": "Palo Alto Post Acute",
     "region": "Overland",
     "productivity": 89.8,
@@ -3802,6 +4012,21 @@
     "unitsPerVisit": 3.11
   },
   {
+    "facility": "Palo Alto Post Acute",
+    "region": "Overland",
+    "productivity": 87.8,
+    "cpm": 1.5,
+    "medBEligible": 8,
+    "medBCaseload": 6,
+    "modeOfTreatment": 0.15,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 333,
+    "medicareMPPRRevenue": 11197.85,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.47
+  },
+  {
     "facility": "The Win Post Acute",
     "region": "Golden Coast",
     "productivity": 89.5,
@@ -3993,7 +4218,7 @@
     "region": "Golden Coast",
     "productivity": 92.8,
     "cpm": 1.41,
-    "medBEligible": 34,
+    "medBEligible": 50,
     "medBCaseload": 36,
     "medBUnitsThisWeek": 1081,
     "unitsPerVisit": 3.37,
@@ -4061,6 +4286,21 @@
     "medicareMPPRRevenue": 41079.409999999996,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 3.49
+  },
+  {
+    "facility": "The Win Post Acute",
+    "region": "Golden Coast",
+    "productivity": 91.9,
+    "cpm": 1.38,
+    "medBEligible": 55,
+    "medBCaseload": 36,
+    "modeOfTreatment": 4.09,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 1661,
+    "medicareMPPRRevenue": 59999.229999999996,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 3.48
   },
   {
     "facility": "West Shore PA",
@@ -4309,5 +4549,20 @@
     "medicareMPPRRevenue": 8814.2,
     "medicareGrossRevenue": 0,
     "unitsPerVisit": 2.5
+  },
+  {
+    "facility": "West Shore PA",
+    "region": "Overland",
+    "productivity": 83.3,
+    "cpm": 1.46,
+    "medBEligible": 37,
+    "medBCaseload": 12,
+    "modeOfTreatment": 4.62,
+    "date": "2026-02-22",
+    "week": "260222",
+    "medBUnitsThisWeek": 340,
+    "medicareMPPRRevenue": 11453.220000000001,
+    "medicareGrossRevenue": 0,
+    "unitsPerVisit": 2.46
   }
 ]
