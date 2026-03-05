@@ -10,6 +10,11 @@ export default function App() {
   const [allWeeklyData] = useState(facilityDataJson);
   const [documents, setDocuments] = useState([]);
   const [isLoadingDocs, setIsLoadingDocs] = useState(true);
+  
+  // GitHub Resources state
+  const [githubResources, setGithubResources] = useState([]);
+  const [resourcesLoading, setResourcesLoading] = useState(true);
+  const [resourcesError, setResourcesError] = useState(null);
 
   // App-wide password protection - MUST BE BEFORE OTHER STATES
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -169,6 +174,32 @@ export default function App() {
       }
     };
     loadResources();
+  }, []);
+  
+  // Load GitHub resources
+  useEffect(() => {
+    const loadGithubResources = async () => {
+      try {
+        setResourcesLoading(true);
+        setResourcesError(null);
+        
+        const response = await fetch('/resources/resources-config.json');
+        
+        if (!response.ok) {
+          throw new Error('Failed to load resources');
+        }
+        
+        const config = await response.json();
+        setGithubResources(config.categories || []);
+      } catch (err) {
+        console.error('Error loading resources:', err);
+        setResourcesError('Unable to load resources. Please contact your administrator.');
+      } finally {
+        setResourcesLoading(false);
+      }
+    };
+    
+    loadGithubResources();
   }, []);
 
   const handleFileUpload = async (e) => {
@@ -2880,140 +2911,71 @@ export default function App() {
             </div>
 
             {/* Resources Content */}
-            {(() => {
-              const [resources, setResources] = React.useState([]);
-              const [loading, setLoading] = React.useState(true);
-              const [error, setError] = React.useState(null);
-              
-              React.useEffect(() => {
-                const loadResources = async () => {
-                  try {
-                    setLoading(true);
-                    setError(null);
+            {resourcesLoading ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="text-gray-400">Loading resources...</div>
+              </div>
+            ) : resourcesError ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="text-red-400">{resourcesError}</div>
+              </div>
+            ) : (
+              <>
+                {/* Search and Filter */}
+                <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10">
+                  <div className="flex gap-4">
+                    <div className="flex-1 relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder="Search resources..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-10 pr-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:border-cyan-500"
+                      />
+                    </div>
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:border-cyan-500 min-w-[200px]"
+                    >
+                      <option value="all" className="bg-slate-800">All Categories</option>
+                      {githubResources.map(cat => (
+                        <option key={cat.id} value={cat.id} className="bg-slate-800">{cat.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Files List */}
+                <div className="space-y-3">
+                  {(() => {
+                    const allFiles = [];
+                    githubResources.forEach(category => {
+                      category.files.forEach(file => {
+                        allFiles.push({
+                          ...file,
+                          category: category.name,
+                          categoryId: category.id
+                        });
+                      });
+                    });
                     
-                    const response = await fetch('/resources/resources-config.json');
+                    let filteredFiles = allFiles;
                     
-                    if (!response.ok) {
-                      throw new Error('Failed to load resources');
+                    if (selectedCategory !== 'all') {
+                      filteredFiles = filteredFiles.filter(f => f.categoryId === selectedCategory);
                     }
                     
-                    const config = await response.json();
-                    setResources(config.categories || []);
-                  } catch (err) {
-                    console.error('Error loading resources:', err);
-                    setError('Unable to load resources. Please contact your administrator.');
-                  } finally {
-                    setLoading(false);
-                  }
-                };
-                
-                loadResources();
-              }, []);
-
-              const getFileUrl = (category, filename) => {
-                return `/resources/${category}/${filename}`;
-              };
-
-              const handleViewFile = (category, filename) => {
-                const url = getFileUrl(category, filename);
-                window.open(url, '_blank');
-              };
-
-              const handleDownloadFile = (category, filename, displayName) => {
-                const url = getFileUrl(category, filename);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = displayName || filename;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-              };
-
-              const getAllFiles = () => {
-                const allFiles = [];
-                resources.forEach(category => {
-                  category.files.forEach(file => {
-                    allFiles.push({
-                      ...file,
-                      category: category.name,
-                      categoryId: category.id
-                    });
-                  });
-                });
-                return allFiles;
-              };
-
-              const getFilteredFiles = () => {
-                let files = getAllFiles();
-                
-                if (selectedCategory !== 'all') {
-                  files = files.filter(f => f.categoryId === selectedCategory);
-                }
-                
-                if (searchTerm.trim()) {
-                  const query = searchTerm.toLowerCase();
-                  files = files.filter(f => 
-                    f.name.toLowerCase().includes(query) ||
-                    (f.description && f.description.toLowerCase().includes(query))
-                  );
-                }
-                
-                return files;
-              };
-
-              const resourceCategories = [
-                { id: 'all', name: 'All Categories' },
-                ...resources.map(cat => ({ id: cat.id, name: cat.name }))
-              ];
-
-              const filteredFiles = getFilteredFiles();
-
-              if (loading) {
-                return (
-                  <div className="flex items-center justify-center h-64">
-                    <div className="text-gray-400">Loading resources...</div>
-                  </div>
-                );
-              }
-
-              if (error) {
-                return (
-                  <div className="flex items-center justify-center h-64">
-                    <div className="text-red-400">{error}</div>
-                  </div>
-                );
-              }
-
-              return (
-                <>
-                  {/* Search and Filter */}
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10">
-                    <div className="flex gap-4">
-                      <div className="flex-1 relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                        <input
-                          type="text"
-                          placeholder="Search resources..."
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:border-cyan-500"
-                        />
-                      </div>
-                      <select
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:border-cyan-500 min-w-[200px]"
-                      >
-                        {resourceCategories.map(cat => (
-                          <option key={cat.id} value={cat.id} className="bg-slate-800">{cat.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Files List */}
-                  <div className="space-y-3">
-                    {filteredFiles.length === 0 ? (
+                    if (searchTerm.trim()) {
+                      const query = searchTerm.toLowerCase();
+                      filteredFiles = filteredFiles.filter(f => 
+                        f.name.toLowerCase().includes(query) ||
+                        (f.description && f.description.toLowerCase().includes(query))
+                      );
+                    }
+                    
+                    return filteredFiles.length === 0 ? (
                       <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 text-center border border-white/10">
                         <FileText className="w-12 h-12 text-gray-600 mx-auto mb-3" />
                         <p className="text-gray-400">
@@ -3051,14 +3013,21 @@ export default function App() {
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
                               <button
-                                onClick={() => handleViewFile(file.categoryId, file.filename)}
+                                onClick={() => window.open(`/resources/${file.categoryId}/${file.filename}`, '_blank')}
                                 className="p-2 hover:bg-white/10 rounded-xl transition-colors"
                                 title="View"
                               >
                                 <Eye className="w-5 h-5 text-gray-400 hover:text-white" />
                               </button>
                               <button
-                                onClick={() => handleDownloadFile(file.categoryId, file.filename, file.name)}
+                                onClick={() => {
+                                  const link = document.createElement('a');
+                                  link.href = `/resources/${file.categoryId}/${file.filename}`;
+                                  link.download = file.name || file.filename;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
                                 className="p-2 hover:bg-white/10 rounded-xl transition-colors"
                                 title="Download"
                               >
@@ -3068,20 +3037,20 @@ export default function App() {
                           </div>
                         </div>
                       ))
-                    )}
-                  </div>
+                    );
+                  })()}
+                </div>
 
-                  {/* Admin Note */}
-                  <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-2xl p-4">
-                    <p className="text-sm text-cyan-400">
-                      <strong>Note for Administrators:</strong> To add or update resources, upload files to the GitHub repository 
-                      in the <code className="bg-gray-800 px-2 py-1 rounded">public/resources</code> folder and update 
-                      the <code className="bg-gray-800 px-2 py-1 rounded">resources-config.json</code> file.
-                    </p>
-                  </div>
-                </>
-              );
-            })()}
+                {/* Admin Note */}
+                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-2xl p-4">
+                  <p className="text-sm text-cyan-400">
+                    <strong>Note for Administrators:</strong> To add or update resources, upload files to the GitHub repository 
+                    in the <code className="bg-gray-800 px-2 py-1 rounded">public/resources</code> folder and update 
+                    the <code className="bg-gray-800 px-2 py-1 rounded">resources-config.json</code> file.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
