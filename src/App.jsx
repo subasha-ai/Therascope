@@ -2864,121 +2864,224 @@ export default function App() {
 
         {activeView === 'resources' && (
           <div className="space-y-6 animate-fadeIn">
-            {/* Info banner */}
+            {/* Header */}
             <div className="bg-gradient-to-r from-cyan-500/10 to-teal-500/10 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/30">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-cyan-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <FileText className="w-6 h-6 text-cyan-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Personal Resources</h3>
+                  <h3 className="text-lg font-bold text-white mb-2">Resources</h3>
                   <p className="text-slate-300 text-sm leading-relaxed">
-                    Upload therapy templates, guidelines, and documentation for quick access. 
-                    Resources are stored locally in your browser. 
-                    <span className="text-cyan-300"> Max file size: 5MB</span>
+                    Access therapy templates, guidelines, and documentation
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h2 className="text-3xl font-black text-white tracking-tight">Resources</h2>
-                  <p className="text-slate-300 mt-2 text-lg font-medium">Upload and manage therapy resources & documentation</p>
-                </div>
-                <label className="relative group cursor-pointer">
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-2xl blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-xl transform hover:scale-105 font-bold">
-                    <Upload className="w-5 h-5" />
-                    Upload Resource
-                  </div>
-                  <input type="file" onChange={handleFileUpload} className="hidden" />
-                </label>
-              </div>
+            {/* Resources Content */}
+            {(() => {
+              const [resources, setResources] = React.useState([]);
+              const [loading, setLoading] = React.useState(true);
+              const [error, setError] = React.useState(null);
+              
+              React.useEffect(() => {
+                const loadResources = async () => {
+                  try {
+                    setLoading(true);
+                    setError(null);
+                    
+                    const response = await fetch('/resources/resources-config.json');
+                    
+                    if (!response.ok) {
+                      throw new Error('Failed to load resources');
+                    }
+                    
+                    const config = await response.json();
+                    setResources(config.categories || []);
+                  } catch (err) {
+                    console.error('Error loading resources:', err);
+                    setError('Unable to load resources. Please contact your administrator.');
+                  } finally {
+                    setLoading(false);
+                  }
+                };
+                
+                loadResources();
+              }, []);
 
-              <div className="flex gap-4 mb-8">
-                <div className="flex-1 relative">
-                  <Search className="w-5 h-5 text-slate-400 absolute left-5 top-1/2 transform -translate-y-1/2" />
-                  <input
-                    type="text"
-                    placeholder="Search resources..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-14 pr-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-white placeholder-slate-400 font-medium"
-                  />
-                </div>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-white font-bold"
-                >
-                  {categories.map(cat => (
-                    <option key={cat} value={cat} className="bg-slate-800">
-                      {cat === 'all' ? 'All Categories' : cat}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              const getFileUrl = (category, filename) => {
+                return `/resources/${category}/${filename}`;
+              };
 
-              <div className="space-y-4">
-                {isLoadingDocs ? (
-                  <div className="text-center py-12">
-                    <div className="inline-block w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-slate-400 mt-4">Loading documents...</p>
+              const handleViewFile = (category, filename) => {
+                const url = getFileUrl(category, filename);
+                window.open(url, '_blank');
+              };
+
+              const handleDownloadFile = (category, filename, displayName) => {
+                const url = getFileUrl(category, filename);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = displayName || filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              };
+
+              const getAllFiles = () => {
+                const allFiles = [];
+                resources.forEach(category => {
+                  category.files.forEach(file => {
+                    allFiles.push({
+                      ...file,
+                      category: category.name,
+                      categoryId: category.id
+                    });
+                  });
+                });
+                return allFiles;
+              };
+
+              const getFilteredFiles = () => {
+                let files = getAllFiles();
+                
+                if (selectedCategory !== 'all') {
+                  files = files.filter(f => f.categoryId === selectedCategory);
+                }
+                
+                if (searchTerm.trim()) {
+                  const query = searchTerm.toLowerCase();
+                  files = files.filter(f => 
+                    f.name.toLowerCase().includes(query) ||
+                    (f.description && f.description.toLowerCase().includes(query))
+                  );
+                }
+                
+                return files;
+              };
+
+              const resourceCategories = [
+                { id: 'all', name: 'All Categories' },
+                ...resources.map(cat => ({ id: cat.id, name: cat.name }))
+              ];
+
+              const filteredFiles = getFilteredFiles();
+
+              if (loading) {
+                return (
+                  <div className="flex items-center justify-center h-64">
+                    <div className="text-gray-400">Loading resources...</div>
                   </div>
-                ) : filteredDocs.length === 0 ? (
-                  <div className="text-center py-12">
-                    <FileText className="w-16 h-16 text-slate-600 mx-auto mb-4" />
-                    <p className="text-slate-400 text-lg">No resources uploaded yet</p>
-                    <p className="text-slate-500 text-sm mt-2">Click "Upload Resource" to add your first file</p>
+                );
+              }
+
+              if (error) {
+                return (
+                  <div className="flex items-center justify-center h-64">
+                    <div className="text-red-400">{error}</div>
                   </div>
-                ) : (
-                  filteredDocs.map((doc, idx) => (
-                    <div 
-                      key={doc.id}
-                      className="flex items-center justify-between p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:bg-white/15 hover:border-cyan-400/50 transition-all duration-300 group"
-                      style={{ animationDelay: `${idx * 50}ms` }}
-                    >
-                      <div className="flex items-center gap-5">
-                        <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-xl transform group-hover:rotate-6 transition-transform duration-300">
-                          <FileText className="w-7 h-7 text-white" strokeWidth={2.5} />
-                        </div>
-                        <div>
-                          <h3 className="font-black text-white text-lg">{doc.name}</h3>
-                          <p className="text-sm text-slate-400 font-medium mt-1">
-                            {doc.category} • {doc.uploadDate} • {doc.size}
-                          </p>
-                        </div>
+                );
+              }
+
+              return (
+                <>
+                  {/* Search and Filter */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 border border-white/10">
+                    <div className="flex gap-4">
+                      <div className="flex-1 relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search resources..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="w-full pl-10 pr-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:border-cyan-500"
+                        />
                       </div>
-                      <div className="flex items-center gap-3">
-                        <button 
-                          onClick={() => handleViewDocument(doc)}
-                          className="p-3 text-slate-300 hover:bg-white/10 hover:text-cyan-400 rounded-xl transition-all border border-transparent hover:border-cyan-400/50"
-                          title="View/Open"
-                        >
-                          <Eye className="w-5 h-5" />
-                        </button>
-                        <button 
-                          onClick={() => handleDownloadDocument(doc)}
-                          className="p-3 text-slate-300 hover:bg-white/10 hover:text-emerald-400 rounded-xl transition-all border border-transparent hover:border-emerald-400/50"
-                          title="Download"
-                        >
-                          <Download className="w-5 h-5" />
-                        </button>
-                        <button 
-                          onClick={() => handleDeleteDocument(doc.id)}
-                          className="p-3 text-slate-300 hover:bg-white/10 hover:text-rose-400 rounded-xl transition-all border border-transparent hover:border-rose-400/50"
-                          title="Delete"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      </div>
+                      <select
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
+                        className="px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:border-cyan-500 min-w-[200px]"
+                      >
+                        {resourceCategories.map(cat => (
+                          <option key={cat.id} value={cat.id} className="bg-slate-800">{cat.name}</option>
+                        ))}
+                      </select>
                     </div>
-                  ))
-                )}
-              </div>
-            </div>
+                  </div>
+
+                  {/* Files List */}
+                  <div className="space-y-3">
+                    {filteredFiles.length === 0 ? (
+                      <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 text-center border border-white/10">
+                        <FileText className="w-12 h-12 text-gray-600 mx-auto mb-3" />
+                        <p className="text-gray-400">
+                          {searchTerm ? 'No resources found matching your search' : 'No resources available'}
+                        </p>
+                      </div>
+                    ) : (
+                      filteredFiles.map((file, index) => (
+                        <div
+                          key={index}
+                          className="bg-white/5 backdrop-blur-xl rounded-2xl p-4 hover:bg-white/10 transition-colors border border-white/10"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4 flex-1">
+                              <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <FileText className="w-6 h-6 text-cyan-400" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <h3 className="text-white font-medium mb-1">{file.name}</h3>
+                                <div className="flex items-center gap-3 text-sm text-gray-400">
+                                  <span>{file.category}</span>
+                                  <span>•</span>
+                                  <span>{new Date().toLocaleDateString()}</span>
+                                  {file.size && (
+                                    <>
+                                      <span>•</span>
+                                      <span>{file.size}</span>
+                                    </>
+                                  )}
+                                </div>
+                                {file.description && (
+                                  <p className="text-sm text-gray-500 mt-1">{file.description}</p>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                              <button
+                                onClick={() => handleViewFile(file.categoryId, file.filename)}
+                                className="p-2 hover:bg-white/10 rounded-xl transition-colors"
+                                title="View"
+                              >
+                                <Eye className="w-5 h-5 text-gray-400 hover:text-white" />
+                              </button>
+                              <button
+                                onClick={() => handleDownloadFile(file.categoryId, file.filename, file.name)}
+                                className="p-2 hover:bg-white/10 rounded-xl transition-colors"
+                                title="Download"
+                              >
+                                <Download className="w-5 h-5 text-gray-400 hover:text-white" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Admin Note */}
+                  <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-2xl p-4">
+                    <p className="text-sm text-cyan-400">
+                      <strong>Note for Administrators:</strong> To add or update resources, upload files to the GitHub repository 
+                      in the <code className="bg-gray-800 px-2 py-1 rounded">public/resources</code> folder and update 
+                      the <code className="bg-gray-800 px-2 py-1 rounded">resources-config.json</code> file.
+                    </p>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         )}
       </div>
