@@ -2329,7 +2329,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
                             </div>
                             <div className="text-2xl font-black text-blue-300">
-                              {item.facility.medBUnitsThisWeek || 0}
+                              {item.facility.medBUnitsMTD || 0}
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD</div>
                           </div>
@@ -2369,7 +2369,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
                             </div>
                             <div className="text-2xl font-black text-blue-300">
-                              {item.facility.medBUnitsThisWeek || 0}
+                              {item.facility.medBUnitsMTD || 0}
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD</div>
                           </div>
@@ -2379,7 +2379,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Medicare Rev</div>
                             </div>
                             <div className="text-xl font-black text-emerald-300">
-                              ${((item.facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
+                              ${((item.facility.medicareMPPRRevenueMTD || 0) / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD w/MPPR</div>
                           </div>
@@ -2394,7 +2394,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Medicare Revenue</div>
                             </div>
                             <div className="text-2xl font-black text-emerald-300">
-                              ${((item.facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
+                              ${((item.facility.medicareMPPRRevenueMTD || 0) / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD w/MPPR</div>
                           </div>
@@ -2663,7 +2663,7 @@ export default function App() {
                                 <BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5} />
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
-                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
+                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsMTD || 0}</div>
                               <div className="text-xs text-slate-400 mt-2 font-medium">MTD</div>
                             </div>
                           ) : (
@@ -2680,14 +2680,14 @@ export default function App() {
                             )
                           )}
                           {/* 6th Metric - Admin Only: Medicare Revenue */}
-                        {!isRestrictedView && facility.medicareMPPRRevenue && (
+                        {!isRestrictedView && facility.medicareMPPRRevenueMTD && (
                           <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-sm rounded-2xl p-6 border border-emerald-400/30 transform hover:scale-105 transition-all duration-300">
                             <div className="flex items-center gap-3 mb-3">
                               <DollarSign className="w-5 h-5 text-emerald-300" strokeWidth={2.5} />
                               <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Medicare Rev</div>
                             </div>
                             <div className="text-3xl font-black text-emerald-300">
-                              ${(facility.medicareMPPRRevenue / 1000).toFixed(1)}k
+                              ${(facility.medicareMPPRRevenueMTD / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-2 font-medium">MTD w/MPPR</div>
                           </div>
@@ -2713,7 +2713,7 @@ export default function App() {
                                 <BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5} />
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
-                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
+                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsMTD || 0}</div>
                               <div className="text-xs text-slate-400 mt-2 font-medium">MTD</div>
                             </div>
 
@@ -2723,7 +2723,7 @@ export default function App() {
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Medicare Rev</div>
                               </div>
                               <div className="text-3xl font-black text-emerald-300">
-                                ${((facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
+                                ${((facility.medicareMPPRRevenueMTD || 0) / 1000).toFixed(1)}k
                               </div>
                               <div className="text-xs text-slate-400 mt-2 font-medium">MTD w/MPPR</div>
                             </div>
