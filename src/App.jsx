@@ -2589,7 +2589,7 @@ export default function App() {
               </div>
             )}
 
-{!isRestrictedView && (
+            {!isRestrictedView && (
               <>
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
@@ -2951,9 +2951,10 @@ export default function App() {
                 })}
               </div>
             </div>
-          </div>
               </>
             )}
+
+          </div>
         )}
 
         {activeView === 'resources' && (
