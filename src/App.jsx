@@ -35,8 +35,6 @@ export default function App() {
   const [filterProductivity, setFilterProductivity] = useState('all');
   const [filterCPM, setFilterCPM] = useState('all');
   const [historicalView, setHistoricalView] = useState('weekly'); // 'weekly' or 'monthly'
-  const [dorLeaderboardSort, setDorLeaderboardSort] = useState('productivity');
-  const [dorLeaderboardDir, setDorLeaderboardDir] = useState('desc');
   
   // Chatbot state
   const [chatOpen, setChatOpen] = useState(false);
@@ -944,14 +942,6 @@ export default function App() {
     ? currentWeekData.filter(f => f.facility === restrictedFacility)
     : currentWeekData;
   
-  const myFacilityData = isRestrictedView 
-    ? currentWeekData.find(f => f.facility === restrictedFacility) || null
-    : null;
-  const myRegion = myFacilityData ? myFacilityData.region : null;
-  const myRegionData = isRestrictedView && myRegion
-    ? currentWeekData.filter(f => f.region === myRegion)
-    : [];
-  
   const rankedFacilities = viewableData.map(f => calculateScore(f)).sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
     if (b.facility.productivity !== a.facility.productivity) return b.facility.productivity - a.facility.productivity;
@@ -1575,13 +1565,32 @@ export default function App() {
       </header>
 
       <div className="relative max-w-7xl mx-auto px-6 py-10">
-
+        {isRestrictedView && (
+          <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Building2 className="w-8 h-8 text-blue-400" />
+                <div>
+                  <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
+                  <p className="text-blue-300 text-sm">Facility Dashboard View</p>
+                </div>
+              </div>
+              <button
+                onClick={generateMyReport}
+                className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                Generate My Report
+              </button>
+            </div>
+          </div>
+        )}
         
         <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10 overflow-x-auto">
           {[
             ...(!isRestrictedView ? [{ id: 'overview', label: 'Overview', icon: Activity }] : []),
             ...(!isRestrictedView ? [{ id: 'rankings', label: 'Rankings', icon: Trophy }] : []),
-            { id: 'facilities', label: isRestrictedView ? 'My Building' : 'All Facilities', icon: Building2 },
+            { id: 'facilities', label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
             { id: 'resources', label: 'Resources', icon: FileText }
           ].map(tab => (
             <button
@@ -1599,7 +1608,7 @@ export default function App() {
           ))}
         </div>
 
-        {(!isRestrictedView && (activeView === 'overview' || activeView === 'facilities' || activeView === 'rankings')) && (
+        {(activeView === 'overview' || activeView === 'facilities' || activeView === 'rankings') && (
           <div className="mb-6 flex items-center gap-4 flex-wrap">
             <label className="text-white font-bold text-lg">Viewing:</label>
             <select
@@ -2320,7 +2329,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
                             </div>
                             <div className="text-2xl font-black text-blue-300">
-                              {item.facility.medBUnitsMTD || 0}
+                              {item.facility.medBUnitsThisWeek || 0}
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD</div>
                           </div>
@@ -2360,7 +2369,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Med B Units</div>
                             </div>
                             <div className="text-2xl font-black text-blue-300">
-                              {item.facility.medBUnitsMTD || 0}
+                              {item.facility.medBUnitsThisWeek || 0}
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD</div>
                           </div>
@@ -2370,7 +2379,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Medicare Rev</div>
                             </div>
                             <div className="text-xl font-black text-emerald-300">
-                              ${((item.facility.medicareMPPRRevenueMTD || 0) / 1000).toFixed(1)}k
+                              ${((item.facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD w/MPPR</div>
                           </div>
@@ -2385,7 +2394,7 @@ export default function App() {
                               <div className="text-xs text-slate-300 font-bold uppercase">Medicare Revenue</div>
                             </div>
                             <div className="text-2xl font-black text-emerald-300">
-                              ${((item.facility.medicareMPPRRevenueMTD || 0) / 1000).toFixed(1)}k
+                              ${((item.facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-1">MTD w/MPPR</div>
                           </div>
@@ -2400,221 +2409,127 @@ export default function App() {
         )}
 
 {activeView === 'facilities' && (
-          <div className="space-y-8 animate-fadeIn">
-
-            {/* ============ DOR VIEW ============ */}
-            {isRestrictedView && myFacilityData && (
-              <div className="space-y-8">
-
-                {/* MY BUILDING */}
-                <div className="bg-gradient-to-br from-cyan-900/40 to-teal-900/40 backdrop-blur-xl rounded-3xl border border-cyan-400/30 shadow-2xl overflow-hidden">
-                  <div className="p-8 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 to-teal-500/10">
-                    <div className="flex items-center justify-between flex-wrap gap-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-xl">
-                          <Building2 className="w-8 h-8 text-white" strokeWidth={2.5} />
-                        </div>
-                        <div>
-                          <h2 className="text-3xl font-black text-white tracking-tight">{myFacilityData.facility}</h2>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${myFacilityData.region === 'Golden Coast' ? 'bg-amber-500/30 text-amber-200 border border-amber-400/50' : 'bg-blue-500/30 text-blue-200 border border-blue-400/50'}`}>{myFacilityData.region}</span>
-                            <span className="text-slate-400 text-sm">{myFacilityData.date}</span>
-                          </div>
-                        </div>
+          <div className="space-y-6 animate-fadeIn">
+            {/* DOR Overview Cards */}
+            {isRestrictedView && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {metrics.map((metric, idx) => (
+                  <div 
+                    key={idx}
+                    className={`relative bg-gradient-to-br ${metric.bgGradient} rounded-3xl p-8 shadow-2xl border border-white/20 hover:shadow-cyan-500/20 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group overflow-hidden`}
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-3xl"></div>
+                    <div className="relative">
+                      <div className={`w-16 h-16 bg-gradient-to-br ${metric.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-xl transform group-hover:rotate-12 transition-transform duration-500`}>
+                        <metric.icon className="w-8 h-8 text-white" strokeWidth={2.5} />
                       </div>
-                      <button onClick={generateMyReport} className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                        <FileText className="w-4 h-4" />Generate My Report
-                      </button>
-                    </div>
-                  </div>
-                  <div className="p-8 space-y-6">
-                    {/* Goal metrics */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-                      <div className={`rounded-2xl p-6 border-2 ${myFacilityData.productivity >= 84 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                        <div className="flex items-center gap-2 mb-3"><TrendingUp className={`w-5 h-5 ${myFacilityData.productivity >= 84 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Productivity</span></div>
-                        <div className={`text-4xl font-black ${myFacilityData.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{myFacilityData.productivity}%</div>
-                        <div className="text-xs text-slate-400 mt-2">{myFacilityData.productivity >= 84 ? '✓ Meeting goal' : 'Below 84% goal'}</div>
-                      </div>
-                      <div className={`rounded-2xl p-6 border-2 ${myFacilityData.cpm <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                        <div className="flex items-center gap-2 mb-3"><PieChart className={`w-5 h-5 ${myFacilityData.cpm <= 1.45 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">CPM</span></div>
-                        <div className={`text-4xl font-black ${myFacilityData.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${myFacilityData.cpm}</div>
-                        <div className="text-xs text-slate-400 mt-2">{myFacilityData.cpm <= 1.45 ? '✓ Under $1.45' : 'Above $1.45 target'}</div>
-                      </div>
-                      {(() => {
-                        const ratio = myFacilityData.medBEligible > 0 ? Math.round((myFacilityData.medBCaseload / myFacilityData.medBEligible) * 100) : 0;
-                        const good = ratio >= 50;
-                        return (
-                          <div className={`rounded-2xl p-6 border-2 ${good ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                            <div className="flex items-center gap-2 mb-3"><Users className={`w-5 h-5 ${good ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B on Caseload</span></div>
-                            <div className={`text-4xl font-black ${good ? 'text-emerald-300' : 'text-rose-300'}`}>{ratio}%</div>
-                            <div className="text-xs text-slate-400 mt-2">{myFacilityData.medBCaseload} of {myFacilityData.medBEligible} eligible</div>
-                          </div>
-                        );
-                      })()}
-                      <div className={`rounded-2xl p-6 border-2 ${myFacilityData.modeOfTreatment >= 5 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                        <div className="flex items-center gap-2 mb-3"><Activity className={`w-5 h-5 ${myFacilityData.modeOfTreatment >= 5 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Mode of Tx</span></div>
-                        <div className={`text-4xl font-black ${myFacilityData.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-rose-300'}`}>{myFacilityData.modeOfTreatment || 0}%</div>
-                        <div className="text-xs text-slate-400 mt-2">{myFacilityData.modeOfTreatment >= 5 ? '✓ Meeting 5% goal' : 'Below 5% goal'}</div>
-                      </div>
-                    </div>
-                    {/* Operational metrics */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-                      <div className="bg-purple-500/20 rounded-2xl p-6 border border-purple-400/30">
-                        <div className="flex items-center gap-2 mb-3"><Activity className="w-5 h-5 text-purple-300" strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Units Per Visit</span></div>
-                        <div className="text-4xl font-black text-purple-300">{myFacilityData.unitsPerVisit ? myFacilityData.unitsPerVisit.toFixed(2) : '0.00'}</div>
-                        <div className="text-xs text-slate-400 mt-2">Operational metric</div>
-                      </div>
-                      <div className="bg-indigo-500/20 rounded-2xl p-6 border border-indigo-400/30">
-                        <div className="flex items-center gap-2 mb-3"><BarChart3 className="w-5 h-5 text-indigo-300" strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Eligible</span></div>
-                        <div className="text-4xl font-black text-indigo-300">{myFacilityData.medBEligible || 0}</div>
-                        <div className="text-xs text-slate-400 mt-2">Total eligible</div>
-                      </div>
-                      <div className="bg-blue-500/20 rounded-2xl p-6 border border-blue-400/30">
-                        <div className="flex items-center gap-2 mb-3"><BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</span></div>
-                        <div className="text-4xl font-black text-blue-300">{myFacilityData.medBUnitsMTD || myFacilityData.medBUnitsThisWeek || 0}</div>
-                        <div className="text-xs text-slate-400 mt-2">MTD</div>
-                      </div>
-                      <div className="bg-emerald-500/20 rounded-2xl p-6 border border-emerald-400/30">
-                        <div className="flex items-center gap-2 mb-3"><DollarSign className="w-5 h-5 text-emerald-300" strokeWidth={2.5}/><span className="text-xs text-slate-300 font-bold uppercase tracking-wider">Medicare Rev</span></div>
-                        <div className="text-3xl font-black text-emerald-300">${((myFacilityData.medicareMPPRRevenueMTD || myFacilityData.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</div>
-                        <div className="text-xs text-slate-400 mt-2">MTD w/MPPR</div>
-                      </div>
-                    </div>
-                    {/* History table */}
-                    <div className="pt-4 border-t border-white/10">
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-lg font-bold text-white">Historical Performance</h4>
-                        <div className="flex gap-2 bg-white/5 rounded-xl p-1">
-                          <button onClick={() => setHistoricalView('weekly')} className={`px-4 py-2 rounded-lg font-bold transition-all ${historicalView === 'weekly' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}>Weekly</button>
-                          <button onClick={() => setHistoricalView('monthly')} className={`px-4 py-2 rounded-lg font-bold transition-all ${historicalView === 'monthly' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}>Monthly</button>
-                        </div>
-                      </div>
-                      {historicalView === 'weekly' ? (
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-sm">
-                            <thead><tr className="border-b border-white/10">
-                              <th className="text-left py-3 px-3 text-slate-400 font-bold">Week</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Productivity</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">CPM</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Caseload</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Mode %</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">UPV</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Units</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Rev</th>
-                            </tr></thead>
-                            <tbody>
-                              {getFacilityHistory(myFacilityData.facility).slice(0, 16).map((rec, i) => (
-                                <tr key={i} className={`border-b border-white/5 ${i === 0 ? 'bg-cyan-500/10' : 'hover:bg-white/5'}`}>
-                                  <td className="py-3 px-3 text-slate-300 font-medium">{rec.date}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{rec.productivity}%</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${rec.cpm}</td>
-                                  <td className="py-3 px-3 text-right text-slate-300">{rec.medBCaseload}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{rec.modeOfTreatment || 0}%</td>
-                                  <td className="py-3 px-3 text-right text-slate-300">{rec.unitsPerVisit ? rec.unitsPerVisit.toFixed(2) : '-'}</td>
-                                  <td className="py-3 px-3 text-right text-blue-300">{rec.medBUnitsThisWeek || 0}</td>
-                                  <td className="py-3 px-3 text-right text-emerald-300">${((rec.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      ) : (
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-sm">
-                            <thead><tr className="border-b border-white/10">
-                              <th className="text-left py-3 px-3 text-slate-400 font-bold">Month</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Productivity</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">CPM</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Mode %</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Units</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Rev</th>
-                            </tr></thead>
-                            <tbody>
-                              {getMonthlyData(myFacilityData.facility).slice().reverse().map((rec, i) => (
-                                <tr key={i} className={`border-b border-white/5 ${i === 0 ? 'bg-cyan-500/10' : 'hover:bg-white/5'}`}>
-                                  <td className="py-3 px-3 text-slate-300 font-medium">{rec.month}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{rec.productivity}%</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${rec.cpm}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{rec.modeOfTreatment || 0}%</td>
-                                  <td className="py-3 px-3 text-right text-blue-300">{rec.medBUnitsThisWeek || 0}</td>
-                                  <td className="py-3 px-3 text-right text-emerald-300">${((rec.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* REGIONAL LEADERBOARD */}
-                <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
-                  <div className="p-8 border-b border-white/10 bg-gradient-to-r from-slate-800/50 to-slate-700/50">
-                    <div className="flex items-center gap-4">
-                      <Trophy className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
-                      <div>
-                        <h3 className="text-2xl font-black text-white">{myRegion} Region</h3>
-                        <p className="text-slate-400 text-sm mt-1">{myRegionData.length} facilities • Click column headers to sort</p>
+                      <div className="text-5xl font-black text-slate-900 mb-2 tracking-tight">{metric.value}</div>
+                      <div className="text-sm text-slate-700 font-bold mb-3 uppercase tracking-wide">{metric.label}</div>
+                      <div className={`inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 bg-gradient-to-r ${metric.gradient} text-white rounded-full shadow-lg`}>
+                        <TrendingUp className="w-3 h-3" />
+                        {metric.change}
                       </div>
                     </div>
                   </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="border-b border-white/10 bg-white/5">
-                          <th className="text-left py-4 px-6 text-slate-400 font-bold text-xs uppercase tracking-wider">Facility</th>
-                          {[
-                            { key: 'productivity', label: 'Productivity' },
-                            { key: 'cpm', label: 'CPM' },
-                            { key: 'modeOfTreatment', label: 'Mode %' },
-                            { key: 'medBCaseload', label: 'Caseload' },
-                          ].map(col => (
-                            <th key={col.key} onClick={() => { if (dorLeaderboardSort === col.key) { setDorLeaderboardDir(d => d === 'desc' ? 'asc' : 'desc'); } else { setDorLeaderboardSort(col.key); setDorLeaderboardDir(col.key === 'cpm' ? 'asc' : 'desc'); } }} className="text-right py-4 px-6 text-slate-400 font-bold text-xs uppercase tracking-wider cursor-pointer hover:text-white transition-colors select-none">
-                              <span className="flex items-center justify-end gap-1">
-                                {col.label}
-                                {dorLeaderboardSort === col.key ? (dorLeaderboardDir === 'desc' ? <ChevronDown className="w-3 h-3 text-cyan-400" /> : <ChevronUp className="w-3 h-3 text-cyan-400" />) : (<ChevronDown className="w-3 h-3 opacity-30" />)}
-                              </span>
-                            </th>
-                          ))}
-                          <th className="text-right py-4 px-6 text-slate-400 font-bold text-xs uppercase tracking-wider">Goals Met</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[...myRegionData]
-                          .sort((a, b) => { const valA = a[dorLeaderboardSort] ?? 0; const valB = b[dorLeaderboardSort] ?? 0; return dorLeaderboardDir === 'desc' ? valB - valA : valA - valB; })
-                          .map((f, i) => {
-                            const isMe = f.facility === myFacilityData.facility;
-                            const score = calculateScore(f);
-                            return (
-                              <tr key={i} className={`border-b border-white/5 transition-all ${isMe ? 'bg-cyan-500/15 border-l-4 border-cyan-400' : 'hover:bg-white/5'}`}>
-                                <td className="py-4 px-6">
-                                  <div className="flex items-center gap-3">
-                                    {isMe && <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>}
-                                    <span className={`font-bold ${isMe ? 'text-cyan-300' : 'text-white'}`}>{f.facility}{isMe && <span className="ml-2 text-xs text-cyan-400 font-normal">(You)</span>}</span>
-                                  </div>
-                                </td>
-                                <td className={`py-4 px-6 text-right font-bold ${f.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{f.productivity}%</td>
-                                <td className={`py-4 px-6 text-right font-bold ${f.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${f.cpm}</td>
-                                <td className={`py-4 px-6 text-right font-bold ${f.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{f.modeOfTreatment || 0}%</td>
-                                <td className="py-4 px-6 text-right text-slate-300 font-medium">{f.medBCaseload}</td>
-                                <td className="py-4 px-6 text-right">
-                                  <span className={`px-3 py-1 rounded-full text-xs font-black ${score.score === 4 ? 'bg-emerald-500/30 text-emerald-300' : score.score === 3 ? 'bg-teal-500/30 text-teal-300' : score.score === 2 ? 'bg-yellow-500/30 text-yellow-300' : 'bg-rose-500/30 text-rose-300'}`}>{score.score}/4</span>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
+                ))}
               </div>
             )}
+            
+            {/* DOR Regional Cards */}
+            {isRestrictedView && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Golden Coast</h3>
+                      <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg Productivity</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(goldenCoastData.reduce((s, f) => s + f.productivity, 0) / goldenCoastData.length)}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg CPM</div>
+                      <div className="text-3xl font-black text-white">
+                        ${(goldenCoastData.reduce((s, f) => s + f.cpm, 0) / goldenCoastData.length).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Med B Performance</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const totalCaseload = goldenCoastData.reduce((s, f) => s + f.medBCaseload, 0);
+                          const totalEligible = goldenCoastData.reduce((s, f) => s + f.medBEligible, 0);
+                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                        })()}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            {/* ============ ADMIN VIEW ============ */}
-            {!isRestrictedView && (
-              <div className="space-y-6">
+                <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Overland</h3>
+                      <p className="text-blue-200 font-medium">{overlandData.length} facilities</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg Productivity</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(overlandData.reduce((s, f) => s + f.productivity, 0) / overlandData.length)}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg CPM</div>
+                      <div className="text-3xl font-black text-white">
+                        ${(overlandData.reduce((s, f) => s + f.cpm, 0) / overlandData.length).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Med B Performance</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const totalCaseload = overlandData.reduce((s, f) => s + f.medBCaseload, 0);
+                          const totalEligible = overlandData.reduce((s, f) => s + f.medBEligible, 0);
+                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                        })()}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
                 <div className="flex-1 min-w-[200px] relative">
@@ -2748,7 +2663,7 @@ export default function App() {
                                 <BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5} />
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
-                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsMTD || 0}</div>
+                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
                               <div className="text-xs text-slate-400 mt-2 font-medium">MTD</div>
                             </div>
                           ) : (
@@ -2765,14 +2680,14 @@ export default function App() {
                             )
                           )}
                           {/* 6th Metric - Admin Only: Medicare Revenue */}
-                        {!isRestrictedView && facility.medicareMPPRRevenueMTD && (
+                        {!isRestrictedView && facility.medicareMPPRRevenue && (
                           <div className="bg-gradient-to-br from-emerald-500/20 to-green-500/20 backdrop-blur-sm rounded-2xl p-6 border border-emerald-400/30 transform hover:scale-105 transition-all duration-300">
                             <div className="flex items-center gap-3 mb-3">
                               <DollarSign className="w-5 h-5 text-emerald-300" strokeWidth={2.5} />
                               <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Medicare Rev</div>
                             </div>
                             <div className="text-3xl font-black text-emerald-300">
-                              ${(facility.medicareMPPRRevenueMTD / 1000).toFixed(1)}k
+                              ${(facility.medicareMPPRRevenue / 1000).toFixed(1)}k
                             </div>
                             <div className="text-xs text-slate-400 mt-2 font-medium">MTD w/MPPR</div>
                           </div>
@@ -2798,7 +2713,7 @@ export default function App() {
                                 <BarChart3 className="w-5 h-5 text-blue-300" strokeWidth={2.5} />
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Med B Units</div>
                               </div>
-                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsMTD || 0}</div>
+                              <div className="text-4xl font-black text-blue-300">{facility.medBUnitsThisWeek || 0}</div>
                               <div className="text-xs text-slate-400 mt-2 font-medium">MTD</div>
                             </div>
 
@@ -2808,7 +2723,7 @@ export default function App() {
                                 <div className="text-xs text-slate-300 font-bold uppercase tracking-wider">Medicare Rev</div>
                               </div>
                               <div className="text-3xl font-black text-emerald-300">
-                                ${((facility.medicareMPPRRevenueMTD || 0) / 1000).toFixed(1)}k
+                                ${((facility.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
                               </div>
                               <div className="text-xs text-slate-400 mt-2 font-medium">MTD w/MPPR</div>
                             </div>
@@ -2974,12 +2889,10 @@ export default function App() {
                   );
                 })}
               </div>
-
-              </div>
-            )}
-
+            </div>
           </div>
         )}
+
         {activeView === 'resources' && (
           <div className="space-y-6 animate-fadeIn">
             {/* Header */}
