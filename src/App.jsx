@@ -1575,32 +1575,13 @@ export default function App() {
       </header>
 
       <div className="relative max-w-7xl mx-auto px-6 py-10">
-        {isRestrictedView && (
-          <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Building2 className="w-8 h-8 text-blue-400" />
-                <div>
-                  <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
-                  <p className="text-blue-300 text-sm">Facility Dashboard View</p>
-                </div>
-              </div>
-              <button
-                onClick={generateMyReport}
-                className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
-              >
-                <FileText className="w-4 h-4" />
-                Generate My Report
-              </button>
-            </div>
-          </div>
-        )}
+
         
         <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10 overflow-x-auto">
           {[
             ...(!isRestrictedView ? [{ id: 'overview', label: 'Overview', icon: Activity }] : []),
             ...(!isRestrictedView ? [{ id: 'rankings', label: 'Rankings', icon: Trophy }] : []),
-            { id: 'facilities', label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
+            { id: 'facilities', label: isRestrictedView ? 'My Building' : 'All Facilities', icon: Building2 },
             { id: 'resources', label: 'Resources', icon: FileText }
           ].map(tab => (
             <button
@@ -2239,7 +2220,7 @@ export default function App() {
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 3</div>
-                    <div className="text-sm text-white font-bold">Med B on Caseload ≥ 50%</div>
+                    <div className="text-sm text-white font-bold">Med B Performance</div>
                   </div>
                   <div className="bg-white/10 rounded-xl p-4">
                     <div className="text-xs text-slate-300 font-bold uppercase mb-2">Goal 4</div>
@@ -2419,10 +2400,11 @@ export default function App() {
         )}
 
 {activeView === 'facilities' && (
-          <div className="space-y-6 animate-fadeIn">
-            {/* DOR PERSONALIZED VIEW */}
+          <div className="space-y-8 animate-fadeIn">
+
             {isRestrictedView && myFacilityData && (
               <div className="space-y-8">
+
                 <div className="bg-gradient-to-br from-cyan-900/40 to-teal-900/40 backdrop-blur-xl rounded-3xl border border-cyan-400/30 shadow-2xl overflow-hidden">
                   <div className="p-8 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 to-teal-500/10">
                     <div className="flex items-center justify-between flex-wrap gap-4">
@@ -2494,8 +2476,73 @@ export default function App() {
                         <div className="text-xs text-slate-400 mt-2">MTD w/MPPR</div>
                       </div>
                     </div>
+                    <div className="pt-4 border-t border-white/10">
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="text-lg font-bold text-white">Historical Performance</h4>
+                        <div className="flex gap-2 bg-white/5 rounded-xl p-1">
+                          <button onClick={() => setHistoricalView('weekly')} className={`px-4 py-2 rounded-lg font-bold transition-all ${historicalView === 'weekly' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}>Weekly</button>
+                          <button onClick={() => setHistoricalView('monthly')} className={`px-4 py-2 rounded-lg font-bold transition-all ${historicalView === 'monthly' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}>Monthly</button>
+                        </div>
+                      </div>
+                      {historicalView === 'weekly' ? (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead><tr className="border-b border-white/10">
+                              <th className="text-left py-3 px-3 text-slate-400 font-bold">Week</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Productivity</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">CPM</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Caseload</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Mode %</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">UPV</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Units</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Rev</th>
+                            </tr></thead>
+                            <tbody>
+                              {getFacilityHistory(myFacilityData.facility).slice(0, 16).map((rec, i) => (
+                                <tr key={i} className={`border-b border-white/5 ${i === 0 ? 'bg-cyan-500/10' : 'hover:bg-white/5'}`}>
+                                  <td className="py-3 px-3 text-slate-300">{rec.date}</td>
+                                  <td className={`py-3 px-3 text-right font-bold ${rec.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{rec.productivity}%</td>
+                                  <td className={`py-3 px-3 text-right font-bold ${rec.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${rec.cpm}</td>
+                                  <td className="py-3 px-3 text-right text-slate-300">{rec.medBCaseload}</td>
+                                  <td className={`py-3 px-3 text-right font-bold ${rec.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{rec.modeOfTreatment || 0}%</td>
+                                  <td className="py-3 px-3 text-right text-slate-300">{rec.unitsPerVisit ? rec.unitsPerVisit.toFixed(2) : '-'}</td>
+                                  <td className="py-3 px-3 text-right text-blue-300">{rec.medBUnitsThisWeek || 0}</td>
+                                  <td className="py-3 px-3 text-right text-emerald-300">${((rec.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      ) : (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead><tr className="border-b border-white/10">
+                              <th className="text-left py-3 px-3 text-slate-400 font-bold">Month</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Productivity</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">CPM</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Mode %</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Units</th>
+                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Rev</th>
+                            </tr></thead>
+                            <tbody>
+                              {getMonthlyData(myFacilityData.facility).slice().reverse().map((rec, i) => (
+                                <tr key={i} className={`border-b border-white/5 ${i === 0 ? 'bg-cyan-500/10' : 'hover:bg-white/5'}`}>
+                                  <td className="py-3 px-3 text-slate-300">{rec.month}</td>
+                                  <td className={`py-3 px-3 text-right font-bold ${rec.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{rec.productivity}%</td>
+                                  <td className={`py-3 px-3 text-right font-bold ${rec.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${rec.cpm}</td>
+                                  <td className={`py-3 px-3 text-right font-bold ${rec.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{rec.modeOfTreatment || 0}%</td>
+                                  <td className="py-3 px-3 text-right text-blue-300">{rec.medBUnitsThisWeek || 0}</td>
+                                  <td className="py-3 px-3 text-right text-emerald-300">${((rec.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
+
                 <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
                   <div className="p-8 border-b border-white/10 bg-gradient-to-r from-slate-800/50 to-slate-700/50">
                     <div className="flex items-center gap-4">
@@ -2538,129 +2585,12 @@ export default function App() {
                     </table>
                   </div>
                 </div>
+
               </div>
             )}
 
-            {/* DOR Overview Cards */}
-            {isRestrictedView && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {metrics.map((metric, idx) => (
-                  <div 
-                    key={idx}
-                    className={`relative bg-gradient-to-br ${metric.bgGradient} rounded-3xl p-8 shadow-2xl border border-white/20 hover:shadow-cyan-500/20 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group overflow-hidden`}
-                  >
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-3xl"></div>
-                    <div className="relative">
-                      <div className={`w-16 h-16 bg-gradient-to-br ${metric.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-xl transform group-hover:rotate-12 transition-transform duration-500`}>
-                        <metric.icon className="w-8 h-8 text-white" strokeWidth={2.5} />
-                      </div>
-                      <div className="text-5xl font-black text-slate-900 mb-2 tracking-tight">{metric.value}</div>
-                      <div className="text-sm text-slate-700 font-bold mb-3 uppercase tracking-wide">{metric.label}</div>
-                      <div className={`inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 bg-gradient-to-r ${metric.gradient} text-white rounded-full shadow-lg`}>
-                        <TrendingUp className="w-3 h-3" />
-                        {metric.change}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            
-            {/* DOR Regional Cards */}
-            {isRestrictedView && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
-                  <div className="flex items-center gap-3 mb-6">
-                    <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
-                    <div>
-                      <h3 className="text-2xl font-black text-white">Golden Coast</h3>
-                      <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg Productivity</div>
-                      <div className="text-3xl font-black text-white">
-                        {Math.round(goldenCoastData.reduce((s, f) => s + f.productivity, 0) / goldenCoastData.length)}%
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg CPM</div>
-                      <div className="text-3xl font-black text-white">
-                        ${(goldenCoastData.reduce((s, f) => s + f.cpm, 0) / goldenCoastData.length).toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Med B Performance</div>
-                      <div className="text-3xl font-black text-white">
-                        {(() => {
-                          const totalCaseload = goldenCoastData.reduce((s, f) => s + f.medBCaseload, 0);
-                          const totalEligible = goldenCoastData.reduce((s, f) => s + f.medBEligible, 0);
-                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
-                        })()}%
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
-                      <div className="text-3xl font-black text-white">
-                        {(() => {
-                          const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
-                          return facilitiesWithMode.length > 0 
-                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
-                            : 0;
-                        })()}%
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
-                  <div className="flex items-center gap-3 mb-6">
-                    <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
-                    <div>
-                      <h3 className="text-2xl font-black text-white">Overland</h3>
-                      <p className="text-blue-200 font-medium">{overlandData.length} facilities</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg Productivity</div>
-                      <div className="text-3xl font-black text-white">
-                        {Math.round(overlandData.reduce((s, f) => s + f.productivity, 0) / overlandData.length)}%
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg CPM</div>
-                      <div className="text-3xl font-black text-white">
-                        ${(overlandData.reduce((s, f) => s + f.cpm, 0) / overlandData.length).toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Med B Performance</div>
-                      <div className="text-3xl font-black text-white">
-                        {(() => {
-                          const totalCaseload = overlandData.reduce((s, f) => s + f.medBCaseload, 0);
-                          const totalEligible = overlandData.reduce((s, f) => s + f.medBEligible, 0);
-                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
-                        })()}%
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-xl p-4">
-                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
-                      <div className="text-3xl font-black text-white">
-                        {(() => {
-                          const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
-                          return facilitiesWithMode.length > 0 
-                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
-                            : 0;
-                        })()}%
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            
+            {!isRestrictedView && (
+              <>
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
                 <div className="flex-1 min-w-[200px] relative">
@@ -3021,6 +2951,9 @@ export default function App() {
                 })}
               </div>
             </div>
+              </>
+            )}
+
           </div>
         )}
 
