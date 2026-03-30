@@ -2981,18 +2981,34 @@ export default function App() {
             return <td className={`py-3 px-3 text-center text-sm font-bold ${color} ${bg}`}>{fmt(val)}</td>;
           };
 
-          // Spotlight: consistent underperformers (off prod goal all 3 months)
+          // Score a record across all 4 goals (0-4)
+          const scoreRec = rec => {
+            if (!rec) return 0;
+            let s = 0;
+            if (parseFloat(rec.productivityMTD || rec.productivity || 0) >= 84) s++;
+            if (parseFloat(rec.cpmMTD || rec.cpm || 0) <= 1.45) s++;
+            const eligible = rec.medBEligible || 0;
+            const caseload = rec.medBCaseload || 0;
+            if (eligible > 0 && caseload / eligible >= 0.5) s++;
+            if (parseFloat(rec.modeOfTreatmentMTD || rec.modeOfTreatment || 0) >= 4) s++;
+            return s;
+          };
+
+          // Needs attention: 2+ months with score <= 1 (failing 3+ goals)
           const struggling = facilityRows.filter(r => {
-            return r.months.filter(Boolean).filter(rec => parseFloat(rec.productivityMTD || rec.productivity) < 84).length >= 2;
+            const scores = r.months.filter(Boolean).map(scoreRec);
+            return scores.filter(s => s <= 1).length >= 2;
           });
 
-          // Most improved: biggest prod gain Jan → Mar
+          // Most improved: biggest composite score gain Jan → Mar
           const improved = facilityRows.map(r => {
             const jan = r.months[0]; const mar = r.months[2];
             if (!jan || !mar) return null;
-            const diff = parseFloat(mar.productivityMTD || mar.productivity) - parseFloat(jan.productivityMTD || jan.productivity);
-            return { ...r, diff };
-          }).filter(Boolean).sort((a,b) => b.diff - a.diff).slice(0, 3);
+            const scoreDiff = scoreRec(mar) - scoreRec(jan);
+            // Tiebreak by productivity gain
+            const prodDiff = parseFloat(mar.productivityMTD || mar.productivity || 0) - parseFloat(jan.productivityMTD || jan.productivity || 0);
+            return { ...r, scoreDiff, prodDiff, janScore: scoreRec(jan), marScore: scoreRec(mar) };
+          }).filter(Boolean).sort((a,b) => b.scoreDiff !== a.scoreDiff ? b.scoreDiff - a.scoreDiff : b.prodDiff - a.prodDiff).slice(0, 3);
 
           return (
             <div className="space-y-8 animate-fadeIn">
@@ -3117,11 +3133,14 @@ export default function App() {
                       const janProd = parseFloat(jan?.productivityMTD || jan?.productivity || 0);
                       const marProd = parseFloat(mar?.productivityMTD || mar?.productivity || 0);
                       return (
-                        <div key={i} className="flex items-center justify-between bg-white/5 rounded-2xl px-4 py-3">
-                          <span className="text-white font-bold text-sm">{r.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</span>
-                          <div className="text-right">
-                            <span className="text-emerald-300 font-black text-sm">+{r.diff.toFixed(1)}pp</span>
-                            <span className="text-slate-500 text-xs ml-2">{janProd.toFixed(1)}% → {marProd.toFixed(1)}%</span>
+                        <div key={i} className="bg-white/5 rounded-2xl px-4 py-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-white font-bold text-sm">{r.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</span>
+                            <span className="text-emerald-300 font-black text-sm">{r.janScore}/4 → {r.marScore}/4 goals</span>
+                          </div>
+                          <div className="flex gap-4 text-xs text-slate-400">
+                            <span>Prod: {janProd.toFixed(1)}% → <span className={marProd >= 84 ? 'text-emerald-300 font-bold' : 'text-rose-300 font-bold'}>{marProd.toFixed(1)}%</span></span>
+                            {r.prodDiff > 0 && <span className="text-emerald-400">+{r.prodDiff.toFixed(1)}pp productivity</span>}
                           </div>
                         </div>
                       );
@@ -3133,21 +3152,28 @@ export default function App() {
                 <div className="bg-rose-500/10 backdrop-blur-xl rounded-3xl border border-rose-400/20 shadow-2xl p-6">
                   <div className="flex items-center gap-3 mb-5">
                     <span className="text-2xl">🔴</span>
-                    <h3 className="text-lg font-black text-white">Needs Attention (2+ months off prod goal)</h3>
+                    <h3 className="text-lg font-black text-white">Needs Attention (failing 3+ goals, 2+ months)</h3>
                   </div>
                   {struggling.length === 0 ? (
-                    <div className="text-emerald-400 font-bold text-sm">✓ No buildings chronically off productivity goal</div>
+                    <div className="text-emerald-400 font-bold text-sm">✓ No buildings chronically failing multiple goals</div>
                   ) : (
                     <div className="space-y-3">
                       {struggling.map((r, i) => {
-                        const prods = r.months.filter(Boolean).map(rec => parseFloat(rec.productivityMTD || rec.productivity || 0));
                         return (
-                          <div key={i} className="flex items-center justify-between bg-white/5 rounded-2xl px-4 py-3">
-                            <span className="text-white font-bold text-sm">{r.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</span>
-                            <div className="flex gap-2">
-                              {prods.map((p, pi) => (
-                                <span key={pi} className={`text-xs font-black px-2 py-1 rounded-lg ${p >= 84 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}`}>{p.toFixed(1)}%</span>
-                              ))}
+                          <div key={i} className="bg-white/5 rounded-2xl px-4 py-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-white font-bold text-sm">{r.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</span>
+                              <span className={`px-2 py-0.5 rounded text-xs font-bold ${r.region === 'Golden Coast' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'}`}>{r.region === 'Golden Coast' ? 'GC' : 'OL'}</span>
+                            </div>
+                            <div className="flex gap-2 flex-wrap">
+                              {r.months.filter(Boolean).map((rec, mi) => {
+                                const s = scoreRec(rec);
+                                return (
+                                  <div key={mi} className={`text-xs px-2 py-1 rounded-lg font-bold ${s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300'}`}>
+                                    {MONTHS[mi].label}: {s}/4
+                                  </div>
+                                );
+                              })}
                             </div>
                           </div>
                         );
