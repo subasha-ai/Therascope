@@ -951,6 +951,31 @@ export default function App() {
   const myRegionData = isRestrictedView && myRegion
     ? currentWeekData.filter(f => f.region === myRegion)
     : [];
+  // DOR: previous week data for trend alerts
+  const myPrevWeekData = (() => {
+    if (!isRestrictedView || !restrictedFacility) return null;
+    const myWeeks = allWeeklyData
+      .filter(d => d.facility === restrictedFacility)
+      .sort((a, b) => parseInt(b.week) - parseInt(a.week));
+    return myWeeks.length >= 2 ? myWeeks[1] : null;
+  })();
+
+  // DOR: Feb final (last week of Feb) for MTD comparison
+  const myFebFinal = (() => {
+    if (!isRestrictedView || !restrictedFacility) return null;
+    const febRecords = allWeeklyData
+      .filter(d => d.facility === restrictedFacility && d.date.startsWith('2026-02'))
+      .sort((a, b) => parseInt(b.week) - parseInt(a.week));
+    return febRecords.length > 0 ? febRecords[0] : null;
+  })();
+
+  // DOR: current month for comparison label
+  const currentMonthName = (() => {
+    const latest = allWeeklyData.reduce((max, d) => d.date > max ? d.date : max, '');
+    if (!latest) return 'Current Month';
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[parseInt(latest.split('-')[1]) - 1] + ' MTD';
+  })();
   
   const rankedFacilities = viewableData.map(f => calculateScore(f)).sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
@@ -1575,13 +1600,32 @@ export default function App() {
       </header>
 
       <div className="relative max-w-7xl mx-auto px-6 py-10">
-
+        {isRestrictedView && (
+          <div className="mb-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Building2 className="w-8 h-8 text-blue-400" />
+                <div>
+                  <h2 className="text-2xl font-black text-white">{restrictedFacility}</h2>
+                  <p className="text-blue-300 text-sm">Facility Dashboard View</p>
+                </div>
+              </div>
+              <button
+                onClick={generateMyReport}
+                className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
+              >
+                <FileText className="w-4 h-4" />
+                Generate My Report
+              </button>
+            </div>
+          </div>
+        )}
         
         <div className="flex gap-3 mb-10 bg-white/5 backdrop-blur-xl rounded-3xl p-2 shadow-2xl border border-white/10 overflow-x-auto">
           {[
             ...(!isRestrictedView ? [{ id: 'overview', label: 'Overview', icon: Activity }] : []),
             ...(!isRestrictedView ? [{ id: 'rankings', label: 'Rankings', icon: Trophy }] : []),
-            { id: 'facilities', label: isRestrictedView ? 'My Building' : 'All Facilities', icon: Building2 },
+            { id: 'facilities', label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
             { id: 'resources', label: 'Resources', icon: FileText }
           ].map(tab => (
             <button
@@ -2400,11 +2444,10 @@ export default function App() {
         )}
 
 {activeView === 'facilities' && (
-          <div className="space-y-8 animate-fadeIn">
-
+          <div className="space-y-6 animate-fadeIn">
+            {/* DOR PERSONALIZED VIEW */}
             {isRestrictedView && myFacilityData && (
               <div className="space-y-8">
-
                 <div className="bg-gradient-to-br from-cyan-900/40 to-teal-900/40 backdrop-blur-xl rounded-3xl border border-cyan-400/30 shadow-2xl overflow-hidden">
                   <div className="p-8 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 to-teal-500/10">
                     <div className="flex items-center justify-between flex-wrap gap-4">
@@ -2476,72 +2519,125 @@ export default function App() {
                         <div className="text-xs text-slate-400 mt-2">MTD w/MPPR</div>
                       </div>
                     </div>
-                    <div className="pt-4 border-t border-white/10">
-                      <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-lg font-bold text-white">Historical Performance</h4>
-                        <div className="flex gap-2 bg-white/5 rounded-xl p-1">
-                          <button onClick={() => setHistoricalView('weekly')} className={`px-4 py-2 rounded-lg font-bold transition-all ${historicalView === 'weekly' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}>Weekly</button>
-                          <button onClick={() => setHistoricalView('monthly')} className={`px-4 py-2 rounded-lg font-bold transition-all ${historicalView === 'monthly' ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}>Monthly</button>
+                  </div>
+                </div>
+                {/* TREND ALERTS */}
+                {myPrevWeekData && (() => {
+                  const alerts = [];
+                  const wins = [];
+
+                  // Productivity
+                  const prodDiff = myFacilityData.productivity - myPrevWeekData.productivity;
+                  if (myFacilityData.productivity < 84) alerts.push({ msg: `Productivity ${myFacilityData.productivity}% — below 84% goal`, severe: true });
+                  else if (prodDiff <= -2) alerts.push({ msg: `Productivity dropped ${Math.abs(prodDiff).toFixed(1)}pp this week`, severe: false });
+                  else if (prodDiff >= 2) wins.push(`Productivity up ${prodDiff.toFixed(1)}pp`);
+
+                  // CPM
+                  const cpmDiff = myFacilityData.cpm - myPrevWeekData.cpm;
+                  if (myFacilityData.cpm > 1.45) alerts.push({ msg: `CPM $${myFacilityData.cpm} — above $1.45 target`, severe: myFacilityData.cpm > 1.55 });
+                  else if (cpmDiff >= 0.05) alerts.push({ msg: `CPM rose $${cpmDiff.toFixed(2)} this week`, severe: false });
+                  else if (cpmDiff <= -0.05) wins.push(`CPM improved $${Math.abs(cpmDiff).toFixed(2)}`);
+
+                  // Mode of Treatment
+                  const modeDiff = myFacilityData.modeOfTreatment - myPrevWeekData.modeOfTreatment;
+                  if (myFacilityData.modeOfTreatment === 0) alerts.push({ msg: 'No group/concurrent treatment this week', severe: true });
+                  else if (modeDiff <= -2) alerts.push({ msg: `Mode of Treatment dropped ${Math.abs(modeDiff).toFixed(2)}pp`, severe: false });
+                  else if (modeDiff >= 2) wins.push(`Mode of Treatment up ${modeDiff.toFixed(2)}pp`);
+
+                  // UPV
+                  const upvDiff = myFacilityData.unitsPerVisit - myPrevWeekData.unitsPerVisit;
+                  if (upvDiff <= -0.3) alerts.push({ msg: `Units per visit dropped ${Math.abs(upvDiff).toFixed(2)} this week`, severe: false });
+                  else if (upvDiff >= 0.3) wins.push(`Units per visit up ${upvDiff.toFixed(2)}`);
+
+                  if (alerts.length === 0 && wins.length === 0) return null;
+
+                  return (
+                    <div className="space-y-3">
+                      {alerts.length > 0 && (
+                        <div className="bg-rose-500/10 border border-rose-400/30 rounded-2xl p-5">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-lg">⚠️</span>
+                            <span className="text-sm font-bold text-rose-300 uppercase tracking-wider">Needs Attention</span>
+                          </div>
+                          <div className="space-y-2">
+                            {alerts.map((a, i) => (
+                              <div key={i} className={`flex items-start gap-2 text-sm ${a.severe ? 'text-rose-200' : 'text-rose-300'}`}>
+                                <span className="mt-0.5 flex-shrink-0">{a.severe ? '🔴' : '🟡'}</span>
+                                <span>{a.msg}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                      {historicalView === 'weekly' ? (
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-sm">
-                            <thead><tr className="border-b border-white/10">
-                              <th className="text-left py-3 px-3 text-slate-400 font-bold">Week</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Productivity</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">CPM</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Caseload</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Mode %</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">UPV</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Units</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Rev</th>
-                            </tr></thead>
-                            <tbody>
-                              {getFacilityHistory(myFacilityData.facility).slice(0, 16).map((rec, i) => (
-                                <tr key={i} className={`border-b border-white/5 ${i === 0 ? 'bg-cyan-500/10' : 'hover:bg-white/5'}`}>
-                                  <td className="py-3 px-3 text-slate-300">{rec.date}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{rec.productivity}%</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${rec.cpm}</td>
-                                  <td className="py-3 px-3 text-right text-slate-300">{rec.medBCaseload}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{rec.modeOfTreatment || 0}%</td>
-                                  <td className="py-3 px-3 text-right text-slate-300">{rec.unitsPerVisit ? rec.unitsPerVisit.toFixed(2) : '-'}</td>
-                                  <td className="py-3 px-3 text-right text-blue-300">{rec.medBUnitsThisWeek || 0}</td>
-                                  <td className="py-3 px-3 text-right text-emerald-300">${((rec.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      ) : (
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-sm">
-                            <thead><tr className="border-b border-white/10">
-                              <th className="text-left py-3 px-3 text-slate-400 font-bold">Month</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Productivity</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">CPM</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Mode %</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Units</th>
-                              <th className="text-right py-3 px-3 text-slate-400 font-bold">Med B Rev</th>
-                            </tr></thead>
-                            <tbody>
-                              {getMonthlyData(myFacilityData.facility).slice().reverse().map((rec, i) => (
-                                <tr key={i} className={`border-b border-white/5 ${i === 0 ? 'bg-cyan-500/10' : 'hover:bg-white/5'}`}>
-                                  <td className="py-3 px-3 text-slate-300">{rec.month}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{rec.productivity}%</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${rec.cpm}</td>
-                                  <td className={`py-3 px-3 text-right font-bold ${rec.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{rec.modeOfTreatment || 0}%</td>
-                                  <td className="py-3 px-3 text-right text-blue-300">{rec.medBUnitsThisWeek || 0}</td>
-                                  <td className="py-3 px-3 text-right text-emerald-300">${((rec.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                      )}
+                      {wins.length > 0 && (
+                        <div className="bg-emerald-500/10 border border-emerald-400/30 rounded-2xl p-5">
+                          <div className="flex items-center gap-2 mb-3">
+                            <span className="text-lg">✅</span>
+                            <span className="text-sm font-bold text-emerald-300 uppercase tracking-wider">Improvements This Week</span>
+                          </div>
+                          <div className="space-y-2">
+                            {wins.map((w, i) => (
+                              <div key={i} className="flex items-start gap-2 text-sm text-emerald-200">
+                                <span className="mt-0.5 flex-shrink-0">🟢</span>
+                                <span>{w}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       )}
                     </div>
+                  );
+                })()}
+
+                {/* FEB FINAL vs MARCH MTD */}
+                {myFebFinal && myFacilityData.date.startsWith('2026-03') && (
+                  <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+                    <div className="p-6 border-b border-white/10 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">📊</span>
+                        <div>
+                          <h3 className="text-lg font-black text-white">February Final vs {currentMonthName}</h3>
+                          <p className="text-slate-400 text-xs mt-0.5">How this month is tracking vs February</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {[
+                          { label: 'Productivity', feb: myFebFinal.productivityMTD || myFebFinal.productivity, cur: myFacilityData.productivityMTD || myFacilityData.productivity, fmt: v => `${v}%`, better: 'higher' },
+                          { label: 'CPM', feb: myFebFinal.cpmMTD || myFebFinal.cpm, cur: myFacilityData.cpmMTD || myFacilityData.cpm, fmt: v => `$${v}`, better: 'lower' },
+                          { label: 'Mode of Tx', feb: myFebFinal.modeOfTreatmentMTD || myFebFinal.modeOfTreatment, cur: myFacilityData.modeOfTreatmentMTD || myFacilityData.modeOfTreatment, fmt: v => `${v}%`, better: 'higher' },
+                          { label: 'Units/Visit', feb: myFebFinal.unitsPerVisitMTD || myFebFinal.unitsPerVisit, cur: myFacilityData.unitsPerVisitMTD || myFacilityData.unitsPerVisit, fmt: v => v ? v.toFixed(2) : '—', better: 'higher' },
+                        ].map((m, i) => {
+                          const diff = m.cur - m.feb;
+                          const improved = m.better === 'higher' ? diff > 0 : diff < 0;
+                          const neutral = Math.abs(diff) < 0.01;
+                          const sign = diff > 0 ? '+' : '';
+                          const diffFmt = m.label === 'CPM' ? `${sign}$${Math.abs(diff).toFixed(2)}` : m.label === 'Units/Visit' ? `${sign}${diff.toFixed(2)}` : `${sign}${diff.toFixed(1)}${m.label.includes('%') || m.label === 'Mode' || m.label === 'Productivity' ? 'pp' : ''}`;
+                          return (
+                            <div key={i} className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                              <div className="text-xs text-slate-400 font-bold uppercase mb-3">{m.label}</div>
+                              <div className="flex justify-between items-end mb-2">
+                                <div>
+                                  <div className="text-xs text-slate-500 mb-1">Feb Final</div>
+                                  <div className="text-lg font-black text-slate-300">{m.fmt(m.feb)}</div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-xs text-slate-500 mb-1">Mar MTD</div>
+                                  <div className="text-lg font-black text-white">{m.fmt(m.cur)}</div>
+                                </div>
+                              </div>
+                              <div className={`flex items-center gap-1 text-xs font-bold mt-2 pt-2 border-t border-white/10 ${neutral ? 'text-slate-400' : improved ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                <span>{neutral ? '→' : improved ? '↑' : '↓'}</span>
+                                <span>{neutral ? 'No change' : `${diffFmt} vs Feb`}</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
                   <div className="p-8 border-b border-white/10 bg-gradient-to-r from-slate-800/50 to-slate-700/50">
@@ -2585,12 +2681,129 @@ export default function App() {
                     </table>
                   </div>
                 </div>
-
               </div>
             )}
 
-            {!isRestrictedView && (
-              <>
+            {/* DOR Overview Cards */}
+            {isRestrictedView && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {metrics.map((metric, idx) => (
+                  <div 
+                    key={idx}
+                    className={`relative bg-gradient-to-br ${metric.bgGradient} rounded-3xl p-8 shadow-2xl border border-white/20 hover:shadow-cyan-500/20 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group overflow-hidden`}
+                  >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-3xl"></div>
+                    <div className="relative">
+                      <div className={`w-16 h-16 bg-gradient-to-br ${metric.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-xl transform group-hover:rotate-12 transition-transform duration-500`}>
+                        <metric.icon className="w-8 h-8 text-white" strokeWidth={2.5} />
+                      </div>
+                      <div className="text-5xl font-black text-slate-900 mb-2 tracking-tight">{metric.value}</div>
+                      <div className="text-sm text-slate-700 font-bold mb-3 uppercase tracking-wide">{metric.label}</div>
+                      <div className={`inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 bg-gradient-to-r ${metric.gradient} text-white rounded-full shadow-lg`}>
+                        <TrendingUp className="w-3 h-3" />
+                        {metric.change}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {/* DOR Regional Cards */}
+            {isRestrictedView && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gradient-to-br from-amber-900/40 to-yellow-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <MapPin className="w-8 h-8 text-amber-400" strokeWidth={2.5} />
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Golden Coast</h3>
+                      <p className="text-amber-200 font-medium">{goldenCoastData.length} facilities</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg Productivity</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(goldenCoastData.reduce((s, f) => s + f.productivity, 0) / goldenCoastData.length)}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Avg CPM</div>
+                      <div className="text-3xl font-black text-white">
+                        ${(goldenCoastData.reduce((s, f) => s + f.cpm, 0) / goldenCoastData.length).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Med B Performance</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const totalCaseload = goldenCoastData.reduce((s, f) => s + f.medBCaseload, 0);
+                          const totalEligible = goldenCoastData.reduce((s, f) => s + f.medBEligible, 0);
+                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                        })()}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-amber-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = goldenCoastData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-6">
+                    <MapPin className="w-8 h-8 text-blue-400" strokeWidth={2.5} />
+                    <div>
+                      <h3 className="text-2xl font-black text-white">Overland</h3>
+                      <p className="text-blue-200 font-medium">{overlandData.length} facilities</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg Productivity</div>
+                      <div className="text-3xl font-black text-white">
+                        {Math.round(overlandData.reduce((s, f) => s + f.productivity, 0) / overlandData.length)}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Avg CPM</div>
+                      <div className="text-3xl font-black text-white">
+                        ${(overlandData.reduce((s, f) => s + f.cpm, 0) / overlandData.length).toFixed(2)}
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Med B Performance</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const totalCaseload = overlandData.reduce((s, f) => s + f.medBCaseload, 0);
+                          const totalEligible = overlandData.reduce((s, f) => s + f.medBEligible, 0);
+                          return totalEligible > 0 ? Math.round((totalCaseload / totalEligible) * 100) : 0;
+                        })()}%
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-xl p-4">
+                      <div className="text-xs text-blue-200 font-bold uppercase mb-1">Mode of Treatment</div>
+                      <div className="text-3xl font-black text-white">
+                        {(() => {
+                          const facilitiesWithMode = overlandData.filter(f => f.modeOfTreatment);
+                          return facilitiesWithMode.length > 0 
+                            ? (facilitiesWithMode.reduce((s, f) => s + f.modeOfTreatment, 0) / facilitiesWithMode.length).toFixed(1)
+                            : 0;
+                        })()}%
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6">
               <div className="flex flex-wrap gap-4">
                 <div className="flex-1 min-w-[200px] relative">
@@ -2951,9 +3164,6 @@ export default function App() {
                 })}
               </div>
             </div>
-              </>
-            )}
-
           </div>
         )}
 
