@@ -1624,6 +1624,7 @@ export default function App() {
           {[
             ...(!isRestrictedView ? [{ id: 'overview', label: 'Overview', icon: Activity }] : []),
             ...(!isRestrictedView ? [{ id: 'rankings', label: 'Rankings', icon: Trophy }] : []),
+            ...(!isRestrictedView ? [{ id: 'exec', label: 'Executive', icon: Star }] : []),
             { id: 'facilities', label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
             { id: 'resources', label: 'Resources', icon: FileText }
           ].map(tab => (
@@ -2931,6 +2932,234 @@ export default function App() {
             </div>
           </div>
         )}
+
+        {activeView === 'exec' && !isRestrictedView && (() => {
+          const MONTHS = [
+            { label: 'Jan', start: '2026-01-01', end: '2026-01-31' },
+            { label: 'Feb', start: '2026-02-01', end: '2026-02-28' },
+            { label: 'Mar MTD', start: '2026-03-01', end: '2026-03-29' },
+          ];
+
+          const getMonthFinal = (facility, start, end) => {
+            const recs = allWeeklyData.filter(d => d.facility === facility && d.date >= start && d.date <= end);
+            if (!recs.length) return null;
+            return recs.sort((a, b) => parseInt(b.week) - parseInt(a.week))[0];
+          };
+
+          const getMonthTotals = (start, end) => {
+            const recs = allFacilities.map(f => getMonthFinal(f, start, end)).filter(Boolean);
+            if (!recs.length) return null;
+            return {
+              avgProd: (recs.reduce((s,r) => s + parseFloat(r.productivityMTD || r.productivity || 0), 0) / recs.length).toFixed(1),
+              avgCPM: (recs.reduce((s,r) => s + parseFloat(r.cpmMTD || r.cpm || 0), 0) / recs.length).toFixed(2),
+              totalUnits: recs.reduce((s,r) => s + (r.medBUnitsMTD || r.medBUnitsThisWeek || 0), 0),
+              totalRev: recs.reduce((s,r) => s + (r.medicareMPPRRevenueMTD || r.medicareMPPRRevenue || 0), 0),
+              atGoalProd: recs.filter(r => parseFloat(r.productivityMTD || r.productivity) >= 84).length,
+              atGoalCPM: recs.filter(r => parseFloat(r.cpmMTD || r.cpm) <= 1.45).length,
+              n: recs.length,
+            };
+          };
+
+          const monthTotals = MONTHS.map(m => ({ ...m, totals: getMonthTotals(m.start, m.end) }));
+
+          const facilityRows = allFacilities.map(fac => ({
+            facility: fac,
+            region: allWeeklyData.find(d => d.facility === fac)?.region || '',
+            months: MONTHS.map(m => getMonthFinal(fac, m.start, m.end)),
+          })).filter(r => r.months.some(Boolean))
+            .sort((a, b) => {
+              if (a.region !== b.region) return a.region === 'Golden Coast' ? -1 : 1;
+              return a.facility.localeCompare(b.facility);
+            });
+
+          const gV = (rec, mtdKey, wkKey) => rec ? parseFloat(rec[mtdKey] || rec[wkKey] || 0) : null;
+
+          const cell = (val, isGood, fmt) => {
+            if (val === null) return <td className="py-3 px-3 text-center text-slate-600 text-sm">—</td>;
+            const color = isGood === null ? 'text-slate-300' : isGood ? 'text-emerald-300' : 'text-rose-300';
+            const bg = isGood === null ? '' : isGood ? 'bg-emerald-500/10' : 'bg-rose-500/10';
+            return <td className={`py-3 px-3 text-center text-sm font-bold ${color} ${bg}`}>{fmt(val)}</td>;
+          };
+
+          // Spotlight: consistent underperformers (off prod goal all 3 months)
+          const struggling = facilityRows.filter(r => {
+            return r.months.filter(Boolean).filter(rec => parseFloat(rec.productivityMTD || rec.productivity) < 84).length >= 2;
+          });
+
+          // Most improved: biggest prod gain Jan → Mar
+          const improved = facilityRows.map(r => {
+            const jan = r.months[0]; const mar = r.months[2];
+            if (!jan || !mar) return null;
+            const diff = parseFloat(mar.productivityMTD || mar.productivity) - parseFloat(jan.productivityMTD || jan.productivity);
+            return { ...r, diff };
+          }).filter(Boolean).sort((a,b) => b.diff - a.diff).slice(0, 3);
+
+          return (
+            <div className="space-y-8 animate-fadeIn">
+
+              {/* HEADER */}
+              <div className="bg-gradient-to-r from-slate-800/80 to-slate-700/80 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div>
+                    <h2 className="text-3xl font-black text-white tracking-tight">Executive Summary</h2>
+                    <p className="text-slate-400 mt-1">January – March 2026 · {facilityRows.length} Facilities · 2 Regions</p>
+                  </div>
+                  <div className="text-xs text-slate-500 text-right">
+                    <div className="uppercase tracking-wider mb-1">Data through</div>
+                    <div className="text-white font-bold text-sm">{allWeeklyData.reduce((max,d) => d.date > max ? d.date : max, '')}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3-MONTH COMPANY SUMMARY */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {monthTotals.map((m, mi) => m.totals && (
+                  <div key={mi} className={`bg-white/5 backdrop-blur-xl rounded-3xl p-7 border shadow-2xl ${mi === 2 ? 'border-cyan-400/40' : 'border-white/10'}`}>
+                    <div className="flex items-center justify-between mb-5">
+                      <h3 className={`text-2xl font-black ${mi === 2 ? 'text-cyan-300' : 'text-white'}`}>{m.label}</h3>
+                      {mi === 2 && <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>}
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { label: 'Avg Productivity', val: m.totals.avgProd + '%', good: parseFloat(m.totals.avgProd) >= 84 },
+                        { label: 'Avg CPM', val: '$' + m.totals.avgCPM, good: parseFloat(m.totals.avgCPM) <= 1.45 },
+                        { label: 'Med B Units', val: m.totals.totalUnits.toLocaleString(), good: null },
+                        { label: 'Med B Revenue', val: '$' + (m.totals.totalRev/1000).toFixed(0) + 'k', good: null },
+                        { label: 'At Prod Goal', val: m.totals.atGoalProd + ' / ' + m.totals.n + ' bldgs', good: m.totals.atGoalProd >= m.totals.n * 0.7 },
+                        { label: 'At CPM Goal', val: m.totals.atGoalCPM + ' / ' + m.totals.n + ' bldgs', good: m.totals.atGoalCPM >= m.totals.n * 0.7 },
+                      ].map((row, ri) => (
+                        <div key={ri} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
+                          <span className="text-slate-400 text-sm">{row.label}</span>
+                          <span className={`font-black text-base ${row.good === null ? 'text-white' : row.good ? 'text-emerald-300' : 'text-rose-300'}`}>{row.val}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* BUILDING SCORECARD */}
+              <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+                <div className="p-6 border-b border-white/10 bg-gradient-to-r from-slate-800/50 to-slate-700/50">
+                  <h3 className="text-xl font-black text-white">Building Scorecard — 3 Month View</h3>
+                  <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal, Red = off target</p>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="border-b border-white/10 bg-white/5">
+                        <th className="text-left py-3 px-4 text-slate-400 font-bold uppercase text-xs sticky left-0 bg-slate-900/90">Facility</th>
+                        <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
+                        {MONTHS.map(m => (
+                          <th key={m.label} colSpan={4} className="py-3 px-2 text-slate-300 font-bold uppercase text-xs text-center border-l border-white/10">{m.label}</th>
+                        ))}
+                      </tr>
+                      <tr className="border-b border-white/10">
+                        <th className="sticky left-0 bg-slate-900/90"></th>
+                        <th></th>
+                        {MONTHS.map(m => (
+                          ['Prod','CPM','Mode','RevK'].map(col => (
+                            <th key={m.label+col} className="py-2 px-2 text-slate-500 font-bold text-xs text-center">{col}</th>
+                          ))
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {facilityRows.map((row, ri) => {
+                        const isNewRegion = ri === 0 || row.region !== facilityRows[ri-1].region;
+                        return (
+                          <React.Fragment key={ri}>
+                            {isNewRegion && (
+                              <tr className="bg-white/5">
+                                <td colSpan={14} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td>
+                              </tr>
+                            )}
+                            <tr className="border-b border-white/5 hover:bg-white/5">
+                              <td className="py-3 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{row.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</td>
+                              <td className="py-3 px-2 text-center">
+                                <span className={`px-1.5 py-0.5 rounded text-xs font-bold ${row.region === 'Golden Coast' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'}`}>{row.region === 'Golden Coast' ? 'GC' : 'OL'}</span>
+                              </td>
+                              {row.months.map((rec, mi) => {
+                                const prod = gV(rec, 'productivityMTD', 'productivity');
+                                const cpm = gV(rec, 'cpmMTD', 'cpm');
+                                const mode = gV(rec, 'modeOfTreatmentMTD', 'modeOfTreatment');
+                                const rev = gV(rec, 'medicareMPPRRevenueMTD', 'medicareMPPRRevenue');
+                                return (
+                                  <React.Fragment key={mi}>
+                                    {cell(prod, prod !== null ? prod >= 84 : null, v => v.toFixed(1)+'%')}
+                                    {cell(cpm, cpm !== null ? cpm <= 1.45 : null, v => '$'+v.toFixed(2))}
+                                    {cell(mode, mode !== null ? mode >= 4 : null, v => v.toFixed(1)+'%')}
+                                    {cell(rev, null, v => '$'+(v/1000).toFixed(1)+'k')}
+                                  </React.Fragment>
+                                );
+                              })}
+                            </tr>
+                          </React.Fragment>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* SPOTLIGHT */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                {/* Most improved */}
+                <div className="bg-emerald-500/10 backdrop-blur-xl rounded-3xl border border-emerald-400/20 shadow-2xl p-6">
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-2xl">📈</span>
+                    <h3 className="text-lg font-black text-white">Most Improved (Jan → Mar)</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {improved.map((r, i) => {
+                      const jan = r.months[0]; const mar = r.months[2];
+                      const janProd = parseFloat(jan?.productivityMTD || jan?.productivity || 0);
+                      const marProd = parseFloat(mar?.productivityMTD || mar?.productivity || 0);
+                      return (
+                        <div key={i} className="flex items-center justify-between bg-white/5 rounded-2xl px-4 py-3">
+                          <span className="text-white font-bold text-sm">{r.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</span>
+                          <div className="text-right">
+                            <span className="text-emerald-300 font-black text-sm">+{r.diff.toFixed(1)}pp</span>
+                            <span className="text-slate-500 text-xs ml-2">{janProd.toFixed(1)}% → {marProd.toFixed(1)}%</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Needs attention */}
+                <div className="bg-rose-500/10 backdrop-blur-xl rounded-3xl border border-rose-400/20 shadow-2xl p-6">
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-2xl">🔴</span>
+                    <h3 className="text-lg font-black text-white">Needs Attention (2+ months off prod goal)</h3>
+                  </div>
+                  {struggling.length === 0 ? (
+                    <div className="text-emerald-400 font-bold text-sm">✓ No buildings chronically off productivity goal</div>
+                  ) : (
+                    <div className="space-y-3">
+                      {struggling.map((r, i) => {
+                        const prods = r.months.filter(Boolean).map(rec => parseFloat(rec.productivityMTD || rec.productivity || 0));
+                        return (
+                          <div key={i} className="flex items-center justify-between bg-white/5 rounded-2xl px-4 py-3">
+                            <span className="text-white font-bold text-sm">{r.facility.replace(' Post Acute','').replace(' Healthcare Center','')}</span>
+                            <div className="flex gap-2">
+                              {prods.map((p, pi) => (
+                                <span key={pi} className={`text-xs font-black px-2 py-1 rounded-lg ${p >= 84 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}`}>{p.toFixed(1)}%</span>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            </div>
+          );
+        })()}
 
         {activeView === 'resources' && (
           <div className="space-y-6 animate-fadeIn">
