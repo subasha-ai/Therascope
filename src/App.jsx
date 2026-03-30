@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Upload, FileText, ExternalLink, Activity, TrendingUp, Search, Eye, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Trophy, Award, Star, TrendingDown, MessageCircle, Send, X, Sparkles, FileSpreadsheet, DollarSign, ArrowLeft } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import JSZip from 'jszip';
@@ -1832,383 +1831,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* 4-MONTH TRENDS SECTION - Admin Only */}
-            {!isRestrictedView && (
-            <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
-              <div className="mb-6">
-                <h2 className="text-2xl font-black text-white tracking-tight mb-2">📈 Performance Trends</h2>
-                <p className="text-slate-300 font-medium">Company-wide metrics over the last 4 months</p>
-              </div>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* PRODUCTIVITY TREND */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <h3 className="text-lg font-black text-cyan-300 mb-4 flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5" />
-                    Average Productivity
-                  </h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <AreaChart data={getLast4MonthsTrends()}>
-                      <defs>
-                        <linearGradient id="colorProductivity" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis 
-                        dataKey="week" 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <YAxis 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        domain={[70, 100]}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: '#1e293b', 
-                          border: '1px solid #334155',
-                          borderRadius: '12px',
-                          fontWeight: 'bold'
-                        }}
-                        labelStyle={{ color: '#06b6d4', fontWeight: 'bold' }}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="productivity" 
-                        stroke="#06b6d4" 
-                        strokeWidth={3}
-                        fill="url(#colorProductivity)"
-                      />
-                      <Line 
-                        dataKey={() => 84} 
-                        stroke="#22c55e" 
-                        strokeWidth={2} 
-                        strokeDasharray="5 5"
-                        dot={false}
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                  <div className="mt-3 flex items-center justify-between text-sm">
-                    <span className="text-slate-400 font-medium">Goal: 84%</span>
-                    <span className="text-slate-400 font-medium">
-                      Current: <span className="text-cyan-300 font-black">
-                        {getLast4MonthsTrends().slice(-1)[0]?.productivity}%
-                      </span>
-                    </span>
-                  </div>
-                </div>
-                
-                {/* CPM TREND */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <h3 className="text-lg font-black text-purple-300 mb-4 flex items-center gap-2">
-                    <DollarSign className="w-5 h-5" />
-                    Average Cost Per Minute
-                  </h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <AreaChart data={getLast4MonthsTrends()}>
-                      <defs>
-                        <linearGradient id="colorCPM" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#a855f7" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#a855f7" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis 
-                        dataKey="week" 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <YAxis 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        domain={[1.0, 2.0]}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: '#1e293b', 
-                          border: '1px solid #334155',
-                          borderRadius: '12px',
-                          fontWeight: 'bold'
-                        }}
-                        labelStyle={{ color: '#a855f7', fontWeight: 'bold' }}
-                        formatter={(value) => `$${value.toFixed(2)}`}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="cpm" 
-                        stroke="#a855f7" 
-                        strokeWidth={3}
-                        fill="url(#colorCPM)"
-                      />
-                      <Line 
-                        dataKey={() => 1.45} 
-                        stroke="#22c55e" 
-                        strokeWidth={2} 
-                        strokeDasharray="5 5"
-                        dot={false}
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                  <div className="mt-3 flex items-center justify-between text-sm">
-                    <span className="text-slate-400 font-medium">Goal: $1.45</span>
-                    <span className="text-slate-400 font-medium">
-                      Current: <span className="text-purple-300 font-black">
-                        ${getLast4MonthsTrends().slice(-1)[0]?.cpm}
-                      </span>
-                    </span>
-                  </div>
-                </div>
-                
-                {/* MED B UNITS TREND */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <h3 className="text-lg font-black text-blue-300 mb-4 flex items-center gap-2">
-                    <Activity className="w-5 h-5" />
-                    Total Medicare B Units
-                  </h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <AreaChart data={getLast4MonthsTrends()}>
-                      <defs>
-                        <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis 
-                        dataKey="week" 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <YAxis 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: '#1e293b', 
-                          border: '1px solid #334155',
-                          borderRadius: '12px',
-                          fontWeight: 'bold'
-                        }}
-                        labelStyle={{ color: '#3b82f6', fontWeight: 'bold' }}
-                        formatter={(value) => `${value.toLocaleString()} units`}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="medBUnits" 
-                        stroke="#3b82f6" 
-                        strokeWidth={3}
-                        fill="url(#colorUnits)"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                  <div className="mt-3 text-sm text-slate-400 font-medium">
-                    Current Week: <span className="text-blue-300 font-black">
-                      {getLast4MonthsTrends().slice(-1)[0]?.medBUnits.toLocaleString()} units
-                    </span>
-                  </div>
-                </div>
-                
-                {/* MEDICARE REVENUE TREND */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <h3 className="text-lg font-black text-emerald-300 mb-4 flex items-center gap-2">
-                    <DollarSign className="w-5 h-5" />
-                    Medicare Revenue
-                  </h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <AreaChart data={getLast4MonthsTrends()}>
-                      <defs>
-                        <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis 
-                        dataKey="week" 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <YAxis 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: '#1e293b', 
-                          border: '1px solid #334155',
-                          borderRadius: '12px',
-                          fontWeight: 'bold'
-                        }}
-                        labelStyle={{ color: '#10b981', fontWeight: 'bold' }}
-                        formatter={(value) => `$${value}k`}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="medicareRevenue" 
-                        stroke="#10b981" 
-                        strokeWidth={3}
-                        fill="url(#colorRevenue)"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                  <div className="mt-3 text-sm text-slate-400 font-medium">
-                    Current Week: <span className="text-emerald-300 font-black">
-                      ${getLast4MonthsTrends().slice(-1)[0]?.medicareRevenue}k
-                    </span>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-            )}
-            
-            {/* REGIONAL COMPARISON */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-8">
-              <div className="mb-6">
-                <h2 className="text-2xl font-black text-white tracking-tight mb-2">🌎 Regional Performance</h2>
-                <p className="text-slate-300 font-medium">Golden Coast vs Overland trends</p>
-              </div>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* REGIONAL PRODUCTIVITY */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <h3 className="text-lg font-black text-white mb-4">Productivity by Region</h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <LineChart data={(() => {
-                      // Combine both regions' data into single dataset
-                      const goldenCoast = getRegionalTrends('Golden Coast');
-                      const overland = getRegionalTrends('Overland');
-                      
-                      // Create map of all unique weeks
-                      const weekMap = new Map();
-                      
-                      goldenCoast.forEach(d => {
-                        weekMap.set(d.week, { week: d.week, goldenCoastProd: d.productivity });
-                      });
-                      
-                      overland.forEach(d => {
-                        const existing = weekMap.get(d.week) || { week: d.week };
-                        weekMap.set(d.week, { ...existing, overlandProd: d.productivity });
-                      });
-                      
-                      return Array.from(weekMap.values());
-                    })()}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis 
-                        dataKey="week" 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <YAxis 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        domain={[70, 100]}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: '#1e293b', 
-                          border: '1px solid #334155',
-                          borderRadius: '12px',
-                          fontWeight: 'bold'
-                        }}
-                      />
-                      <Legend 
-                        wrapperStyle={{ fontWeight: 'bold', paddingTop: '10px' }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="goldenCoastProd" 
-                        stroke="#06b6d4" 
-                        strokeWidth={3}
-                        name="Golden Coast"
-                        dot={{ fill: '#06b6d4', r: 4 }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="overlandProd" 
-                        stroke="#f59e0b" 
-                        strokeWidth={3}
-                        name="Overland"
-                        dot={{ fill: '#f59e0b', r: 4 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                
-                {/* REGIONAL CPM */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                  <h3 className="text-lg font-black text-white mb-4">CPM by Region</h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <LineChart data={(() => {
-                      // Combine both regions' data into single dataset
-                      const goldenCoast = getRegionalTrends('Golden Coast');
-                      const overland = getRegionalTrends('Overland');
-                      
-                      // Create map of all unique weeks
-                      const weekMap = new Map();
-                      
-                      goldenCoast.forEach(d => {
-                        weekMap.set(d.week, { week: d.week, goldenCoastCPM: d.cpm });
-                      });
-                      
-                      overland.forEach(d => {
-                        const existing = weekMap.get(d.week) || { week: d.week };
-                        weekMap.set(d.week, { ...existing, overlandCPM: d.cpm });
-                      });
-                      
-                      return Array.from(weekMap.values());
-                    })()}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                      <XAxis 
-                        dataKey="week" 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                      />
-                      <YAxis 
-                        stroke="#94a3b8" 
-                        style={{ fontSize: '12px', fontWeight: 'bold' }}
-                        domain={[1.0, 2.0]}
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: '#1e293b', 
-                          border: '1px solid #334155',
-                          borderRadius: '12px',
-                          fontWeight: 'bold'
-                        }}
-                        formatter={(value) => `$${value.toFixed(2)}`}
-                      />
-                      <Legend 
-                        wrapperStyle={{ fontWeight: 'bold', paddingTop: '10px' }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="goldenCoastCPM" 
-                        stroke="#06b6d4" 
-                        strokeWidth={3}
-                        name="Golden Coast"
-                        dot={{ fill: '#06b6d4', r: 4 }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="overlandCPM" 
-                        stroke="#f59e0b" 
-                        strokeWidth={3}
-                        name="Overland"
-                        dot={{ fill: '#f59e0b', r: 4 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                
-              </div>
-            </div>
 
             <div className="relative bg-gradient-to-br from-indigo-900/40 via-purple-900/40 to-pink-900/40 backdrop-blur-xl rounded-3xl p-10 border border-white/20 shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10"></div>
@@ -2236,6 +1858,149 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+          {/* ── OFF-TRACK THIS WEEK ── */}
+          {!isRestrictedView && (() => {
+            const offProd = currentWeekData.filter(f => f.productivity < 84);
+            const offCPM  = currentWeekData.filter(f => f.cpm > 1.45);
+            const offMode = currentWeekData.filter(f => (f.modeOfTreatment || 0) < 4);
+            const offMedB = currentWeekData.filter(f => f.medBEligible > 0 && (f.medBCaseload / f.medBEligible) < 0.5);
+            const hasIssues = offProd.length || offCPM.length || offMode.length || offMedB.length;
+            if (!hasIssues) return (
+              <div className="bg-emerald-500/10 border border-emerald-400/30 rounded-3xl p-6">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">🏆</span>
+                  <div>
+                    <h3 className="text-lg font-black text-emerald-300">All Buildings On Track This Week</h3>
+                    <p className="text-slate-400 text-sm">Every facility is meeting all 4 goals.</p>
+                  </div>
+                </div>
+              </div>
+            );
+            return (
+              <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+                <div className="p-6 border-b border-white/10 bg-gradient-to-r from-rose-900/30 to-orange-900/30">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">⚠️</span>
+                    <div>
+                      <h3 className="text-xl font-black text-white">Off-Track This Week</h3>
+                      <p className="text-slate-400 text-sm mt-0.5">Buildings missing goals</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    { label: 'Productivity < 84%', items: offProd, color: 'rose', val: f => f.productivity + '%' },
+                    { label: 'CPM > $1.45', items: offCPM, color: 'orange', val: f => '$' + f.cpm },
+                    { label: 'Mode of Tx < 4%', items: offMode, color: 'amber', val: f => (f.modeOfTreatment || 0) + '%' },
+                    { label: 'Med B < 50% on CL', items: offMedB, color: 'purple', val: f => f.medBEligible > 0 ? Math.round((f.medBCaseload/f.medBEligible)*100)+'%' : 'N/A' },
+                  ].map((group, gi) => (
+                    <div key={gi} className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                      <div className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">{group.label}</div>
+                      {group.items.length === 0 ? (
+                        <div className="text-emerald-400 text-sm font-bold">✓ All clear</div>
+                      ) : (
+                        <div className="space-y-1.5">
+                          {group.items.map((f, idx) => (
+                            <div key={idx} className="flex items-center justify-between">
+                              <span className="text-white text-xs font-medium truncate pr-2">{f.facility.replace(' Post Acute','').replace(' Healthcare Center','').replace(' HC','').replace(' PA','')}</span>
+                              <span className="text-rose-300 text-xs font-black flex-shrink-0">{group.val(f)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* ── FEB FINAL vs MARCH MTD ── */}
+          {!isRestrictedView && (() => {
+            const febFinals = {};
+            allWeeklyData.filter(d => d.date.startsWith('2026-02')).forEach(d => {
+              if (!febFinals[d.facility] || d.week > febFinals[d.facility].week) febFinals[d.facility] = d;
+            });
+            const marchLatest = {};
+            allWeeklyData.filter(d => d.date.startsWith('2026-03')).forEach(d => {
+              if (!marchLatest[d.facility] || d.week > marchLatest[d.facility].week) marchLatest[d.facility] = d;
+            });
+            const facilities = Object.keys(febFinals).filter(f => marchLatest[f]).sort();
+            if (facilities.length === 0) return null;
+
+            const COLS = [
+              { key: 'productivity', label: 'Prod %', fKey: 'productivityMTD', mKey: 'productivityMTD', fallback: 'productivity', fmt: v => v + '%', better: 'higher' },
+              { key: 'cpm', label: 'CPM', fKey: 'cpmMTD', mKey: 'cpmMTD', fallback: 'cpm', fmt: v => '$' + v, better: 'lower' },
+              { key: 'mode', label: 'Mode %', fKey: 'modeOfTreatmentMTD', mKey: 'modeOfTreatmentMTD', fallback: 'modeOfTreatment', fmt: v => v + '%', better: 'higher' },
+              { key: 'upv', label: 'UPV', fKey: 'unitsPerVisitMTD', mKey: 'unitsPerVisitMTD', fallback: 'unitsPerVisit', fmt: v => v ? parseFloat(v).toFixed(2) : '-', better: 'higher' },
+            ];
+
+            const getV = (rec, col, keyType) => parseFloat(rec[keyType === 'feb' ? col.fKey : col.mKey] || rec[col.fallback] || 0);
+
+            return (
+              <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+                <div className="p-6 border-b border-white/10 bg-gradient-to-r from-indigo-900/30 to-purple-900/30">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">📊</span>
+                    <div>
+                      <h3 className="text-xl font-black text-white">February Final vs March MTD</h3>
+                      <p className="text-slate-400 text-sm mt-0.5">All facilities — MTD values compared</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/10 bg-white/5">
+                        <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Facility</th>
+                        <th className="text-center py-3 px-2 text-slate-400 font-bold text-xs uppercase">Rgn</th>
+                        {COLS.map(col => (
+                          <th key={col.key} className="text-center py-3 px-3 text-slate-400 font-bold text-xs uppercase">
+                            {col.label}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {facilities.map((fac, i) => {
+                        const feb = febFinals[fac];
+                        const mar = marchLatest[fac];
+                        return (
+                          <tr key={i} className="border-b border-white/5 hover:bg-white/5">
+                            <td className="py-3 px-4 text-white font-bold text-sm">{fac}</td>
+                            <td className="py-3 px-2 text-center">
+                              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${mar.region === 'Golden Coast' ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'}`}>
+                                {mar.region === 'Golden Coast' ? 'GC' : 'OL'}
+                              </span>
+                            </td>
+                            {COLS.map(col => {
+                              const febV = getV(feb, col, 'feb');
+                              const marV = getV(mar, col, 'mar');
+                              const diff = marV - febV;
+                              const improved = col.better === 'higher' ? diff > 0.05 : diff < -0.05;
+                              const declined = col.better === 'higher' ? diff < -0.05 : diff > 0.05;
+                              const sign = diff > 0 ? '+' : '';
+                              const diffStr = col.key === 'cpm' ? (sign + '$' + Math.abs(diff).toFixed(2)) : col.key === 'upv' ? (sign + diff.toFixed(2)) : (sign + diff.toFixed(1));
+                              return (
+                                <td key={col.key} className="py-3 px-3 text-center">
+                                  <div className="text-white text-sm font-bold">{col.fmt(marV)}</div>
+                                  <div className={`text-xs font-bold mt-0.5 ${improved ? 'text-emerald-400' : declined ? 'text-rose-400' : 'text-slate-500'}`}>
+                                    {improved ? '↑' : declined ? '↓' : '→'} {diffStr}
+                                  </div>
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            );
+          })()}
+
           </div>
         )}
 
