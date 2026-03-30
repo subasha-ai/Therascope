@@ -1362,6 +1362,193 @@ export default function App() {
   };
 
   // Generate PDF report for DOR's facility only  
+  const generateExecPDF = () => {
+    try {
+      const doc = new jsPDF({ orientation: 'landscape' });
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+
+      const MONTHS = [
+        { label: 'Jan', start: '2026-01-01', end: '2026-01-31' },
+        { label: 'Feb', start: '2026-02-01', end: '2026-02-28' },
+        { label: 'Mar MTD', start: '2026-03-01', end: '2026-03-29' },
+      ];
+
+      const getMonthFinal = (facility, start, end) => {
+        const recs = allWeeklyData.filter(d => d.facility === facility && d.date >= start && d.date <= end);
+        return recs.length ? recs.sort((a,b) => parseInt(b.week) - parseInt(a.week))[0] : null;
+      };
+
+      const scoreRec = rec => {
+        if (!rec) return 0;
+        let s = 0;
+        if (parseFloat(rec.productivityMTD || rec.productivity || 0) >= 84) s++;
+        if (parseFloat(rec.cpmMTD || rec.cpm || 0) <= 1.45) s++;
+        const elig = rec.medBEligible || 0, cas = rec.medBCaseload || 0;
+        if (elig > 0 && cas/elig >= 0.5) s++;
+        if (parseFloat(rec.modeOfTreatmentMTD || rec.modeOfTreatment || 0) >= 4) s++;
+        return s;
+      };
+
+      const getMonthTotals = (start, end) => {
+        const recs = allFacilities.map(f => getMonthFinal(f, start, end)).filter(Boolean);
+        if (!recs.length) return null;
+        return {
+          avgProd: (recs.reduce((s,r) => s + parseFloat(r.productivityMTD || r.productivity || 0), 0) / recs.length).toFixed(1),
+          avgCPM: (recs.reduce((s,r) => s + parseFloat(r.cpmMTD || r.cpm || 0), 0) / recs.length).toFixed(2),
+          totalRev: recs.reduce((s,r) => s + (r.medicareMPPRRevenueMTD || r.medicareMPPRRevenue || 0), 0),
+          atGoalProd: recs.filter(r => parseFloat(r.productivityMTD || r.productivity) >= 84).length,
+          n: recs.length,
+        };
+      };
+
+      const latestDate = allWeeklyData.reduce((max,d) => d.date > max ? d.date : max, '');
+      const throughDate = (() => { const d = new Date(latestDate); d.setDate(d.getDate()+6); return d.toISOString().split('T')[0]; })();
+
+      // ── Title page ──
+      doc.setFillColor(15, 23, 42);
+      doc.rect(0, 0, pageW, pageH, 'F');
+      doc.setTextColor(255,255,255);
+      doc.setFontSize(28); doc.setFont('helvetica','bold');
+      doc.text('Executive Summary', pageW/2, 60, { align: 'center' });
+      doc.setFontSize(14); doc.setFont('helvetica','normal');
+      doc.setTextColor(148,163,184);
+      doc.text('January – March 2026', pageW/2, 75, { align: 'center' });
+      doc.text(`Data through ${throughDate} · ${allFacilities.length} Facilities · 2 Regions`, pageW/2, 88, { align: 'center' });
+
+      // ── Company summary table ──
+      doc.addPage();
+      doc.setFillColor(15,23,42); doc.rect(0,0,pageW,pageH,'F');
+      doc.setTextColor(255,255,255); doc.setFontSize(16); doc.setFont('helvetica','bold');
+      doc.text('Company Overview — 3 Month Comparison', 14, 20);
+
+      const summaryRows = MONTHS.map(m => {
+        const t = getMonthTotals(m.start, m.end);
+        return t ? [m.label, t.avgProd+'%', '$'+t.avgCPM, '$'+(t.totalRev/1000).toFixed(0)+'k', t.atGoalProd+'/'+t.n] : [m.label,'—','—','—','—'];
+      });
+
+      doc.autoTable({
+        startY: 30,
+        head: [['Month','Avg Productivity','Avg CPM','Med B Revenue','At Prod Goal']],
+        body: summaryRows,
+        theme: 'grid',
+        headStyles: { fillColor: [6,182,212], textColor: [255,255,255], fontStyle: 'bold' },
+        bodyStyles: { fillColor: [30,41,59], textColor: [255,255,255] },
+        alternateRowStyles: { fillColor: [51,65,85] },
+        styles: { fontSize: 11 },
+      });
+
+      // ── Building scorecard ──
+      doc.addPage();
+      doc.setFillColor(15,23,42); doc.rect(0,0,pageW,pageH,'F');
+      doc.setTextColor(255,255,255); doc.setFontSize(16); doc.setFont('helvetica','bold');
+      doc.text('Building Scorecard — Productivity · CPM · Mode · Med B Revenue', 14, 20);
+
+      const scorecardRows = allFacilities.sort().map(fac => {
+        const region = allWeeklyData.find(d => d.facility === fac)?.region || '';
+        const row = [fac.replace(' Post Acute','').replace(' Healthcare Center',''), region === 'Golden Coast' ? 'GC' : 'OL'];
+        MONTHS.forEach(m => {
+          const rec = getMonthFinal(fac, m.start, m.end);
+          if (!rec) { row.push('—','—','—','—'); return; }
+          row.push(
+            parseFloat(rec.productivityMTD || rec.productivity || 0).toFixed(1)+'%',
+            '$'+parseFloat(rec.cpmMTD || rec.cpm || 0).toFixed(2),
+            parseFloat(rec.modeOfTreatmentMTD || rec.modeOfTreatment || 0).toFixed(1)+'%',
+            '$'+((rec.medicareMPPRRevenueMTD || rec.medicareMPPRRevenue || 0)/1000).toFixed(1)+'k',
+          );
+        });
+        return row;
+      });
+
+      doc.autoTable({
+        startY: 30,
+        head: [['Facility','Rgn','Jan Prod','Jan CPM','Jan Mode','Jan Rev','Feb Prod','Feb CPM','Feb Mode','Feb Rev','Mar Prod','Mar CPM','Mar Mode','Mar Rev']],
+        body: scorecardRows,
+        theme: 'grid',
+        headStyles: { fillColor: [6,182,212], textColor: [255,255,255], fontStyle: 'bold', fontSize: 7 },
+        bodyStyles: { fillColor: [30,41,59], textColor: [255,255,255], fontSize: 7 },
+        alternateRowStyles: { fillColor: [51,65,85] },
+        styles: { cellPadding: 2 },
+        didParseCell: data => {
+          if (data.section === 'body' && data.column.index >= 2) {
+            const val = data.cell.raw;
+            if (val && val.includes('%')) {
+              const num = parseFloat(val);
+              const col = data.column.index;
+              const isProd = col % 4 === 2;
+              const isMode = col % 4 === 0;
+              if (isProd && num < 84) data.cell.styles.textColor = [252,165,165];
+              else if (isProd && num >= 84) data.cell.styles.textColor = [110,231,183];
+              if (isMode && num < 4) data.cell.styles.textColor = [252,165,165];
+              else if (isMode && num >= 4) data.cell.styles.textColor = [110,231,183];
+            }
+            if (val && val.includes('$') && val.includes('.')) {
+              const num = parseFloat(val.replace('$',''));
+              const col = data.column.index;
+              const isCPM = col % 4 === 3;
+              if (isCPM && num > 1.45) data.cell.styles.textColor = [252,165,165];
+              else if (isCPM && num <= 1.45) data.cell.styles.textColor = [110,231,183];
+            }
+          }
+        },
+      });
+
+      // ── Spotlight page ──
+      const struggling = allFacilities.filter(fac => {
+        const scores = MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end)));
+        return scores.filter(s => s <= 1).length >= 2;
+      });
+
+      const improvedList = allFacilities.map(fac => {
+        const jan = getMonthFinal(fac,'2026-01-01','2026-01-31');
+        const mar = getMonthFinal(fac,'2026-03-01','2026-03-29');
+        if (!jan || !mar) return null;
+        return { fac, scoreDiff: scoreRec(mar)-scoreRec(jan), prodDiff: parseFloat(mar.productivityMTD||mar.productivity||0)-parseFloat(jan.productivityMTD||jan.productivity||0), js: scoreRec(jan), ms: scoreRec(mar) };
+      }).filter(Boolean).sort((a,b) => b.scoreDiff !== a.scoreDiff ? b.scoreDiff-a.scoreDiff : b.prodDiff-a.prodDiff).slice(0,5);
+
+      doc.addPage();
+      doc.setFillColor(15,23,42); doc.rect(0,0,pageW,pageH,'F');
+      doc.setTextColor(255,255,255); doc.setFontSize(16); doc.setFont('helvetica','bold');
+      doc.text('Spotlight', 14, 20);
+
+      doc.setFontSize(12); doc.setTextColor(110,231,183);
+      doc.text('Most Improved (Jan → Mar, composite goals)', 14, 35);
+      doc.autoTable({
+        startY: 40,
+        head: [['Facility','Jan Goals','Mar Goals','Prod Change']],
+        body: improvedList.map(r => [r.fac.replace(' Post Acute','').replace(' Healthcare Center',''), r.js+'/4', r.ms+'/4', (r.prodDiff > 0 ? '+' : '')+r.prodDiff.toFixed(1)+'pp']),
+        theme: 'grid',
+        headStyles: { fillColor: [16,185,129], textColor: [255,255,255], fontStyle: 'bold' },
+        bodyStyles: { fillColor: [30,41,59], textColor: [255,255,255] },
+        alternateRowStyles: { fillColor: [51,65,85] },
+        styles: { fontSize: 10 },
+      });
+
+      const afterImproved = doc.lastAutoTable.finalY + 15;
+      doc.setFontSize(12); doc.setTextColor(252,165,165);
+      doc.text('Needs Attention (failing 3+ goals, 2+ months)', 14, afterImproved);
+      doc.autoTable({
+        startY: afterImproved + 5,
+        head: [['Facility','Region','Jan Score','Feb Score','Mar Score']],
+        body: struggling.map(fac => {
+          const region = allWeeklyData.find(d => d.facility === fac)?.region || '';
+          const scores = MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end))+'/4');
+          return [fac.replace(' Post Acute','').replace(' Healthcare Center',''), region === 'Golden Coast' ? 'GC' : 'OL', ...scores];
+        }),
+        theme: 'grid',
+        headStyles: { fillColor: [220,38,38], textColor: [255,255,255], fontStyle: 'bold' },
+        bodyStyles: { fillColor: [30,41,59], textColor: [255,255,255] },
+        alternateRowStyles: { fillColor: [51,65,85] },
+        styles: { fontSize: 10 },
+      });
+
+      doc.save('Executive_Summary_' + throughDate + '.pdf');
+    } catch(e) {
+      console.error('PDF error:', e);
+      alert('PDF generation failed: ' + e.message);
+    }
+  };
+
   const generateMyReport = async () => {
     try {
       const confirmed = window.confirm(`Generate your report for ${restrictedFacility}?`);
@@ -1554,15 +1741,7 @@ export default function App() {
             </div>
             
             <div className="flex gap-3 items-center">
-              {!isRestrictedView && (
-                <button
-                  onClick={generateAllReports}
-                  className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
-                >
-                  <FileText className="w-4 h-4" />
-                  Generate Reports
-                </button>
-              )}
+
               
               <a 
                 href={WEEKLY_REPORT_LINK}
@@ -3020,9 +3199,22 @@ export default function App() {
                     <h2 className="text-3xl font-black text-white tracking-tight">Executive Summary</h2>
                     <p className="text-slate-400 mt-1">January – March 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
+                  <button
+                    onClick={generateExecPDF}
+                    className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    Export PDF
+                  </button>
                   <div className="text-xs text-slate-500 text-right">
                     <div className="uppercase tracking-wider mb-1">Data through</div>
-                    <div className="text-white font-bold text-sm">{allWeeklyData.reduce((max,d) => d.date > max ? d.date : max, '')}</div>
+                    <div className="text-white font-bold text-sm">{(() => {
+                      const startDate = allWeeklyData.reduce((max,d) => d.date > max ? d.date : max, '');
+                      if (!startDate) return '';
+                      const d = new Date(startDate);
+                      d.setDate(d.getDate() + 6);
+                      return d.toISOString().split('T')[0];
+                    })()}</div>
                   </div>
                 </div>
               </div>
