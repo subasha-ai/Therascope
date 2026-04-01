@@ -1426,7 +1426,7 @@ export default function App() {
 
       // Goals reference
       doc.setFontSize(9); doc.setTextColor(148,163,184);
-      doc.text('Performance Goals:  Productivity ≥ 84% (incl. DOR)  |  CPM < $1.45 (incl. DOR)  |  Med B Eligibility ≥ 50% on caseload  |  Mode of Treatment ≥ 4% group/concurrent', 14, 27);
+      doc.text('Performance Goals:  Productivity >= 84% (incl. DOR)  |  CPM < $1.45 (incl. DOR)  |  Med B >= 50% on caseload  |  Mode of Treatment >= 4% group/concurrent', 14, 26);
       doc.setTextColor(255,255,255);
 
       const summaryRows = MONTHS.map(m => {
@@ -1435,7 +1435,7 @@ export default function App() {
       });
 
       doc.autoTable({
-        startY: 30,
+        startY: 33,
         head: [['Month','Avg Productivity','Avg CPM','Med B Revenue','At Prod Goal','At CPM Goal']],
         body: summaryRows,
         theme: 'grid',
