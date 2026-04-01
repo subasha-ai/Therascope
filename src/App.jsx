@@ -83,7 +83,8 @@ export default function App() {
     'Palo Alto Post Acute': 'AltoPace',
     'Bridgewood PA': 'BridgeSteps',
     'Cedarwood PA': 'CedarStride',
-    'Capital PA': 'CapitalCare'
+    'Capital PA': 'CapitalCare',
+    'Blue Oak Post Acute': 'BlueOakSteps'
   };
   
   const logActivity = (activityType, details) => {
