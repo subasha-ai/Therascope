@@ -1424,6 +1424,11 @@ export default function App() {
       doc.setTextColor(255,255,255); doc.setFontSize(16); doc.setFont('helvetica','bold');
       doc.text('Company Overview — 3 Month Comparison', 14, 20);
 
+      // Goals reference
+      doc.setFontSize(9); doc.setTextColor(148,163,184);
+      doc.text('Performance Goals:  Productivity ≥ 84% (incl. DOR)  |  CPM < $1.45 (incl. DOR)  |  Med B Eligibility ≥ 50% on caseload  |  Mode of Treatment ≥ 4% group/concurrent', 14, 27);
+      doc.setTextColor(255,255,255);
+
       const summaryRows = MONTHS.map(m => {
         const t = getMonthTotals(m.start, m.end);
         return t ? [m.label, t.avgProd+'%', '$'+t.avgCPM, '$'+(t.totalRev/1000).toFixed(0)+'k', t.atGoalProd+'/'+t.n, t.atGoalCPM+'/'+t.n] : [m.label,'—','—','—','—','—'];
@@ -3218,6 +3223,30 @@ export default function App() {
                       return d.toISOString().split('T')[0];
                     })()}</div>
                   </div>
+                </div>
+              </div>
+
+              {/* PERFORMANCE GOALS */}
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 px-6 py-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Performance Goals</span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { icon: '📈', label: 'Productivity', target: '≥ 84%', detail: 'All staff including DOR' },
+                    { icon: '💰', label: 'CPM', target: '< $1.45', detail: 'Cost per minute, including DOR' },
+                    { icon: '🏥', label: 'Med B Eligibility', target: '≥ 50% on caseload', detail: 'Of eligible patients' },
+                    { icon: '👥', label: 'Mode of Treatment', target: '≥ 4%', detail: 'Group / concurrent therapy' },
+                  ].map((g, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <span className="text-lg">{g.icon}</span>
+                      <div>
+                        <div className="text-xs font-black text-white">{g.label}</div>
+                        <div className="text-sm font-black text-cyan-300">{g.target}</div>
+                        <div className="text-xs text-slate-500 mt-0.5">{g.detail}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
