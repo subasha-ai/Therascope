@@ -1399,6 +1399,7 @@ export default function App() {
           avgCPM: (recs.reduce((s,r) => s + parseFloat(r.cpmMTD || r.cpm || 0), 0) / recs.length).toFixed(2),
           totalRev: recs.reduce((s,r) => s + (r.medicareMPPRRevenueMTD || r.medicareMPPRRevenue || 0), 0),
           atGoalProd: recs.filter(r => parseFloat(r.productivityMTD || r.productivity) >= 84).length,
+          atGoalCPM: recs.filter(r => parseFloat(r.cpmMTD || r.cpm) <= 1.45).length,
           n: recs.length,
         };
       };
@@ -1425,12 +1426,12 @@ export default function App() {
 
       const summaryRows = MONTHS.map(m => {
         const t = getMonthTotals(m.start, m.end);
-        return t ? [m.label, t.avgProd+'%', '$'+t.avgCPM, '$'+(t.totalRev/1000).toFixed(0)+'k', t.atGoalProd+'/'+t.n] : [m.label,'—','—','—','—'];
+        return t ? [m.label, t.avgProd+'%', '$'+t.avgCPM, '$'+(t.totalRev/1000).toFixed(0)+'k', t.atGoalProd+'/'+t.n, t.atGoalCPM+'/'+t.n] : [m.label,'—','—','—','—','—'];
       });
 
       doc.autoTable({
         startY: 30,
-        head: [['Month','Avg Productivity','Avg CPM','Med B Revenue','At Prod Goal']],
+        head: [['Month','Avg Productivity','Avg CPM','Med B Revenue','At Prod Goal','At CPM Goal']],
         body: summaryRows,
         theme: 'grid',
         headStyles: { fillColor: [6,182,212], textColor: [255,255,255], fontStyle: 'bold' },
