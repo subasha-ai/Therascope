@@ -393,8 +393,8 @@ export default function App() {
         cpm: lastWeekRecord.cpmMonthly || lastWeekRecord.cpm,
         medBEligible: lastWeekRecord.medBEligible,
         medBCaseload: lastWeekRecord.medBCaseload,
-        medBUnitsThisWeek: lastWeekRecord.medBUnitsThisWeek || 0,
-        medicareMPPRRevenue: lastWeekRecord.medicareMPPRRevenue || 0,
+        medBUnitsThisWeek: lastWeekRecord.medBUnitsMTD || lastWeekRecord.medBUnitsThisWeek || 0,
+        medicareMPPRRevenue: lastWeekRecord.medicareMPPRRevenueMTD || lastWeekRecord.medicareMPPRRevenue || 0,
         modeOfTreatment: lastWeekRecord.modeMonthly || lastWeekRecord.modeOfTreatment,
         unitsPerVisit: lastWeekRecord.upvMonthly || lastWeekRecord.unitsPerVisit,
         weekCount: records.length
@@ -494,8 +494,8 @@ export default function App() {
       // Calculate averages for productivity/CPM, use MTD totals for units/revenue
       const avgProductivity = lastWeekData.reduce((sum, d) => sum + (d.productivity || 0), 0) / lastWeekData.length;
       const avgCPM = lastWeekData.reduce((sum, d) => sum + (d.cpm || 0), 0) / lastWeekData.length;
-      const totalMedBUnits = lastWeekData.reduce((sum, d) => sum + (d.medBUnitsThisWeek || 0), 0);
-      const totalMedicareRevenue = lastWeekData.reduce((sum, d) => sum + (d.medicareMPPRRevenue || 0), 0);
+      const totalMedBUnits = lastWeekData.reduce((sum, d) => sum + (d.medBUnitsMTD || d.medBUnitsThisWeek || 0), 0);
+      const totalMedicareRevenue = lastWeekData.reduce((sum, d) => sum + (d.medicareMPPRRevenueMTD || d.medicareMPPRRevenue || 0), 0);
       
       // Format month label (e.g., "Oct 2025")
       const [year, month] = monthKey.split('-');
@@ -3092,7 +3092,7 @@ export default function App() {
                                       <div className="bg-white/5 rounded-xl p-4">
                                         <div className="text-xs text-slate-400 mb-1">Med B Revenue</div>
                                         <div className="text-2xl font-black text-emerald-300">
-                                          ${((monthData.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
+                                          ${((monthData.medicareMPPRRevenueMTD || monthData.medicareMPPRRevenue || 0) / 1000).toFixed(1)}k
                                         </div>
                                       </div>
                                     )}
