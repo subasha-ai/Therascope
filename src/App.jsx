@@ -373,14 +373,14 @@ export default function App() {
       return {
         month,
         // Use MONTHLY values if available (for last week), otherwise use regular values
-        productivity: lastWeekRecord.productivityMonthly || lastWeekRecord.productivity,
-        cpm: lastWeekRecord.cpmMonthly || lastWeekRecord.cpm,
+        productivity: lastWeekRecord.productivityMTD || lastWeekRecord.productivity,
+        cpm: lastWeekRecord.cpmMTD || lastWeekRecord.cpm,
         medBEligible: lastWeekRecord.medBEligible,
         medBCaseload: lastWeekRecord.medBCaseload,
         medBUnitsThisWeek: lastWeekRecord.medBUnitsMTD || lastWeekRecord.medBUnitsThisWeek || 0,
         medicareMPPRRevenue: lastWeekRecord.medicareMPPRRevenueMTD || lastWeekRecord.medicareMPPRRevenue || 0,
-        modeOfTreatment: lastWeekRecord.modeMonthly || lastWeekRecord.modeOfTreatment,
-        unitsPerVisit: lastWeekRecord.upvMonthly || lastWeekRecord.unitsPerVisit,
+        modeOfTreatment: lastWeekRecord.modeOfTreatmentMTD || lastWeekRecord.modeOfTreatment,
+        unitsPerVisit: lastWeekRecord.unitsPerVisitMTD || lastWeekRecord.unitsPerVisit,
         weekCount: records.length
       };
     });
@@ -1825,15 +1825,15 @@ export default function App() {
                   </div>
                   <div className="p-8 space-y-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-                      <div className={`rounded-2xl p-6 border-2 ${myFacilityData.productivity >= 84 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                        <div className="flex items-center gap-2 mb-3"><TrendingUp className={`w-5 h-5 ${myFacilityData.productivity >= 84 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">Productivity</span></div>
-                        <div className={`text-4xl font-black ${myFacilityData.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{myFacilityData.productivity}%</div>
-                        <div className="text-xs text-slate-400 mt-2">{myFacilityData.productivity >= 84 ? '✓ Meeting goal' : 'Below 84% goal'}</div>
+                      <div className={`rounded-2xl p-6 border-2 ${(myFacilityData.productivityMTD || myFacilityData.productivity) >= 84 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
+                        <div className="flex items-center gap-2 mb-3"><TrendingUp className={`w-5 h-5 ${(myFacilityData.productivityMTD||myFacilityData.productivity) >= 84 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">Productivity</span></div>
+                        <div className={`text-4xl font-black ${(myFacilityData.productivityMTD || myFacilityData.productivity) >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{myFacilityData.productivityMTD || myFacilityData.productivity}%</div>
+                        <div className="text-xs text-slate-400 mt-2">{(myFacilityData.productivityMTD || myFacilityData.productivity) >= 84 ? '✓ Meeting goal' : 'Below 84% goal'}</div>
                       </div>
-                      <div className={`rounded-2xl p-6 border-2 ${myFacilityData.cpm <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                        <div className="flex items-center gap-2 mb-3"><PieChart className={`w-5 h-5 ${myFacilityData.cpm <= 1.45 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">CPM</span></div>
-                        <div className={`text-4xl font-black ${myFacilityData.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${myFacilityData.cpm}</div>
-                        <div className="text-xs text-slate-400 mt-2">{myFacilityData.cpm <= 1.45 ? '✓ Under $1.45' : 'Above $1.45 target'}</div>
+                      <div className={`rounded-2xl p-6 border-2 ${(myFacilityData.cpmMTD || myFacilityData.cpm) <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
+                        <div className="flex items-center gap-2 mb-3"><PieChart className={`w-5 h-5 ${(myFacilityData.cpmMTD||myFacilityData.cpm) <= 1.45 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">CPM</span></div>
+                        <div className={`text-4xl font-black ${(myFacilityData.cpmMTD || myFacilityData.cpm) <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${myFacilityData.cpmMTD || myFacilityData.cpm}</div>
+                        <div className="text-xs text-slate-400 mt-2">{(myFacilityData.cpmMTD || myFacilityData.cpm) <= 1.45 ? '✓ Under $1.45' : 'Above $1.45 target'}</div>
                       </div>
                       {(() => {
                         const ratio = myFacilityData.medBEligible > 0 ? Math.round((myFacilityData.medBCaseload / myFacilityData.medBEligible) * 100) : 0;
@@ -1846,16 +1846,16 @@ export default function App() {
                           </div>
                         );
                       })()}
-                      <div className={`rounded-2xl p-6 border-2 ${myFacilityData.modeOfTreatment >= 5 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
-                        <div className="flex items-center gap-2 mb-3"><Activity className={`w-5 h-5 ${myFacilityData.modeOfTreatment >= 5 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">Mode of Tx</span></div>
-                        <div className={`text-4xl font-black ${myFacilityData.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-rose-300'}`}>{myFacilityData.modeOfTreatment || 0}%</div>
-                        <div className="text-xs text-slate-400 mt-2">{myFacilityData.modeOfTreatment >= 5 ? '✓ Meeting 5% goal' : 'Below 5% goal'}</div>
+                      <div className={`rounded-2xl p-6 border-2 ${(myFacilityData.modeOfTreatmentMTD || myFacilityData.modeOfTreatment || 0) >= 5 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50'}`}>
+                        <div className="flex items-center gap-2 mb-3"><Activity className={`w-5 h-5 ${(myFacilityData.modeOfTreatmentMTD||myFacilityData.modeOfTreatment||0) >= 5 ? 'text-emerald-400' : 'text-rose-400'}`} strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">Mode of Tx</span></div>
+                        <div className={`text-4xl font-black ${(myFacilityData.modeOfTreatmentMTD || myFacilityData.modeOfTreatment || 0) >= 5 ? 'text-emerald-300' : 'text-rose-300'}`}>{myFacilityData.modeOfTreatmentMTD || myFacilityData.modeOfTreatment || 0}%</div>
+                        <div className="text-xs text-slate-400 mt-2">{(myFacilityData.modeOfTreatmentMTD || myFacilityData.modeOfTreatment || 0) >= 5 ? '✓ Meeting 5% goal' : 'Below 5% goal'}</div>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                       <div className="bg-purple-500/20 rounded-2xl p-6 border border-purple-400/30">
                         <div className="flex items-center gap-2 mb-3"><Activity className="w-5 h-5 text-purple-300" strokeWidth={2.5} /><span className="text-xs text-slate-300 font-bold uppercase">Units Per Visit</span></div>
-                        <div className="text-4xl font-black text-purple-300">{myFacilityData.unitsPerVisit ? myFacilityData.unitsPerVisit.toFixed(2) : '0.00'}</div>
+                        <div className="text-4xl font-black text-purple-300">{(myFacilityData.unitsPerVisitMTD || myFacilityData.unitsPerVisit) ? (myFacilityData.unitsPerVisitMTD || myFacilityData.unitsPerVisit).toFixed(2) : '0.00'}</div>
                         <div className="text-xs text-slate-400 mt-2">Operational metric</div>
                       </div>
                       <div className="bg-indigo-500/20 rounded-2xl p-6 border border-indigo-400/30">
@@ -2018,15 +2018,15 @@ export default function App() {
                         </tr>
                       </thead>
                       <tbody>
-                        {[...myRegionData].sort((a, b) => { const va = a[dorLeaderboardSort] ?? 0; const vb = b[dorLeaderboardSort] ?? 0; return dorLeaderboardDir === 'desc' ? vb - va : va - vb; }).map((f, i) => {
+                        {[...myRegionData].sort((a, b) => { const getLeadVal = (r, k) => { if(k==='productivity') return r.productivityMTD||r.productivity||0; if(k==='cpm') return r.cpmMTD||r.cpm||0; if(k==='modeOfTreatment') return r.modeOfTreatmentMTD||r.modeOfTreatment||0; return r[k]||0; }; const va = getLeadVal(a, dorLeaderboardSort); const vb = getLeadVal(b, dorLeaderboardSort); return dorLeaderboardDir === 'desc' ? vb - va : va - vb; }).map((f, i) => {
                           const isMe = f.facility === myFacilityData.facility;
                           const sc = calculateScore(f);
                           return (
                             <tr key={i} className={`border-b border-white/5 ${isMe ? 'bg-cyan-500/15 border-l-4 border-cyan-400' : 'hover:bg-white/5'}`}>
                               <td className="py-4 px-6"><div className="flex items-center gap-3">{isMe && <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>}<span className={`font-bold ${isMe ? 'text-cyan-300' : 'text-white'}`}>{f.facility}{isMe && <span className="ml-2 text-xs text-cyan-400">(You)</span>}</span></div></td>
-                              <td className={`py-4 px-6 text-right font-bold ${f.productivity >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{f.productivity}%</td>
-                              <td className={`py-4 px-6 text-right font-bold ${f.cpm <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${f.cpm}</td>
-                              <td className={`py-4 px-6 text-right font-bold ${f.modeOfTreatment >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{f.modeOfTreatment || 0}%</td>
+                              <td className={`py-4 px-6 text-right font-bold ${(f.productivityMTD||f.productivity) >= 84 ? 'text-emerald-300' : 'text-rose-300'}`}>{(f.productivityMTD||f.productivity).toFixed(1)}%</td>
+                              <td className={`py-4 px-6 text-right font-bold ${(f.cpmMTD||f.cpm) <= 1.45 ? 'text-emerald-300' : 'text-rose-300'}`}>${f.cpmMTD||f.cpm}</td>
+                              <td className={`py-4 px-6 text-right font-bold ${(f.modeOfTreatmentMTD||f.modeOfTreatment||0) >= 5 ? 'text-emerald-300' : 'text-slate-400'}`}>{(f.modeOfTreatmentMTD||f.modeOfTreatment||0).toFixed(1)}%</td>
                               <td className="py-4 px-6 text-right text-slate-300 font-medium">{f.medBCaseload}</td>
                               <td className="py-4 px-6 text-right"><span className={`px-3 py-1 rounded-full text-xs font-black ${sc.score === 4 ? 'bg-emerald-500/30 text-emerald-300' : sc.score === 3 ? 'bg-teal-500/30 text-teal-300' : sc.score === 2 ? 'bg-yellow-500/30 text-yellow-300' : 'bg-rose-500/30 text-rose-300'}`}>{sc.score}/4</span></td>
                             </tr>
