@@ -137,8 +137,7 @@ export default function App() {
     const records = allWeeklyData.filter(d => d.facility === name);
     const groups  = {};
     records.forEach(r => {
-      const d = new Date(r.date);
-      const m = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      const m = r.date.substring(0, 7); // e.g. '2026-01' — avoids timezone misparse
       if (!groups[m]) groups[m] = [];
       groups[m].push(r);
     });
