@@ -1261,13 +1261,13 @@ export default function App() {
                   <select value={filterProductivity} onChange={e=>setFilterProductivity(e.target.value)}
                     className="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none">
                     <option value="all" className="bg-slate-800">All Productivity</option>
-                    <option value="meeting" className="bg-slate-800">Meeting Goal (>=84%)</option>
+                    <option value="meeting" className="bg-slate-800">Meeting Goal (≥84%)</option>
                     <option value="below" className="bg-slate-800">Below Goal</option>
                   </select>
                   <select value={filterCPM} onChange={e=>setFilterCPM(e.target.value)}
                     className="bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none">
                     <option value="all" className="bg-slate-800">All CPM</option>
-                    <option value="meeting" className="bg-slate-800">At Goal (<=1.45)</option>
+                    <option value="meeting" className="bg-slate-800">At Goal (≤$1.45)</option>
                     <option value="above" className="bg-slate-800">Above Goal</option>
                   </select>
                 </div>
