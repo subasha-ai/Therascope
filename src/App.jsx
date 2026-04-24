@@ -271,7 +271,7 @@ export default function App() {
     };
     const prompt = `You are an AI assistant embedded in Therascope, a therapy operations dashboard for skilled nursing facilities. A Director of Rehabilitation (DOR) has just logged in to review their weekly data. Based on their building's current week data, write a concise practical weekly briefing — 3 short paragraphs. Be direct and specific, using actual numbers. Prioritize the most urgent items first. Write as a knowledgeable colleague giving a quick verbal handoff at the start of the week. No markdown, no bullet points, no headers. Under 180 words.\n\nGoals and thresholds:\n- Productivity: goal is 84% or above\n- CPM: goal is $1.45 or below (lower is better)\n- Mode of treatment (C/G %): goal is 4% or above (higher is better — more group/concurrent treatment is desirable)\n- Units per visit (UPV): goal is 3.0 or above (higher is better)\n- Med B caseload: goal is 50% or more of eligible patients on caseload\n\nBuilding data (week ending ${throughDate}):\n${JSON.stringify(buildingData, null, 2)}`;
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/api/briefing', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, stream: true, messages: [{ role: 'user', content: prompt }] })
