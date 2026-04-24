@@ -87,6 +87,10 @@ export default function App() {
   const [resourcesLoading, setResourcesLoading] = useState(true);
   const [resourcesError,   setResourcesError]   = useState(null);
 
+  // AI Briefing state
+  const [briefingText,    setBriefingText]    = useState('');
+  const [briefingLoading, setBriefingLoading] = useState(false);
+
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
   const restrictedFacility = isRestrictedView ? selectedFacilityForLogin : null;
@@ -242,6 +246,59 @@ export default function App() {
       alert('Please select access type and enter your password.');
       setPasswordAttempt('');
     }
+  };
+
+  // ── AI Briefing
+  const generateBriefing = async () => {
+    if (!myFacilityData) return;
+    setBriefingLoading(true);
+    setBriefingText('');
+    const p    = mtd(myFacilityData,'productivityMTD','productivity');
+    const c    = mtd(myFacilityData,'cpmMTD','cpm');
+    const mo   = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
+    const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
+    const rev  = mtd(myFacilityData,'medicareMPPRRevenueMTD','medicareMPPRRevenue');
+    const cas  = myFacilityData.medBCaseload || 0;
+    const elig = myFacilityData.medBEligible || 0;
+    const buildingData = {
+      building: myFacilityData.facility,
+      region: myFacilityData.region,
+      productivity: { current: p.toFixed(1), target: 84, trend: myPrevWeekData ? (p - mtd(myPrevWeekData,'productivityMTD','productivity')).toFixed(1)+'pp vs last week' : 'n/a' },
+      cpm: { current: c.toFixed(2), target: 1.45, trend: myPrevWeekData ? (c - mtd(myPrevWeekData,'cpmMTD','cpm')).toFixed(2)+' vs last week' : 'n/a' },
+      modeOfTreatment: { cgPct: mo.toFixed(1), trend: myPrevWeekData ? (mo - mtd(myPrevWeekData,'modeOfTreatmentMTD','modeOfTreatment')).toFixed(1)+'pp vs last week' : 'n/a' },
+      unitsPerVisit: upv.toFixed(2),
+      medB: { caseload: cas, eligible: elig, pct: elig > 0 ? Math.round((cas/elig)*100) : 0, revenueMTD: '$'+rev.toFixed(0) },
+    };
+    const prompt = `You are an AI assistant embedded in Therascope, a therapy operations dashboard for skilled nursing facilities. A Director of Rehabilitation (DOR) has just logged in to review their weekly data. Based on their building's current week data, write a concise practical weekly briefing — 3 short paragraphs. Be direct and specific, using actual numbers. Prioritize the most urgent items first. Write as a knowledgeable colleague giving a quick verbal handoff at the start of the week. No markdown, no bullet points, no headers. Under 180 words.\n\nGoals and thresholds:\n- Productivity: goal is 84% or above\n- CPM: goal is $1.45 or below (lower is better)\n- Mode of treatment (C/G %): goal is 4% or above (higher is better — more group/concurrent treatment is desirable)\n- Units per visit (UPV): goal is 3.0 or above (higher is better)\n- Med B caseload: goal is 50% or more of eligible patients on caseload\n\nBuilding data (week ending ${throughDate}):\n${JSON.stringify(buildingData, null, 2)}`;
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, stream: true, messages: [{ role: 'user', content: prompt }] })
+      });
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.slice(6).trim();
+          if (raw === '[DONE]') break;
+          try {
+            const json = JSON.parse(raw);
+            if (json.type === 'content_block_delta' && json.delta?.text) {
+              setBriefingText(prev => prev + json.delta.text);
+            }
+          } catch {}
+        }
+      }
+    } catch { setBriefingText('Unable to generate briefing. Please try again.'); }
+    setBriefingLoading(false);
   };
 
   // ── DOR PDF Report
@@ -964,6 +1021,40 @@ export default function App() {
             {/* ── DOR: My Building ── */}
             {isRestrictedView && myFacilityData && (
               <div className="space-y-6">
+
+                {/* AI Morning Briefing */}
+                <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 backdrop-blur-xl rounded-2xl border border-indigo-400/30 shadow-xl overflow-hidden">
+                  <div className="p-5 border-b border-white/10 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center shadow-lg">
+                        <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Weekly Briefing — Week ending {throughDate}</div>
+                        <div className="text-sm text-slate-400">{myFacilityData.facility}</div>
+                      </div>
+                    </div>
+                    <button onClick={generateBriefing} disabled={briefingLoading}
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                      <Zap className="w-3.5 h-3.5" />
+                      {briefingLoading ? 'Generating...' : briefingText ? 'Regenerate' : 'Generate Briefing'}
+                    </button>
+                  </div>
+                  <div className="p-5">
+                    {!briefingText && !briefingLoading && (
+                      <p className="text-slate-500 text-sm italic">Press "Generate Briefing" to get your AI-powered daily action plan based on your current metrics.</p>
+                    )}
+                    {briefingLoading && !briefingText && (
+                      <div className="flex items-center gap-3 text-indigo-300 text-sm">
+                        <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
+                        Analyzing your building data...
+                      </div>
+                    )}
+                    {briefingText && (
+                      <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{briefingText}</p>
+                    )}
+                  </div>
+                </div>
 
                 {/* Building header card */}
                 <div className="bg-gradient-to-br from-cyan-900/40 to-teal-900/40 backdrop-blur-xl rounded-2xl border border-cyan-400/30 shadow-xl overflow-hidden">
