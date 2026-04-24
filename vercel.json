@@ -1,9 +1,7 @@
 {
   "framework": "vite",
   "functions": {
-    "api/briefing.js": {
-      "runtime": "nodejs20.x"
-    }
+    "api/briefing.js": {}
   },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
