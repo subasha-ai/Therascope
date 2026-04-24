@@ -1,8 +1,5 @@
 {
   "framework": "vite",
-  "functions": {
-    "api/briefing.js": {}
-  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
