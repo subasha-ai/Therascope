@@ -624,7 +624,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     doc.setFont('helvetica','normal'); doc.setFontSize(8); setTxt(col.slate);
     doc.text('Green = at goal  |  Red = below goal', margin, y); y += 5;
 
-    const scHead = [['FACILITY', ...EXEC_MONTHS.flatMap(m=>[m.label+' PROD','CPM','MODE%','MEDB%','SCORE'])]];
+    const scHead = [
+      ['', ...EXEC_MONTHS.flatMap(m=>[{ content: m.label.replace(' MTD',''), colSpan:5, styles:{halign:'center', fontStyle:'bold', textColor:col.white, fillColor:[30,41,59]} }])],
+      ['FACILITY', ...EXEC_MONTHS.flatMap(()=>['PROD','CPM','MODE%','MEDB%','SCORE'])],
+    ];
     const scBody = facilityData.map(r => [
       r.facility,
       ...[r.jan,r.feb,r.mar].flatMap(rec => rec ? [
