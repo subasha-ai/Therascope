@@ -232,11 +232,13 @@ export default function App() {
     const c   = mtd(myFacilityData,'cpmMTD','cpm');
     const mo  = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
     const upv = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
+    const rev = mtd(myFacilityData,'medicareMPPRRevenueMTD','medicareMPPRRevenue');
     return {
       productivity:    +(p).toFixed(1),
       cpm:             +(c).toFixed(2),
       modeOfTreatment: +(mo).toFixed(1),
       unitsPerVisit:   +(upv).toFixed(2),
+      revenue:         +(rev / pct).toFixed(0),
       daysIn: dayOfMonth,
       daysTotal: daysInMonth,
     };
@@ -1171,7 +1173,7 @@ export default function App() {
                               { label:'Units / Visit',   val:upv.toFixed(2),                  color:'text-indigo-300',  bg:'bg-indigo-500/10 border-indigo-400/20',  icon:BarChart3, spark:dorSparkData?.unitsPerVisit, good:upv>=3, higherBetter:true },
                               { label:'Med B Eligible',  val:String(elig),                     color:'text-purple-300',  bg:'bg-purple-500/10 border-purple-400/20',  icon:Users     },
                               { label:'Med B Units MTD', val:units.toLocaleString(),            color:'text-blue-300',    bg:'bg-blue-500/10 border-blue-400/20',      icon:BarChart3 },
-                              { label:'Medicare Rev MTD',val:'$'+(rev/1000).toFixed(1)+'k',    color:'text-emerald-300', bg:'bg-emerald-500/10 border-emerald-400/20', icon:DollarSign},
+                              { label:'Medicare Rev MTD',val:'$'+(rev/1000).toFixed(1)+'k',    color:'text-emerald-300', bg:'bg-emerald-500/10 border-emerald-400/20', icon:DollarSign, proj: monthEndProjection?.revenue },
                             ].map((card,i) => (
                               <div key={i} className={`border rounded-xl p-5 ${card.bg}`}>
                                 <div className="flex items-center justify-between mb-3">
@@ -1187,6 +1189,11 @@ export default function App() {
                                   )}
                                 </div>
                                 <div className={`text-3xl font-black ${card.color}`}>{card.val}</div>
+                                {card.proj != null && monthEndProjection && (
+                                  <div className="mt-2 text-xs font-semibold px-2 py-1 rounded-lg inline-block bg-emerald-500/20 text-emerald-300">
+                                    Proj: ${(card.proj/1000).toFixed(1)}k · day {monthEndProjection.daysIn}/{monthEndProjection.daysTotal}
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
