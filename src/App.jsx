@@ -257,6 +257,16 @@ export default function App() {
     };
   })();
 
+  // ── Sparkline trend color (up=green, down=red, flat=gray)
+  const sparkColor = (vals, higherIsBetter = true) => {
+    if (!vals || vals.length < 2) return '#94a3b8';
+    const first = vals[0], last = vals[vals.length - 1];
+    const delta = last - first;
+    if (Math.abs(delta) < 0.01) return '#94a3b8';
+    const improving = higherIsBetter ? delta > 0 : delta < 0;
+    return improving ? '#34d399' : '#f87171';
+  };
+
   // ── Resources loader
   useEffect(() => {
     if (!isAuthenticated || !isRestrictedView) return;
@@ -1128,10 +1138,10 @@ export default function App() {
                         <>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
-                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=84, projFmt: v=>v.toFixed(1)+'%' },
-                              { label:'CPM',          val:'$'+c.toFixed(2),  good:c<=1.45,    sub:c<=1.45?'✓ Under $1.45':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
+                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=84, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'CPM',          val:'$'+c.toFixed(2),  good:c<=1.45,    sub:c<=1.45?'✓ Under $1.45':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
                               { label:'Med B on CL',  val:casePct+'%',       good:casePct>=50,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
-                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=4, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=4, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
                               <div key={i} className={`rounded-xl p-5 border-2 ${card.bg}`}>
                                 <div className="flex items-center justify-between mb-3">
@@ -1141,8 +1151,8 @@ export default function App() {
                                   </div>
                                   {card.spark && card.spark.length >= 2 && (
                                     <svg width="80" height="28" viewBox="0 0 80 28">
-                                      <path d={sparkPath(card.spark)} fill="none" stroke={card.good?'#34d399':'#f87171'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-                                      <circle cx={(80/(card.spark.length-1))*(card.spark.length-1)} cy={28-((card.spark[card.spark.length-1]-Math.min(...card.spark))/(Math.max(...card.spark)-Math.min(...card.spark)||1))*28} r="3" fill={card.good?'#34d399':'#f87171'}/>
+                                      <path d={sparkPath(card.spark)} fill="none" stroke={sparkColor(card.spark, card.higherBetter)} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.8"/>
+                                      <circle cx={(80/(card.spark.length-1))*(card.spark.length-1)} cy={28-((card.spark[card.spark.length-1]-Math.min(...card.spark))/(Math.max(...card.spark)-Math.min(...card.spark)||1))*28} r="3" fill={sparkColor(card.spark, card.higherBetter)}/>
                                     </svg>
                                   )}
                                 </div>
@@ -1158,7 +1168,7 @@ export default function App() {
                           </div>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {[
-                              { label:'Units / Visit',   val:upv.toFixed(2),                  color:'text-indigo-300',  bg:'bg-indigo-500/10 border-indigo-400/20',  icon:BarChart3, spark:dorSparkData?.unitsPerVisit, good:upv>=3 },
+                              { label:'Units / Visit',   val:upv.toFixed(2),                  color:'text-indigo-300',  bg:'bg-indigo-500/10 border-indigo-400/20',  icon:BarChart3, spark:dorSparkData?.unitsPerVisit, good:upv>=3, higherBetter:true },
                               { label:'Med B Eligible',  val:String(elig),                     color:'text-purple-300',  bg:'bg-purple-500/10 border-purple-400/20',  icon:Users     },
                               { label:'Med B Units MTD', val:units.toLocaleString(),            color:'text-blue-300',    bg:'bg-blue-500/10 border-blue-400/20',      icon:BarChart3 },
                               { label:'Medicare Rev MTD',val:'$'+(rev/1000).toFixed(1)+'k',    color:'text-emerald-300', bg:'bg-emerald-500/10 border-emerald-400/20', icon:DollarSign},
@@ -1171,8 +1181,8 @@ export default function App() {
                                   </div>
                                   {card.spark && card.spark.length >= 2 && (
                                     <svg width="80" height="28" viewBox="0 0 80 28">
-                                      <path d={sparkPath(card.spark)} fill="none" stroke={card.good?'#818cf8':'#f87171'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
-                                      <circle cx="80" cy={28-((card.spark[card.spark.length-1]-Math.min(...card.spark))/(Math.max(...card.spark)-Math.min(...card.spark)||1))*28} r="3" fill={card.good?'#818cf8':'#f87171'}/>
+                                      <path d={sparkPath(card.spark)} fill="none" stroke={sparkColor(card.spark, card.higherBetter)} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.8"/>
+                                      <circle cx="80" cy={28-((card.spark[card.spark.length-1]-Math.min(...card.spark))/(Math.max(...card.spark)-Math.min(...card.spark)||1))*28} r="3" fill={sparkColor(card.spark, card.higherBetter)}/>
                                     </svg>
                                   )}
                                 </div>
