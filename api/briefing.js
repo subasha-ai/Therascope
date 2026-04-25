@@ -4,6 +4,9 @@ export default async function handler(req, res) {
   }
 
   try {
+    let body = req.body;
+    if (typeof body === 'string') body = JSON.parse(body);
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -11,12 +14,17 @@ export default async function handler(req, res) {
         'x-api-key': process.env.ANTHROPIC_KEY,
         'anthropic-version': '2023-06-01',
       },
-      body: JSON.stringify({ ...req.body, model: 'claude-sonnet-4-6' }),
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1000,
+        stream: false,
+        messages: body.messages,
+      }),
     });
 
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (err) {
-    res.status(500).json({ error: 'Briefing generation failed' });
+    res.status(500).json({ error: err.message });
   }
 }
