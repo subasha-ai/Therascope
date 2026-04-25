@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, TrendingUp, Search, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Star, TrendingDown, FileText, ExternalLink, DollarSign, ArrowLeft } from 'lucide-react';
+import { Activity, TrendingUp, Search, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Star, TrendingDown, FileText, ExternalLink, DollarSign, ArrowLeft, Upload } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import facilityDataJson from './facility_data.json';
@@ -90,6 +90,13 @@ export default function App() {
   // AI Briefing state
   const [briefingText,    setBriefingText]    = useState('');
   const [briefingLoading, setBriefingLoading] = useState(false);
+
+  // Region Report state
+  const [complianceData,   setComplianceData]   = useState({ Overland: [], 'Golden Coast': [] });
+  const [alosData,         setAlosData]         = useState({});
+  const [showReportModal,  setShowReportModal]  = useState(false);
+  const [reportRegion,     setReportRegion]     = useState(null);
+  const [reportGenerating, setReportGenerating] = useState(false);
 
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
@@ -407,6 +414,355 @@ export default function App() {
       }
       doc.save(`DOR_${restrictedFacility.replace(/ /g,'_')}_Week_${latest}.pdf`);
     } catch(e) { console.error(e); alert('PDF generation failed.'); }
+  };
+
+  // ── Compliance File Upload
+  const handleComplianceUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.1/package/xlsx.mjs');
+    const buf  = await file.arrayBuffer();
+    const wb   = XLSX.read(buf);
+    const result = {};
+    ['Overland', 'Golden Coast'].forEach(sheet => {
+      if (!wb.SheetNames.includes(sheet)) return;
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheet]);
+      result[sheet] = rows.map(r => ({
+        building:   r['Building']         || '',
+        status:     (r['Status']          || '').trim(),
+        actionItem: r['Notes / Action Items'] || r['Action Items'] || '',
+      })).filter(r => r.building);
+    });
+    setComplianceData(result);
+  };
+
+  // ── Region Report Generator
+  const generateRegionReport = async () => {
+    if (!reportRegion) return;
+    setReportGenerating(true);
+
+    const regionFacilities = allFacilities.filter(f => {
+      const rec = allWeeklyData.find(d => d.facility === f);
+      return rec?.region === reportRegion;
+    });
+
+    const facilityData = regionFacilities.map(fac => ({
+      facility: fac,
+      jan:  getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end),
+      feb:  getMonthFinal(fac, EXEC_MONTHS[1].start, EXEC_MONTHS[1].end),
+      mar:  getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
+      curr: allWeeklyData.filter(d=>d.facility===fac).sort((a,b)=>parseInt(b.week)-parseInt(a.week))[0],
+    })).filter(r => r.jan || r.feb || r.mar);
+
+    // Build data summary for Claude
+    const dataSummary = facilityData.map(r => {
+      const fmt = (rec) => rec ? {
+        prod: mtd(rec,'productivityMTD','productivity').toFixed(1),
+        cpm:  '$'+mtd(rec,'cpmMTD','cpm').toFixed(2),
+        mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
+        medB: rec.medBEligible>0 ? Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%' : 'N/A',
+        score: scoreRec(rec)+'/4',
+      } : null;
+      return { facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) };
+    });
+
+    // Call Claude for narratives
+    let narratives = {};
+    try {
+      const prompt = `You are writing a therapy performance report for a Chief Therapy Officer overseeing skilled nursing facilities. Given the 3-month performance data below for each building in the ${reportRegion} region, write:
+
+1. A "spotlight" section with:
+   - "Top Performers" (2-3 buildings doing well, improving, or at goal — include a short 1-sentence callout and their Jan/Feb/Mar scores)
+   - "Needs Attention" (2-3 buildings struggling — include a short 1-sentence callout and their Jan/Feb/Mar scores)
+
+2. For EACH building, write a 2-3 sentence deep dive narrative. Be specific, use actual numbers, identify the key story for that building. Mention trends, gaps, notable context. Write like an experienced regional therapy director.
+
+Goals: Productivity ≥ 84%, CPM < $1.45, Med B ≥ 50% on caseload, Mode ≥ 4%.
+
+Data:
+${JSON.stringify(dataSummary, null, 2)}
+
+Respond ONLY with valid JSON in this exact format, no markdown:
+{
+  "spotlight": {
+    "topPerformers": [{ "facility": "...", "callout": "...", "scores": ["Jan: X/4", "Feb: X/4", "Mar: X/4"] }],
+    "needsAttention": [{ "facility": "...", "callout": "...", "scores": ["Jan: X/4", "Feb: X/4", "Mar: X/4"] }]
+  },
+  "deepDives": { "Facility Name": "narrative text here", ... }
+}`;
+
+      const res  = await fetch('/api/briefing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json();
+      const text = data.content?.find(b => b.type === 'text')?.text || '{}';
+      narratives = JSON.parse(text.replace(/```json|```/g, '').trim());
+    } catch (err) { console.error('Narrative generation failed', err); }
+
+    // Build PDF
+    const { jsPDF } = await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js');
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
+    const pW = doc.internal.pageSize.getWidth();
+    const pH = doc.internal.pageSize.getHeight();
+    const margin = 14;
+    const col = { gold: [212, 175, 55], teal: [13, 148, 136], dark: [15, 23, 42], slate: [100, 116, 139], white: [255,255,255], green: [52,211,153], red: [248,113,113], yellow: [251,191,36] };
+
+    const addHeader = (page) => {
+      if (page > 1) doc.addPage();
+      doc.setFillColor(...col.dark); doc.rect(0, 0, pW, pH, 'F');
+    };
+
+    const sectionDot = (y, text) => {
+      doc.setFillColor(...col.teal); doc.circle(margin, y+1.5, 2, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...col.white);
+      doc.text(text, margin+5, y+2);
+      return y + 10;
+    };
+
+    // ── PAGE 1: Cover
+    addHeader(1);
+    doc.setFillColor(...col.dark);
+    doc.setDrawColor(...col.teal); doc.setLineWidth(0.5); doc.line(margin, 40, pW-margin, 40);
+    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...col.gold);
+    doc.text('THERAPY PERFORMANCE REVIEW', margin, 30);
+    doc.setFont('helvetica','bold'); doc.setFontSize(36); doc.setTextColor(...col.white);
+    doc.text(reportRegion, margin, 55);
+    doc.setFont('helvetica','italic'); doc.setFontSize(20); doc.setTextColor(...col.teal);
+    doc.text('Region', margin + doc.getTextWidth(reportRegion) + 3, 55);
+    doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(...col.slate);
+    doc.text('January through March 2026', margin, 66);
+    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...col.slate);
+    doc.text('PREPARED', pW-margin-30, 30);
+    doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(...col.white);
+    doc.text('April 2026', pW-margin-30, 38);
+
+    // Goals bar
+    const goals = [['PRODUCTIVITY','≥ 84%','All staff incl. DOR'],['COST PER MINUTE','< $1.45','Including DOR time'],['MED B ON CASELOAD','≥ 50%','Of eligible patients'],['MODE OF TREATMENT','≥ 4%','Group / concurrent']];
+    doc.setFillColor(30,41,59); doc.roundedRect(margin, 80, pW-margin*2, 40, 3, 3, 'F');
+    goals.forEach((g, i) => {
+      const x = margin + 5 + i * ((pW-margin*2-10)/4);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
+      doc.text(g[0], x, 89);
+      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...col.gold);
+      doc.text(g[1], x, 98);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
+      doc.text(g[2], x, 104);
+    });
+
+    // ── PAGE 2: 3-Month Region Summary
+    addHeader(2);
+    let y = 20;
+    y = sectionDot(y, '3-Month Region Summary');
+    y += 5;
+
+    const months = EXEC_MONTHS.map(m => {
+      const recs = allWeeklyData.filter(d => {
+        const r = allWeeklyData.find(x=>x.facility===d.facility);
+        return r?.region===reportRegion && d.date>=m.start && d.date<=m.end;
+      });
+      const finals = regionFacilities.map(f=>getMonthFinal(f,m.start,m.end)).filter(Boolean);
+      if (!finals.length) return null;
+      const n = finals.length;
+      return {
+        label: m.label,
+        avgProd: (finals.reduce((s,r)=>s+mtd(r,'productivityMTD','productivity'),0)/n).toFixed(1),
+        avgCPM:  '$'+(finals.reduce((s,r)=>s+mtd(r,'cpmMTD','cpm'),0)/n).toFixed(2),
+        units:   finals.reduce((s,r)=>s+(r.medBUnitsMTD||r.medBUnitsThisWeek||0),0).toLocaleString(),
+        rev:     '$'+(finals.reduce((s,r)=>s+mtd(r,'medicareMPPRRevenueMTD','medicareMPPRRevenue'),0)/1000).toFixed(0)+'k',
+        atProd:  finals.filter(r=>mtd(r,'productivityMTD','productivity')>=84).length+' / '+n,
+        atCPM:   finals.filter(r=>mtd(r,'cpmMTD','cpm')<=1.45).length+' / '+n,
+      };
+    }).filter(Boolean);
+
+    const boxW = (pW-margin*2-10)/3;
+    months.forEach((m,i) => {
+      const x = margin + i*(boxW+5);
+      doc.setFillColor(30,41,59); doc.roundedRect(x, y, boxW, 80, 3, 3, 'F');
+      if (i===2) { doc.setDrawColor(...col.teal); doc.setLineWidth(0.5); doc.roundedRect(x, y, boxW, 80, 3, 3, 'S'); }
+      doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.setTextColor(i===2?col.teal[0]:255, i===2?col.teal[1]:255, i===2?col.teal[2]:255);
+      doc.text(m.label, x+5, y+12);
+      if (i===2) { doc.setFillColor(...col.teal); doc.roundedRect(x+boxW-22, y+5, 18, 7, 2, 2, 'F'); doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(...col.white); doc.text('Latest', x+boxW-19, y+10); }
+      const rows2 = [['Avg Productivity',m.avgProd],['Avg CPM',m.avgCPM],['Med B Units',m.units],['Med B Revenue',m.rev],['At Prod Goal',m.atProd],['At CPM Goal',m.atCPM]];
+      rows2.forEach((r,ri) => {
+        const ry = y+22+ri*9;
+        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...col.slate); doc.text(r[0], x+5, ry);
+        const isGood = r[0].includes('Prod') ? parseFloat(r[1])>=84 : r[0].includes('CPM')&&!r[0].includes('Goal') ? parseFloat(r[1].replace('$',''))<=1.45 : null;
+        doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...(isGood===true?col.green:isGood===false?col.red:col.white));
+        doc.text(r[1], x+boxW-5-doc.getTextWidth(r[1]), ry);
+        if (ri<5) { doc.setDrawColor(30,50,70); doc.setLineWidth(0.2); doc.line(x+5, ry+2, x+boxW-5, ry+2); }
+      });
+    });
+    y += 90;
+
+    // ── PAGE 3: Building Scorecard
+    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
+    y = 20; y = sectionDot(y, 'Building Scorecard'); y += 5;
+    const scHead = [['FACILITY', ...EXEC_MONTHS.flatMap(m => [m.label+' PROD','CPM','MODE%','MEDB%','SCORE'])]];
+    const scBody = facilityData.map(r => [
+      r.facility,
+      ...[r.jan,r.feb,r.mar].flatMap(rec => rec ? [
+        mtd(rec,'productivityMTD','productivity').toFixed(1)+'%',
+        '$'+mtd(rec,'cpmMTD','cpm').toFixed(2),
+        mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
+        rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'—',
+        scoreRec(rec)+'/4',
+      ] : ['—','—','—','—','—']),
+    ]);
+    doc.autoTable({ head: scHead, body: scBody, startY: y, theme: 'grid', styles: { fontSize: 6.5, cellPadding: 2, textColor: col.white, fillColor: [22,33,55] }, headStyles: { fillColor: [30,41,59], textColor: col.slate, fontStyle: 'bold' }, alternateRowStyles: { fillColor: [18,28,48] }, margin: { left: margin, right: margin } });
+
+    // ── PAGE 4: Spotlight
+    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
+    y = 20; y = sectionDot(y, 'Spotlight'); y += 5;
+
+    const drawSpotlightSection = (title, items, bgColor, dotColor, yStart) => {
+      let cy = yStart;
+      doc.setFillColor(...bgColor); doc.roundedRect(margin, cy, pW-margin*2, 10, 2, 2, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...col.white);
+      doc.text(title, margin+5, cy+7);
+      cy += 14;
+      (items||[]).forEach(item => {
+        doc.setFillColor(22,33,55); doc.roundedRect(margin, cy, pW-margin*2, 18, 2, 2, 'F');
+        doc.setFillColor(...dotColor); doc.circle(margin+5, cy+9, 2.5, 'F');
+        doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...col.white);
+        doc.text(item.facility||'', margin+11, cy+7);
+        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...col.slate);
+        doc.text(item.callout||'', margin+11, cy+13, { maxWidth: pW-margin*2-30 });
+        const scores = (item.scores||[]).join('  ·  ');
+        doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...dotColor);
+        doc.text(scores, pW-margin-doc.getTextWidth(scores)-2, cy+7);
+        cy += 22;
+      });
+      return cy;
+    };
+
+    y = drawSpotlightSection('📈 Top Performers (Jan → Mar)', narratives?.spotlight?.topPerformers, [20,83,45], col.green, y);
+    y += 5;
+    y = drawSpotlightSection('🔴 Needs Attention', narratives?.spotlight?.needsAttention, [83,20,20], col.red, y);
+
+    // ── PAGE 5+: Deep Dives
+    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
+    y = 20; y = sectionDot(y, `Building Deep Dives — All ${facilityData.length} Facilities`); y += 5;
+
+    const drawMiniSparkline = (xStart, yStart, values, label, good) => {
+      const w = 55, h = 12;
+      doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(...col.slate);
+      doc.text(label.toUpperCase(), xStart, yStart-1);
+      if (values && values.length >= 2) {
+        const min = Math.min(...values), max = Math.max(...values), range = max-min||1;
+        const pts = values.map((v,i)=>({ x: xStart + (i/(values.length-1))*w, y: yStart + h - ((v-min)/range)*h }));
+        doc.setDrawColor(...(good?col.green:col.red)); doc.setLineWidth(0.5);
+        for (let i=0;i<pts.length-1;i++) doc.line(pts[i].x, pts[i].y, pts[i+1].x, pts[i+1].y);
+      }
+      const labels = values ? values.map((v,i)=>(['Jan','Feb','Mar'][i]||'')) : [];
+      labels.forEach((l,i) => {
+        const x2 = xStart + (i/(values.length-1))*(w);
+        doc.setFont('helvetica','normal'); doc.setFontSize(5.5); doc.setTextColor(...col.slate);
+        doc.text(l, x2-2, yStart+h+3);
+        if (values) { doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(...col.white); doc.text(String(values[i]), x2-3, yStart+h+8); }
+      });
+    };
+
+    for (let fi = 0; fi < facilityData.length; fi++) {
+      const r = facilityData[fi];
+      const cardH = 52;
+      if (y + cardH > pH - 15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
+      doc.setFillColor(22,33,55); doc.roundedRect(margin, y, pW-margin*2, cardH, 3, 3, 'F');
+
+      // Building name + badge
+      doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...col.white);
+      doc.text(r.facility, margin+4, y+9);
+      const narrative = narratives?.deepDives?.[r.facility] || '';
+      const badge = r.mar && scoreRec(r.mar)>=3 ? 'TOP PERFORMER' : r.mar && scoreRec(r.mar)<=1 ? 'NEEDS ATTENTION' : 'DEVELOPING';
+      const badgeColor = badge==='TOP PERFORMER'?col.green:badge==='NEEDS ATTENTION'?col.red:col.yellow;
+      doc.setFillColor(...badgeColor); doc.setFillColor(badgeColor[0],badgeColor[1],badgeColor[2],0.2);
+      const bw = doc.getTextWidth(badge)+6;
+      doc.setFillColor(22,33,55); doc.roundedRect(pW-margin-bw-2, y+3, bw+2, 7, 1, 1, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(...badgeColor);
+      doc.text(badge, pW-margin-bw+1, y+8);
+
+      // Mini sparklines
+      const prodVals = [r.jan,r.feb,r.mar].filter(Boolean).map(rec=>parseFloat(mtd(rec,'productivityMTD','productivity').toFixed(1)));
+      const cpmVals  = [r.jan,r.feb,r.mar].filter(Boolean).map(rec=>parseFloat(mtd(rec,'cpmMTD','cpm').toFixed(2)));
+      const modeVals = [r.jan,r.feb,r.mar].filter(Boolean).map(rec=>parseFloat(mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)));
+      const lastProd = prodVals[prodVals.length-1], lastCpm = cpmVals[cpmVals.length-1];
+      drawMiniSparkline(margin+4, y+17, prodVals, 'Productivity', lastProd>=84);
+      drawMiniSparkline(margin+70, y+17, cpmVals, 'CPM', lastCpm<=1.45);
+      drawMiniSparkline(margin+136, y+17, modeVals, 'Mode of TX', modeVals[modeVals.length-1]>=4);
+
+      // Narrative
+      if (narrative) {
+        doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...col.slate);
+        doc.text(narrative, margin+4, y+40, { maxWidth: pW-margin*2-8 });
+      }
+      y += cardH + 5;
+    }
+
+    // ── April MTD Preview
+    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
+    y = 20; y = sectionDot(y, `April MTD Preview (Apr 1–${throughDate.slice(8)})`); y += 5;
+
+    const aprilRecs = regionFacilities.map(f => {
+      const latest = allWeeklyData.filter(d=>d.facility===f).sort((a,b)=>parseInt(b.week)-parseInt(a.week))[0];
+      return latest ? { facility:f, prod:mtd(latest,'productivityMTD','productivity').toFixed(1)+'%', cpm:'$'+mtd(latest,'cpmMTD','cpm').toFixed(2), mode:mtd(latest,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB:latest.medBEligible>0?Math.round((latest.medBCaseload/latest.medBEligible)*100)+'%':'—' } : null;
+    }).filter(Boolean);
+
+    const cols2 = 2, cardW2 = (pW-margin*2-5)/cols2;
+    aprilRecs.forEach((rec,i) => {
+      const cx = margin + (i%cols2)*(cardW2+5), cy2 = y + Math.floor(i/cols2)*28;
+      if (cy2 + 28 > pH-15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
+      doc.setFillColor(22,33,55); doc.roundedRect(cx, cy2, cardW2, 24, 2, 2, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...col.white);
+      doc.text(rec.facility, cx+4, cy2+7);
+      [['PROD',rec.prod,parseFloat(rec.prod)>=84],['CPM',rec.cpm,parseFloat(rec.cpm.replace('$',''))<=1.45],['MODE',rec.mode,parseFloat(rec.mode)>=4],['MED B%',rec.medB,parseFloat(rec.medB)>=50]].forEach((m,mi) => {
+        const mx = cx+4+mi*(cardW2-8)/4;
+        doc.setFont('helvetica','normal'); doc.setFontSize(6); doc.setTextColor(...col.slate); doc.text(m[0], mx, cy2+14);
+        doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...(m[2]?col.green:col.red)); doc.text(m[1], mx, cy2+21);
+      });
+    });
+    y += Math.ceil(aprilRecs.length/cols2)*30;
+
+    // ── ALOS Table
+    const alosRows = regionFacilities.map(f => {
+      const a = alosData[f] || {};
+      return [f, a.jan||'—', a.feb||'—', a.mar||'—', a.apr||'—'];
+    });
+    if (alosRows.length) {
+      if (y + 40 > pH-15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
+      y += 10; y = sectionDot(y, 'Average Length of Stay (days)'); y += 3;
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
+      doc.text('April = MTD. Red = below 30 days.', margin, y); y += 5;
+      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr MTD']], body: alosRows, startY: y, theme:'grid', styles:{ fontSize:8, cellPadding:2, textColor:col.white, fillColor:[22,33,55] }, headStyles:{ fillColor:[30,41,59], textColor:col.slate, fontStyle:'bold' }, alternateRowStyles:{ fillColor:[18,28,48] }, margin:{ left:margin, right:margin }, didParseCell: (data) => { if (data.section==='body' && data.column.index>0) { const v=parseFloat(data.cell.raw); if (!isNaN(v) && v<30) { data.cell.styles.textColor=col.red; data.cell.styles.fontStyle='bold'; } } } });
+      y = doc.lastAutoTable.finalY + 10;
+    }
+
+    // ── Compliance Overview
+    const comp = complianceData[reportRegion] || [];
+    if (comp.length) {
+      if (y + 40 > pH-15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
+      y = sectionDot(y, 'Compliance Overview'); y += 3;
+      const compBody = comp.map(r => {
+        const s = r.status.toLowerCase().replace(/\s/g,'');
+        const statusLabel = s.includes('green')?'Green':s.includes('red')?'Red':'Yellow';
+        return [r.building, statusLabel, r.actionItem];
+      });
+      doc.autoTable({ head:[['Building','Status','Action Item']], body: compBody, startY: y, theme:'grid', styles:{ fontSize:7.5, cellPadding:2.5, textColor:col.white, fillColor:[22,33,55] }, headStyles:{ fillColor:[30,41,59], textColor:col.slate, fontStyle:'bold' }, alternateRowStyles:{ fillColor:[18,28,48] }, margin:{ left:margin, right:margin }, didParseCell: (data) => { if (data.section==='body' && data.column.index===1) { const v=data.cell.raw; data.cell.styles.textColor = v==='Green'?col.green:v==='Red'?col.red:col.yellow; data.cell.styles.fontStyle='bold'; } } });
+    }
+
+    // Footer on all pages
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let p=1; p<=totalPages; p++) {
+      doc.setPage(p);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
+      doc.text(`${reportRegion} Region · Therapy Performance Review · January–March 2026`, margin, pH-8);
+      doc.text('Therascope · Confidential', pW-margin-doc.getTextWidth('Therascope · Confidential'), pH-8);
+    }
+
+    doc.save(`${reportRegion.replace(' ','_')}_Therapy_Performance_${throughDate}.pdf`);
+    setReportGenerating(false);
+    setShowReportModal(false);
   };
 
   // ── Executive PDF
@@ -884,6 +1240,64 @@ export default function App() {
 
           return (
             <div className="space-y-8 pb-12">
+
+              {/* ALOS Input Modal */}
+              {showReportModal && (
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                  <div className="bg-slate-900 border border-white/20 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div className="p-6 border-b border-white/10">
+                      <h3 className="text-xl font-black text-white">Generate {reportRegion} Report</h3>
+                      <p className="text-slate-400 text-sm mt-1">Enter Average Length of Stay values, then generate.</p>
+                    </div>
+                    <div className="p-6 space-y-4">
+                      <div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Compliance Tracker (optional)</div>
+                        <label className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 transition-all">
+                          <Upload className="w-4 h-4 text-slate-400" />
+                          <span className="text-sm text-slate-300">{complianceData[reportRegion]?.length ? `✓ ${complianceData[reportRegion].length} buildings loaded` : 'Upload Rehab_Compliance_Tracker.xlsx'}</span>
+                          <input type="file" accept=".xlsx" className="hidden" onChange={handleComplianceUpload} />
+                        </label>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Average Length of Stay (days)</div>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-white/10">
+                                <th className="text-left py-2 px-3 text-slate-400 font-bold text-xs">Building</th>
+                                {['Jan','Feb','Mar','Apr MTD'].map(m => <th key={m} className="py-2 px-3 text-slate-400 font-bold text-xs text-center">{m}</th>)}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {allFacilities.filter(f => allWeeklyData.find(d=>d.facility===f)?.region===reportRegion).map(fac => (
+                                <tr key={fac} className="border-b border-white/5">
+                                  <td className="py-2 px-3 text-white text-xs font-medium">{fac}</td>
+                                  {['jan','feb','mar','apr'].map(mo => (
+                                    <td key={mo} className="py-1 px-2">
+                                      <input type="number" step="0.1" placeholder="—"
+                                        value={alosData[fac]?.[mo] || ''}
+                                        onChange={e => setAlosData(prev => ({ ...prev, [fac]: { ...(prev[fac]||{}), [mo]: e.target.value }}))}
+                                        className="w-16 bg-white/10 border border-white/10 rounded-lg px-2 py-1 text-white text-xs text-center focus:outline-none focus:border-cyan-400" />
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-6 border-t border-white/10 flex items-center justify-end gap-3">
+                      <button onClick={() => setShowReportModal(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm font-semibold transition-all">Cancel</button>
+                      <button onClick={generateRegionReport} disabled={reportGenerating}
+                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 disabled:opacity-50 text-white rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg">
+                        {reportGenerating ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Generating with AI...</> : <><Download className="w-4 h-4" />Generate PDF</>}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Header */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
                 <div className="flex items-center justify-between flex-wrap gap-4">
@@ -891,10 +1305,16 @@ export default function App() {
                     <h2 className="text-3xl font-black text-white">Executive Summary</h2>
                     <p className="text-slate-400 mt-1">January – March 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {['Overland','Golden Coast'].map(region => (
+                      <button key={region} onClick={() => { setReportRegion(region); setShowReportModal(true); }}
+                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                        <FileText className="w-4 h-4" /> {region} Report
+                      </button>
+                    ))}
                     <button onClick={generateExecPDF}
                       className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                      <Download className="w-4 h-4" /> Export PDF
+                      <Download className="w-4 h-4" /> Export Summary PDF
                     </button>
                     <div className="text-right text-xs">
                       <div className="text-slate-500 uppercase tracking-wider mb-1">Data through</div>
