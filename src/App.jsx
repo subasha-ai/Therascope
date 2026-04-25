@@ -618,8 +618,12 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     });
     y += 82;
 
-    // ── PAGE 3: Building Scorecard
-    addPage(); y = 18;
+    // ── PAGE 3: Building Scorecard (landscape)
+    doc.addPage('letter', 'landscape');
+    const pWL = doc.internal.pageSize.getWidth();
+    const pHL = doc.internal.pageSize.getHeight();
+    setFill(col.dark); doc.rect(0,0,pWL,pHL,'F');
+    y = 18;
     y = sectionDot(y, 'Building Scorecard'); y += 3;
     doc.setFont('helvetica','normal'); doc.setFontSize(8); setTxt(col.slate);
     doc.text('Green = at goal  |  Red = below goal', margin, y); y += 5;
@@ -642,10 +646,12 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     doc.autoTable({
       head: scHead, body: scBody, startY: y,
       theme: 'grid',
-      styles: { fontSize: 7, cellPadding: 2.5, textColor: col.white, fillColor: col.navy, font: 'helvetica' },
-      headStyles: { fillColor: [30,41,59], textColor: col.slate, fontStyle: 'bold', fontSize: 6.5 },
+      styles: { fontSize: 7.5, cellPadding: 2.5, textColor: col.white, fillColor: col.navy, font: 'helvetica', overflow: 'linebreak' },
+      headStyles: { fillColor: [30,41,59], textColor: col.slate, fontStyle: 'bold', fontSize: 7, halign: 'center' },
+      columnStyles: { 0: { cellWidth: 32, halign: 'left' } },
       alternateRowStyles: { fillColor: col.darknavy },
       margin: { left: margin, right: margin },
+      tableWidth: pWL - margin * 2,
       didParseCell: (data) => {
         if (data.section !== 'body') return;
         const ci = data.column.index;
@@ -660,8 +666,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       }
     });
 
-    // ── PAGE 4: Spotlight
-    addPage(); y = 18;
+    // ── PAGE 4: Spotlight (back to portrait)
+    doc.addPage('letter', 'portrait');
+    setFill(col.dark); doc.rect(0,0,pW,pH,'F');
+    y = 18;
     y = sectionDot(y, 'Spotlight'); y += 4;
 
     const drawSection = (title, items, headerBg, dotC, yStart) => {
