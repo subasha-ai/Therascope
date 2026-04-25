@@ -206,6 +206,57 @@ export default function App() {
     return d.toLocaleString('default', { month: 'long' });
   })();
 
+  // ── Sparkline helper (returns SVG path from array of values)
+  const sparkPath = (vals) => {
+    if (!vals || vals.length < 2) return '';
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const range = max - min || 1;
+    const w = 80, h = 28;
+    const pts = vals.map((v, i) => {
+      const x = (i / (vals.length - 1)) * w;
+      const y = h - ((v - min) / range) * h;
+      return `${x},${y}`;
+    });
+    return `M${pts.join('L')}`;
+  };
+
+  // ── Month-end projection
+  const monthEndProjection = (() => {
+    if (!myFacilityData) return null;
+    const d = new Date(throughDate);
+    const daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    const dayOfMonth  = d.getDate();
+    const pct = dayOfMonth / daysInMonth;
+    if (pct <= 0) return null;
+    const p   = mtd(myFacilityData,'productivityMTD','productivity');
+    const c   = mtd(myFacilityData,'cpmMTD','cpm');
+    const mo  = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
+    const upv = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
+    return {
+      productivity:    +(p).toFixed(1),
+      cpm:             +(c).toFixed(2),
+      modeOfTreatment: +(mo).toFixed(1),
+      unitsPerVisit:   +(upv).toFixed(2),
+      daysIn: dayOfMonth,
+      daysTotal: daysInMonth,
+    };
+  })();
+
+  // ── 4-week sparkline data for DOR building
+  const dorSparkData = (() => {
+    if (!restrictedFacility) return null;
+    const recs = allWeeklyData
+      .filter(d => d.facility === restrictedFacility)
+      .sort((a,b) => parseInt(a.week)-parseInt(b.week))
+      .slice(-4);
+    return {
+      productivity:    recs.map(r => mtd(r,'productivityMTD','productivity')),
+      cpm:             recs.map(r => mtd(r,'cpmMTD','cpm')),
+      modeOfTreatment: recs.map(r => mtd(r,'modeOfTreatmentMTD','modeOfTreatment')),
+      unitsPerVisit:   recs.map(r => mtd(r,'unitsPerVisitMTD','unitsPerVisit')),
+    };
+  })();
+
   // ── Resources loader
   useEffect(() => {
     if (!isAuthenticated || !isRestrictedView) return;
@@ -1077,32 +1128,53 @@ export default function App() {
                         <>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
-                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p) },
-                              { label:'CPM',          val:'$'+c.toFixed(2),  good:c<=1.45,    sub:c<=1.45?'✓ Under $1.45':'Above $1.45 target', icon:PieChart, bg:cpmBg(c) },
-                              { label:'Med B on CL',  val:casePct+'%',       good:casePct>=50,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50' },
-                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50' },
+                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=84, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'CPM',          val:'$'+c.toFixed(2),  good:c<=1.45,    sub:c<=1.45?'✓ Under $1.45':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
+                              { label:'Med B on CL',  val:casePct+'%',       good:casePct>=50,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
+                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=4, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
                               <div key={i} className={`rounded-xl p-5 border-2 ${card.bg}`}>
-                                <div className="flex items-center gap-2 mb-3">
-                                  <card.icon className={`w-4 h-4 ${card.good?'text-emerald-400':'text-rose-400'}`} strokeWidth={2.5} />
-                                  <span className="text-xs text-slate-300 font-bold uppercase">{card.label}</span>
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="flex items-center gap-2">
+                                    <card.icon className={`w-4 h-4 ${card.good?'text-emerald-400':'text-rose-400'}`} strokeWidth={2.5} />
+                                    <span className="text-xs text-slate-300 font-bold uppercase">{card.label}</span>
+                                  </div>
+                                  {card.spark && card.spark.length >= 2 && (
+                                    <svg width="80" height="28" viewBox="0 0 80 28">
+                                      <path d={sparkPath(card.spark)} fill="none" stroke={card.good?'#34d399':'#f87171'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
+                                      <circle cx={(80/(card.spark.length-1))*(card.spark.length-1)} cy={28-((card.spark[card.spark.length-1]-Math.min(...card.spark))/(Math.max(...card.spark)-Math.min(...card.spark)||1))*28} r="3" fill={card.good?'#34d399':'#f87171'}/>
+                                    </svg>
+                                  )}
                                 </div>
                                 <div className={`text-3xl font-black ${card.good?'text-emerald-300':'text-rose-300'}`}>{card.val}</div>
                                 <div className="text-xs text-slate-400 mt-2">{card.sub}</div>
+                                {card.proj != null && monthEndProjection && (
+                                  <div className={`mt-2 text-xs font-semibold px-2 py-1 rounded-lg inline-block ${card.projGood?'bg-emerald-500/20 text-emerald-300':'bg-amber-500/20 text-amber-300'}`}>
+                                    Proj: {card.projFmt(card.proj)} · day {monthEndProjection.daysIn}/{monthEndProjection.daysTotal}
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {[
-                              { label:'Units / Visit',   val:upv.toFixed(2),                  color:'text-indigo-300',  bg:'bg-indigo-500/10 border-indigo-400/20',  icon:BarChart3 },
+                              { label:'Units / Visit',   val:upv.toFixed(2),                  color:'text-indigo-300',  bg:'bg-indigo-500/10 border-indigo-400/20',  icon:BarChart3, spark:dorSparkData?.unitsPerVisit, good:upv>=3 },
                               { label:'Med B Eligible',  val:String(elig),                     color:'text-purple-300',  bg:'bg-purple-500/10 border-purple-400/20',  icon:Users     },
                               { label:'Med B Units MTD', val:units.toLocaleString(),            color:'text-blue-300',    bg:'bg-blue-500/10 border-blue-400/20',      icon:BarChart3 },
                               { label:'Medicare Rev MTD',val:'$'+(rev/1000).toFixed(1)+'k',    color:'text-emerald-300', bg:'bg-emerald-500/10 border-emerald-400/20', icon:DollarSign},
                             ].map((card,i) => (
                               <div key={i} className={`border rounded-xl p-5 ${card.bg}`}>
-                                <div className="flex items-center gap-2 mb-3">
-                                  <card.icon className={`w-4 h-4 ${card.color}`} strokeWidth={2.5} />
-                                  <span className="text-xs text-slate-300 font-bold uppercase">{card.label}</span>
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="flex items-center gap-2">
+                                    <card.icon className={`w-4 h-4 ${card.color}`} strokeWidth={2.5} />
+                                    <span className="text-xs text-slate-300 font-bold uppercase">{card.label}</span>
+                                  </div>
+                                  {card.spark && card.spark.length >= 2 && (
+                                    <svg width="80" height="28" viewBox="0 0 80 28">
+                                      <path d={sparkPath(card.spark)} fill="none" stroke={card.good?'#818cf8':'#f87171'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"/>
+                                      <circle cx="80" cy={28-((card.spark[card.spark.length-1]-Math.min(...card.spark))/(Math.max(...card.spark)-Math.min(...card.spark)||1))*28} r="3" fill={card.good?'#818cf8':'#f87171'}/>
+                                    </svg>
+                                  )}
                                 </div>
                                 <div className={`text-3xl font-black ${card.color}`}>{card.val}</div>
                               </div>
