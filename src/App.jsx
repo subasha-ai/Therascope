@@ -274,29 +274,11 @@ export default function App() {
       const res = await fetch('/api/briefing', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, stream: true, messages: [{ role: 'user', content: prompt }] })
+        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
       });
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const raw = line.slice(6).trim();
-          if (raw === '[DONE]') break;
-          try {
-            const json = JSON.parse(raw);
-            if (json.type === 'content_block_delta' && json.delta?.text) {
-              setBriefingText(prev => prev + json.delta.text);
-            }
-          } catch {}
-        }
-      }
+      const data = await res.json();
+      const text = data.content?.find(b => b.type === 'text')?.text || 'Unable to generate briefing.';
+      setBriefingText(text);
     } catch { setBriefingText('Unable to generate briefing. Please try again.'); }
     setBriefingLoading(false);
   };
