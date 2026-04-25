@@ -477,37 +477,31 @@ export default function App() {
       return { facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) };
     });
 
-    // Call Claude for narratives — split into smaller calls with 25s timeout each
-    let narratives = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
-
-    const callClaude = async (prompt) => {
-      const controller = new AbortController();
-      const tid = setTimeout(() => controller.abort(), 25000);
-      try {
-        const res = await fetch('/api/briefing', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
-          signal: controller.signal,
-        });
-        clearTimeout(tid);
-        const data = await res.json();
-        const text = data.content?.find(b => b.type === 'text')?.text || '{}';
-        return JSON.parse(text.replace(/```json|```/g, '').trim());
-      } catch (e) { clearTimeout(tid); return null; }
+    // Auto-generate narratives from data (no API call needed)
+    const scoreLabel = (rec) => rec ? scoreRec(rec)+'/4' : '—';
+    const narratives = {
+      spotlight: {
+        topPerformers: facilityData
+          .filter(r => r.mar && scoreRec(r.mar) >= 3)
+          .sort((a,b) => scoreRec(b.mar)-scoreRec(a.mar))
+          .slice(0,3)
+          .map(r => ({ facility: r.facility, callout: `${scoreLabel(r.jan)} → ${scoreLabel(r.feb)} → ${scoreLabel(r.mar)} goals. Prod: ${mtd(r.mar,'productivityMTD','productivity').toFixed(1)}%, CPM: $${mtd(r.mar,'cpmMTD','cpm').toFixed(2)}.`, scores: [`Jan: ${scoreLabel(r.jan)}`,`Feb: ${scoreLabel(r.feb)}`,`Mar: ${scoreLabel(r.mar)}`] })),
+        needsAttention: facilityData
+          .filter(r => r.mar && scoreRec(r.mar) <= 1)
+          .sort((a,b) => scoreRec(a.mar)-scoreRec(b.mar))
+          .slice(0,3)
+          .map(r => ({ facility: r.facility, callout: `${scoreLabel(r.jan)} → ${scoreLabel(r.feb)} → ${scoreLabel(r.mar)} goals. Prod: ${mtd(r.mar,'productivityMTD','productivity').toFixed(1)}%, CPM: $${mtd(r.mar,'cpmMTD','cpm').toFixed(2)}.`, scores: [`Jan: ${scoreLabel(r.jan)}`,`Feb: ${scoreLabel(r.feb)}`,`Mar: ${scoreLabel(r.mar)}`] })),
+      },
+      deepDives: Object.fromEntries(facilityData.map(r => {
+        const last = r.mar || r.feb || r.jan;
+        const prod = last ? mtd(last,'productivityMTD','productivity').toFixed(1) : '—';
+        const cpm  = last ? '$'+mtd(last,'cpmMTD','cpm').toFixed(2) : '—';
+        const mode = last ? mtd(last,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%' : '—';
+        const medb = last?.medBEligible>0 ? Math.round((last.medBCaseload/last.medBEligible)*100)+'%' : '—';
+        const scores = [r.jan,r.feb,r.mar].map(rec=>rec?scoreRec(rec)+'/4':'—');
+        return [r.facility, `Latest MTD: Productivity ${prod}, CPM ${cpm}, Mode ${mode}, Med B on CL ${medb}. Score trend: ${scores.join(' → ')}.`];
+      })),
     };
-
-    try {
-      const sp = await callClaude(`Write a spotlight section for the ${reportRegion} therapy report. Goals: Prod ≥84%, CPM <$1.45, MedB ≥50%, Mode ≥4%. Data: ${JSON.stringify(dataSummary.map(r=>({facility:r.facility,jan:r.jan,feb:r.feb,mar:r.mar})))}. Respond ONLY valid JSON no markdown: {"topPerformers":[{"facility":"...","callout":"one sentence","scores":["Jan: X/4","Feb: X/4","Mar: X/4"]}],"needsAttention":[{"facility":"...","callout":"one sentence","scores":["Jan: X/4","Feb: X/4","Mar: X/4"]}]}`);
-      if (sp) narratives.spotlight = sp;
-    } catch(e) {}
-
-    try {
-      const half = Math.ceil(dataSummary.length/2);
-      for (const batch of [dataSummary.slice(0,half), dataSummary.slice(half)]) {
-        const d = await callClaude(`Write 2-3 sentence deep dive narratives per building. Be specific with numbers. Goals: Prod ≥84%, CPM <$1.45, MedB ≥50%, Mode ≥4%. Data: ${JSON.stringify(batch)}. Respond ONLY valid JSON no markdown: {"Facility Name":"narrative..."}`);
-        if (d) narratives.deepDives = { ...narratives.deepDives, ...d };
-      }
-    } catch(e) {}
 
     // Build PDF
     const { jsPDF } = await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
