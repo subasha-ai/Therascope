@@ -1,5 +1,10 @@
 {
   "framework": "vite",
+  "functions": {
+    "api/briefing.js": {
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
