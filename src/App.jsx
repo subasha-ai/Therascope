@@ -30,11 +30,7 @@ const DOR_PASSWORDS = {
   'Blue Oak Post Acute':     'BlueOakSteps',
 };
 
-const EXEC_MONTHS = [
-  { label: 'Jan',     start: '2026-01-01', end: '2026-01-31' },
-  { label: 'Feb',     start: '2026-02-01', end: '2026-02-28' },
-  { label: 'Mar MTD', start: '2026-03-01', end: '2026-03-29' },
-];
+// EXEC_MONTHS is now computed dynamically inside the component from actual data
 
 // ─── PURE HELPERS (no hooks) ──────────────────────────────────────────────────
 // Always show MTD value, fall back to week value
@@ -63,6 +59,21 @@ const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function App() {
   const allWeeklyData = facilityDataJson;
+
+  // Dynamically compute last 3 months from actual data
+  const EXEC_MONTHS = (() => {
+    const months = [...new Set(allWeeklyData.map(d => d.date.slice(0,7)))].sort();
+    const last3  = months.slice(-3);
+    return last3.map((ym, i) => {
+      const [y, m] = ym.split('-').map(Number);
+      const label  = new Date(y, m-1, 1).toLocaleString('default', { month: 'short' });
+      const start  = `${ym}-01`;
+      const lastDay = new Date(y, m, 0).getDate();
+      const end    = `${ym}-${String(lastDay).padStart(2,'0')}`;
+      const isLatest = i === last3.length - 1;
+      return { label: isLatest ? label+' MTD' : label, start, end };
+    });
+  })();
 
   // Auth state
   const [isAuthenticated,          setIsAuthenticated]          = useState(false);
@@ -466,40 +477,37 @@ export default function App() {
       return { facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) };
     });
 
-    // Call Claude for narratives
-    let narratives = {};
+    // Call Claude for narratives — split into smaller calls with 25s timeout each
+    let narratives = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
+
+    const callClaude = async (prompt) => {
+      const controller = new AbortController();
+      const tid = setTimeout(() => controller.abort(), 25000);
+      try {
+        const res = await fetch('/api/briefing', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+          signal: controller.signal,
+        });
+        clearTimeout(tid);
+        const data = await res.json();
+        const text = data.content?.find(b => b.type === 'text')?.text || '{}';
+        return JSON.parse(text.replace(/```json|```/g, '').trim());
+      } catch (e) { clearTimeout(tid); return null; }
+    };
+
     try {
-      const prompt = `You are writing a therapy performance report for a Chief Therapy Officer overseeing skilled nursing facilities. Given the 3-month performance data below for each building in the ${reportRegion} region, write:
+      const sp = await callClaude(`Write a spotlight section for the ${reportRegion} therapy report. Goals: Prod ≥84%, CPM <$1.45, MedB ≥50%, Mode ≥4%. Data: ${JSON.stringify(dataSummary.map(r=>({facility:r.facility,jan:r.jan,feb:r.feb,mar:r.mar})))}. Respond ONLY valid JSON no markdown: {"topPerformers":[{"facility":"...","callout":"one sentence","scores":["Jan: X/4","Feb: X/4","Mar: X/4"]}],"needsAttention":[{"facility":"...","callout":"one sentence","scores":["Jan: X/4","Feb: X/4","Mar: X/4"]}]}`);
+      if (sp) narratives.spotlight = sp;
+    } catch(e) {}
 
-1. A "spotlight" section with:
-   - "Top Performers" (2-3 buildings doing well, improving, or at goal — include a short 1-sentence callout and their Jan/Feb/Mar scores)
-   - "Needs Attention" (2-3 buildings struggling — include a short 1-sentence callout and their Jan/Feb/Mar scores)
-
-2. For EACH building, write a 2-3 sentence deep dive narrative. Be specific, use actual numbers, identify the key story for that building. Mention trends, gaps, notable context. Write like an experienced regional therapy director.
-
-Goals: Productivity ≥ 84%, CPM < $1.45, Med B ≥ 50% on caseload, Mode ≥ 4%.
-
-Data:
-${JSON.stringify(dataSummary, null, 2)}
-
-Respond ONLY with valid JSON in this exact format, no markdown:
-{
-  "spotlight": {
-    "topPerformers": [{ "facility": "...", "callout": "...", "scores": ["Jan: X/4", "Feb: X/4", "Mar: X/4"] }],
-    "needsAttention": [{ "facility": "...", "callout": "...", "scores": ["Jan: X/4", "Feb: X/4", "Mar: X/4"] }]
-  },
-  "deepDives": { "Facility Name": "narrative text here", ... }
-}`;
-
-      const res  = await fetch('/api/briefing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
-      });
-      const data = await res.json();
-      const text = data.content?.find(b => b.type === 'text')?.text || '{}';
-      narratives = JSON.parse(text.replace(/```json|```/g, '').trim());
-    } catch (err) { console.error('Narrative generation failed', err); }
+    try {
+      const half = Math.ceil(dataSummary.length/2);
+      for (const batch of [dataSummary.slice(0,half), dataSummary.slice(half)]) {
+        const d = await callClaude(`Write 2-3 sentence deep dive narratives per building. Be specific with numbers. Goals: Prod ≥84%, CPM <$1.45, MedB ≥50%, Mode ≥4%. Data: ${JSON.stringify(batch)}. Respond ONLY valid JSON no markdown: {"Facility Name":"narrative..."}`);
+        if (d) narratives.deepDives = { ...narratives.deepDives, ...d };
+      }
+    } catch(e) {}
 
     // Build PDF
     const { jsPDF } = await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
