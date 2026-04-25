@@ -103,11 +103,13 @@ export default function App() {
   const [briefingLoading, setBriefingLoading] = useState(false);
 
   // Region Report state
-  const [complianceData,   setComplianceData]   = useState({ Overland: [], 'Golden Coast': [] });
-  const [alosData,         setAlosData]         = useState({});
-  const [showReportModal,  setShowReportModal]  = useState(false);
-  const [reportRegion,     setReportRegion]     = useState(null);
-  const [reportGenerating, setReportGenerating] = useState(false);
+  const [complianceData,    setComplianceData]    = useState({ Overland: [], 'Golden Coast': [] });
+  const [alosData,          setAlosData]          = useState({});
+  const [showReportModal,   setShowReportModal]   = useState(false);
+  const [reportRegion,      setReportRegion]      = useState(null);
+  const [reportGenerating,  setReportGenerating]  = useState(false);
+  const [savedNarratives,   setSavedNarratives]   = useState({});
+  const [narrativeLoading,  setNarrativeLoading]  = useState(false);
 
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
@@ -447,325 +449,372 @@ export default function App() {
     setComplianceData(result);
   };
 
+  // ── Generate Narratives (separate pre-step)
+  const generateNarratives = async (region) => {
+    setNarrativeLoading(true);
+    const regionFacilities = allFacilities.filter(f => allWeeklyData.find(d=>d.facility===f)?.region===region);
+    const facilityData = regionFacilities.map(fac => ({
+      facility: fac,
+      jan: getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end),
+      feb: getMonthFinal(fac, EXEC_MONTHS[1].start, EXEC_MONTHS[1].end),
+      mar: getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
+    })).filter(r => r.jan || r.feb || r.mar);
+
+    const fmt = (rec) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+mtd(rec,'cpmMTD','cpm').toFixed(2), mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec)+'/4' } : null;
+    const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) }));
+
+    let result = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
+    try {
+      const controller = new AbortController();
+      const tid = setTimeout(() => controller.abort(), 55000);
+      const res = await fetch('/api/briefing', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: [{ role: 'user', content: `You are writing a therapy performance review for a Chief Therapy Officer. Write narratives for the ${region} region.
+
+Goals: Productivity >= 84%, CPM < $1.45, Med B >= 50% on caseload, Mode of Treatment >= 4%.
+
+Data for each building (3 months):
+${JSON.stringify(dataSummary, null, 2)}
+
+Return ONLY valid JSON, no markdown or extra text:
+{
+  "spotlight": {
+    "topPerformers": [{"facility":"...","callout":"1-2 sentence summary of what makes them a top performer","scores":["Jan: X/4","Feb: X/4","Mar: X/4"]}],
+    "needsAttention": [{"facility":"...","callout":"1-2 sentence summary of key issues","scores":["Jan: X/4","Feb: X/4","Mar: X/4"]}]
+  },
+  "deepDives": {
+    "Facility Name": "2-3 sentence narrative using specific numbers. Identify the story arc across 3 months. Mention what is working and what needs attention."
+  }
+}
+
+Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDive for every facility.` }] }),
+        signal: controller.signal,
+      });
+      clearTimeout(tid);
+      const data = await res.json();
+      const text = data.content?.find(b=>b.type==='text')?.text||'{}';
+      result = JSON.parse(text.replace(/```json|```/g,'').trim());
+    } catch(e) { console.error('Narrative error:', e); }
+
+    setSavedNarratives(prev => ({ ...prev, [region]: result }));
+    setNarrativeLoading(false);
+  };
+
   // ── Region Report Generator
   const generateRegionReport = async () => {
     if (!reportRegion) return;
     setReportGenerating(true);
 
-    const regionFacilities = allFacilities.filter(f => {
-      const rec = allWeeklyData.find(d => d.facility === f);
-      return rec?.region === reportRegion;
-    });
-
+    const regionFacilities = allFacilities.filter(f => allWeeklyData.find(d=>d.facility===f)?.region===reportRegion);
     const facilityData = regionFacilities.map(fac => ({
       facility: fac,
       jan:  getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end),
       feb:  getMonthFinal(fac, EXEC_MONTHS[1].start, EXEC_MONTHS[1].end),
       mar:  getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
-      curr: allWeeklyData.filter(d=>d.facility===fac).sort((a,b)=>parseInt(b.week)-parseInt(a.week))[0],
     })).filter(r => r.jan || r.feb || r.mar);
 
-    // Build data summary for Claude
-    const dataSummary = facilityData.map(r => {
-      const fmt = (rec) => rec ? {
-        prod: mtd(rec,'productivityMTD','productivity').toFixed(1),
-        cpm:  '$'+mtd(rec,'cpmMTD','cpm').toFixed(2),
-        mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
-        medB: rec.medBEligible>0 ? Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%' : 'N/A',
-        score: scoreRec(rec)+'/4',
-      } : null;
-      return { facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) };
-    });
+    const narratives = savedNarratives[reportRegion] || { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
 
-    // Auto-generate narratives from data (no API call needed)
-    const scoreLabel = (rec) => rec ? scoreRec(rec)+'/4' : '—';
-    const narratives = {
-      spotlight: {
-        topPerformers: facilityData
-          .filter(r => r.mar && scoreRec(r.mar) >= 3)
-          .sort((a,b) => scoreRec(b.mar)-scoreRec(a.mar))
-          .slice(0,3)
-          .map(r => ({ facility: r.facility, callout: `${scoreLabel(r.jan)} → ${scoreLabel(r.feb)} → ${scoreLabel(r.mar)} goals. Prod: ${mtd(r.mar,'productivityMTD','productivity').toFixed(1)}%, CPM: $${mtd(r.mar,'cpmMTD','cpm').toFixed(2)}.`, scores: [`Jan: ${scoreLabel(r.jan)}`,`Feb: ${scoreLabel(r.feb)}`,`Mar: ${scoreLabel(r.mar)}`] })),
-        needsAttention: facilityData
-          .filter(r => r.mar && scoreRec(r.mar) <= 1)
-          .sort((a,b) => scoreRec(a.mar)-scoreRec(b.mar))
-          .slice(0,3)
-          .map(r => ({ facility: r.facility, callout: `${scoreLabel(r.jan)} → ${scoreLabel(r.feb)} → ${scoreLabel(r.mar)} goals. Prod: ${mtd(r.mar,'productivityMTD','productivity').toFixed(1)}%, CPM: $${mtd(r.mar,'cpmMTD','cpm').toFixed(2)}.`, scores: [`Jan: ${scoreLabel(r.jan)}`,`Feb: ${scoreLabel(r.feb)}`,`Mar: ${scoreLabel(r.mar)}`] })),
-      },
-      deepDives: Object.fromEntries(facilityData.map(r => {
-        const last = r.mar || r.feb || r.jan;
-        const prod = last ? mtd(last,'productivityMTD','productivity').toFixed(1) : '—';
-        const cpm  = last ? '$'+mtd(last,'cpmMTD','cpm').toFixed(2) : '—';
-        const mode = last ? mtd(last,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%' : '—';
-        const medb = last?.medBEligible>0 ? Math.round((last.medBCaseload/last.medBEligible)*100)+'%' : '—';
-        const scores = [r.jan,r.feb,r.mar].map(rec=>rec?scoreRec(rec)+'/4':'—');
-        return [r.facility, `Latest MTD: Productivity ${prod}, CPM ${cpm}, Mode ${mode}, Med B on CL ${medb}. Score trend: ${scores.join(' → ')}.`];
-      })),
-    };
-
-    // Build PDF
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
     const pW = doc.internal.pageSize.getWidth();
     const pH = doc.internal.pageSize.getHeight();
     const margin = 14;
-    const col = { gold: [212, 175, 55], teal: [13, 148, 136], dark: [15, 23, 42], slate: [100, 116, 139], white: [255,255,255], green: [52,211,153], red: [248,113,113], yellow: [251,191,36] };
-
-    const addHeader = (page) => {
-      if (page > 1) doc.addPage();
-      doc.setFillColor(...col.dark); doc.rect(0, 0, pW, pH, 'F');
+    const col = {
+      gold:  [212,175,55], teal:  [13,148,136], dark:  [15,23,42],
+      slate: [100,116,139], white: [255,255,255], green: [52,211,153],
+      red:   [248,113,113], yellow:[251,191,36],  navy:  [22,33,55], darknavy:[18,28,48],
     };
 
+    const setFill  = (c) => doc.setFillColor(c[0],c[1],c[2]);
+    const setStroke= (c) => doc.setDrawColor(c[0],c[1],c[2]);
+    const setTxt   = (c) => doc.setTextColor(c[0],c[1],c[2]);
+
+    const addPage = () => { doc.addPage(); setFill(col.dark); doc.rect(0,0,pW,pH,'F'); };
+
     const sectionDot = (y, text) => {
-      doc.setFillColor(...col.teal); doc.circle(margin, y+1.5, 2, 'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...col.white);
-      doc.text(text, margin+5, y+2);
-      return y + 10;
+      setFill(col.teal); doc.circle(margin, y+2, 2, 'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(13); setTxt(col.white);
+      doc.text(text, margin+5, y+3);
+      return y + 11;
+    };
+
+    const goalColor = (key, val) => {
+      const v = parseFloat(val);
+      if (key==='prod') return v>=84 ? col.green : col.red;
+      if (key==='cpm')  return v<=1.45 ? col.green : col.red;
+      if (key==='mode') return v>=4 ? col.green : col.red;
+      if (key==='medb') return v>=50 ? col.green : col.red;
+      return col.white;
     };
 
     // ── PAGE 1: Cover
-    addHeader(1);
-    doc.setFillColor(...col.dark);
-    doc.setDrawColor(...col.teal); doc.setLineWidth(0.5); doc.line(margin, 40, pW-margin, 40);
-    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...col.gold);
-    doc.text('THERAPY PERFORMANCE REVIEW', margin, 30);
-    doc.setFont('helvetica','bold'); doc.setFontSize(36); doc.setTextColor(...col.white);
-    doc.text(reportRegion, margin, 55);
-    doc.setFont('helvetica','italic'); doc.setFontSize(20); doc.setTextColor(...col.teal);
-    doc.text('Region', margin + doc.getTextWidth(reportRegion) + 3, 55);
-    doc.setFont('helvetica','normal'); doc.setFontSize(12); doc.setTextColor(...col.slate);
-    doc.text('January through March 2026', margin, 66);
-    doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...col.slate);
-    doc.text('PREPARED', pW-margin-30, 30);
-    doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(...col.white);
-    doc.text('April 2026', pW-margin-30, 38);
+    setFill(col.dark); doc.rect(0,0,pW,pH,'F');
+    setStroke(col.teal); doc.setLineWidth(0.5); doc.line(margin,38,pW-margin,38);
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); setTxt(col.gold);
+    doc.text('THERAPY PERFORMANCE REVIEW', margin, 28);
+    doc.setFont('helvetica','bold'); doc.setFontSize(34); setTxt(col.white);
+    doc.text(reportRegion, margin, 52);
+    doc.setFont('helvetica','italic'); doc.setFontSize(18); setTxt(col.teal);
+    doc.text('Region', margin + doc.getTextWidth(reportRegion)+2, 52);
+    doc.setFont('helvetica','normal'); doc.setFontSize(11); setTxt(col.slate);
+    const m0 = EXEC_MONTHS[0].label.replace(' MTD',''), m2 = EXEC_MONTHS[2].label.replace(' MTD','');
+    doc.text(`${m0} through ${m2} 2026`, margin, 62);
+    doc.setFont('helvetica','normal'); doc.setFontSize(9); setTxt(col.slate);
+    doc.text('PREPARED', pW-margin-28, 28);
+    doc.setFont('helvetica','bold'); doc.setFontSize(13); setTxt(col.white);
+    doc.text('April 2026', pW-margin-28, 36);
 
     // Goals bar
-    const goals = [['PRODUCTIVITY','≥ 84%','All staff incl. DOR'],['COST PER MINUTE','< $1.45','Including DOR time'],['MED B ON CASELOAD','≥ 50%','Of eligible patients'],['MODE OF TREATMENT','≥ 4%','Group / concurrent']];
-    doc.setFillColor(30,41,59); doc.roundedRect(margin, 80, pW-margin*2, 40, 3, 3, 'F');
-    goals.forEach((g, i) => {
-      const x = margin + 5 + i * ((pW-margin*2-10)/4);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
-      doc.text(g[0], x, 89);
-      doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...col.gold);
-      doc.text(g[1], x, 98);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
-      doc.text(g[2], x, 104);
+    setFill(col.navy); doc.roundedRect(margin,76,pW-margin*2,36,3,3,'F');
+    const goals = [['PRODUCTIVITY','>=84%','All staff incl. DOR'],['COST PER MINUTE','<$1.45','Including DOR time'],['MED B ON CASELOAD','>=50%','Of eligible patients'],['MODE OF TREATMENT','>=4%','Group / concurrent']];
+    goals.forEach((g,i) => {
+      const x = margin+4 + i*((pW-margin*2-8)/4);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); setTxt(col.slate); doc.text(g[0],x,86);
+      doc.setFont('helvetica','bold'); doc.setFontSize(12); setTxt(col.gold); doc.text(g[1],x,95);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); setTxt(col.slate); doc.text(g[2],x,101);
     });
 
     // ── PAGE 2: 3-Month Region Summary
-    addHeader(2);
-    let y = 20;
-    y = sectionDot(y, '3-Month Region Summary');
-    y += 5;
+    addPage(); let y = 18;
+    y = sectionDot(y, '3-Month Region Summary'); y += 4;
 
     const months = EXEC_MONTHS.map(m => {
-      const recs = allWeeklyData.filter(d => {
-        const r = allWeeklyData.find(x=>x.facility===d.facility);
-        return r?.region===reportRegion && d.date>=m.start && d.date<=m.end;
-      });
       const finals = regionFacilities.map(f=>getMonthFinal(f,m.start,m.end)).filter(Boolean);
       if (!finals.length) return null;
       const n = finals.length;
+      const avgProd = (finals.reduce((s,r)=>s+mtd(r,'productivityMTD','productivity'),0)/n);
+      const avgCPM  = (finals.reduce((s,r)=>s+mtd(r,'cpmMTD','cpm'),0)/n);
       return {
-        label: m.label,
-        avgProd: (finals.reduce((s,r)=>s+mtd(r,'productivityMTD','productivity'),0)/n).toFixed(1),
-        avgCPM:  '$'+(finals.reduce((s,r)=>s+mtd(r,'cpmMTD','cpm'),0)/n).toFixed(2),
-        units:   finals.reduce((s,r)=>s+(r.medBUnitsMTD||r.medBUnitsThisWeek||0),0).toLocaleString(),
-        rev:     '$'+(finals.reduce((s,r)=>s+mtd(r,'medicareMPPRRevenueMTD','medicareMPPRRevenue'),0)/1000).toFixed(0)+'k',
-        atProd:  finals.filter(r=>mtd(r,'productivityMTD','productivity')>=84).length+' / '+n,
-        atCPM:   finals.filter(r=>mtd(r,'cpmMTD','cpm')<=1.45).length+' / '+n,
+        label: m.label, isLatest: m===EXEC_MONTHS[EXEC_MONTHS.length-1],
+        avgProd: avgProd.toFixed(1)+'%', avgCPM: '$'+avgCPM.toFixed(2),
+        units: finals.reduce((s,r)=>s+(r.medBUnitsMTD||r.medBUnitsThisWeek||0),0).toLocaleString(),
+        rev:   '$'+(finals.reduce((s,r)=>s+mtd(r,'medicareMPPRRevenueMTD','medicareMPPRRevenue'),0)).toLocaleString(undefined,{maximumFractionDigits:0}),
+        atProd: finals.filter(r=>mtd(r,'productivityMTD','productivity')>=84).length+' / '+n,
+        atCPM:  finals.filter(r=>mtd(r,'cpmMTD','cpm')<=1.45).length+' / '+n,
+        prodGood: avgProd>=84, cpmGood: avgCPM<=1.45,
       };
     }).filter(Boolean);
 
-    const boxW = (pW-margin*2-10)/3;
+    const bW = (pW-margin*2-8)/3;
     months.forEach((m,i) => {
-      const x = margin + i*(boxW+5);
-      doc.setFillColor(30,41,59); doc.roundedRect(x, y, boxW, 80, 3, 3, 'F');
-      if (i===2) { doc.setDrawColor(...col.teal); doc.setLineWidth(0.5); doc.roundedRect(x, y, boxW, 80, 3, 3, 'S'); }
-      doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.setTextColor(i===2?col.teal[0]:255, i===2?col.teal[1]:255, i===2?col.teal[2]:255);
-      doc.text(m.label, x+5, y+12);
-      if (i===2) { doc.setFillColor(...col.teal); doc.roundedRect(x+boxW-22, y+5, 18, 7, 2, 2, 'F'); doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(...col.white); doc.text('Latest', x+boxW-19, y+10); }
-      const rows2 = [['Avg Productivity',m.avgProd],['Avg CPM',m.avgCPM],['Med B Units',m.units],['Med B Revenue',m.rev],['At Prod Goal',m.atProd],['At CPM Goal',m.atCPM]];
-      rows2.forEach((r,ri) => {
-        const ry = y+22+ri*9;
-        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...col.slate); doc.text(r[0], x+5, ry);
-        const isGood = r[0].includes('Prod') ? parseFloat(r[1])>=84 : r[0].includes('CPM')&&!r[0].includes('Goal') ? parseFloat(r[1].replace('$',''))<=1.45 : null;
-        doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...(isGood===true?col.green:isGood===false?col.red:col.white));
-        doc.text(r[1], x+boxW-5-doc.getTextWidth(r[1]), ry);
-        if (ri<5) { doc.setDrawColor(30,50,70); doc.setLineWidth(0.2); doc.line(x+5, ry+2, x+boxW-5, ry+2); }
+      const x = margin + i*(bW+4);
+      setFill(col.navy); doc.roundedRect(x,y,bW,76,3,3,'F');
+      if (m.isLatest) { setStroke(col.teal); doc.setLineWidth(0.4); doc.roundedRect(x,y,bW,76,3,3,'S'); }
+      doc.setFont('helvetica','bold'); doc.setFontSize(14);
+      setTxt(m.isLatest?col.teal:col.white); doc.text(m.label,x+4,y+11);
+      if (m.isLatest) {
+        setFill(col.teal); doc.roundedRect(x+bW-20,y+4,17,6,1,1,'F');
+        doc.setFont('helvetica','bold'); doc.setFontSize(6); setTxt(col.white); doc.text('Latest',x+bW-18,y+8.5);
+      }
+      const rows = [['Avg Productivity',m.avgProd,m.prodGood],['Avg CPM',m.avgCPM,m.cpmGood],['Med B Units',m.units,null],['Med B Revenue',m.rev,null],['At Prod Goal',m.atProd,null],['At CPM Goal',m.atCPM,null]];
+      rows.forEach((r,ri) => {
+        const ry = y+20+ri*8.5;
+        doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setTxt(col.slate); doc.text(r[0],x+4,ry);
+        doc.setFont('helvetica','bold'); doc.setFontSize(8.5);
+        setTxt(r[2]===true?col.green:r[2]===false?col.red:col.white);
+        doc.text(r[1], x+bW-4-doc.getTextWidth(r[1]), ry);
+        if (ri<5) { doc.setDrawColor(30,50,70); doc.setLineWidth(0.15); doc.line(x+4,ry+1.5,x+bW-4,ry+1.5); }
       });
     });
-    y += 90;
+    y += 82;
 
     // ── PAGE 3: Building Scorecard
-    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
-    y = 20; y = sectionDot(y, 'Building Scorecard'); y += 5;
-    const scHead = [['FACILITY', ...EXEC_MONTHS.flatMap(m => [m.label+' PROD','CPM','MODE%','MEDB%','SCORE'])]];
+    addPage(); y = 18;
+    y = sectionDot(y, 'Building Scorecard'); y += 3;
+    doc.setFont('helvetica','normal'); doc.setFontSize(8); setTxt(col.slate);
+    doc.text('Green = at goal  |  Red = below goal', margin, y); y += 5;
+
+    const scHead = [['FACILITY', ...EXEC_MONTHS.flatMap(m=>[m.label+'
+PROD','CPM','MODE%','MEDB%','SCORE'])]];
     const scBody = facilityData.map(r => [
       r.facility,
       ...[r.jan,r.feb,r.mar].flatMap(rec => rec ? [
         mtd(rec,'productivityMTD','productivity').toFixed(1)+'%',
         '$'+mtd(rec,'cpmMTD','cpm').toFixed(2),
         mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
-        rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'—',
+        rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'--',
         scoreRec(rec)+'/4',
-      ] : ['—','—','—','—','—']),
+      ] : ['--','--','--','--','--']),
     ]);
-    doc.autoTable({ head: scHead, body: scBody, startY: y, theme: 'grid', styles: { fontSize: 6.5, cellPadding: 2, textColor: col.white, fillColor: [22,33,55] }, headStyles: { fillColor: [30,41,59], textColor: col.slate, fontStyle: 'bold' }, alternateRowStyles: { fillColor: [18,28,48] }, margin: { left: margin, right: margin } });
+
+    doc.autoTable({
+      head: scHead, body: scBody, startY: y,
+      theme: 'grid',
+      styles: { fontSize: 7, cellPadding: 2.5, textColor: col.white, fillColor: col.navy, font: 'helvetica' },
+      headStyles: { fillColor: [30,41,59], textColor: col.slate, fontStyle: 'bold', fontSize: 6.5 },
+      alternateRowStyles: { fillColor: col.darknavy },
+      margin: { left: margin, right: margin },
+      didParseCell: (data) => {
+        if (data.section !== 'body') return;
+        const ci = data.column.index;
+        if (ci === 0) return;
+        const offset = (ci - 1) % 5;
+        const v = parseFloat(data.cell.raw);
+        if (isNaN(v)) return;
+        if (offset===0) { data.cell.styles.textColor = v>=84?col.green:col.red; data.cell.styles.fontStyle='bold'; }
+        else if (offset===1) { data.cell.styles.textColor = v<=1.45?col.green:col.red; data.cell.styles.fontStyle='bold'; }
+        else if (offset===2) { data.cell.styles.textColor = v>=4?col.green:col.red; data.cell.styles.fontStyle='bold'; }
+        else if (offset===3) { data.cell.styles.textColor = v>=50?col.green:col.red; data.cell.styles.fontStyle='bold'; }
+      }
+    });
 
     // ── PAGE 4: Spotlight
-    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
-    y = 20; y = sectionDot(y, 'Spotlight'); y += 5;
+    addPage(); y = 18;
+    y = sectionDot(y, 'Spotlight'); y += 4;
 
-    const drawSpotlightSection = (title, items, bgColor, dotColor, yStart) => {
+    const drawSection = (title, items, headerBg, dotC, yStart) => {
       let cy = yStart;
-      doc.setFillColor(...bgColor); doc.roundedRect(margin, cy, pW-margin*2, 10, 2, 2, 'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(...col.white);
-      doc.text(title, margin+5, cy+7);
-      cy += 14;
-      (items||[]).forEach(item => {
-        doc.setFillColor(22,33,55); doc.roundedRect(margin, cy, pW-margin*2, 18, 2, 2, 'F');
-        doc.setFillColor(...dotColor); doc.circle(margin+5, cy+9, 2.5, 'F');
-        doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor(...col.white);
-        doc.text(item.facility||'', margin+11, cy+7);
-        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...col.slate);
-        doc.text(item.callout||'', margin+11, cy+13, { maxWidth: pW-margin*2-30 });
-        const scores = (item.scores||[]).join('  ·  ');
-        doc.setFont('helvetica','bold'); doc.setFontSize(7); doc.setTextColor(...dotColor);
-        doc.text(scores, pW-margin-doc.getTextWidth(scores)-2, cy+7);
-        cy += 22;
+      setFill(headerBg); doc.roundedRect(margin,cy,pW-margin*2,9,2,2,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(9.5); setTxt(col.white);
+      doc.text(title, margin+4, cy+6.5);
+      cy += 13;
+      (items||[]).slice(0,3).forEach(item => {
+        setFill(col.navy); doc.roundedRect(margin,cy,pW-margin*2,20,2,2,'F');
+        setFill(dotC); doc.circle(margin+5,cy+10,2.5,'F');
+        doc.setFont('helvetica','bold'); doc.setFontSize(9); setTxt(col.white);
+        doc.text(item.facility||'', margin+11, cy+8);
+        doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setTxt(col.slate);
+        const callout = item.callout||'';
+        doc.text(callout, margin+11, cy+15, { maxWidth: pW-margin*2-50 });
+        const scoreStr = (item.scores||[]).join('  /  ');
+        doc.setFont('helvetica','bold'); doc.setFontSize(7); setTxt(dotC);
+        doc.text(scoreStr, pW-margin-doc.getTextWidth(scoreStr)-2, cy+8);
+        cy += 24;
       });
       return cy;
     };
 
-    y = drawSpotlightSection('📈 Top Performers (Jan → Mar)', narratives?.spotlight?.topPerformers, [20,83,45], col.green, y);
-    y += 5;
-    y = drawSpotlightSection('🔴 Needs Attention', narratives?.spotlight?.needsAttention, [83,20,20], col.red, y);
+    y = drawSection('Top Performers ('+m0+' to '+m2+')', narratives.spotlight?.topPerformers, [20,83,45], col.green, y);
+    y += 6;
+    y = drawSection('Needs Attention', narratives.spotlight?.needsAttention, [100,20,20], col.red, y);
 
     // ── PAGE 5+: Deep Dives
-    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
-    y = 20; y = sectionDot(y, `Building Deep Dives — All ${facilityData.length} Facilities`); y += 5;
+    addPage(); y = 18;
+    y = sectionDot(y, 'Building Deep Dives -- All '+facilityData.length+' Facilities'); y += 4;
 
-    const drawMiniSparkline = (xStart, yStart, values, label, good) => {
-      const w = 55, h = 12;
-      doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(...col.slate);
-      doc.text(label.toUpperCase(), xStart, yStart-1);
-      if (values && values.length >= 2) {
-        const min = Math.min(...values), max = Math.max(...values), range = max-min||1;
-        const pts = values.map((v,i)=>({ x: xStart + (i/(values.length-1))*w, y: yStart + h - ((v-min)/range)*h }));
-        doc.setDrawColor(...(good?col.green:col.red)); doc.setLineWidth(0.5);
-        for (let i=0;i<pts.length-1;i++) doc.line(pts[i].x, pts[i].y, pts[i+1].x, pts[i+1].y);
-      }
-      const labels = values ? values.map((v,i)=>(['Jan','Feb','Mar'][i]||'')) : [];
-      labels.forEach((l,i) => {
-        const x2 = xStart + (i/(values.length-1))*(w);
-        doc.setFont('helvetica','normal'); doc.setFontSize(5.5); doc.setTextColor(...col.slate);
-        doc.text(l, x2-2, yStart+h+3);
-        if (values) { doc.setFont('helvetica','bold'); doc.setFontSize(6); doc.setTextColor(...col.white); doc.text(String(values[i]), x2-3, yStart+h+8); }
-      });
-    };
-
-    for (let fi = 0; fi < facilityData.length; fi++) {
+    for (let fi=0; fi<facilityData.length; fi++) {
       const r = facilityData[fi];
-      const cardH = 52;
-      if (y + cardH > pH - 15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
-      doc.setFillColor(22,33,55); doc.roundedRect(margin, y, pW-margin*2, cardH, 3, 3, 'F');
+      if (y + 58 > pH-12) { addPage(); y = 18; }
 
-      // Building name + badge
-      doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(...col.white);
+      const lastRec = r.mar||r.feb||r.jan;
+      const score = lastRec ? scoreRec(lastRec) : 0;
+      const badge = score>=3?'TOP PERFORMER':score<=1?'NEEDS ATTENTION':'DEVELOPING';
+      const badgeC = badge==='TOP PERFORMER'?col.green:badge==='NEEDS ATTENTION'?col.red:col.yellow;
+
+      setFill(col.navy); doc.roundedRect(margin,y,pW-margin*2,56,3,3,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(11); setTxt(col.white);
       doc.text(r.facility, margin+4, y+9);
-      const narrative = narratives?.deepDives?.[r.facility] || '';
-      const badge = r.mar && scoreRec(r.mar)>=3 ? 'TOP PERFORMER' : r.mar && scoreRec(r.mar)<=1 ? 'NEEDS ATTENTION' : 'DEVELOPING';
-      const badgeColor = badge==='TOP PERFORMER'?col.green:badge==='NEEDS ATTENTION'?col.red:col.yellow;
-      doc.setFillColor(...badgeColor); doc.setFillColor(badgeColor[0],badgeColor[1],badgeColor[2],0.2);
-      const bw = doc.getTextWidth(badge)+6;
-      doc.setFillColor(22,33,55); doc.roundedRect(pW-margin-bw-2, y+3, bw+2, 7, 1, 1, 'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(6.5); doc.setTextColor(...badgeColor);
-      doc.text(badge, pW-margin-bw+1, y+8);
+      const bw2 = doc.getTextWidth(badge)+6;
+      setFill(badgeC); doc.roundedRect(pW-margin-bw2-1,y+3,bw2+1,7,1,1,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(6); setTxt(col.dark);
+      doc.text(badge, pW-margin-bw2+1.5, y+8);
 
-      // Mini sparklines
-      const prodVals = [r.jan,r.feb,r.mar].filter(Boolean).map(rec=>parseFloat(mtd(rec,'productivityMTD','productivity').toFixed(1)));
-      const cpmVals  = [r.jan,r.feb,r.mar].filter(Boolean).map(rec=>parseFloat(mtd(rec,'cpmMTD','cpm').toFixed(2)));
-      const modeVals = [r.jan,r.feb,r.mar].filter(Boolean).map(rec=>parseFloat(mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)));
-      const lastProd = prodVals[prodVals.length-1], lastCpm = cpmVals[cpmVals.length-1];
-      drawMiniSparkline(margin+4, y+17, prodVals, 'Productivity', lastProd>=84);
-      drawMiniSparkline(margin+70, y+17, cpmVals, 'CPM', lastCpm<=1.45);
-      drawMiniSparkline(margin+136, y+17, modeVals, 'Mode of TX', modeVals[modeVals.length-1]>=4);
+      // 3 sparklines side by side
+      const metrics = [
+        { label:'PRODUCTIVITY', vals:[r.jan,r.feb,r.mar].filter(Boolean).map(rec=>mtd(rec,'productivityMTD','productivity')), goal:84, higher:true },
+        { label:'CPM', vals:[r.jan,r.feb,r.mar].filter(Boolean).map(rec=>mtd(rec,'cpmMTD','cpm')), goal:1.45, higher:false },
+        { label:'MODE OF TX', vals:[r.jan,r.feb,r.mar].filter(Boolean).map(rec=>mtd(rec,'modeOfTreatmentMTD','modeOfTreatment')), goal:4, higher:true },
+      ];
+      const sparkW = (pW-margin*2-12)/3;
+      metrics.forEach((met,mi) => {
+        const sx = margin+4 + mi*(sparkW+2);
+        const sy = y+14;
+        const sh = 18;
+        doc.setFont('helvetica','bold'); doc.setFontSize(6); setTxt(col.slate);
+        doc.text(met.label, sx, sy-1);
+        const lastV = met.vals[met.vals.length-1];
+        const isGood = met.higher ? lastV>=met.goal : lastV<=met.goal;
+        const lineC = isGood?col.green:col.red;
+        if (met.vals.length>=2) {
+          const mn = Math.min(...met.vals), mx = Math.max(...met.vals), rng = mx-mn||0.5;
+          const pts = met.vals.map((v,i)=>({ x: sx+(i/(met.vals.length-1))*(sparkW-8), y: sy+sh-((v-mn)/rng)*sh }));
+          setStroke(lineC); doc.setLineWidth(0.6);
+          for (let i=0;i<pts.length-1;i++) doc.line(pts[i].x,pts[i].y,pts[i+1].x,pts[i+1].y);
+          setFill(lineC); doc.circle(pts[pts.length-1].x,pts[pts.length-1].y,1.2,'F');
+        }
+        const monthLabels = EXEC_MONTHS.filter((_,i)=>[r.jan,r.feb,r.mar][i]).map(m=>m.label.replace(' MTD','').slice(0,3));
+        met.vals.forEach((v,i) => {
+          const px = sx+(i/(met.vals.length-1))*(sparkW-8);
+          doc.setFont('helvetica','normal'); doc.setFontSize(5); setTxt(col.slate);
+          doc.text(monthLabels[i]||'', px-3, sy+sh+4);
+          doc.setFont('helvetica','bold'); doc.setFontSize(6); setTxt(col.white);
+          const vStr = mi===1?v.toFixed(2):v.toFixed(1);
+          doc.text(vStr, px-doc.getTextWidth(vStr)/2, sy+sh+9);
+        });
+      });
 
       // Narrative
+      const narrative = narratives.deepDives?.[r.facility] || '';
       if (narrative) {
-        doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...col.slate);
-        doc.text(narrative, margin+4, y+40, { maxWidth: pW-margin*2-8 });
+        doc.setFont('helvetica','normal'); doc.setFontSize(7.5); setTxt(col.slate);
+        doc.text(narrative, margin+4, y+44, { maxWidth: pW-margin*2-8 });
       }
-      y += cardH + 5;
+      y += 60;
     }
 
     // ── April MTD Preview
-    doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F');
-    y = 20; y = sectionDot(y, `April MTD Preview (Apr 1–${throughDate.slice(8)})`); y += 5;
+    addPage(); y = 18;
+    const aprLabel = 'Apr 1-'+throughDate.slice(8);
+    y = sectionDot(y, 'April MTD Preview ('+aprLabel+')'); y += 4;
 
     const aprilRecs = regionFacilities.map(f => {
       const latest = allWeeklyData.filter(d=>d.facility===f).sort((a,b)=>parseInt(b.week)-parseInt(a.week))[0];
-      return latest ? { facility:f, prod:mtd(latest,'productivityMTD','productivity').toFixed(1)+'%', cpm:'$'+mtd(latest,'cpmMTD','cpm').toFixed(2), mode:mtd(latest,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB:latest.medBEligible>0?Math.round((latest.medBCaseload/latest.medBEligible)*100)+'%':'—' } : null;
+      if (!latest) return null;
+      return { facility:f, prod:mtd(latest,'productivityMTD','productivity'), cpm:mtd(latest,'cpmMTD','cpm'), mode:mtd(latest,'modeOfTreatmentMTD','modeOfTreatment'), medB:latest.medBEligible>0?Math.round((latest.medBCaseload/latest.medBEligible)*100):null };
     }).filter(Boolean);
 
-    const cols2 = 2, cardW2 = (pW-margin*2-5)/cols2;
+    const cols3 = 2, cW = (pW-margin*2-4)/cols3;
     aprilRecs.forEach((rec,i) => {
-      const cx = margin + (i%cols2)*(cardW2+5), cy2 = y + Math.floor(i/cols2)*28;
-      if (cy2 + 28 > pH-15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
-      doc.setFillColor(22,33,55); doc.roundedRect(cx, cy2, cardW2, 24, 2, 2, 'F');
-      doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...col.white);
-      doc.text(rec.facility, cx+4, cy2+7);
-      [['PROD',rec.prod,parseFloat(rec.prod)>=84],['CPM',rec.cpm,parseFloat(rec.cpm.replace('$',''))<=1.45],['MODE',rec.mode,parseFloat(rec.mode)>=4],['MED B%',rec.medB,parseFloat(rec.medB)>=50]].forEach((m,mi) => {
-        const mx = cx+4+mi*(cardW2-8)/4;
-        doc.setFont('helvetica','normal'); doc.setFontSize(6); doc.setTextColor(...col.slate); doc.text(m[0], mx, cy2+14);
-        doc.setFont('helvetica','bold'); doc.setFontSize(8); doc.setTextColor(...(m[2]?col.green:col.red)); doc.text(m[1], mx, cy2+21);
+      const cx = margin+(i%cols3)*(cW+4);
+      const cy2 = y+Math.floor(i/cols3)*30;
+      if (cy2+30>pH-12) { addPage(); y=18; }
+      setFill(col.navy); doc.roundedRect(cx,cy2,cW,26,2,2,'F');
+      doc.setFont('helvetica','bold'); doc.setFontSize(8); setTxt(col.white);
+      doc.text(rec.facility, cx+3, cy2+7);
+      const fields = [['PROD',rec.prod.toFixed(1)+'%',rec.prod>=84],['CPM','$'+rec.cpm.toFixed(2),rec.cpm<=1.45],['MODE',rec.mode.toFixed(1)+'%',rec.mode>=4],['MED B%',rec.medB!=null?rec.medB+'%':'--',rec.medB>=50]];
+      fields.forEach((f2,fi) => {
+        const fx = cx+3+fi*(cW-6)/4;
+        doc.setFont('helvetica','normal'); doc.setFontSize(6); setTxt(col.slate); doc.text(f2[0],fx,cy2+14);
+        doc.setFont('helvetica','bold'); doc.setFontSize(8); setTxt(f2[2]?col.green:col.red); doc.text(f2[1],fx,cy2+21);
       });
     });
-    y += Math.ceil(aprilRecs.length/cols2)*30;
+    y += Math.ceil(aprilRecs.length/cols3)*32;
 
-    // ── ALOS Table
-    const alosRows = regionFacilities.map(f => {
-      const a = alosData[f] || {};
-      return [f, a.jan||'—', a.feb||'—', a.mar||'—', a.apr||'—'];
-    });
-    if (alosRows.length) {
-      if (y + 40 > pH-15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
-      y += 10; y = sectionDot(y, 'Average Length of Stay (days)'); y += 3;
-      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
-      doc.text('April = MTD. Red = below 30 days.', margin, y); y += 5;
-      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr MTD']], body: alosRows, startY: y, theme:'grid', styles:{ fontSize:8, cellPadding:2, textColor:col.white, fillColor:[22,33,55] }, headStyles:{ fillColor:[30,41,59], textColor:col.slate, fontStyle:'bold' }, alternateRowStyles:{ fillColor:[18,28,48] }, margin:{ left:margin, right:margin }, didParseCell: (data) => { if (data.section==='body' && data.column.index>0) { const v=parseFloat(data.cell.raw); if (!isNaN(v) && v<30) { data.cell.styles.textColor=col.red; data.cell.styles.fontStyle='bold'; } } } });
-      y = doc.lastAutoTable.finalY + 10;
+    // ── ALOS
+    const alosRows = regionFacilities.map(f => { const a=alosData[f]||{}; return [f,a.jan||'--',a.feb||'--',a.mar||'--',a.apr||'--']; });
+    if (alosRows.some(r=>r.slice(1).some(v=>v!=='--'))) {
+      if (y+50>pH-12) { addPage(); y=18; }
+      y = sectionDot(y, 'Average Length of Stay (days)'); y+=2;
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); setTxt(col.slate);
+      doc.text('Red = below 30 days', margin, y); y+=4;
+      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr MTD']], body:alosRows, startY:y, theme:'grid', styles:{fontSize:8,cellPadding:2.5,textColor:col.white,fillColor:col.navy}, headStyles:{fillColor:[30,41,59],textColor:col.slate,fontStyle:'bold'}, alternateRowStyles:{fillColor:col.darknavy}, margin:{left:margin,right:margin}, didParseCell:(data)=>{ if(data.section==='body'&&data.column.index>0){const v=parseFloat(data.cell.raw);if(!isNaN(v)&&v<30){data.cell.styles.textColor=col.red;data.cell.styles.fontStyle='bold';}}} });
+      y = doc.lastAutoTable.finalY+8;
     }
 
-    // ── Compliance Overview
-    const comp = complianceData[reportRegion] || [];
+    // ── Compliance
+    const comp = complianceData[reportRegion]||[];
     if (comp.length) {
-      if (y + 40 > pH-15) { doc.addPage(); doc.setFillColor(...col.dark); doc.rect(0,0,pW,pH,'F'); y = 20; }
-      y = sectionDot(y, 'Compliance Overview'); y += 3;
-      const compBody = comp.map(r => {
-        const s = r.status.toLowerCase().replace(/\s/g,'');
-        const statusLabel = s.includes('green')?'Green':s.includes('red')?'Red':'Yellow';
-        return [r.building, statusLabel, r.actionItem];
-      });
-      doc.autoTable({ head:[['Building','Status','Action Item']], body: compBody, startY: y, theme:'grid', styles:{ fontSize:7.5, cellPadding:2.5, textColor:col.white, fillColor:[22,33,55] }, headStyles:{ fillColor:[30,41,59], textColor:col.slate, fontStyle:'bold' }, alternateRowStyles:{ fillColor:[18,28,48] }, margin:{ left:margin, right:margin }, didParseCell: (data) => { if (data.section==='body' && data.column.index===1) { const v=data.cell.raw; data.cell.styles.textColor = v==='Green'?col.green:v==='Red'?col.red:col.yellow; data.cell.styles.fontStyle='bold'; } } });
+      if (y+50>pH-12) { addPage(); y=18; }
+      y = sectionDot(y,'Compliance Overview'); y+=3;
+      const compBody = comp.map(r=>{ const s=(r.status||'').toLowerCase().replace(/\s/g,''); return [r.building, s.includes('green')?'Green':s.includes('red')?'Red':'Yellow', r.actionItem]; });
+      doc.autoTable({ head:[['Building','Status','Action Item']], body:compBody, startY:y, theme:'grid', styles:{fontSize:7.5,cellPadding:2.5,textColor:col.white,fillColor:col.navy}, headStyles:{fillColor:[30,41,59],textColor:col.slate,fontStyle:'bold'}, alternateRowStyles:{fillColor:col.darknavy}, margin:{left:margin,right:margin}, didParseCell:(data)=>{ if(data.section==='body'&&data.column.index===1){const v=data.cell.raw;data.cell.styles.textColor=v==='Green'?col.green:v==='Red'?col.red:col.yellow;data.cell.styles.fontStyle='bold';} } });
     }
 
-    // Footer on all pages
-    const totalPages = doc.internal.getNumberOfPages();
-    for (let p=1; p<=totalPages; p++) {
+    // Footer
+    const tp = doc.internal.getNumberOfPages();
+    for (let p=1;p<=tp;p++) {
       doc.setPage(p);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...col.slate);
-      doc.text(`${reportRegion} Region · Therapy Performance Review · January–March 2026`, margin, pH-8);
-      doc.text('Therascope · Confidential', pW-margin-doc.getTextWidth('Therascope · Confidential'), pH-8);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); setTxt(col.slate);
+      doc.text(reportRegion+' Region  |  Therapy Performance Review  |  '+m0+'-'+m2+' 2026', margin, pH-7);
+      doc.text('Therascope  |  Confidential', pW-margin-doc.getTextWidth('Therascope  |  Confidential'), pH-7);
     }
 
-    doc.save(`${reportRegion.replace(' ','_')}_Therapy_Performance_${throughDate}.pdf`);
+    doc.save(reportRegion.replace(/ /g,'_')+'_Therapy_Performance_'+throughDate+'.pdf');
     setReportGenerating(false);
     setShowReportModal(false);
   };
 
-  // ── Executive PDF
+    // ── Executive PDF
   const generateExecPDF = () => {
     try {
       const doc   = new jsPDF({ orientation: 'landscape' });
@@ -1287,12 +1336,19 @@ export default function App() {
                         </div>
                       </div>
                     </div>
-                    <div className="p-6 border-t border-white/10 flex items-center justify-end gap-3">
-                      <button onClick={() => setShowReportModal(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm font-semibold transition-all">Cancel</button>
-                      <button onClick={generateRegionReport} disabled={reportGenerating}
-                        className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 disabled:opacity-50 text-white rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg">
-                        {reportGenerating ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Generating with AI...</> : <><Download className="w-4 h-4" />Generate PDF</>}
+                    <div className="p-6 border-t border-white/10 flex items-center justify-between gap-3">
+                      <button onClick={() => generateNarratives(reportRegion)} disabled={narrativeLoading}
+                        className="px-5 py-2.5 bg-white/10 hover:bg-white/20 disabled:opacity-50 text-white rounded-xl font-semibold text-sm flex items-center gap-2 transition-all border border-white/10">
+                        {narrativeLoading ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Generating AI narratives...</> : <><Zap className="w-4 h-4"/>{savedNarratives[reportRegion] ? 'Regenerate Narratives' : 'Generate AI Narratives'}</>}
                       </button>
+                      <div className="flex items-center gap-3">
+                        {savedNarratives[reportRegion] && <span className="text-emerald-400 text-sm font-semibold">✓ Narratives ready</span>}
+                        <button onClick={() => setShowReportModal(false)} className="px-4 py-2 text-slate-400 hover:text-white text-sm font-semibold transition-all">Cancel</button>
+                        <button onClick={generateRegionReport} disabled={reportGenerating}
+                          className="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 disabled:opacity-50 text-white rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-lg">
+                          {reportGenerating ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Building PDF...</> : <><Download className="w-4 h-4"/>Generate PDF</>}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
