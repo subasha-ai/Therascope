@@ -1463,10 +1463,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   )}
                 </>
               )}
-              <a href={WEEKLY_REPORT_LINK} target="_blank" rel="noopener noreferrer"
-                className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                <ExternalLink className="w-4 h-4" /> Submit Weekly Report
-              </a>
               <button onClick={() => { setIsAuthenticated(false); setLoginType(null); setSelectedFacilityForLogin(''); setActiveView('overview'); }}
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all text-sm font-medium border border-white/20">
                 Sign Out
@@ -1780,16 +1776,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <p className="text-slate-400 mt-1">{EXEC_MONTHS[0].label.replace(' MTD','')} – {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')} 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
-                    {['Overland','Golden Coast'].map(region => (
-                      <button key={region} onClick={() => { setReportRegion(region); setShowReportModal(true); }}
-                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                        <FileText className="w-4 h-4" /> {region} Report
-                      </button>
-                    ))}
-                    <button onClick={generateExecPDF}
-                      className="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                      <Download className="w-4 h-4" /> Export Summary PDF
-                    </button>
                     <div className="text-right text-xs">
                       <div className="text-slate-500 uppercase tracking-wider mb-1">Data through</div>
                       <div className="text-white font-bold">{throughDate}</div>
@@ -1967,23 +1953,53 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       </tr>
                     </thead>
                     <tbody>
-                      {allFacilities.map((fac, i) => {
-                        const a = alosData[fac] || {};
-                        const vals = [a.jan, a.feb, a.mar, a.apr];
-                        if (vals.every(v => !v)) return null;
+                      {['Golden Coast','Overland'].map(region => {
+                        const regionFacs = allFacilities.filter(f => allWeeklyData.find(d=>d.facility===f)?.region===region);
+                        const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr);
+                        if (!facRows.length) return null;
+
+                        // Compute region averages
+                        const avg = (mo) => {
+                          const vals = facRows.map(({a})=>parseFloat(a[mo])).filter(v=>!isNaN(v));
+                          return vals.length ? (vals.reduce((s,v)=>s+v,0)/vals.length).toFixed(1) : '—';
+                        };
+
                         return (
-                          <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
-                            <td className="py-2.5 px-4 text-white text-xs font-medium">{fac}</td>
-                            {vals.map((v, vi) => (
-                              <td key={vi} className="py-2.5 px-4 text-center">
-                                <span className={`text-sm font-bold ${v && parseFloat(v) < 30 ? 'text-rose-400' : 'text-slate-300'}`}>
-                                  {v || '—'}
-                                </span>
+                          <React.Fragment key={region}>
+                            {/* Region header row */}
+                            <tr className="bg-white/5 border-b border-white/10">
+                              <td colSpan={5} className="py-2 px-4">
+                                <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
+                            </tr>
+                            {/* Region average row */}
+                            <tr className="border-b border-white/10 bg-white/3">
+                              <td className="py-2 px-4 text-slate-400 text-xs font-bold italic">Region Avg</td>
+                              {['jan','feb','mar','apr'].map((mo,vi) => {
+                                const v = avg(mo);
+                                return (
+                                  <td key={vi} className="py-2 px-4 text-center">
+                                    <span className={`text-xs font-bold ${v!=='—'&&parseFloat(v)<30?'text-rose-400':'text-cyan-300'}`}>{v}</span>
+                                  </td>
+                                );
+                              })}
+                            </tr>
+                            {/* Building rows */}
+                            {facRows.map(({fac, a}, i) => (
+                              <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
+                                <td className="py-2.5 px-4 text-white text-xs font-medium pl-8">{fac}</td>
+                                {[a.jan,a.feb,a.mar,a.apr].map((v, vi) => (
+                                  <td key={vi} className="py-2.5 px-4 text-center">
+                                    <span className={`text-sm font-bold ${v&&parseFloat(v)<30?'text-rose-400':'text-slate-300'}`}>
+                                      {v||'—'}
+                                    </span>
+                                  </td>
+                                ))}
+                              </tr>
                             ))}
-                          </tr>
+                          </React.Fragment>
                         );
-                      }).filter(Boolean)}
+                      })}
                     </tbody>
                   </table>
                 </div>
