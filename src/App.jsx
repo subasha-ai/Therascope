@@ -1424,25 +1424,13 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
                       <div className="bg-slate-900 border border-white/20 rounded-2xl shadow-2xl w-full max-w-sm p-6">
                         <h3 className="text-lg font-black text-white mb-1">Send Weekly Digest</h3>
-                        <p className="text-slate-400 text-sm mb-5">Test first, then send to all DORs.</p>
+                        <p className="text-slate-400 text-sm mb-5">Send this week's metrics and alerts to all DORs.</p>
                         <div className="space-y-3">
-                          <div>
-                            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Your email (test)</label>
-                            <input type="email" placeholder="you@example.com" value={testEmail}
-                              onChange={e => setTestEmail(e.target.value)}
-                              className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-cyan-400" />
-                          </div>
-                          <button onClick={() => { sendWeeklyDigest(testEmail); setShowDigestModal(false); }} disabled={!testEmail}
-                            className="w-full px-4 py-2.5 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white rounded-xl font-semibold text-sm transition-all">
-                            Send Test Email
+                          <button onClick={() => { sendWeeklyDigest(); setShowDigestModal(false); }}
+                            className="w-full px-4 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white rounded-xl font-semibold text-sm transition-all">
+                            Send to All DORs
                           </button>
-                          <div className="border-t border-white/10 pt-3">
-                            <button onClick={() => { sendWeeklyDigest(); setShowDigestModal(false); }}
-                              className="w-full px-4 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white rounded-xl font-semibold text-sm transition-all">
-                              Send to All DORs
-                            </button>
-                            <p className="text-xs text-slate-500 text-center mt-2">Only sends to buildings with emails configured</p>
-                          </div>
+                          <p className="text-xs text-slate-500 text-center">Only sends to buildings with emails configured</p>
                         </div>
                         <button onClick={() => setShowDigestModal(false)} className="mt-4 w-full text-slate-500 hover:text-white text-sm transition-all">Cancel</button>
                       </div>
