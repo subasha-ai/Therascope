@@ -1073,7 +1073,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     ...(!isRestrictedView ? [{ id:'overview',  label:'Overview',        icon: Activity  }] : []),
     ...(!isRestrictedView ? [{ id:'exec',       label:'Executive',       icon: Star      }] : []),
     {                        id:'facilities',   label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
-    ...(isRestrictedView  ? [{ id:'resources',  label:'Resources',       icon: FileText  }] : []),
+    ...(isRestrictedView  ? [{ id:'compliance', label:'Compliance',       icon: CheckCircle }] : []),
+    ...(isRestrictedView  ? [{ id:'resources',  label:'Resources',        icon: FileText  }] : []),
   ];
 
   return (
@@ -2090,6 +2091,107 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         )}
 
         {/* ══ RESOURCES TAB (DOR only) ══════════════════════════════════════ */}
+        {/* ══ COMPLIANCE TAB (DOR) ══════════════════════════════════════════ */}
+        {activeView === 'compliance' && isRestrictedView && (() => {
+          const allComp = [...(complianceData['Overland']||[]), ...(complianceData['Golden Coast']||[])];
+          const myComp  = allComp.find(r => r.building === restrictedFacility);
+          const status  = myComp?.status?.toLowerCase().replace(/\s/g,'') || '';
+          const isGreen  = status.includes('green');
+          const isRed    = status.includes('red');
+          const statusLabel = isGreen ? 'Green' : isRed ? 'Red' : 'Yellow';
+          const statusColor = isGreen ? 'text-emerald-300' : isRed ? 'text-rose-300' : 'text-yellow-300';
+          const statusBg    = isGreen ? 'bg-emerald-500/20 border-emerald-400/30' : isRed ? 'bg-rose-500/20 border-rose-400/30' : 'bg-yellow-500/20 border-yellow-400/30';
+          const statusDot   = isGreen ? 'bg-emerald-400' : isRed ? 'bg-rose-400' : 'bg-yellow-400';
+
+          const categories = [
+            { label: 'Orders & Care Plans',      icon: '📋' },
+            { label: 'Therapy Diagnosis Entry',  icon: '🏷️' },
+            { label: 'JMA / Post-Fall Screens',  icon: '🛡️' },
+            { label: 'RNA Program',              icon: '👥' },
+            { label: 'Daily Documentation',      icon: '📝' },
+          ];
+
+          return (
+            <div className="space-y-6 pb-12">
+              {/* Header */}
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div>
+                    <h2 className="text-2xl font-black text-white">Compliance Overview</h2>
+                    <p className="text-slate-400 text-sm mt-1">{restrictedFacility} · {myFacilityData?.region}</p>
+                  </div>
+                  {myComp && (
+                    <div className={`flex items-center gap-3 px-5 py-3 rounded-2xl border ${statusBg}`}>
+                      <div className={`w-3 h-3 rounded-full ${statusDot}`} />
+                      <span className={`text-lg font-black ${statusColor}`}>{statusLabel}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {!myComp ? (
+                <div className="bg-white/5 rounded-2xl p-8 text-center border border-white/10">
+                  <p className="text-slate-400">No compliance data available for your building yet.</p>
+                  <p className="text-slate-500 text-sm mt-2">Contact your regional manager for details.</p>
+                </div>
+              ) : (
+                <>
+                  {/* Action Items */}
+                  <div className={`rounded-2xl p-6 border ${statusBg}`}>
+                    <div className="flex items-start gap-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isGreen?'bg-emerald-500/30':isRed?'bg-rose-500/30':'bg-yellow-500/30'}`}>
+                        <span className="text-xl">{isGreen?'✅':isRed?'🚨':'⚠️'}</span>
+                      </div>
+                      <div>
+                        <div className={`text-xs font-bold uppercase tracking-wider mb-1 ${statusColor}`}>
+                          {isGreen ? 'On Track' : isRed ? 'Immediate Attention Required' : 'In Progress'}
+                        </div>
+                        <p className="text-white text-sm leading-relaxed">{myComp.actionItem}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Compliance Categories */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
+                    <div className="p-5 border-b border-white/10">
+                      <h3 className="text-base font-black text-white">Compliance Categories</h3>
+                      <p className="text-slate-400 text-xs mt-1">Current status across all 5 areas</p>
+                    </div>
+                    <div className="divide-y divide-white/5">
+                      {categories.map((cat, i) => (
+                        <div key={i} className="flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all">
+                          <div className="flex items-center gap-3">
+                            <span className="text-lg">{cat.icon}</span>
+                            <span className="text-sm font-medium text-white">{cat.label}</span>
+                          </div>
+                          <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold ${isGreen?'bg-emerald-500/20 text-emerald-300':isRed?'bg-rose-500/20 text-rose-300':'bg-yellow-500/20 text-yellow-300'}`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${statusDot}`} />
+                            {statusLabel}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* What to focus on */}
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
+                        <span className="text-sm">🎯</span>
+                      </div>
+                      <h3 className="text-base font-black text-white">This Week's Focus</h3>
+                    </div>
+                    <p className="text-slate-300 text-sm leading-relaxed">{myComp.actionItem}</p>
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <p className="text-slate-500 text-xs">Compliance data is updated monthly by your regional manager. Contact them with any questions.</p>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })()}
+
         {activeView === 'resources' && isRestrictedView && (
           <div className="space-y-6 pb-12">
             <div className="bg-gradient-to-r from-cyan-500/10 to-teal-500/10 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/30">
