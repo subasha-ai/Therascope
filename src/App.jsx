@@ -175,6 +175,10 @@ export default function App() {
   const [savedNarratives,   setSavedNarratives]   = useState({});
   const [narrativeLoading,  setNarrativeLoading]  = useState(false);
   const [digestSending,     setDigestSending]     = useState(false);
+  const [checkInData,       setCheckInData]       = useState([]);
+  const [checkInWeek,       setCheckInWeek]       = useState(null);
+  const [checkInSummaries,  setCheckInSummaries]  = useState({});
+  const [summaryLoading,    setSummaryLoading]    = useState(false);
   const [digestResult,      setDigestResult]      = useState(null);
   const [testEmail,         setTestEmail]         = useState('');
   const [showDigestModal,   setShowDigestModal]   = useState(false);
@@ -1042,6 +1046,105 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     setDigestSending(false);
   };
 
+  // ── DOR Check-In Parser
+  const handleCheckInUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.1/package/xlsx.mjs');
+    const buf  = await file.arrayBuffer();
+    const wb   = XLSX.read(buf);
+    const ws   = wb.Sheets['Master'];
+    if (!ws) return;
+    const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+    const headers = rows[0];
+
+    const col = (name) => headers.findIndex(h => h && h.toString().toLowerCase().includes(name.toLowerCase()));
+    const iName      = col('your name');
+    const iWeek      = col('week of');
+    const iFacility  = col('name of facility');
+    const iProd      = col('team productivity');
+    const iCPM       = col('cpm');
+    const iEligible  = col('part b eligible');
+    const iCaseload  = col('part b on caseload');
+    const iLT        = col('long term patients');
+    const iMode      = col('modes of treatment');
+    const iTravelers = col('current travelers');
+    const iStaffing  = col('staffing needs');
+    const iMissing   = col('any missing labor');
+    const iPulse     = headers.findIndex(h => h && h.toString().toLowerCase().includes('pulse'));
+
+    const parsed = rows.slice(1).filter(r => r[iFacility]).map(r => ({
+      dorName:    r[iName]      || '',
+      week:       r[iWeek]      || '',
+      facility:   (r[iFacility] || '').trim(),
+      teamProd:   r[iProd],
+      cpm:        r[iCPM],
+      eligible:   r[iEligible],
+      caseload:   r[iCaseload],
+      ltPickups:  r[iLT],
+      mode:       r[iMode],
+      travelers:  r[iTravelers] || '',
+      staffing:   r[iStaffing]  || '',
+      missing:    r[iMissing]   || '',
+      pulse:      r[iPulse]     || '',
+    }));
+
+    // Get latest week per facility
+    const latestByFacility = {};
+    parsed.forEach(r => {
+      const w = parseInt(r.week) || 0;
+      if (!latestByFacility[r.facility] || w > parseInt(latestByFacility[r.facility].week)) {
+        latestByFacility[r.facility] = r;
+      }
+    });
+
+    const latest = Object.values(latestByFacility);
+    const weekVal = latest[0]?.week;
+    setCheckInData(latest);
+    setCheckInWeek(weekVal);
+    setCheckInSummaries({});
+  };
+
+  // ── Generate AI Summaries for Check-Ins
+  const generateCheckInSummaries = async () => {
+    if (!checkInData.length) return;
+    setSummaryLoading(true);
+    const summaries = {};
+
+    // Process in batches of 6
+    const batches = [];
+    for (let i = 0; i < checkInData.length; i += 6) batches.push(checkInData.slice(i, i + 6));
+
+    for (const batch of batches) {
+      try {
+        const prompt = `You are reviewing DOR (Director of Rehabilitation) weekly check-ins from skilled nursing facilities. For each building below, write a 1-2 sentence plain English summary highlighting the most important thing — staffing issues, compliance flags, open positions, traveler concerns, or operational notes. Be direct and specific. If everything looks stable, say so briefly.
+
+${batch.map(r => `${r.facility} (${r.dorName}):
+- Team Productivity: ${r.teamProd || 'N/A'}% | CPM: $${r.cpm || 'N/A'}
+- Med B: ${r.caseload || 0}/${r.eligible || 0} on caseload | Mode: ${r.mode || 'N/A'}%
+- Missing Labor: ${r.missing || 'None'}
+- Travelers: ${r.travelers || 'None'}
+- Open Positions: ${r.staffing || 'None'}
+- DOR Notes: ${r.pulse || 'None'}`).join('\n\n')}
+
+Respond ONLY with valid JSON, no markdown: {"Facility Name": "summary sentence here"}`;
+
+        const res = await fetch('/api/briefing', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
+        });
+        const data = await res.json();
+        const text = data.content?.find(b => b.type === 'text')?.text || '{}';
+        const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+        Object.assign(summaries, parsed);
+      } catch(e) { console.error('Summary error', e); }
+    }
+
+    setCheckInSummaries(summaries);
+    setSummaryLoading(false);
+  };
+
   // ── Executive PDF
   const generateExecPDF = () => {
     try {
@@ -1244,9 +1347,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
   // ─── MAIN SHELL ──────────────────────────────────────────────────────────────
   const NAV_TABS = [
-    ...(!isRestrictedView ? [{ id:'overview',  label:'Overview',        icon: Activity  }] : []),
-    ...(!isRestrictedView ? [{ id:'exec',       label:'Executive',       icon: Star      }] : []),
-    {                        id:'facilities',   label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
+    ...(!isRestrictedView ? [{ id:'overview',   label:'Overview',        icon: Activity  }] : []),
+    ...(!isRestrictedView ? [{ id:'exec',        label:'Executive',       icon: Star      }] : []),
+    ...(!isRestrictedView ? [{ id:'checkins',    label:'Check-Ins',       icon: CheckCircle}] : []),
+    {                        id:'facilities',    label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
     ...(isRestrictedView  ? [{ id:'compliance', label:'Compliance',       icon: CheckCircle }] : []),
     ...(isRestrictedView  ? [{ id:'resources',  label:'Resources',        icon: FileText  }] : []),
   ];
@@ -1808,6 +1912,126 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             </div>
           );
         })()}
+
+        {/* ══ CHECK-INS TAB ══════════════════════════════════════════════════ */}
+        {activeView === 'checkins' && !isRestrictedView && (
+          <div className="space-y-6 pb-12">
+
+            {/* Header */}
+            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="text-2xl font-black text-white">DOR Weekly Check-Ins</h2>
+                  <p className="text-slate-400 text-sm mt-1">
+                    {checkInData.length > 0
+                      ? `${checkInData.length} buildings · Week of ${checkInWeek}`
+                      : 'Upload the Microsoft Forms export to view check-ins'}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  {checkInData.length > 0 && (
+                    <button onClick={generateCheckInSummaries} disabled={summaryLoading}
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 text-white rounded-xl font-semibold text-sm flex items-center gap-2 transition-all shadow-lg">
+                      {summaryLoading
+                        ? <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Summarizing...</>
+                        : <><Zap className="w-3.5 h-3.5"/>Generate AI Summaries</>}
+                    </button>
+                  )}
+                  <label className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-xl font-semibold text-sm flex items-center gap-2 cursor-pointer transition-all">
+                    <Upload className="w-4 h-4"/>Upload Check-In Excel
+                    <input type="file" accept=".xlsx" className="hidden" onChange={handleCheckInUpload}/>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {checkInData.length === 0 && (
+              <div className="bg-white/5 rounded-2xl p-12 text-center border border-white/10">
+                <div className="text-4xl mb-4">📋</div>
+                <p className="text-slate-300 font-semibold">No check-in data loaded</p>
+                <p className="text-slate-500 text-sm mt-2">Download the Excel export from Microsoft Forms and upload it above</p>
+              </div>
+            )}
+
+            {checkInData.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {checkInData.map((r, i) => {
+                  const prodGood = parseFloat(r.teamProd) >= 84;
+                  const cpmGood  = parseFloat(r.cpm) <= 1.45;
+                  const hasFlag  = r.missing && r.missing.toLowerCase() !== 'no' && r.missing.toLowerCase() !== 'none' && r.missing !== '0';
+                  const hasOpenPos = r.staffing && r.staffing.toLowerCase() !== 'none' && r.staffing.trim() !== '';
+                  const hasTravelers = r.travelers && r.travelers.toLowerCase() !== 'none' && r.travelers.toLowerCase() !== 'na' && r.travelers.trim() !== '';
+                  const summary = checkInSummaries[r.facility];
+
+                  const urgency = hasFlag ? 'border-rose-400/40' : hasOpenPos ? 'border-yellow-400/30' : 'border-white/10';
+
+                  return (
+                    <div key={i} className={`bg-white/5 backdrop-blur-xl rounded-2xl border ${urgency} overflow-hidden`}>
+                      {/* Card header */}
+                      <div className="p-4 border-b border-white/10 flex items-start justify-between gap-3">
+                        <div>
+                          <div className="font-black text-white text-base">{r.facility}</div>
+                          <div className="text-slate-400 text-xs mt-0.5">{r.dorName}</div>
+                        </div>
+                        <div className="flex gap-2 flex-wrap justify-end">
+                          {hasFlag && <span className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full font-bold">Missing Labor</span>}
+                          {hasOpenPos && <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-300 rounded-full font-bold">Open Position</span>}
+                          {hasTravelers && <span className="text-xs px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full font-bold">Travelers</span>}
+                        </div>
+                      </div>
+
+                      {/* Metrics row */}
+                      <div className="px-4 py-3 border-b border-white/5 grid grid-cols-4 gap-2">
+                        {[
+                          { label:'Prod', val: r.teamProd ? r.teamProd+'%' : '—', good: prodGood },
+                          { label:'CPM',  val: r.cpm ? '$'+parseFloat(r.cpm).toFixed(2) : '—', good: cpmGood },
+                          { label:'Med B', val: r.caseload && r.eligible ? r.caseload+'/'+r.eligible : '—', good: null },
+                          { label:'Mode',  val: r.mode ? parseFloat(r.mode).toFixed(1)+'%' : '—', good: parseFloat(r.mode)>=4 },
+                        ].map((m,mi) => (
+                          <div key={mi} className="text-center">
+                            <div className="text-xs text-slate-500 mb-0.5">{m.label}</div>
+                            <div className={`text-sm font-black ${m.good===true?'text-emerald-300':m.good===false?'text-rose-300':'text-white'}`}>{m.val}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Details */}
+                      <div className="p-4 space-y-2">
+                        {hasTravelers && (
+                          <div className="text-xs">
+                            <span className="text-slate-500 font-bold uppercase tracking-wide">Travelers </span>
+                            <span className="text-slate-300">{r.travelers}</span>
+                          </div>
+                        )}
+                        {hasOpenPos && (
+                          <div className="text-xs">
+                            <span className="text-slate-500 font-bold uppercase tracking-wide">Open Positions </span>
+                            <span className="text-slate-300">{r.staffing}</span>
+                          </div>
+                        )}
+                        {r.pulse && (
+                          <div className="text-xs">
+                            <span className="text-slate-500 font-bold uppercase tracking-wide">DOR Notes </span>
+                            <span className="text-slate-400">{r.pulse}</span>
+                          </div>
+                        )}
+                        {summary && (
+                          <div className="mt-3 pt-3 border-t border-white/10">
+                            <div className="flex items-center gap-2 mb-1">
+                              <Zap className="w-3 h-3 text-indigo-400"/>
+                              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wide">AI Summary</span>
+                            </div>
+                            <p className="text-slate-300 text-xs leading-relaxed">{summary}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* ══ FACILITIES TAB ════════════════════════════════════════════════ */}
         {activeView === 'facilities' && (
