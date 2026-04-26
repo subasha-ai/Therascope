@@ -30,7 +30,27 @@ const DOR_PASSWORDS = {
   'Blue Oak Post Acute':     'BlueOakSteps',
 };
 
-// EXEC_MONTHS is now computed dynamically inside the component from actual data
+// DOR email addresses — fill in each DOR's email
+const DOR_EMAILS = {
+  'The Win Post Acute':      'vrutkevich@thewinpa.com',
+  'Mountain View HC':        'epinkerton@mvhealthcare.com',
+  'Morgan Hill HC':          'hgallardo@morganhillhc.com',
+  'Los Altos Post Acute':    'mperalta@losaltospa.com',
+  'Gilroy HC':               'ngoraksh@gilroyhealthcare.com',
+  'Manresa HC':              'oaranzaso@manresahc.com',
+  'PAC Hills Post Acute':    'kgagni@pachillspa.com',
+  'Pac Coast PA':            'ksarceno@paccoastmanor.com',
+  'Camino Ridge Post Acute': 'agayoso@caminoridgepa.com',
+  'Eden HC':                 'jjacob@edenhc.com',
+  'West Shore PA':           'msidelnikov@westshorepa.com',
+  'Golden Harbor HC':        'aajgaonkar@goldenharborhealthcare.com',
+  'Belmont HC':              'rdelfino@belmonthcc.com',
+  'Palo Alto Post Acute':    'lton@papostacute.com',
+  'Bridgewood PA':           'vamen@cedarwoodpostacute.com',
+  'Cedarwood PA':            'vamen@cedarwoodpostacute.com',
+  'Capital PA':              'dperkins@capitalpostacute.com',
+  'Blue Oak Post Acute':     'asha@spyglasshc.com',
+};
 
 // ─── PURE HELPERS (no hooks) ──────────────────────────────────────────────────
 // Always show MTD value, fall back to week value
@@ -154,6 +174,8 @@ export default function App() {
   const [reportGenerating,  setReportGenerating]  = useState(false);
   const [savedNarratives,   setSavedNarratives]   = useState({});
   const [narrativeLoading,  setNarrativeLoading]  = useState(false);
+  const [digestSending,     setDigestSending]     = useState(false);
+  const [digestResult,      setDigestResult]      = useState(null);
 
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
@@ -868,7 +890,156 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     setShowReportModal(false);
   };
 
-    // ── Executive PDF
+    // ── Weekly Digest Emailer
+  const sendWeeklyDigest = async () => {
+    setDigestSending(true);
+    setDigestResult(null);
+
+    const latest = Math.max(...allWeeklyData.map(d => parseInt(d.week)));
+    const currentWeek = allWeeklyData.filter(d => parseInt(d.week) === latest);
+    const prevWeek    = allWeeklyData.filter(d => parseInt(d.week) === latest - 1);
+
+    const results = { sent: [], skipped: [], failed: [] };
+
+    for (const facility of allFacilities) {
+      const email = DOR_EMAILS[facility];
+      if (!email) { results.skipped.push(facility); continue; }
+
+      const curr = currentWeek.find(d => d.facility === facility);
+      if (!curr) { results.skipped.push(facility); continue; }
+
+      const prev = prevWeek.find(d => d.facility === facility);
+      const p    = mtd(curr,'productivityMTD','productivity');
+      const c    = mtd(curr,'cpmMTD','cpm');
+      const mo   = mtd(curr,'modeOfTreatmentMTD','modeOfTreatment');
+      const upv  = mtd(curr,'unitsPerVisitMTD','unitsPerVisit');
+      const cas  = curr.medBEligible > 0 ? Math.round((curr.medBCaseload/curr.medBEligible)*100) : 0;
+
+      const pPrev  = prev ? mtd(prev,'productivityMTD','productivity') : p;
+      const cPrev  = prev ? mtd(prev,'cpmMTD','cpm') : c;
+      const moPrev = prev ? mtd(prev,'modeOfTreatmentMTD','modeOfTreatment') : mo;
+      const upvPrev= prev ? mtd(prev,'unitsPerVisitMTD','unitsPerVisit') : upv;
+
+      const alerts = [], wins = [];
+      if (p < 84)           alerts.push({ msg: `Productivity ${p.toFixed(1)}% — below 84% goal`, severe: true });
+      else if (p - pPrev <= -2) alerts.push({ msg: `Productivity dropped ${Math.abs(p-pPrev).toFixed(1)}pp this week`, severe: false });
+      else if (p - pPrev >= 2)  wins.push(`Productivity up ${(p-pPrev).toFixed(1)}pp`);
+
+      if (c > 1.45)            alerts.push({ msg: `CPM $${c.toFixed(2)} — above $1.45 target`, severe: c > 1.55 });
+      else if (c - cPrev >= 0.05) alerts.push({ msg: `CPM rose $${(c-cPrev).toFixed(2)} this week`, severe: false });
+      else if (c - cPrev <= -0.05) wins.push(`CPM improved $${Math.abs(c-cPrev).toFixed(2)}`);
+
+      if (mo < 4)              alerts.push({ msg: `Mode of treatment ${mo.toFixed(1)}% — below 4% goal`, severe: mo === 0 });
+      else if (mo - moPrev <= -2) alerts.push({ msg: `Mode dropped ${Math.abs(mo-moPrev).toFixed(1)}pp this week`, severe: false });
+      else if (mo - moPrev >= 2)  wins.push(`Mode up ${(mo-moPrev).toFixed(1)}pp`);
+
+      if (upv - upvPrev <= -0.3) alerts.push({ msg: `Units per visit dropped ${Math.abs(upv-upvPrev).toFixed(2)} this week`, severe: false });
+      else if (upv - upvPrev >= 0.3) wins.push(`UPV up ${(upv-upvPrev).toFixed(2)}`);
+
+      const metricRow = (label, val, good) => `
+        <tr>
+          <td style="padding:8px 12px;color:#94a3b8;font-size:13px;">${label}</td>
+          <td style="padding:8px 12px;font-weight:700;font-size:14px;color:${good?'#34d399':'#f87171'};">${val}</td>
+        </tr>`;
+
+      const alertRow = (a) => `
+        <div style="background:${a.severe?'rgba(248,113,113,0.1)':'rgba(251,191,36,0.1)'};border-left:3px solid ${a.severe?'#f87171':'#fbbf24'};padding:8px 12px;margin:6px 0;border-radius:4px;font-size:13px;color:#e2e8f0;">
+          ${a.severe ? '🚨' : '⚠️'} ${a.msg}
+        </div>`;
+
+      const winRow = (w) => `
+        <div style="background:rgba(52,211,153,0.1);border-left:3px solid #34d399;padding:8px 12px;margin:6px 0;border-radius:4px;font-size:13px;color:#e2e8f0;">
+          ✅ ${w}
+        </div>`;
+
+      const html = `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <div style="max-width:580px;margin:0 auto;padding:24px 16px;">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#0e7490,#0f766e);border-radius:16px;padding:24px;margin-bottom:20px;">
+      <div style="font-size:11px;font-weight:700;color:#a5f3fc;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">TheraScope · Weekly Digest</div>
+      <div style="font-size:22px;font-weight:900;color:#ffffff;">${facility}</div>
+      <div style="font-size:13px;color:#a5f3fc;margin-top:4px;">Week ending ${throughDate}</div>
+    </div>
+
+    <!-- Metrics -->
+    <div style="background:#1e293b;border-radius:12px;padding:4px;margin-bottom:16px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.1);">
+            <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Metric</th>
+            <th style="padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">MTD Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${metricRow('Productivity', p.toFixed(1)+'%', p >= 84)}
+          ${metricRow('CPM', '$'+c.toFixed(2), c <= 1.45)}
+          ${metricRow('Mode of Treatment', mo.toFixed(1)+'%', mo >= 4)}
+          ${metricRow('Units Per Visit', upv.toFixed(2), upv >= 3)}
+          ${metricRow('Med B on Caseload', cas+'%', cas >= 50)}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Alerts -->
+    ${alerts.length > 0 ? `
+    <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">⚠️ Alerts This Week</div>
+      ${alerts.map(alertRow).join('')}
+    </div>` : ''}
+
+    <!-- Wins -->
+    ${wins.length > 0 ? `
+    <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">🏆 Wins This Week</div>
+      ${wins.map(winRow).join('')}
+    </div>` : ''}
+
+    ${alerts.length === 0 && wins.length === 0 ? `
+    <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:16px;text-align:center;color:#94a3b8;font-size:13px;">
+      ✅ No major changes from last week — steady as she goes.
+    </div>` : ''}
+
+    <!-- CTA -->
+    <div style="text-align:center;margin:20px 0;">
+      <a href="https://therascope-insights.vercel.app" style="background:linear-gradient(135deg,#0e7490,#0f766e);color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:10px;font-weight:700;font-size:14px;display:inline-block;">
+        View Your Dashboard →
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;color:#475569;font-size:11px;margin-top:16px;">
+      TheraScope · ${facility} · Week ending ${throughDate}<br>
+      <span style="color:#334155;">Powered by therascopeai.com</span>
+    </div>
+  </div>
+</body>
+</html>`;
+
+      try {
+        const res = await fetch('/api/email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: email,
+            subject: `Therascope Weekly Digest — ${facility} — Week ending ${throughDate}`,
+            html,
+          }),
+        });
+        if (res.ok) results.sent.push(facility);
+        else results.failed.push(facility);
+      } catch { results.failed.push(facility); }
+    }
+
+    setDigestResult(results);
+    setDigestSending(false);
+  };
+
+  // ── Executive PDF
   const generateExecPDF = () => {
     try {
       const doc   = new jsPDF({ orientation: 'landscape' });
@@ -1100,6 +1271,21 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               </div>
             </div>
             <div className="flex gap-3 items-center">
+              {!isRestrictedView && (
+                <button onClick={sendWeeklyDigest} disabled={digestSending}
+                  className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 disabled:opacity-50 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                  {digestSending
+                    ? <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Sending...</>
+                    : <><Zap className="w-3.5 h-3.5"/>Send Weekly Digest</>}
+                </button>
+              )}
+              {digestResult && !isRestrictedView && (
+                <div className="text-xs text-slate-400">
+                  {digestResult.sent.length > 0 && <span className="text-emerald-400 font-bold">{digestResult.sent.length} sent</span>}
+                  {digestResult.skipped.length > 0 && <span className="text-slate-500 ml-2">{digestResult.skipped.length} skipped</span>}
+                  {digestResult.failed.length > 0 && <span className="text-rose-400 ml-2 font-bold">{digestResult.failed.length} failed</span>}
+                </div>
+              )}
               <a href={WEEKLY_REPORT_LINK} target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
                 <ExternalLink className="w-4 h-4" /> Submit Weekly Report
