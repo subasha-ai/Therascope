@@ -211,7 +211,7 @@ export default function App() {
 
   const myFebFinal = (() => {
     if (!restrictedFacility) return null;
-    const recs = allWeeklyData.filter(d => d.facility === restrictedFacility && d.date.startsWith('2026-02'));
+    const recs = allWeeklyData.filter(d => d.facility === restrictedFacility && d.date>=EXEC_MONTHS[EXEC_MONTHS.length-2].start && d.date<=EXEC_MONTHS[EXEC_MONTHS.length-2].end);
     return recs.length ? recs.sort((a,b) => parseInt(b.week)-parseInt(a.week))[0] : null;
   })();
 
@@ -644,7 +644,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
     // ── PAGE 2: 3-Month Region Summary
     addPage(); let y = 18;
-    y = sectionDot(y, '3-Month Region Summary'); y += 4;
+    y = sectionDot(y, EXEC_MONTHS[0].label.replace(' MTD','')+' – '+EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')+' Region Summary'); y += 4;
 
     const months = EXEC_MONTHS.map(m => {
       const finals = regionFacilities.map(f=>getMonthFinal(f,m.start,m.end)).filter(Boolean);
@@ -1054,7 +1054,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setTextColor(255,255,255); doc.setFontSize(28); doc.setFont('helvetica','bold');
       doc.text('Executive Summary', pageW/2, 60, { align:'center' });
       doc.setFontSize(14); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,184);
-      doc.text('January - March 2026', pageW/2, 75, { align:'center' });
+      doc.text(EXEC_MONTHS[0].label.replace(' MTD','')+' - '+EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')+' 2026', pageW/2, 75, { align:'center' });
       doc.text(`Data through ${throughDate} - ${allFacilities.length} Facilities - 2 Regions`, pageW/2, 88, { align:'center' });
 
       // Company summary page
@@ -1086,7 +1086,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.text('Building Scorecard - Productivity, CPM, Mode, Med B Revenue', 14, 20);
       doc.autoTable({
         startY: 30,
-        head: [['Facility','Rgn','Jan Prod','Jan CPM','Jan Mode','Jan Rev','Feb Prod','Feb CPM','Feb Mode','Feb Rev','Mar Prod','Mar CPM','Mar Mode','Mar Rev']],
+        head: [['Facility','Rgn',...EXEC_MONTHS.flatMap(m=>[m.label.replace(' MTD','')+' Prod',m.label.replace(' MTD','')+' CPM',m.label.replace(' MTD','')+' Mode',m.label.replace(' MTD','')+' Rev'])]],
         body: allFacilities.map(fac => {
           const region = allWeeklyData.find(d => d.facility === fac)?.region || '';
           const row = [shortName(fac), region === 'Golden Coast' ? 'GC' : 'OL'];
@@ -1136,10 +1136,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setTextColor(255,255,255); doc.setFontSize(16); doc.setFont('helvetica','bold');
       doc.text('Spotlight', 14, 20);
       doc.setFontSize(12); doc.setTextColor(110,231,183);
-      doc.text('Most Improved (Jan to Mar, composite goals)', 14, 35);
+      doc.text('Most Improved ('+EXEC_MONTHS[0].label.replace(' MTD','')+' to '+EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')+', composite goals)', 14, 35);
       doc.autoTable({
         startY: 40,
-        head: [['Facility','Jan Goals','Mar Goals','Prod Change']],
+        head: [['Facility',EXEC_MONTHS[0].label.replace(' MTD','')+' Goals',EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')+' Goals','Prod Change']],
         body: improvedList.map(r => [shortName(r.fac), r.js+'/4', r.ms+'/4', (r.prodDiff>0?'+':'')+r.prodDiff.toFixed(1)+'pp']),
         theme: 'grid',
         headStyles: { fillColor:[16,185,129], textColor:[255,255,255], fontStyle:'bold' },
@@ -1152,7 +1152,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.text('Needs Attention (failing 3+ goals, 2+ months)', 14, afterImproved);
       doc.autoTable({
         startY: afterImproved + 5,
-        head: [['Facility','Region','Jan Score','Feb Score','Mar Score']],
+        head: [['Facility','Region',...EXEC_MONTHS.map(m=>m.label.replace(' MTD','')+' Score')]],
         body: struggling.map(fac => {
           const region = allWeeklyData.find(d => d.facility === fac)?.region || '';
           const scores = EXEC_MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end))+'/4');
@@ -1476,8 +1476,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             {/* Feb vs March Comparison */}
             {(() => {
               const febFinals = {}, marchLatest = {};
-              allWeeklyData.filter(d => d.date.startsWith('2026-02')).forEach(d => { if (!febFinals[d.facility] || d.week > febFinals[d.facility].week) febFinals[d.facility] = d; });
-              allWeeklyData.filter(d => d.date.startsWith('2026-03')).forEach(d => { if (!marchLatest[d.facility] || d.week > marchLatest[d.facility].week) marchLatest[d.facility] = d; });
+              allWeeklyData.filter(d => d.date>=EXEC_MONTHS[EXEC_MONTHS.length-2].start && d.date<=EXEC_MONTHS[EXEC_MONTHS.length-2].end).forEach(d => { if (!febFinals[d.facility] || d.week > febFinals[d.facility].week) febFinals[d.facility] = d; });
+              allWeeklyData.filter(d => d.date>=EXEC_MONTHS[EXEC_MONTHS.length-1].start && d.date<=EXEC_MONTHS[EXEC_MONTHS.length-1].end).forEach(d => { if (!marchLatest[d.facility] || d.week > marchLatest[d.facility].week) marchLatest[d.facility] = d; });
               const facs = Object.keys(febFinals).filter(f => marchLatest[f]).sort();
               if (!facs.length) return null;
               const COLS = [
@@ -1491,7 +1491,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   <div className="p-5 border-b border-white/10 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 flex items-center gap-3">
                     <span className="text-2xl">📊</span>
                     <div>
-                      <h3 className="text-lg font-black text-white">February Final vs March MTD</h3>
+                      <h3 className="text-lg font-black text-white">{EXEC_MONTHS[EXEC_MONTHS.length-2].label.replace(' MTD','')} Final vs {EXEC_MONTHS[EXEC_MONTHS.length-1].label} </h3>
                       <p className="text-slate-400 text-sm">All facilities — MTD values compared</p>
                     </div>
                   </div>
@@ -1633,7 +1633,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <h2 className="text-3xl font-black text-white">Executive Summary</h2>
-                    <p className="text-slate-400 mt-1">January – March 2026 · {facilityRows.length} Facilities · 2 Regions</p>
+                    <p className="text-slate-400 mt-1">{EXEC_MONTHS[0].label.replace(' MTD','')} – {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')} 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
                     {['Overland','Golden Coast'].map(region => (
@@ -1764,7 +1764,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               {/* Spotlight */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="bg-emerald-500/10 backdrop-blur-xl rounded-2xl border border-emerald-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Jan → Mar)</h3></div>
+                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved ({EXEC_MONTHS[0].label.replace(' MTD','')} → {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')})</h3></div>
                   <div className="space-y-3">
                     {improved.map((r,i) => {
                       const janProd = r.months[0] ? mtd(r.months[0],'productivityMTD','productivity') : 0;
@@ -2009,7 +2009,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 })()}
 
                 {/* Feb vs March comparison (DOR) */}
-                {myFebFinal && myFacilityData.date.startsWith('2026-03') && (
+                {myFebFinal && myFacilityData.date>=EXEC_MONTHS[EXEC_MONTHS.length-1].start && (
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl p-6">
                     <h3 className="text-lg font-black text-white mb-5">📊 February Final vs {currentMonthName} MTD</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
