@@ -1340,7 +1340,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       <Users className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-left">
-                      <div className="text-white font-bold">Leadership / Admin</div>
+                      <div className="text-white font-bold">Admin</div>
                       <div className="text-slate-400 text-sm">Full access to all facilities</div>
                     </div>
                   </div>
@@ -1949,6 +1949,79 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   }
                 </div>
               </div>
+
+              {/* ── ALOS Table */}
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
+                <div className="p-5 border-b border-white/10">
+                  <h3 className="text-lg font-black text-white">Average Length of Stay (days)</h3>
+                  <p className="text-slate-400 text-xs mt-1">Red = below 30 days</p>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Building</th>
+                        {['Jan 2026','Feb 2026','Mar 2026','Apr MTD'].map(m => (
+                          <th key={m} className="py-3 px-4 text-slate-400 font-bold text-xs uppercase text-center">{m}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {allFacilities.map((fac, i) => {
+                        const a = alosData[fac] || {};
+                        const vals = [a.jan, a.feb, a.mar, a.apr];
+                        if (vals.every(v => !v)) return null;
+                        return (
+                          <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
+                            <td className="py-2.5 px-4 text-white text-xs font-medium">{fac}</td>
+                            {vals.map((v, vi) => (
+                              <td key={vi} className="py-2.5 px-4 text-center">
+                                <span className={`text-sm font-bold ${v && parseFloat(v) < 30 ? 'text-rose-400' : 'text-slate-300'}`}>
+                                  {v || '—'}
+                                </span>
+                              </td>
+                            ))}
+                          </tr>
+                        );
+                      }).filter(Boolean)}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* ── Compliance Overview */}
+              <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
+                <div className="p-5 border-b border-white/10">
+                  <h3 className="text-lg font-black text-white">Compliance Overview</h3>
+                </div>
+                {['Golden Coast', 'Overland'].map(region => (
+                  <div key={region}>
+                    <div className="px-5 py-2 bg-white/5 border-b border-white/10">
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{region}</span>
+                    </div>
+                    {(complianceData[region] || []).map((r, i) => {
+                      const s = (r.status || '').toLowerCase();
+                      const isGreen = s.includes('green');
+                      const isRed   = s.includes('red');
+                      const dotColor  = isGreen ? 'bg-emerald-400' : isRed ? 'bg-rose-400' : 'bg-yellow-400';
+                      const textColor = isGreen ? 'text-emerald-300' : isRed ? 'text-rose-300' : 'text-yellow-300';
+                      return (
+                        <div key={i} className="flex items-start gap-4 px-5 py-3 border-b border-white/5 hover:bg-white/5 transition-all">
+                          <div className={`w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0 ${dotColor}`}/>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-3">
+                              <span className="text-white text-sm font-semibold">{r.building}</span>
+                              <span className={`text-xs font-bold ${textColor}`}>{r.status}</span>
+                            </div>
+                            <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{r.actionItem}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+
             </div>
           );
         })()}
