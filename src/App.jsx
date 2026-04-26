@@ -2001,7 +2001,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
                   const therapyFlag    = isNo(r.therapyGoalMet);
                   const missingFlag    = isNo(r.missingLabor) === false && !isEmpty(r.missingLabor) && r.missingLabor.toString().toLowerCase() !== 'no';
-                  const complianceFlag = isNo(r.compliance) || isNo(r.complianceRisk);
+                  const complianceFlag = isNo(r.compliance);
                   const staffingFlag   = isNo(r.staffingCoverage) || isNo(r.weekendCoverage);
                   const hasOpenPos     = !isEmpty(r.staffing);
                   const hasTravelers   = !isEmpty(r.travelers) && r.travelers.toLowerCase() !== 'na';
