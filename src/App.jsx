@@ -1996,7 +1996,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             {checkInData.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {checkInData.map((r, i) => {
-                  const isNo   = (v) => v && typeof v === 'string' && v.toLowerCase().startsWith('no');
+                  const isNo   = (v) => v && typeof v === 'string' && /^no[\s\b,\.]/i.test(v.trim());
                   const isEmpty = (v) => !v || ['none','n/a','na','0',''].includes(v.toString().trim().toLowerCase());
 
                   const therapyFlag    = isNo(r.therapyGoalMet);
