@@ -176,6 +176,8 @@ export default function App() {
   const [narrativeLoading,  setNarrativeLoading]  = useState(false);
   const [digestSending,     setDigestSending]     = useState(false);
   const [digestResult,      setDigestResult]      = useState(null);
+  const [testEmail,         setTestEmail]         = useState('');
+  const [showDigestModal,   setShowDigestModal]   = useState(false);
 
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
@@ -891,7 +893,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
   };
 
     // ── Weekly Digest Emailer
-  const sendWeeklyDigest = async () => {
+  const sendWeeklyDigest = async (testOverrideEmail = null) => {
     setDigestSending(true);
     setDigestResult(null);
 
@@ -902,8 +904,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     const results = { sent: [], skipped: [], failed: [] };
 
     for (const facility of allFacilities) {
-      const email = DOR_EMAILS[facility];
+      const email = testOverrideEmail || DOR_EMAILS[facility];
       if (!email) { results.skipped.push(facility); continue; }
+      if (testOverrideEmail && results.sent.length > 0) { results.skipped.push(facility); continue; }
 
       const curr = currentWeek.find(d => d.facility === facility);
       if (!curr) { results.skipped.push(facility); continue; }
@@ -1272,19 +1275,49 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             </div>
             <div className="flex gap-3 items-center">
               {!isRestrictedView && (
-                <button onClick={sendWeeklyDigest} disabled={digestSending}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 disabled:opacity-50 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                  {digestSending
-                    ? <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Sending...</>
-                    : <><Zap className="w-3.5 h-3.5"/>Send Weekly Digest</>}
-                </button>
-              )}
-              {digestResult && !isRestrictedView && (
-                <div className="text-xs text-slate-400">
-                  {digestResult.sent.length > 0 && <span className="text-emerald-400 font-bold">{digestResult.sent.length} sent</span>}
-                  {digestResult.skipped.length > 0 && <span className="text-slate-500 ml-2">{digestResult.skipped.length} skipped</span>}
-                  {digestResult.failed.length > 0 && <span className="text-rose-400 ml-2 font-bold">{digestResult.failed.length} failed</span>}
-                </div>
+                <>
+                  {showDigestModal && (
+                    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                      <div className="bg-slate-900 border border-white/20 rounded-2xl shadow-2xl w-full max-w-sm p-6">
+                        <h3 className="text-lg font-black text-white mb-1">Send Weekly Digest</h3>
+                        <p className="text-slate-400 text-sm mb-5">Test first, then send to all DORs.</p>
+                        <div className="space-y-3">
+                          <div>
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Your email (test)</label>
+                            <input type="email" placeholder="you@example.com" value={testEmail}
+                              onChange={e => setTestEmail(e.target.value)}
+                              className="w-full bg-white/10 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-cyan-400" />
+                          </div>
+                          <button onClick={() => { sendWeeklyDigest(testEmail); setShowDigestModal(false); }} disabled={!testEmail}
+                            className="w-full px-4 py-2.5 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-40 text-white rounded-xl font-semibold text-sm transition-all">
+                            Send Test Email
+                          </button>
+                          <div className="border-t border-white/10 pt-3">
+                            <button onClick={() => { sendWeeklyDigest(); setShowDigestModal(false); }}
+                              className="w-full px-4 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white rounded-xl font-semibold text-sm transition-all">
+                              Send to All DORs
+                            </button>
+                            <p className="text-xs text-slate-500 text-center mt-2">Only sends to buildings with emails configured</p>
+                          </div>
+                        </div>
+                        <button onClick={() => setShowDigestModal(false)} className="mt-4 w-full text-slate-500 hover:text-white text-sm transition-all">Cancel</button>
+                      </div>
+                    </div>
+                  )}
+                  <button onClick={() => setShowDigestModal(true)} disabled={digestSending}
+                    className="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 disabled:opacity-50 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                    {digestSending
+                      ? <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Sending...</>
+                      : <><Zap className="w-3.5 h-3.5"/>Send Weekly Digest</>}
+                  </button>
+                  {digestResult && (
+                    <div className="text-xs text-slate-400">
+                      {digestResult.sent.length > 0 && <span className="text-emerald-400 font-bold">{digestResult.sent.length} sent</span>}
+                      {digestResult.skipped.length > 0 && <span className="text-slate-500 ml-2">{digestResult.skipped.length} skipped</span>}
+                      {digestResult.failed.length > 0 && <span className="text-rose-400 ml-2 font-bold">{digestResult.failed.length} failed</span>}
+                    </div>
+                  )}
+                </>
               )}
               <a href={WEEKLY_REPORT_LINK} target="_blank" rel="noopener noreferrer"
                 className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
