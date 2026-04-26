@@ -1058,38 +1058,89 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
     const headers = rows[0];
 
-    const col = (name) => headers.findIndex(h => h && h.toString().toLowerCase().includes(name.toLowerCase()));
-    const iName      = col('your name');
-    const iWeek      = col('week of');
-    const iFacility  = col('name of facility');
-    const iProd      = col('team productivity');
-    const iCPM       = col('cpm');
-    const iEligible  = col('part b eligible');
-    const iCaseload  = col('part b on caseload');
-    const iLT        = col('long term patients');
-    const iMode      = col('modes of treatment');
-    const iTravelers = col('current travelers');
-    const iStaffing  = col('staffing needs');
-    const iMissing   = col('any missing labor');
-    const iPulse     = headers.findIndex(h => h && h.toString().toLowerCase().includes('pulse'));
+    const col  = (name) => headers.findIndex(h => h && h.toString().toLowerCase().includes(name.toLowerCase()));
+    const colExact = (name) => headers.findIndex(h => h && h.toString().replace(/\s+/g,' ').trim().toLowerCase() === name.toLowerCase());
+
+    const parseWeekDate = (val) => {
+      if (!val) return 'Unknown';
+      const n = parseInt(val);
+      if (n > 40000) {
+        const d = new Date((n - 25569) * 86400 * 1000);
+        return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      }
+      const s = String(n).padStart(4, '0');
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const m = parseInt(s.slice(0,2));
+      const d2 = parseInt(s.slice(2));
+      return `${months[m-1]} ${d2}`;
+    };
+
+    // Map all section columns
+    const iName     = col('your name');
+    const iWeek     = col('week of');
+    const iFacility = col('name of facility');
+    const iSec1     = 8;  // Section 1: Therapy Delivery - Yes/No
+    const iSec1No   = 9;  // If no, primary driver
+    const iSec2a    = 10; // Section 2: Orders/careplans
+    const iSec2b    = 11; // Section 2: Orders/careplans
+    const iSec2c    = 12; // Section 2: Orders/careplans
+    const iSec2d    = 13; // Section 2: Orders/careplans
+    const iMissing  = 14; // Any Missing Labor
+    const iSec1b    = 15; // Section 1 part 2
+    const iSec3a    = 16; // Section 3: Compliance
+    const iSec3b    = 17; // Section 3: Compliance notes
+    const iSec3c    = 18; // Section 3: Compliance
+    const iSec4     = 19; // Section 4: Staffing
+    const iWeekend  = 20; // Weekend staffing
+    const iSec5     = 21; // Section 5: Time load
+    const iPulse1   = 22; // DOR Pulse Check
+    const iPulse2   = 23; // DOR Pulse Check alt
+    const iProd     = 26; // Team Productivity
+    const iCPM      = 28; // CPM
+    const iEligible = 30; // Part B eligible
+    const iCaseload = 31; // Part B on caseload
+    const iLT       = 32; // LT pickups
+    const iMode     = 33; // Mode
+    const iTravelers= 34; // Travelers
+    const iStaffing = 35; // Open positions
+
+    const isNo = (v) => v && typeof v === 'string' && v.toLowerCase().startsWith('no');
+    const isEmpty = (v) => !v || v.toString().trim() === '' || v.toString().toLowerCase() === 'none' || v.toString().toLowerCase() === 'n/a' || v.toString() === '0';
 
     const parsed = rows.slice(1).filter(r => r[iFacility]).map(r => ({
-      dorName:    r[iName]      || '',
-      week:       r[iWeek]      || '',
-      facility:   (r[iFacility] || '').trim(),
-      teamProd:   r[iProd],
-      cpm:        r[iCPM],
-      eligible:   r[iEligible],
-      caseload:   r[iCaseload],
-      ltPickups:  r[iLT],
-      mode:       r[iMode],
-      travelers:  r[iTravelers] || '',
-      staffing:   r[iStaffing]  || '',
-      missing:    r[iMissing]   || '',
-      pulse:      r[iPulse]     || '',
+      dorName:        (r[iName] || '').trim(),
+      week:           r[iWeek] || '',
+      weekDisplay:    parseWeekDate(r[iWeek]),
+      facility:       (r[iFacility] || '').trim(),
+      // Section 1 — Therapy Delivery
+      therapyGoalMet: r[iSec1] || '',
+      therapyDriver:  r[iSec1No] || '',
+      therapyNotes:   r[iSec1b] || '',
+      // Section 2 — Orders/Careplans/Documentation
+      orders:         [r[iSec2a], r[iSec2b], r[iSec2c], r[iSec2d]].filter(Boolean),
+      missingLabor:   r[iMissing] || '',
+      // Section 3 — Compliance & Risk
+      compliance:     r[iSec3a] || '',
+      complianceNotes:r[iSec3b] || '',
+      complianceRisk: r[iSec3c] || '',
+      // Section 4 — Staffing
+      staffingCoverage: r[iSec4] || '',
+      weekendCoverage:  r[iWeekend] || '',
+      // Section 5 — Time & Operational Load
+      timeLoad:       r[iSec5] || '',
+      // Pulse Check
+      pulse:          r[iPulse1] || r[iPulse2] || '',
+      // Quantitative
+      teamProd:       r[iProd],
+      cpm:            r[iCPM],
+      eligible:       r[iEligible],
+      caseload:       r[iCaseload],
+      ltPickups:      r[iLT],
+      mode:           r[iMode],
+      travelers:      r[iTravelers] || '',
+      staffing:       r[iStaffing] || '',
     }));
 
-    // Get latest week per facility
     const latestByFacility = {};
     parsed.forEach(r => {
       const w = parseInt(r.week) || 0;
@@ -1099,9 +1150,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     });
 
     const latest = Object.values(latestByFacility);
-    const weekVal = latest[0]?.week;
     setCheckInData(latest);
-    setCheckInWeek(weekVal);
+    setCheckInWeek(latest[0]?.weekDisplay || '');
     setCheckInSummaries({});
   };
 
@@ -1117,17 +1167,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
     for (const batch of batches) {
       try {
-        const prompt = `You are reviewing DOR (Director of Rehabilitation) weekly check-ins from skilled nursing facilities. For each building below, write a 1-2 sentence plain English summary highlighting the most important thing — staffing issues, compliance flags, open positions, traveler concerns, or operational notes. Be direct and specific. If everything looks stable, say so briefly.
-
-${batch.map(r => `${r.facility} (${r.dorName}):
-- Team Productivity: ${r.teamProd || 'N/A'}% | CPM: $${r.cpm || 'N/A'}
-- Med B: ${r.caseload || 0}/${r.eligible || 0} on caseload | Mode: ${r.mode || 'N/A'}%
-- Missing Labor: ${r.missing || 'None'}
-- Travelers: ${r.travelers || 'None'}
-- Open Positions: ${r.staffing || 'None'}
-- DOR Notes: ${r.pulse || 'None'}`).join('\n\n')}
-
-Respond ONLY with valid JSON, no markdown: {"Facility Name": "summary sentence here"}`;
+        const prompt = `You are reviewing DOR weekly check-ins. For each building write a 1-2 sentence plain English summary of the most important issue or status. Flag anything needing attention.\n\n${batch.map(r => `${r.facility} (${r.dorName}):\n- Therapy goals met: ${r.therapyGoalMet||'N/A'}${r.therapyDriver?' — '+r.therapyDriver:''}\n- Missing labor: ${r.missingLabor||'None'}\n- Compliance: ${r.compliance||'N/A'} ${r.complianceNotes||''}\n- Staffing: ${r.staffingCoverage||'N/A'} | Weekend: ${r.weekendCoverage||'N/A'}\n- Travelers: ${r.travelers||'None'}\n- Open positions: ${r.staffing||'None'}\n- DOR pulse: ${r.pulse||'None'}`).join('\n\n')}\n\nRespond ONLY valid JSON no markdown: {"Facility Name": "summary"}`;
 
         const res = await fetch('/api/briefing', {
           method: 'POST',
@@ -1956,75 +1996,75 @@ Respond ONLY with valid JSON, no markdown: {"Facility Name": "summary sentence h
             {checkInData.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {checkInData.map((r, i) => {
-                  const prodGood = parseFloat(r.teamProd) >= 84;
-                  const cpmGood  = parseFloat(r.cpm) <= 1.45;
-                  const hasFlag  = r.missing && r.missing.toLowerCase() !== 'no' && r.missing.toLowerCase() !== 'none' && r.missing !== '0';
-                  const hasOpenPos = r.staffing && r.staffing.toLowerCase() !== 'none' && r.staffing.trim() !== '';
-                  const hasTravelers = r.travelers && r.travelers.toLowerCase() !== 'none' && r.travelers.toLowerCase() !== 'na' && r.travelers.trim() !== '';
-                  const summary = checkInSummaries[r.facility];
+                  const isNo   = (v) => v && typeof v === 'string' && v.toLowerCase().startsWith('no');
+                  const isEmpty = (v) => !v || ['none','n/a','na','0',''].includes(v.toString().trim().toLowerCase());
 
-                  const urgency = hasFlag ? 'border-rose-400/40' : hasOpenPos ? 'border-yellow-400/30' : 'border-white/10';
+                  const therapyFlag    = isNo(r.therapyGoalMet);
+                  const missingFlag    = isNo(r.missingLabor) === false && !isEmpty(r.missingLabor) && r.missingLabor.toString().toLowerCase() !== 'no';
+                  const complianceFlag = isNo(r.compliance) || isNo(r.complianceRisk);
+                  const staffingFlag   = isNo(r.staffingCoverage) || isNo(r.weekendCoverage);
+                  const hasOpenPos     = !isEmpty(r.staffing);
+                  const hasTravelers   = !isEmpty(r.travelers) && r.travelers.toLowerCase() !== 'na';
+                  const summary        = checkInSummaries[r.facility];
+
+                  const flagCount = [therapyFlag, missingFlag, complianceFlag, staffingFlag].filter(Boolean).length;
+                  const urgency = flagCount >= 2 ? 'border-rose-400/50' : flagCount === 1 ? 'border-yellow-400/30' : 'border-white/10';
+
+                  const SectionRow = ({label, val, flagged}) => {
+                    if (!val) return null;
+                    return (
+                      <div className="flex items-start gap-2 text-xs py-1.5 border-b border-white/5 last:border-0">
+                        <span className="text-slate-500 font-bold uppercase tracking-wide min-w-[90px] pt-0.5">{label}</span>
+                        <span className={`leading-relaxed ${flagged ? 'text-rose-300' : 'text-slate-300'}`}>{val.toString()}</span>
+                      </div>
+                    );
+                  };
 
                   return (
                     <div key={i} className={`bg-white/5 backdrop-blur-xl rounded-2xl border ${urgency} overflow-hidden`}>
-                      {/* Card header */}
+
+                      {/* Header */}
                       <div className="p-4 border-b border-white/10 flex items-start justify-between gap-3">
                         <div>
                           <div className="font-black text-white text-base">{r.facility}</div>
-                          <div className="text-slate-400 text-xs mt-0.5">{r.dorName}</div>
+                          <div className="text-slate-400 text-xs mt-0.5">{r.dorName} · {r.weekDisplay}</div>
                         </div>
-                        <div className="flex gap-2 flex-wrap justify-end">
-                          {hasFlag && <span className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full font-bold">Missing Labor</span>}
-                          {hasOpenPos && <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-300 rounded-full font-bold">Open Position</span>}
-                          {hasTravelers && <span className="text-xs px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full font-bold">Travelers</span>}
+                        <div className="flex gap-1.5 flex-wrap justify-end">
+                          {therapyFlag    && <span className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full font-bold">Therapy ⚠</span>}
+                          {missingFlag    && <span className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full font-bold">Missing Labor</span>}
+                          {complianceFlag && <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full font-bold">Compliance ⚠</span>}
+                          {staffingFlag   && <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-300 rounded-full font-bold">Staffing ⚠</span>}
+                          {hasOpenPos     && <span className="text-xs px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full font-bold">Open Positions</span>}
+                          {hasTravelers   && <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full font-bold">Travelers</span>}
                         </div>
                       </div>
 
-                      {/* Metrics row */}
-                      <div className="px-4 py-3 border-b border-white/5 grid grid-cols-4 gap-2">
-                        {[
-                          { label:'Prod', val: r.teamProd ? r.teamProd+'%' : '—', good: prodGood },
-                          { label:'CPM',  val: r.cpm ? '$'+parseFloat(r.cpm).toFixed(2) : '—', good: cpmGood },
-                          { label:'Med B', val: r.caseload && r.eligible ? r.caseload+'/'+r.eligible : '—', good: null },
-                          { label:'Mode',  val: r.mode ? parseFloat(r.mode).toFixed(1)+'%' : '—', good: parseFloat(r.mode)>=4 },
-                        ].map((m,mi) => (
-                          <div key={mi} className="text-center">
-                            <div className="text-xs text-slate-500 mb-0.5">{m.label}</div>
-                            <div className={`text-sm font-black ${m.good===true?'text-emerald-300':m.good===false?'text-rose-300':'text-white'}`}>{m.val}</div>
-                          </div>
-                        ))}
+                      {/* Section responses */}
+                      <div className="px-4 pt-3 pb-1">
+                        <SectionRow label="Therapy Goals" val={r.therapyGoalMet} flagged={therapyFlag}/>
+                        {therapyFlag && r.therapyDriver && <SectionRow label="Driver" val={r.therapyDriver} flagged={true}/>}
+                        <SectionRow label="Missing Labor" val={r.missingLabor} flagged={missingFlag}/>
+                        <SectionRow label="Orders/Docs" val={r.orders?.filter(v=>isNo(v)).length > 0 ? 'Issues flagged: '+r.orders.filter(v=>isNo(v)).join(', ') : r.orders?.[0] || ''} flagged={r.orders?.some(v=>isNo(v))}/>
+                        <SectionRow label="Compliance" val={r.compliance} flagged={isNo(r.compliance)}/>
+                        {r.complianceNotes && <SectionRow label="Notes" val={r.complianceNotes} flagged={false}/>}
+                        <SectionRow label="Staffing" val={r.staffingCoverage} flagged={isNo(r.staffingCoverage)}/>
+                        <SectionRow label="Weekend" val={r.weekendCoverage} flagged={isNo(r.weekendCoverage)}/>
+                        <SectionRow label="Time Load" val={r.timeLoad} flagged={false}/>
+                        {hasTravelers && <SectionRow label="Travelers" val={r.travelers} flagged={false}/>}
+                        {hasOpenPos   && <SectionRow label="Open Positions" val={r.staffing} flagged={false}/>}
+                        {r.pulse      && <SectionRow label="DOR Pulse" val={r.pulse} flagged={false}/>}
                       </div>
 
-                      {/* Details */}
-                      <div className="p-4 space-y-2">
-                        {hasTravelers && (
-                          <div className="text-xs">
-                            <span className="text-slate-500 font-bold uppercase tracking-wide">Travelers </span>
-                            <span className="text-slate-300">{r.travelers}</span>
+                      {/* AI Summary */}
+                      {summary && (
+                        <div className="px-4 py-3 border-t border-white/10 bg-indigo-500/5">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Zap className="w-3 h-3 text-indigo-400"/>
+                            <span className="text-xs font-bold text-indigo-400 uppercase tracking-wide">AI Summary</span>
                           </div>
-                        )}
-                        {hasOpenPos && (
-                          <div className="text-xs">
-                            <span className="text-slate-500 font-bold uppercase tracking-wide">Open Positions </span>
-                            <span className="text-slate-300">{r.staffing}</span>
-                          </div>
-                        )}
-                        {r.pulse && (
-                          <div className="text-xs">
-                            <span className="text-slate-500 font-bold uppercase tracking-wide">DOR Notes </span>
-                            <span className="text-slate-400">{r.pulse}</span>
-                          </div>
-                        )}
-                        {summary && (
-                          <div className="mt-3 pt-3 border-t border-white/10">
-                            <div className="flex items-center gap-2 mb-1">
-                              <Zap className="w-3 h-3 text-indigo-400"/>
-                              <span className="text-xs font-bold text-indigo-400 uppercase tracking-wide">AI Summary</span>
-                            </div>
-                            <p className="text-slate-300 text-xs leading-relaxed">{summary}</p>
-                          </div>
-                        )}
-                      </div>
+                          <p className="text-slate-300 text-xs leading-relaxed">{summary}</p>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
