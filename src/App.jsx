@@ -1104,7 +1104,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     const iTravelers= 34; // Travelers
     const iStaffing = 35; // Open positions
 
-    const isNo = (v) => v && typeof v === 'string' && v.toLowerCase().startsWith('no');
+    const isNo = (v) => { if (!v || typeof v !== 'string') return false; const t = v.trim().toLowerCase(); return t === 'no' || t.startsWith('no ') || t.startsWith('no-') || t.startsWith('no,'); };
     const isEmpty = (v) => !v || v.toString().trim() === '' || v.toString().toLowerCase() === 'none' || v.toString().toLowerCase() === 'n/a' || v.toString() === '0';
 
     const parsed = rows.slice(1).filter(r => r[iFacility]).map(r => ({
