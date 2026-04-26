@@ -1828,6 +1828,113 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   </div>
                 )}
 
+                {/* Peer Benchmarking */}
+                {myRegionData.length > 1 && (() => {
+                  const peers = myRegionData.filter(f => f.facility !== restrictedFacility);
+                  const p    = mtd(myFacilityData,'productivityMTD','productivity');
+                  const c    = mtd(myFacilityData,'cpmMTD','cpm');
+                  const mo   = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
+                  const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
+
+                  const peerAvg = (fn) => peers.reduce((s,f)=>s+fn(f),0)/peers.length;
+                  const peerTop = (fn, higher) => higher ? Math.max(...peers.map(fn)) : Math.min(...peers.map(fn));
+                  const peerRank = (fn, higher) => {
+                    const all = myRegionData.map(fn).sort((a,b)=>higher?b-a:a-b);
+                    return all.indexOf(fn(myFacilityData)) + 1;
+                  };
+
+                  const metrics = [
+                    {
+                      label: 'Productivity', mine: p, goal: 84,
+                      avg:   peerAvg(f=>mtd(f,'productivityMTD','productivity')),
+                      top:   peerTop(f=>mtd(f,'productivityMTD','productivity'), true),
+                      rank:  peerRank(f=>mtd(f,'productivityMTD','productivity'), true),
+                      fmt: v=>v.toFixed(1)+'%', higher: true,
+                      color: p>=84?'text-emerald-300':'text-rose-300',
+                    },
+                    {
+                      label: 'CPM', mine: c, goal: 1.45,
+                      avg:   peerAvg(f=>mtd(f,'cpmMTD','cpm')),
+                      top:   peerTop(f=>mtd(f,'cpmMTD','cpm'), false),
+                      rank:  peerRank(f=>mtd(f,'cpmMTD','cpm'), false),
+                      fmt: v=>'$'+v.toFixed(2), higher: false,
+                      color: c<=1.45?'text-emerald-300':'text-rose-300',
+                    },
+                    {
+                      label: 'Mode of Tx', mine: mo, goal: 4,
+                      avg:   peerAvg(f=>mtd(f,'modeOfTreatmentMTD','modeOfTreatment')),
+                      top:   peerTop(f=>mtd(f,'modeOfTreatmentMTD','modeOfTreatment'), true),
+                      rank:  peerRank(f=>mtd(f,'modeOfTreatmentMTD','modeOfTreatment'), true),
+                      fmt: v=>v.toFixed(1)+'%', higher: true,
+                      color: mo>=4?'text-emerald-300':'text-rose-300',
+                    },
+                    {
+                      label: 'UPV', mine: upv, goal: 3.0,
+                      avg:   peerAvg(f=>mtd(f,'unitsPerVisitMTD','unitsPerVisit')),
+                      top:   peerTop(f=>mtd(f,'unitsPerVisitMTD','unitsPerVisit'), true),
+                      rank:  peerRank(f=>mtd(f,'unitsPerVisitMTD','unitsPerVisit'), true),
+                      fmt: v=>v.toFixed(2), higher: true,
+                      color: upv>=3?'text-emerald-300':'text-rose-300',
+                    },
+                  ];
+
+                  return (
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
+                      <div className="p-5 border-b border-white/10 bg-gradient-to-r from-cyan-900/30 to-teal-900/30">
+                        <h3 className="text-xl font-black text-white">Peer Benchmarking</h3>
+                        <p className="text-slate-400 text-sm mt-1">How you compare to {peers.length} peers in {myRegion}</p>
+                      </div>
+                      <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {metrics.map((m,i) => {
+                          const gap     = m.higher ? m.mine - m.avg : m.avg - m.mine;
+                          const topGap  = m.higher ? m.top - m.mine : m.mine - m.top;
+                          const ahead   = gap > 0;
+                          const rankOf  = myRegionData.length;
+                          const barPct  = Math.min(100, Math.max(0, m.higher
+                            ? ((m.mine - Math.min(...myRegionData.map(f=>mtd(f, m.label==='Productivity'?'productivityMTD':m.label==='CPM'?'cpmMTD':m.label==='Mode of Tx'?'modeOfTreatmentMTD':'unitsPerVisitMTD', m.label==='Productivity'?'productivity':m.label==='CPM'?'cpm':m.label==='Mode of Tx'?'modeOfTreatment':'unitsPerVisit')))) /
+                              (Math.max(...myRegionData.map(f=>mtd(f, m.label==='Productivity'?'productivityMTD':m.label==='CPM'?'cpmMTD':m.label==='Mode of Tx'?'modeOfTreatmentMTD':'unitsPerVisitMTD', m.label==='Productivity'?'productivity':m.label==='CPM'?'cpm':m.label==='Mode of Tx'?'modeOfTreatment':'unitsPerVisit'))) -
+                               Math.min(...myRegionData.map(f=>mtd(f, m.label==='Productivity'?'productivityMTD':m.label==='CPM'?'cpmMTD':m.label==='Mode of Tx'?'modeOfTreatmentMTD':'unitsPerVisitMTD', m.label==='Productivity'?'productivity':m.label==='CPM'?'cpm':m.label==='Mode of Tx'?'modeOfTreatment':'unitsPerVisit')))) || 1) * 100
+                            : 0));
+
+                          return (
+                            <div key={i} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                              <div className="flex items-center justify-between mb-3">
+                                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{m.label}</span>
+                                <span className="text-xs font-bold text-slate-500">Rank #{m.rank} of {rankOf}</span>
+                              </div>
+                              <div className="flex items-end justify-between mb-3">
+                                <div>
+                                  <div className={`text-2xl font-black ${m.color}`}>{m.fmt(m.mine)}</div>
+                                  <div className="text-xs text-slate-500 mt-0.5">Your MTD</div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-sm font-bold text-slate-300">{m.fmt(m.avg)}</div>
+                                  <div className="text-xs text-slate-500">Region avg</div>
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-sm font-bold text-cyan-300">{m.fmt(m.top)}</div>
+                                  <div className="text-xs text-slate-500">Region best</div>
+                                </div>
+                              </div>
+                              {/* Bar showing position */}
+                              <div className="relative h-2 bg-white/10 rounded-full overflow-hidden mb-2">
+                                <div className="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-500/30 to-teal-500/30 rounded-full" style={{width:'100%'}} />
+                                <div className="absolute top-0 h-full bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full transition-all" style={{width:`${barPct}%`}} />
+                              </div>
+                              <div className={`text-xs font-bold ${ahead?'text-emerald-400':'text-amber-400'}`}>
+                                {ahead
+                                  ? `+${m.fmt(Math.abs(gap)).replace('$','')} above regional avg`
+                                  : `${m.fmt(Math.abs(gap)).replace('$','')} below regional avg`}
+                                {topGap > 0.01 && <span className="text-slate-500 font-normal ml-2">· {m.fmt(topGap).replace('$','')} gap to #1</span>}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
+
                 {/* Regional Leaderboard */}
                 {myRegionData.length > 0 && (
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
