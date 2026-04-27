@@ -72,7 +72,7 @@ const prodColor  = v => v >= 84   ? 'text-emerald-300' : 'text-rose-300';
 const cpmColor   = v => v <= 1.45 ? 'text-emerald-300' : 'text-rose-300';
 const modeColor  = v => v >= 4    ? 'text-emerald-300' : 'text-amber-300';
 const prodBg     = v => v >= 84   ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
-const cpmBg      = v => v <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
+const cpmBg      = v => Math.round(v*100)/100 <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
 const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300';
 
@@ -2238,7 +2238,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
                               { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=84, projFmt: v=>v.toFixed(1)+'%' },
-                              { label:'CPM',          val:'$'+c.toFixed(2),  good:c<=1.45,    sub:c<=1.45?'✓ Under $1.45':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
+                              { label:'CPM',          val:'$'+c.toFixed(2),  good:Math.round(c*100)/100<=1.45, sub:Math.round(c*100)/100<1.45?'✓ Under $1.45':Math.round(c*100)/100===1.45?'✓ At $1.45 target':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
                               { label:'Med B on CL',  val:casePct+'%',       good:casePct>=50,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
                               { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=4, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
