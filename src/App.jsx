@@ -2832,15 +2832,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     </div>
                     <div className="divide-y divide-white/5">
                       {categories.map((cat, i) => (
-                        <div key={i} className="flex items-center justify-between px-5 py-4 hover:bg-white/5 transition-all">
-                          <div className="flex items-center gap-3">
-                            <span className="text-lg">{cat.icon}</span>
-                            <span className="text-sm font-medium text-white">{cat.label}</span>
-                          </div>
-                          <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold ${isGreen?'bg-emerald-500/20 text-emerald-300':isRed?'bg-rose-500/20 text-rose-300':'bg-yellow-500/20 text-yellow-300'}`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${statusDot}`} />
-                            {statusLabel}
-                          </div>
+                        <div key={i} className="flex items-center gap-3 px-5 py-4 hover:bg-white/5 transition-all">
+                          <span className="text-lg">{cat.icon}</span>
+                          <span className="text-sm font-medium text-white">{cat.label}</span>
                         </div>
                       ))}
                     </div>
