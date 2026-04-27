@@ -69,7 +69,7 @@ const scoreRec = (rec) => {
 };
 
 const prodColor  = v => v >= 84   ? 'text-emerald-300' : 'text-rose-300';
-const cpmColor   = v => v <= 1.45 ? 'text-emerald-300' : 'text-rose-300';
+const cpmColor   = v => Math.round(v*100)/100 <= 1.45 ? 'text-emerald-300' : 'text-rose-300';
 const modeColor  = v => v >= 4    ? 'text-emerald-300' : 'text-amber-300';
 const prodBg     = v => v >= 84   ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const cpmBg      = v => Math.round(v*100)/100 <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
@@ -2424,7 +2424,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       top:   peerTop(f=>mtd(f,'cpmMTD','cpm'), false),
                       rank:  peerRank(f=>mtd(f,'cpmMTD','cpm'), false),
                       fmt: v=>'$'+v.toFixed(2), higher: false,
-                      color: c<=1.45?'text-emerald-300':'text-rose-300',
+                      color: Math.round(c*100)/100<=1.45?'text-emerald-300':'text-rose-300',
                     },
                     {
                       label: 'Mode of Tx', mine: mo, goal: 4,
