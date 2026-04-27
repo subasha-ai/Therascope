@@ -2358,7 +2358,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 {/* Feb vs March comparison (DOR) */}
                 {myFebFinal && myFacilityData.date>=EXEC_MONTHS[EXEC_MONTHS.length-1].start && (
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl p-6">
-                    <h3 className="text-lg font-black text-white mb-5">📊 February Final vs {currentMonthName} MTD</h3>
+                    <h3 className="text-lg font-black text-white mb-5">📊 {EXEC_MONTHS[EXEC_MONTHS.length-2].label.replace(' MTD','')} Final vs {currentMonthName} MTD</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       {[
                         { label:'Productivity', feb:mtd(myFebFinal,'productivityMTD','productivity'),    mar:mtd(myFacilityData,'productivityMTD','productivity'),    fmt:v=>v.toFixed(1)+'%', key:'prod', better:'higher' },
@@ -2375,17 +2375,17 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">{m.label}</div>
                             <div className="flex items-end justify-between">
                               <div>
-                                <div className="text-xs text-slate-500 mb-1">Feb Final</div>
+                                <div className="text-xs text-slate-500 mb-1">{EXEC_MONTHS[EXEC_MONTHS.length-2].label.replace(' MTD','')} Final</div>
                                 <div className="text-lg font-black text-white">{m.fmt(m.feb)}</div>
                               </div>
                               <div className={`text-xl font-black px-2 ${improved?'text-emerald-400':declined?'text-rose-400':'text-slate-500'}`}>{improved?'↑':declined?'↓':'→'}</div>
                               <div className="text-right">
-                                <div className="text-xs text-slate-500 mb-1">Mar MTD</div>
+                                <div className="text-xs text-slate-500 mb-1">{currentMonthName} MTD</div>
                                 <div className={`text-lg font-black ${improved?'text-emerald-300':declined?'text-rose-300':'text-white'}`}>{m.fmt(m.mar)}</div>
                               </div>
                             </div>
                             <div className={`text-xs font-bold mt-2 pt-2 border-t border-white/10 ${improved?'text-emerald-400':declined?'text-rose-400':'text-slate-500'}`}>
-                              {diffStr} vs Feb
+                              {diffStr} vs {EXEC_MONTHS[EXEC_MONTHS.length-2].label.replace(' MTD','')}
                             </div>
                           </div>
                         );
