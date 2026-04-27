@@ -1451,6 +1451,12 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   )}
                 </>
               )}
+              {isRestrictedView && (
+                <a href={WEEKLY_REPORT_LINK} target="_blank" rel="noopener noreferrer"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl hover:from-cyan-600 hover:to-teal-600 transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                  <ExternalLink className="w-4 h-4" /> Submit Weekly Report
+                </a>
+              )}
               <button onClick={() => { setIsAuthenticated(false); setLoginType(null); setSelectedFacilityForLogin(''); setActiveView('overview'); }}
                 className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-all text-sm font-medium border border-white/20">
                 Sign Out
