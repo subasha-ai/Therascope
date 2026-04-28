@@ -419,7 +419,7 @@ export default function App() {
       building: myFacilityData.facility,
       region: myFacilityData.region,
       productivity: { current: p.toFixed(1), target: 84, trend: myPrevWeekData ? (p - mtd(myPrevWeekData,'productivityMTD','productivity')).toFixed(1)+'pp vs last week' : 'n/a' },
-      cpm: { current: c.toFixed(2), target: 1.45, trend: myPrevWeekData ? (c - mtd(myPrevWeekData,'cpmMTD','cpm')).toFixed(2)+' vs last week' : 'n/a' },
+      cpm: { current: Math.trunc(c*100)/100, target: 1.45, trend: myPrevWeekData ? (c - mtd(myPrevWeekData,'cpmMTD','cpm')).toFixed(2)+' vs last week' : 'n/a' },
       modeOfTreatment: { cgPct: mo.toFixed(1), trend: myPrevWeekData ? (mo - mtd(myPrevWeekData,'modeOfTreatmentMTD','modeOfTreatment')).toFixed(1)+'pp vs last week' : 'n/a' },
       unitsPerVisit: upv.toFixed(2),
       medB: { caseload: cas, eligible: elig, pct: elig > 0 ? Math.round((cas/elig)*100) : 0, revenueMTD: '$'+rev.toFixed(0) },
@@ -469,7 +469,7 @@ export default function App() {
         head: [['Metric','MTD Value','Goal','Status']],
         body: [
           ['Productivity',   p.toFixed(1)+'%',  '>= 84%',       p >= 84 ? '✓' : '✗'],
-          ['CPM',           '$'+c.toFixed(2),   '< $1.45',      c <= 1.45 ? '✓' : '✗'],
+          ['CPM',           '$'+Math.trunc(c*100)/100,   '< $1.45',      c <= 1.45 ? '✓' : '✗'],
           ['Mode of Tx',    mo.toFixed(1)+'%',  '>= 4%',        mo >= 4 ? '✓' : '✗'],
           ['Units/Visit',   upv.toFixed(2),     '—',            '—'],
           ['Med B Rev MTD', '$'+(rev/1000).toFixed(1)+'k', '—', '—'],
@@ -532,7 +532,7 @@ export default function App() {
       mar: getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
     })).filter(r => r.jan || r.feb || r.mar);
 
-    const fmt = (rec) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+mtd(rec,'cpmMTD','cpm').toFixed(2), mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec)+'/4' } : null;
+    const fmt = (rec) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec)+'/4' } : null;
     const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) }));
 
     let result = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
@@ -658,7 +658,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       const avgCPM  = (finals.reduce((s,r)=>s+mtd(r,'cpmMTD','cpm'),0)/n);
       return {
         label: m.label, isLatest: m===EXEC_MONTHS[EXEC_MONTHS.length-1],
-        avgProd: avgProd.toFixed(1)+'%', avgCPM: '$'+avgCPM.toFixed(2),
+        avgProd: avgProd.toFixed(1)+'%', avgCPM: '$'+Math.trunc(avgCPM*100)/100,
         units: finals.reduce((s,r)=>s+(r.medBUnitsMTD||r.medBUnitsThisWeek||0),0).toLocaleString(),
         rev:   '$'+(finals.reduce((s,r)=>s+mtd(r,'medicareMPPRRevenueMTD','medicareMPPRRevenue'),0)).toLocaleString(undefined,{maximumFractionDigits:0}),
         atProd: finals.filter(r=>mtd(r,'productivityMTD','productivity')>=84).length+' / '+n,
@@ -708,7 +708,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       r.facility,
       ...[r.jan,r.feb,r.mar].flatMap(rec => rec ? [
         mtd(rec,'productivityMTD','productivity').toFixed(1)+'%',
-        '$'+mtd(rec,'cpmMTD','cpm').toFixed(2),
+        '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100,
         mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
         rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'--',
         scoreRec(rec)+'/4',
@@ -853,7 +853,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       setFill(col.navy); doc.roundedRect(cx,cy2,cW,26,2,2,'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(8); setTxt(col.white);
       doc.text(rec.facility, cx+3, cy2+7);
-      const fields = [['PROD',rec.prod.toFixed(1)+'%',rec.prod>=84],['CPM','$'+rec.cpm.toFixed(2),rec.cpm<=1.45],['MODE',rec.mode.toFixed(1)+'%',rec.mode>=4],['MED B%',rec.medB!=null?rec.medB+'%':'--',rec.medB>=50]];
+      const fields = [['PROD',rec.prod.toFixed(1)+'%',rec.prod>=84],['CPM','$'+Math.trunc(rec.cpm*100)/100,rec.cpm<=1.45],['MODE',rec.mode.toFixed(1)+'%',rec.mode>=4],['MED B%',rec.medB!=null?rec.medB+'%':'--',rec.medB>=50]];
       fields.forEach((f2,fi) => {
         const fx = cx+3+fi*(cW-6)/4;
         doc.setFont('helvetica','normal'); doc.setFontSize(6); setTxt(col.slate); doc.text(f2[0],fx,cy2+14);
@@ -932,9 +932,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       else if (p - pPrev <= -2) alerts.push({ msg: `Productivity dropped ${Math.abs(p-pPrev).toFixed(1)}pp this week`, severe: false });
       else if (p - pPrev >= 2)  wins.push(`Productivity up ${(p-pPrev).toFixed(1)}pp`);
 
-      if (c > 1.45)            alerts.push({ msg: `CPM $${c.toFixed(2)} — above $1.45 target`, severe: c > 1.55 });
-      else if (c - cPrev >= 0.05) alerts.push({ msg: `CPM rose $${(c-cPrev).toFixed(2)} this week`, severe: false });
-      else if (c - cPrev <= -0.05) wins.push(`CPM improved $${Math.abs(c-cPrev).toFixed(2)}`);
+      if (c > 1.45)            alerts.push({ msg: `CPM $${Math.trunc(c*100)/100} — above $1.45 target`, severe: c > 1.55 });
+      else if (c - cPrev >= 0.05) alerts.push({ msg: `CPM rose $${(Math.trunc(Math.abs(c-cPrev)*100)/100)} this week`, severe: false });
+      else if (c - cPrev <= -0.05) wins.push(`CPM improved $${Math.abs(Math.trunc(Math.abs(c-cPrev)*100)/100)}`);
 
       if (mo < 4)              alerts.push({ msg: `Mode of treatment ${mo.toFixed(1)}% — below 4% goal`, severe: mo === 0 });
       else if (mo - moPrev <= -2) alerts.push({ msg: `Mode dropped ${Math.abs(mo-moPrev).toFixed(1)}pp this week`, severe: false });
@@ -984,7 +984,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         </thead>
         <tbody>
           ${metricRow('Productivity', p.toFixed(1)+'%', p >= 84)}
-          ${metricRow('CPM', '$'+c.toFixed(2), c <= 1.45)}
+          ${metricRow('CPM', '$'+Math.trunc(c*100)/100, c <= 1.45)}
           ${metricRow('Mode of Treatment', mo.toFixed(1)+'%', mo >= 4)}
           ${metricRow('Units Per Visit', upv.toFixed(2), upv >= 3)}
           ${metricRow('Med B on Caseload', cas+'%', cas >= 50)}
@@ -1238,7 +1238,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             if (!rec) { row.push('—','—','—','—'); return; }
             row.push(
               mtd(rec,'productivityMTD','productivity').toFixed(1)+'%',
-              '$'+mtd(rec,'cpmMTD','cpm').toFixed(2),
+              '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100,
               mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
               '$'+(mtd(rec,'medicareMPPRRevenueMTD','medicareMPPRRevenue')/1000).toFixed(1)+'k',
             );
@@ -2238,7 +2238,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
                               { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=84, projFmt: v=>v.toFixed(1)+'%' },
-                              { label:'CPM',          val:'$'+c.toFixed(2),  good:Math.round(c*100)/100<=1.45, sub:Math.round(c*100)/100<1.45?'✓ Under $1.45':Math.round(c*100)/100===1.45?'✓ At $1.45 target':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
+                              { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.round(c*100)/100<=1.45, sub:Math.round(c*100)/100<1.45?'✓ Under $1.45':Math.round(c*100)/100===1.45?'✓ At $1.45 target':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
                               { label:'Med B on CL',  val:casePct+'%',       good:casePct>=50,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
                               { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=4, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
@@ -2545,7 +2545,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                               <tr key={i} className={`border-b border-white/5 ${isMe?'bg-cyan-500/10 border-cyan-400/20':'hover:bg-white/5'}`}>
                                 <td className="py-3 px-4 text-sm font-bold text-white">{f.facility}{isMe&&<span className="ml-2 text-xs text-cyan-400 font-black">(You)</span>}</td>
                                 <td className={`py-3 px-4 text-sm font-black ${prodColor(p)}`}>{p.toFixed(1)}%</td>
-                                <td className={`py-3 px-4 text-sm font-black ${cpmColor(c)}`}>${c.toFixed(2)}</td>
+                                <td className={`py-3 px-4 text-sm font-black ${cpmColor(c)}`}>${Math.trunc(c*100)/100}</td>
                                 <td className={`py-3 px-4 text-sm font-black ${modeColor(mo)}`}>{mo.toFixed(1)}%</td>
                                 <td className="py-3 px-4 text-sm font-bold text-white">{f.medBCaseload||0}</td>
                                 <td className="py-3 px-4"><span className={`px-2 py-1 rounded-lg text-xs font-black ${scoreBadge(sc)}`}>{sc}/4</span></td>
@@ -2670,7 +2670,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                               <div className="hidden md:grid grid-cols-4 gap-5 text-center">
                                 {[
                                   { label:'Prod', value:p.toFixed(1)+'%', color:prodColor(p) },
-                                  { label:'CPM',  value:'$'+c.toFixed(2), color:cpmColor(c)  },
+                                  { label:'CPM',  value:'$'+Math.trunc(c*100)/100, color:cpmColor(c)  },
                                   { label:'Mode', value:mo.toFixed(1)+'%',color:modeColor(mo)},
                                   { label:'Rev',  value:'$'+(rev/1000).toFixed(1)+'k', color:'text-emerald-300' },
                                 ].map((m,i) => (
@@ -2691,7 +2691,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 mb-4">
                               {[
                                 { label:'Prod MTD',      val:p.toFixed(1)+'%',  color:prodColor(p) },
-                                { label:'CPM MTD',       val:'$'+c.toFixed(2),  color:cpmColor(c) },
+                                { label:'CPM MTD',       val:'$'+Math.trunc(c*100)/100,  color:cpmColor(c) },
                                 { label:'Mode MTD',      val:mo.toFixed(1)+'%', color:modeColor(mo) },
                                 { label:'UPV MTD',       val:upv.toFixed(2),    color:'text-slate-200' },
                                 { label:'Eligible',      val:String(facility.medBEligible||0), color:'text-purple-300' },
