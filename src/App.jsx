@@ -2558,6 +2558,38 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   </div>
                 )}
 
+
+                {/* Monthly Performance History */}
+                <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
+                  <div className="p-5 border-b border-white/10">
+                    <h3 className="text-lg font-black text-white">Monthly Performance History</h3>
+                    <p className="text-slate-400 text-xs mt-1">MTD values for each month</p>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-white/10 bg-white/5">
+                          {['Month','Prod %','CPM','Mode %','UPV','Med B Rev'].map(h => (
+                            <th key={h} className="py-2 px-4 text-left text-xs font-bold text-slate-400 uppercase">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {getMonthlyData(restrictedFacility).slice().reverse().map((r,i) => (
+                          <tr key={i} className="border-b border-white/5 hover:bg-white/5">
+                            <td className="py-2 px-4 text-white font-bold text-xs">{r.month}</td>
+                            <td className={`py-2 px-4 font-black text-xs ${prodColor(r.productivity)}`}>{r.productivity.toFixed(1)}%</td>
+                            <td className={`py-2 px-4 font-black text-xs ${cpmColor(r.cpm)}`}>${Math.trunc(r.cpm*100)/100}</td>
+                            <td className={`py-2 px-4 font-black text-xs ${modeColor(r.modeOfTreatment)}`}>{r.modeOfTreatment.toFixed(1)}%</td>
+                            <td className="py-2 px-4 text-slate-300 text-xs">{r.unitsPerVisit.toFixed(2)}</td>
+                            <td className="py-2 px-4 text-emerald-300 font-bold text-xs">${(r.medicareMPPRRevenue/1000).toFixed(1)}k</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
               </div>
             )}
 
