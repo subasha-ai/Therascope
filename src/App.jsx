@@ -2649,7 +2649,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 </div>
                               ))}
                             </div>
-
+                          </div>
+                        )}
                       </div>
                     );
                   })}
