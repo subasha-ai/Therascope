@@ -2649,55 +2649,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 </div>
                               ))}
                             </div>
-                            <div className="flex gap-2 mb-3">
-                              {['weekly','monthly'].map(v => (
-                                <button key={v} onClick={()=>setHistoricalView(v)}
-                                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${historicalView===v?'bg-cyan-500 text-white':'bg-white/10 text-slate-400 hover:text-white'}`}>
-                                  {v.charAt(0).toUpperCase()+v.slice(1)}
-                                </button>
-                              ))}
-                            </div>
-                            <div className="overflow-x-auto">
-                              <table className="w-full text-xs">
-                                <thead>
-                                  <tr className="border-b border-white/10">
-                                    {(historicalView==='weekly'
-                                      ? ['Week','Date','Prod%','CPM','Mode%','UPV','Med B Units','Rev MTD']
-                                      : ['Month','Prod%','CPM','Mode%','UPV','Med B Units','Revenue']
-                                    ).map(h => <th key={h} className="py-2 px-3 text-left text-xs font-bold text-slate-500 uppercase">{h}</th>)}
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {historicalView==='weekly'
-                                    ? history.slice(-8).reverse().map((r,i) => (
-                                        <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                                          <td className="py-1.5 px-3 text-white font-bold">{r.week}</td>
-                                          <td className="py-1.5 px-3 text-slate-400">{r.date}</td>
-                                          <td className={`py-1.5 px-3 font-black ${prodColor(r.productivity||0)}`}>{(r.productivity||0).toFixed(1)}%</td>
-                                          <td className={`py-1.5 px-3 font-black ${cpmColor(r.cpm||0)}`}>${(r.cpm||0).toFixed(2)}</td>
-                                          <td className={`py-1.5 px-3 font-black ${modeColor(r.modeOfTreatment||0)}`}>{(r.modeOfTreatment||0).toFixed(1)}%</td>
-                                          <td className="py-1.5 px-3 text-slate-300">{(r.unitsPerVisit||0).toFixed(2)}</td>
-                                          <td className="py-1.5 px-3 text-blue-300 font-bold">{r.medBUnitsThisWeek||0}</td>
-                                          <td className="py-1.5 px-3 text-emerald-300 font-bold">${((r.medicareMPPRRevenueMTD||r.medicareMPPRRevenue||0)/1000).toFixed(1)}k</td>
-                                        </tr>
-                                      ))
-                                    : getMonthlyData(facility.facility).slice().reverse().map((r,i) => (
-                                        <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                                          <td className="py-1.5 px-3 text-white font-bold">{r.month}</td>
-                                          <td className={`py-1.5 px-3 font-black ${prodColor(r.productivity)}`}>{r.productivity.toFixed(1)}%</td>
-                                          <td className={`py-1.5 px-3 font-black ${cpmColor(r.cpm)}`}>${r.cpm.toFixed(2)}</td>
-                                          <td className={`py-1.5 px-3 font-black ${modeColor(r.modeOfTreatment)}`}>{r.modeOfTreatment.toFixed(1)}%</td>
-                                          <td className="py-1.5 px-3 text-slate-300">{r.unitsPerVisit.toFixed(2)}</td>
-                                          <td className="py-1.5 px-3 text-blue-300 font-bold">{r.medBUnitsThisWeek.toLocaleString()}</td>
-                                          <td className="py-1.5 px-3 text-emerald-300 font-bold">${(r.medicareMPPRRevenue/1000).toFixed(1)}k</td>
-                                        </tr>
-                                      ))
-                                  }
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        )}
+
                       </div>
                     );
                   })}
