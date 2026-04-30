@@ -2558,6 +2558,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   </div>
                 )}
 
+              </div>
+            )}
+
             {/* ── ADMIN: All Facilities ── */}
             {!isRestrictedView && (
               <div className="space-y-4">
@@ -2648,6 +2651,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                   <div className={`text-lg font-black ${m.color}`}>{m.val}</div>
                                 </div>
                               ))}
+                            </div>
                             </div>
                           </div>
                         )}
