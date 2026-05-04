@@ -2414,6 +2414,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   const prodGoal = goals.productivity; const cpmGoal = goals.cpm; const modeGoal = goals.mode; const medBGoal = goals.medB;
                   const p    = mtd(myFacilityData,'productivityMTD','productivity');
                   const c    = mtd(myFacilityData,'cpmMTD','cpm');
+                  const mo   = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
+                  const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
 
                   const peerAvg = (fn) => peers.reduce((s,f)=>s+fn(f),0)/peers.length;
                   const peerTop = (fn, higher) => higher ? Math.max(...peers.map(fn)) : Math.min(...peers.map(fn));
@@ -2424,28 +2426,28 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
                   const metrics = [
                     {
-                      label: 'Productivity', mine: p, goal: 84,
+                      label: 'Productivity', mine: p, goal: prodGoal,
                       avg:   peerAvg(f=>mtd(f,'productivityMTD','productivity')),
                       top:   peerTop(f=>mtd(f,'productivityMTD','productivity'), true),
                       rank:  peerRank(f=>mtd(f,'productivityMTD','productivity'), true),
                       fmt: v=>v.toFixed(1)+'%', higher: true,
-                      color: p>=84?'text-emerald-300':'text-rose-300',
+                      color: p>=prodGoal?'text-emerald-300':'text-rose-300',
                     },
                     {
-                      label: 'CPM', mine: c, goal: 1.45,
+                      label: 'CPM', mine: c, goal: cpmGoal,
                       avg:   peerAvg(f=>mtd(f,'cpmMTD','cpm')),
                       top:   peerTop(f=>mtd(f,'cpmMTD','cpm'), false),
                       rank:  peerRank(f=>mtd(f,'cpmMTD','cpm'), false),
                       fmt: v=>'$'+v.toFixed(2), higher: false,
-                      color: Math.round(c*100)/100<=1.45?'text-emerald-300':'text-rose-300',
+                      color: Math.round(c*100)/100<=cpmGoal?'text-emerald-300':'text-rose-300',
                     },
                     {
-                      label: 'Mode of Tx', mine: mo, goal: 4,
+                      label: 'Mode of Tx', mine: mo, goal: modeGoal,
                       avg:   peerAvg(f=>mtd(f,'modeOfTreatmentMTD','modeOfTreatment')),
                       top:   peerTop(f=>mtd(f,'modeOfTreatmentMTD','modeOfTreatment'), true),
                       rank:  peerRank(f=>mtd(f,'modeOfTreatmentMTD','modeOfTreatment'), true),
                       fmt: v=>v.toFixed(1)+'%', higher: true,
-                      color: mo>=4?'text-emerald-300':'text-rose-300',
+                      color: mo>=modeGoal?'text-emerald-300':'text-rose-300',
                     },
                     {
                       label: 'UPV', mine: upv, goal: 3.0,
