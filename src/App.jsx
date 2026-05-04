@@ -789,7 +789,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       if (y + 58 > pH-12) { addPage(); y = 18; }
 
       const lastRec = r.mar||r.feb||r.jan;
-      const score = lastRec ? scoreRec(lastRec) : 0;
+      const score = lastRec ? scoreRec(lastRec, r.facility) : 0;
       const badge = score>=3?'TOP PERFORMER':score<=1?'NEEDS ATTENTION':'DEVELOPING';
       const badgeC = badge==='TOP PERFORMER'?col.green:badge==='NEEDS ATTENTION'?col.red:col.yellow;
 
@@ -1309,7 +1309,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         head: [['Facility','Region',...EXEC_MONTHS.map(m=>m.label.replace(' MTD','')+' Score')]],
         body: struggling.map(fac => {
           const region = allWeeklyData.find(d => d.facility === fac)?.region || '';
-          const scores = EXEC_MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end))+'/4');
+          const scores = EXEC_MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end), fac)+'/4');
           return [shortName(fac), region === 'Golden Coast' ? 'GC' : 'OL', ...scores];
         }),
         theme: 'grid',
@@ -1697,13 +1697,13 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           })).filter(r => r.months.some(Boolean))
             .sort((a,b) => a.region !== b.region ? (a.region==='Golden Coast'?-1:1) : a.facility.localeCompare(b.facility));
 
-          const struggling = facilityRows.filter(r => r.months.filter(Boolean).map(scoreRec).filter(s=>s<=1).length >= 2);
+          const struggling = facilityRows.filter(r => r.months.filter(Boolean).map(rec=>scoreRec(rec,r.facility)).filter(s=>s<=1).length >= 2);
           const improved = facilityRows.map(r => {
             const jan=r.months[0], mar=r.months[2];
             if (!jan || !mar) return null;
-            const scoreDiff = scoreRec(mar)-scoreRec(jan);
+            const scoreDiff = scoreRec(mar,r.facility)-scoreRec(jan,r.facility);
             const prodDiff  = mtd(mar,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity');
-            return { ...r, scoreDiff, prodDiff, janScore:scoreRec(jan), marScore:scoreRec(mar) };
+            return { ...r, scoreDiff, prodDiff, janScore:scoreRec(jan,r.facility), marScore:scoreRec(mar,r.facility) };
           }).filter(Boolean).sort((a,b)=>b.scoreDiff!==a.scoreDiff?b.scoreDiff-a.scoreDiff:b.prodDiff-a.prodDiff).slice(0,3);
 
           return (
