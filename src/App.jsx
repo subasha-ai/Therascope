@@ -542,8 +542,8 @@ export default function App() {
       mar: getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
     })).filter(r => r.jan || r.feb || r.mar);
 
-    const fmt = (rec) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec, b)+'/4' } : null;
-    const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) }));
+    const fmt = (rec, facName) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec, facName)+'/4' } : null;
+    const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan, r.facility), feb: fmt(r.feb, r.facility), mar: fmt(r.mar, r.facility) }));
 
     let result = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
     try {
@@ -1931,7 +1931,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           </div>
                           <div className="flex gap-2 flex-wrap">
                             {r.months.filter(Boolean).map((rec,mi) => {
-                              const s = scoreRec(rec, fac);
+                              const s = scoreRec(rec, r.facility);
                               return <div key={mi} className={`text-xs px-2 py-1 rounded-lg font-bold ${s>=3?'bg-emerald-500/20 text-emerald-300':s===2?'bg-yellow-500/20 text-yellow-300':'bg-rose-500/20 text-rose-300'}`}>{EXEC_MONTHS[mi].label}: {s}/4</div>;
                             })}
                           </div>
