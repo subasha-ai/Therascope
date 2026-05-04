@@ -9,6 +9,15 @@ const ADMIN_PASSWORD      = 'WalkTalkWin';
 const MASTER_DOR_PASSWORD = 'StrongSteps';
 const WEEKLY_REPORT_LINK  = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
 
+// Building-specific goal overrides for outlier buildings
+const BUILDING_GOALS = {
+  'Cedarwood PA':   { productivity: 80, cpm: 1.55, mode: 2, medB: 35 },
+  'Bridgewood PA':  { productivity: 80, cpm: 1.55, mode: 2, medB: 40 },
+  'Morgan Hill HC': { productivity: 80, cpm: 1.55, mode: 2, medB: 40 },
+};
+const getGoals = (facility) => BUILDING_GOALS[facility] || { productivity: 84, cpm: 1.45, mode: 4, medB: 50 };
+
+
 const DOR_PASSWORDS = {
   'The Win Post Acute':      'WinningSteps',
   'Mountain View HC':        'MountainStride',
@@ -57,14 +66,15 @@ const DOR_EMAILS = {
 const mtd = (rec, mtdKey, wkKey) => parseFloat(rec?.[mtdKey] || rec?.[wkKey] || 0);
 
 // Score a record 0-4 across all 4 goals
-const scoreRec = (rec) => {
+const scoreRec = (rec, facility=null) => {
   if (!rec) return 0;
+  const g = facility ? getGoals(facility) : { productivity:84, cpm:1.45, mode:4, medB:50 };
   let s = 0;
-  if (mtd(rec, 'productivityMTD',    'productivity')    >= 84)  s++;
-  if (mtd(rec, 'cpmMTD',             'cpm')             <= 1.45) s++;
+  if (mtd(rec, 'productivityMTD',    'productivity')    >= g.productivity)  s++;
+  if (mtd(rec, 'cpmMTD',             'cpm')             <= g.cpm)           s++;
   const elig = rec.medBEligible || 0, cas = rec.medBCaseload || 0;
-  if (elig > 0 && cas / elig >= 0.5) s++;
-  if (mtd(rec, 'modeOfTreatmentMTD', 'modeOfTreatment') >= 4)   s++;
+  if (elig > 0 && cas / elig >= g.medB/100) s++;
+  if (mtd(rec, 'modeOfTreatmentMTD', 'modeOfTreatment') >= g.mode)          s++;
   return s;
 };
 
@@ -72,7 +82,7 @@ const prodColor  = v => v >= 84   ? 'text-emerald-300' : 'text-rose-300';
 const cpmColor   = v => Math.round(v*100)/100 <= 1.45 ? 'text-emerald-300' : 'text-rose-300';
 const modeColor  = v => v >= 4    ? 'text-emerald-300' : 'text-amber-300';
 const prodBg     = v => v >= 84   ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
-const cpmBg      = v => Math.round(v*100)/100 <= 1.45 ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
+const cpmBg      = (v, goal=1.45) => Math.round(v*100)/100 <= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
 const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300';
 
@@ -91,7 +101,7 @@ export default function App() {
       const lastDay = new Date(y, m, 0).getDate();
       const end    = `${ym}-${String(lastDay).padStart(2,'0')}`;
       const isLatest = i === last3.length - 1;
-      return { label: isLatest ? label+' MTD' : label, start, end };
+      return { label, start, end };
     });
   })();
 
@@ -869,7 +879,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       y = sectionDot(y, 'Average Length of Stay (days)'); y+=2;
       doc.setFont('helvetica','normal'); doc.setFontSize(7); setTxt(col.slate);
       doc.text('Red = below 30 days', margin, y); y+=4;
-      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr MTD']], body:alosRows, startY:y, theme:'grid', styles:{fontSize:8,cellPadding:2.5,textColor:col.white,fillColor:col.navy}, headStyles:{fillColor:[30,41,59],textColor:col.slate,fontStyle:'bold'}, alternateRowStyles:{fillColor:col.darknavy}, margin:{left:margin,right:margin}, didParseCell:(data)=>{ if(data.section==='body'&&data.column.index>0){const v=parseFloat(data.cell.raw);if(!isNaN(v)&&v<30){data.cell.styles.textColor=col.red;data.cell.styles.fontStyle='bold';}}} });
+      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr']], body:alosRows, startY:y, theme:'grid', styles:{fontSize:8,cellPadding:2.5,textColor:col.white,fillColor:col.navy}, headStyles:{fillColor:[30,41,59],textColor:col.slate,fontStyle:'bold'}, alternateRowStyles:{fillColor:col.darknavy}, margin:{left:margin,right:margin}, didParseCell:(data)=>{ if(data.section==='body'&&data.column.index>0){const v=parseFloat(data.cell.raw);if(!isNaN(v)&&v<30){data.cell.styles.textColor=col.red;data.cell.styles.fontStyle='bold';}}} });
       y = doc.lastAutoTable.finalY+8;
     }
 
@@ -928,7 +938,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       const upvPrev= prev ? mtd(prev,'unitsPerVisitMTD','unitsPerVisit') : upv;
 
       const alerts = [], wins = [];
-      if (p < 84)           alerts.push({ msg: `Productivity ${p.toFixed(1)}% — below 84% goal`, severe: true });
+      const bGoals = getGoals(facility);
+    if (p < bGoals.productivity) alerts.push({ msg: `Productivity ${p.toFixed(1)}% — below ${bGoals.productivity}% goal`, severe: true });
       else if (p - pPrev <= -2) alerts.push({ msg: `Productivity dropped ${Math.abs(p-pPrev).toFixed(1)}pp this week`, severe: false });
       else if (p - pPrev >= 2)  wins.push(`Productivity up ${(p-pPrev).toFixed(1)}pp`);
 
@@ -936,7 +947,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       else if (c - cPrev >= 0.05) alerts.push({ msg: `CPM rose $${(Math.trunc(Math.abs(c-cPrev)*100)/100)} this week`, severe: false });
       else if (c - cPrev <= -0.05) wins.push(`CPM improved $${Math.abs(Math.trunc(Math.abs(c-cPrev)*100)/100)}`);
 
-      if (mo < 4)              alerts.push({ msg: `Mode of treatment ${mo.toFixed(1)}% — below 4% goal`, severe: mo === 0 });
+      if (mo < bGoals.mode)    alerts.push({ msg: `Mode of treatment ${mo.toFixed(1)}% — below ${bGoals.mode}% goal`, severe: mo === 0 });
       else if (mo - moPrev <= -2) alerts.push({ msg: `Mode dropped ${Math.abs(mo-moPrev).toFixed(1)}pp this week`, severe: false });
       else if (mo - moPrev >= 2)  wins.push(`Mode up ${(mo-moPrev).toFixed(1)}pp`);
 
@@ -1722,7 +1733,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             <thead>
                               <tr className="border-b border-white/10">
                                 <th className="text-left py-2 px-3 text-slate-400 font-bold text-xs">Building</th>
-                                {['Jan','Feb','Mar','Apr MTD'].map(m => <th key={m} className="py-2 px-3 text-slate-400 font-bold text-xs text-center">{m}</th>)}
+                                {['Jan','Feb','Mar','Apr'].map(m => <th key={m} className="py-2 px-3 text-slate-400 font-bold text-xs text-center">{m}</th>)}
                               </tr>
                             </thead>
                             <tbody>
@@ -1941,7 +1952,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <thead>
                       <tr className="border-b border-white/10">
                         <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Building</th>
-                        {['Jan 2026','Feb 2026','Mar 2026','Apr MTD'].map(m => (
+                        {['Jan 2026','Feb 2026','Mar 2026','Apr'].map(m => (
                           <th key={m} className="py-3 px-4 text-slate-400 font-bold text-xs uppercase text-center">{m}</th>
                         ))}
                       </tr>
@@ -2237,10 +2248,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
-                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=84,      sub:p>=84?'✓ Meeting goal':'Below 84% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=84, projFmt: v=>v.toFixed(1)+'%' },
-                              { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.round(c*100)/100<=1.45, sub:Math.round(c*100)/100<1.45?'✓ Under $1.45':Math.round(c*100)/100===1.45?'✓ At $1.45 target':'Above $1.45 target', icon:PieChart, bg:cpmBg(c), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpm<=1.45, projFmt: v=>'$'+v.toFixed(2) },
-                              { label:'Med B on CL',  val:casePct+'%',       good:casePct>=50,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
-                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=4,      sub:mo>=4?'✓ Meeting 4% goal':'Below 4% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=4, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=prodGoal, sub:p>=prodGoal?'✓ Meeting goal':'Below '+prodGoal+'% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=prodGoal, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.round(c*100)/100<=cpmGoal, sub:Math.round(c*100)/100<cpmGoal?'✓ Under $'+cpmGoal:Math.round(c*100)/100===cpmGoal?'✓ At $'+cpmGoal+' target':'Above $'+cpmGoal+' target', icon:PieChart, bg:cpmBg(c, cpmGoal), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpmMTD<=cpmGoal, projFmt: v=>'$'+v.toFixed(2) },
+                              { label:'Med B on CL',  val:casePct+'%',       good:casePct>=medBGoal,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
+                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=modeGoal, sub:mo>=modeGoal?'✓ Meeting '+modeGoal+'% goal':'Below '+modeGoal+'% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=modeGoal, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
                               <div key={i} className={`rounded-xl p-5 border-2 ${card.bg}`}>
                                 <div className="flex items-center justify-between mb-3">
@@ -2401,6 +2412,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   const c    = mtd(myFacilityData,'cpmMTD','cpm');
                   const mo   = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
                   const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
+                  const goals = getGoals(restrictedFacility);
+                  const prodGoal = goals.productivity; const cpmGoal = goals.cpm; const modeGoal = goals.mode; const medBGoal = goals.medB;
 
                   const peerAvg = (fn) => peers.reduce((s,f)=>s+fn(f),0)/peers.length;
                   const peerTop = (fn, higher) => higher ? Math.max(...peers.map(fn)) : Math.min(...peers.map(fn));
