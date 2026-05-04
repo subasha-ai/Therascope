@@ -1881,9 +1881,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 );
                                 return (
                                   <React.Fragment key={mi}>
-                                    {cell(p, p!==null?p>=84:null, v=>v.toFixed(1)+'%')}
-                                    {cell(c, c!==null?c<=1.45:null, v=>'$'+v.toFixed(2))}
-                                    {cell(mo,mo!==null?mo>=4:null, v=>v.toFixed(1)+'%')}
+                                    {cell(p, p!==null?p>=getGoals(row.facility).productivity:null, v=>v.toFixed(1)+'%')}
+                                    {cell(c, c!==null?c<=getGoals(row.facility).cpm:null, v=>'$'+v.toFixed(2))}
+                                    {cell(mo,mo!==null?mo>=getGoals(row.facility).mode:null, v=>v.toFixed(1)+'%')}
                                     {cell(rv,null, v=>'$'+(v/1000).toFixed(1)+'k')}
                                   </React.Fragment>
                                 );
@@ -2595,9 +2595,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         {getMonthlyData(restrictedFacility).slice().reverse().map((r,i) => (
                           <tr key={i} className="border-b border-white/5 hover:bg-white/5">
                             <td className="py-2 px-4 text-white font-bold text-xs">{r.month}</td>
-                            <td className={`py-2 px-4 font-black text-xs ${prodColor(r.productivity)}`}>{r.productivity.toFixed(1)}%</td>
-                            <td className={`py-2 px-4 font-black text-xs ${cpmColor(r.cpm)}`}>${Math.trunc(r.cpm*100)/100}</td>
-                            <td className={`py-2 px-4 font-black text-xs ${modeColor(r.modeOfTreatment)}`}>{r.modeOfTreatment.toFixed(1)}%</td>
+                            <td className={`py-2 px-4 font-black text-xs ${prodColor(r.productivity, getGoals(restrictedFacility).productivity)}`}>{r.productivity.toFixed(1)}%</td>
+                            <td className={`py-2 px-4 font-black text-xs ${cpmColor(r.cpm, getGoals(restrictedFacility).cpm)}`}>${Math.trunc(r.cpm*100)/100}</td>
+                            <td className={`py-2 px-4 font-black text-xs ${modeColor(r.modeOfTreatment, getGoals(restrictedFacility).mode)}`}>{r.modeOfTreatment.toFixed(1)}%</td>
                             <td className="py-2 px-4 text-slate-300 text-xs">{r.unitsPerVisit.toFixed(2)}</td>
                             <td className="py-2 px-4 text-emerald-300 font-bold text-xs">${(r.medicareMPPRRevenue/1000).toFixed(1)}k</td>
                           </tr>
