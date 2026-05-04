@@ -2207,7 +2207,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 <div className="text-xs text-slate-400 mt-2">{card.sub}</div>
                                 {card.proj != null && monthEndProjection && (
                                   <div className={`mt-2 text-xs font-semibold px-2 py-1 rounded-lg inline-block ${card.projGood?'bg-emerald-500/20 text-emerald-300':'bg-amber-500/20 text-amber-300'}`}>
-                                    Proj: {card.projFmt(card.proj)} · day {monthEndProjection.daysIn}/{monthEndProjection.daysTotal}
+                                    Proj: {card.projFmt(card.proj)} · {currentMonthName.slice(0,3)} {monthEndProjection.daysTotal}
                                   </div>
                                 )}
                               </div>
@@ -2236,7 +2236,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 <div className={`text-3xl font-black ${card.color}`}>{card.val}</div>
                                 {card.proj != null && monthEndProjection && (
                                   <div className="mt-2 text-xs font-semibold px-2 py-1 rounded-lg inline-block bg-emerald-500/20 text-emerald-300">
-                                    Proj: ${(card.proj/1000).toFixed(1)}k · day {monthEndProjection.daysIn}/{monthEndProjection.daysTotal}
+                                    Proj: ${(card.proj/1000).toFixed(1)}k · {currentMonthName.slice(0,3)} {monthEndProjection.daysTotal}
                                   </div>
                                 )}
                               </div>
