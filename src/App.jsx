@@ -279,8 +279,8 @@ export default function App() {
       avgCPM:     (recs.reduce((s,r) => s + mtd(r,'cpmMTD','cpm'),                  0) / recs.length).toFixed(2),
       totalUnits: recs.reduce((s,r) => s + (r.medBUnitsMTD || r.medBUnitsThisWeek || 0), 0),
       totalRev:   recs.reduce((s,r) => s + (r.medicareMPPRRevenueMTD || r.medicareMPPRRevenue || 0), 0),
-      atGoalProd: recs.filter(r => mtd(r,'productivityMTD','productivity') >= 84).length,
-      atGoalCPM:  recs.filter(r => mtd(r,'cpmMTD','cpm') <= 1.45).length,
+      atGoalProd: recs.filter(r => mtd(r,'productivityMTD','productivity') >= getGoals(r.facility).productivity).length,
+      atGoalCPM:  recs.filter(r => mtd(r,'cpmMTD','cpm') <= getGoals(r.facility).cpm).length,
       n: recs.length,
     };
   };
@@ -291,8 +291,8 @@ export default function App() {
     const matchRegion = selectedRegion === 'all' || f.region === selectedRegion;
     const p = mtd(f,'productivityMTD','productivity');
     const c = mtd(f,'cpmMTD','cpm');
-    const matchProd = filterProductivity === 'all' || (filterProductivity === 'meeting' ? p >= 84 : p < 84);
-    const matchCPM  = filterCPM === 'all'          || (filterCPM === 'meeting'          ? c <= 1.45 : c > 1.45);
+    const matchProd = filterProductivity === 'all' || (filterProductivity === 'meeting' ? p >= getGoals(f.facility).productivity : p < getGoals(f.facility).productivity);
+    const matchCPM  = filterCPM === 'all'          || (filterCPM === 'meeting'          ? c <= getGoals(f.facility).cpm : c > getGoals(f.facility).cpm);
     return matchSearch && matchRegion && matchProd && matchCPM;
   });
 
@@ -1426,7 +1426,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               </div>
               <div>
                 <h1 className="text-xl font-black bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-300 bg-clip-text text-transparent">TheraScope</h1>
-                <p className="text-slate-400 text-xs">Visibility · Control · Intelligence</p>
+                <p className="text-slate-400 text-xs">Visibility · Control · Intelligence · v2</p>
               </div>
             </div>
             <div className="flex gap-3 items-center">
@@ -1557,7 +1557,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         { label:'Avg Productivity', val: (data.reduce((s,f)=>s+mtd(f,'productivityMTD','productivity'),0)/data.length).toFixed(1)+'%', color: prodColor(data.reduce((s,f)=>s+mtd(f,'productivityMTD','productivity'),0)/data.length) },
                         { label:'Avg CPM',           val: '$'+(data.reduce((s,f)=>s+mtd(f,'cpmMTD','cpm'),0)/data.length).toFixed(2), color: cpmColor(data.reduce((s,f)=>s+mtd(f,'cpmMTD','cpm'),0)/data.length) },
                         { label:'Med B Units MTD',   val: data.reduce((s,f)=>s+(f.medBUnitsMTD||f.medBUnitsThisWeek||0),0).toLocaleString(), color:'text-white' },
-                        { label:'At Prod Goal',      val: data.filter(f=>mtd(f,'productivityMTD','productivity')>=84).length+'/'+data.length, color:'text-slate-300' },
+                        { label:'At Prod Goal',      val: data.filter(f=>mtd(f,'productivityMTD','productivity')>=getGoals(f.facility).productivity).length+'/'+data.length, color:'text-slate-300' },
                       ].map((m,i) => (
                         <div key={i}>
                           <div className="text-slate-400 text-xs mb-1">{m.label}</div>
@@ -1912,7 +1912,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             <span className="text-emerald-300 font-black text-sm">{r.janScore}/4 → {r.marScore}/4 goals</span>
                           </div>
                           <div className="flex gap-4 text-xs text-slate-400">
-                            <span>Prod: {janProd.toFixed(1)}% → <span className={marProd>=84?'text-emerald-300 font-bold':'text-rose-300 font-bold'}>{marProd.toFixed(1)}%</span></span>
+                            <span>Prod: {janProd.toFixed(1)}% → <span className={marProd>=getGoals(r.facility).productivity?'text-emerald-300 font-bold':'text-rose-300 font-bold'}>{marProd.toFixed(1)}%</span></span>
                             {r.prodDiff > 0 && <span className="text-emerald-400">+{r.prodDiff.toFixed(1)}pp</span>}
                           </div>
                         </div>
