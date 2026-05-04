@@ -78,9 +78,9 @@ const scoreRec = (rec, facility=null) => {
   return s;
 };
 
-const prodColor  = v => v >= 84   ? 'text-emerald-300' : 'text-rose-300';
-const cpmColor   = v => Math.round(v*100)/100 <= 1.45 ? 'text-emerald-300' : 'text-rose-300';
-const modeColor  = v => v >= 4    ? 'text-emerald-300' : 'text-amber-300';
+const prodColor  = (v, goal=84)   => v >= goal   ? 'text-emerald-300' : 'text-rose-300';
+const cpmColor   = (v, goal=1.45) => Math.round(v*100)/100 <= goal ? 'text-emerald-300' : 'text-rose-300';
+const modeColor  = (v, goal=4)    => v >= goal    ? 'text-emerald-300' : 'text-amber-300';
 const prodBg     = (v, goal=84) => v >= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const cpmBg      = (v, goal=1.45) => Math.round(v*100)/100 <= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
@@ -2557,12 +2557,13 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             const c  = mtd(f,'cpmMTD','cpm');
                             const mo = mtd(f,'modeOfTreatmentMTD','modeOfTreatment');
                             const sc = scoreRec(f, f.facility);
+                            const fg = getGoals(f.facility);
                             return (
                               <tr key={i} className={`border-b border-white/5 ${isMe?'bg-cyan-500/10 border-cyan-400/20':'hover:bg-white/5'}`}>
                                 <td className="py-3 px-4 text-sm font-bold text-white">{f.facility}{isMe&&<span className="ml-2 text-xs text-cyan-400 font-black">(You)</span>}</td>
-                                <td className={`py-3 px-4 text-sm font-black ${prodColor(p)}`}>{p.toFixed(1)}%</td>
-                                <td className={`py-3 px-4 text-sm font-black ${cpmColor(c)}`}>${Math.trunc(c*100)/100}</td>
-                                <td className={`py-3 px-4 text-sm font-black ${modeColor(mo)}`}>{mo.toFixed(1)}%</td>
+                                <td className={`py-3 px-4 text-sm font-black ${prodColor(p, fg.productivity)}`}>{p.toFixed(1)}%</td>
+                                <td className={`py-3 px-4 text-sm font-black ${cpmColor(c, fg.cpm)}`}>${Math.trunc(c*100)/100}</td>
+                                <td className={`py-3 px-4 text-sm font-black ${modeColor(mo, fg.mode)}`}>{mo.toFixed(1)}%</td>
                                 <td className="py-3 px-4 text-sm font-bold text-white">{f.medBCaseload||0}</td>
                                 <td className="py-3 px-4"><span className={`px-2 py-1 rounded-lg text-xs font-black ${scoreBadge(sc)}`}>{sc}/4</span></td>
                               </tr>
@@ -2664,9 +2665,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             <div className="flex items-center gap-4">
                               <div className="hidden md:grid grid-cols-4 gap-5 text-center">
                                 {[
-                                  { label:'Prod', value:p.toFixed(1)+'%', color:prodColor(p) },
-                                  { label:'CPM',  value:'$'+Math.trunc(c*100)/100, color:cpmColor(c)  },
-                                  { label:'Mode', value:mo.toFixed(1)+'%',color:modeColor(mo)},
+                                  { label:'Prod', value:p.toFixed(1)+'%', color:prodColor(p,getGoals(facility.facility).productivity) },
+                                  { label:'CPM',  value:'$'+Math.trunc(c*100)/100, color:cpmColor(c,getGoals(facility.facility).cpm)  },
+                                  { label:'Mode', value:mo.toFixed(1)+'%',color:modeColor(mo,getGoals(facility.facility).mode)},
                                   { label:'Rev',  value:'$'+(rev/1000).toFixed(1)+'k', color:'text-emerald-300' },
                                 ].map((m,i) => (
                                   <div key={i}>
@@ -2685,9 +2686,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <div className="px-5 pb-5 border-t border-white/5">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 mb-4">
                               {[
-                                { label:'Prod MTD',      val:p.toFixed(1)+'%',  color:prodColor(p) },
-                                { label:'CPM MTD',       val:'$'+Math.trunc(c*100)/100,  color:cpmColor(c) },
-                                { label:'Mode MTD',      val:mo.toFixed(1)+'%', color:modeColor(mo) },
+                                { label:'Prod MTD',      val:p.toFixed(1)+'%',  color:prodColor(p,getGoals(facility.facility).productivity) },
+                                { label:'CPM MTD',       val:'$'+Math.trunc(c*100)/100,  color:cpmColor(c,getGoals(facility.facility).cpm) },
+                                { label:'Mode MTD',      val:mo.toFixed(1)+'%', color:modeColor(mo,getGoals(facility.facility).mode) },
                                 { label:'UPV MTD',       val:upv.toFixed(2),    color:'text-slate-200' },
                                 { label:'Eligible',      val:String(facility.medBEligible||0), color:'text-purple-300' },
                                 { label:'On Caseload',   val:String(facility.medBCaseload||0), color:'text-indigo-300' },
