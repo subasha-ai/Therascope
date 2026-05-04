@@ -79,10 +79,10 @@ const scoreRec = (rec, facility=null) => {
 };
 
 const prodColor  = (v, goal=84)   => v >= goal   ? 'text-emerald-300' : 'text-rose-300';
-const cpmColor   = (v, goal=1.45) => Math.round(v*100)/100 <= goal ? 'text-emerald-300' : 'text-rose-300';
+const cpmColor   = (v, goal=1.45) => Math.trunc(v*100)/100 <= goal ? 'text-emerald-300' : 'text-rose-300';
 const modeColor  = (v, goal=4)    => v >= goal    ? 'text-emerald-300' : 'text-amber-300';
 const prodBg     = (v, goal=84) => v >= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
-const cpmBg      = (v, goal=1.45) => Math.round(v*100)/100 <= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
+const cpmBg      = (v, goal=1.45) => Math.trunc(v*100)/100 <= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
 const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300';
 
@@ -1426,7 +1426,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               </div>
               <div>
                 <h1 className="text-xl font-black bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-300 bg-clip-text text-transparent">TheraScope</h1>
-                <p className="text-slate-400 text-xs">Visibility · Control · Intelligence · v2</p>
+                <p className="text-slate-400 text-xs">Visibility · Control · Intelligence</p>
               </div>
             </div>
             <div className="flex gap-3 items-center">
@@ -1572,10 +1572,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
             {/* Off-Track This Week */}
             {(() => {
-              const offProd = currentWeekData.filter(f => mtd(f,'productivityMTD','productivity') < 84);
-              const offCPM  = currentWeekData.filter(f => mtd(f,'cpmMTD','cpm') > 1.45);
-              const offMode = currentWeekData.filter(f => mtd(f,'modeOfTreatmentMTD','modeOfTreatment') < 4);
-              const offMedB = currentWeekData.filter(f => f.medBEligible > 0 && (f.medBCaseload/f.medBEligible) < 0.5);
+              const offProd = currentWeekData.filter(f => mtd(f,'productivityMTD','productivity') < getGoals(f.facility).productivity);
+              const offCPM  = currentWeekData.filter(f => mtd(f,'cpmMTD','cpm') > getGoals(f.facility).cpm);
+              const offMode = currentWeekData.filter(f => mtd(f,'modeOfTreatmentMTD','modeOfTreatment') < getGoals(f.facility).mode);
+              const offMedB = currentWeekData.filter(f => f.medBEligible > 0 && (f.medBCaseload/f.medBEligible) < getGoals(f.facility).medB/100);
               if (!offProd.length && !offCPM.length && !offMode.length && !offMedB.length) return (
                 <div className="bg-emerald-500/10 border border-emerald-400/30 rounded-2xl p-5 flex items-center gap-3">
                   <span className="text-2xl">🏆</span>
@@ -1597,9 +1597,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   <div className="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
                       { label:'Productivity < 84%', items:offProd, val: f => mtd(f,'productivityMTD','productivity').toFixed(1)+'%' },
-                      { label:'CPM > $1.45',         items:offCPM,  val: f => '$'+mtd(f,'cpmMTD','cpm').toFixed(2) },
-                      { label:'Mode of Tx < 4%',     items:offMode, val: f => mtd(f,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%' },
-                      { label:'Med B < 50% on CL',   items:offMedB, val: f => f.medBEligible>0 ? Math.round((f.medBCaseload/f.medBEligible)*100)+'%' : 'N/A' },
+                      { label:'CPM > $1.45',         items:offCPM,  val: f => '$'+Math.trunc(mtd(f,'cpmMTD','cpm')*100)/100 },
+                      { label:'Mode of Tx < goal',   items:offMode, val: f => mtd(f,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%' },
+                      { label:'Med B < goal on CL',  items:offMedB, val: f => f.medBEligible>0 ? Math.round((f.medBCaseload/f.medBEligible)*100)+'%' : 'N/A' },
                     ].map((g,gi) => (
                       <div key={gi} className="bg-white/5 border border-white/10 rounded-xl p-4">
                         <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">{g.label}</div>
@@ -1619,72 +1619,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               );
             })()}
 
-            {/* Feb vs March Comparison */}
-            {(() => {
-              const febFinals = {}, marchLatest = {};
-              allWeeklyData.filter(d => d.date>=EXEC_MONTHS[EXEC_MONTHS.length-2].start && d.date<=EXEC_MONTHS[EXEC_MONTHS.length-2].end).forEach(d => { if (!febFinals[d.facility] || d.week > febFinals[d.facility].week) febFinals[d.facility] = d; });
-              allWeeklyData.filter(d => d.date>=EXEC_MONTHS[EXEC_MONTHS.length-1].start && d.date<=EXEC_MONTHS[EXEC_MONTHS.length-1].end).forEach(d => { if (!marchLatest[d.facility] || d.week > marchLatest[d.facility].week) marchLatest[d.facility] = d; });
-              const facs = Object.keys(febFinals).filter(f => marchLatest[f]).sort();
-              if (!facs.length) return null;
-              const COLS = [
-                { key:'prod', label:'Prod %', f:r=>mtd(r,'productivityMTD','productivity'),    fmt:v=>v.toFixed(1)+'%', better:'higher' },
-                { key:'cpm',  label:'CPM',    f:r=>mtd(r,'cpmMTD','cpm'),                     fmt:v=>'$'+v.toFixed(2), better:'lower'  },
-                { key:'mode', label:'Mode %', f:r=>mtd(r,'modeOfTreatmentMTD','modeOfTreatment'), fmt:v=>v.toFixed(1)+'%', better:'higher' },
-                { key:'upv',  label:'UPV',    f:r=>mtd(r,'unitsPerVisitMTD','unitsPerVisit'),  fmt:v=>v.toFixed(2),     better:'higher' },
-              ];
-              return (
-                <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
-                  <div className="p-5 border-b border-white/10 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 flex items-center gap-3">
-                    <span className="text-2xl">📊</span>
-                    <div>
-                      <h3 className="text-lg font-black text-white">{EXEC_MONTHS[EXEC_MONTHS.length-2].label.replace(' MTD','')} Final vs {EXEC_MONTHS[EXEC_MONTHS.length-1].label} </h3>
-                      <p className="text-slate-400 text-sm">All facilities — MTD values compared</p>
-                    </div>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b border-white/10 bg-white/5">
-                          <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Facility</th>
-                          <th className="text-center py-2 px-2 text-slate-400 font-bold text-xs uppercase">Rgn</th>
-                          {COLS.map(c => <th key={c.key} className="text-center py-3 px-3 text-slate-400 font-bold text-xs uppercase">{c.label}</th>)}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {facs.map((fac,i) => {
-                          const feb = febFinals[fac], mar = marchLatest[fac];
-                          return (
-                            <tr key={i} className="border-b border-white/5 hover:bg-white/5">
-                              <td className="py-2 px-4 text-white font-bold text-xs">{fac}</td>
-                              <td className="py-2 px-2 text-center">
-                                <span className={`px-1.5 py-0.5 rounded text-xs font-bold ${mar.region==='Golden Coast'?'bg-amber-500/20 text-amber-300':'bg-blue-500/20 text-blue-300'}`}>
-                                  {mar.region==='Golden Coast'?'GC':'OL'}
-                                </span>
-                              </td>
-                              {COLS.map(col => {
-                                const fv = col.f(feb), mv = col.f(mar), diff = mv - fv;
-                                const improved = col.better==='higher' ? diff > 0.05 : diff < -0.05;
-                                const declined = col.better==='higher' ? diff < -0.05 : diff > 0.05;
-                                const sign = diff > 0 ? '+' : '';
-                                const diffStr = col.key==='cpm' ? sign+'$'+Math.abs(diff).toFixed(2) : sign+diff.toFixed(col.key==='upv'?2:1);
-                                return (
-                                  <td key={col.key} className="py-2 px-3 text-center">
-                                    <div className="text-white text-xs font-bold">{col.fmt(mv)}</div>
-                                    <div className={`text-xs font-bold mt-0.5 ${improved?'text-emerald-400':declined?'text-rose-400':'text-slate-500'}`}>
-                                      {improved?'↑':declined?'↓':'→'} {diffStr}
-                                    </div>
-                                  </td>
-                                );
-                              })}
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              );
-            })()}
           </div>
         )}
 
@@ -1882,7 +1816,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 return (
                                   <React.Fragment key={mi}>
                                     {cell(p, p!==null?p>=getGoals(row.facility).productivity:null, v=>v.toFixed(1)+'%')}
-                                    {cell(c, c!==null?c<=getGoals(row.facility).cpm:null, v=>'$'+v.toFixed(2))}
+                                    {cell(c, c!==null?Math.trunc(c*100)/100<=getGoals(row.facility).cpm:null, v=>'$'+v.toFixed(2))}
                                     {cell(mo,mo!==null?mo>=getGoals(row.facility).mode:null, v=>v.toFixed(1)+'%')}
                                     {cell(rv,null, v=>'$'+(v/1000).toFixed(1)+'k')}
                                   </React.Fragment>
@@ -2252,7 +2186,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
                               { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=prodGoal, sub:p>=prodGoal?'✓ Meeting goal':'Below '+prodGoal+'% goal', icon:TrendingUp, bg:prodBg(p, prodGoal), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=prodGoal, projFmt: v=>v.toFixed(1)+'%' },
-                              { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.round(c*100)/100<=cpmGoal, sub:Math.round(c*100)/100<cpmGoal?'✓ Under $'+cpmGoal:Math.round(c*100)/100===cpmGoal?'✓ At $'+cpmGoal+' target':'Above $'+cpmGoal+' target', icon:PieChart, bg:cpmBg(c, cpmGoal), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpmMTD<=cpmGoal, projFmt: v=>'$'+v.toFixed(2) },
+                              { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.trunc(c*100)/100<=cpmGoal, sub:Math.trunc(c*100)/100<cpmGoal?'✓ Under $'+cpmGoal:Math.trunc(c*100)/100===cpmGoal?'✓ At $'+cpmGoal+' target':'Above $'+cpmGoal+' target', icon:PieChart, bg:cpmBg(c, cpmGoal), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpmMTD<=cpmGoal, projFmt: v=>'$'+v.toFixed(2) },
                               { label:'Med B on CL',  val:casePct+'%',       good:casePct>=medBGoal,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=medBGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
                               { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=modeGoal, sub:mo>=modeGoal?'✓ Meeting '+modeGoal+'% goal':'Below '+modeGoal+'% goal', icon:Activity, bg:mo>=modeGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=modeGoal, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
@@ -2440,7 +2374,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       top:   peerTop(f=>mtd(f,'cpmMTD','cpm'), false),
                       rank:  peerRank(f=>mtd(f,'cpmMTD','cpm'), false),
                       fmt: v=>'$'+v.toFixed(2), higher: false,
-                      color: Math.round(c*100)/100<=cpmGoal?'text-emerald-300':'text-rose-300',
+                      color: Math.trunc(c*100)/100<=cpmGoal?'text-emerald-300':'text-rose-300',
                     },
                     {
                       label: 'Mode of Tx', mine: mo, goal: modeGoal,
