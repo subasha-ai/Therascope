@@ -159,25 +159,25 @@ export default function App() {
   });
   const [alosData, setAlosData] = useState({
     // Golden Coast — names match data.json exactly
-    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '42.8' },
-    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '43.2' },
-    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '39.1' },
-    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '46.4' },
-    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '18.5' },
-    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '37.7' },
-    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '28.6' },
-    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '43.7' },
-    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '62.4' },
-    'Palo Alto Post Acute':    { jan: '',     feb: '',     mar: '',     apr: '31.9' },
+    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3' },
+    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0' },
+    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8' },
+    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3' },
+    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5' },
+    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4' },
+    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2' },
+    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3' },
+    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9' },
+    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0' },
     // Overland — names match data.json exactly
-    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '45.75' },
-    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '18.0' },
-    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '72.75' },
-    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '62.5' },
-    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '19.86' },
-    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '20.67' },
-    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '55.0' },
-    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '56.05' },
+    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50' },
+    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42' },
+    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78' },
+    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27' },
+    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24' },
+    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64' },
+    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22' },
+    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23' },
   });
   const [showReportModal,   setShowReportModal]   = useState(false);
   const [reportRegion,      setReportRegion]      = useState(null);
