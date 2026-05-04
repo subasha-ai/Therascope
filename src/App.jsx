@@ -81,7 +81,7 @@ const scoreRec = (rec, facility=null) => {
 const prodColor  = v => v >= 84   ? 'text-emerald-300' : 'text-rose-300';
 const cpmColor   = v => Math.round(v*100)/100 <= 1.45 ? 'text-emerald-300' : 'text-rose-300';
 const modeColor  = v => v >= 4    ? 'text-emerald-300' : 'text-amber-300';
-const prodBg     = v => v >= 84   ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
+const prodBg     = (v, goal=84) => v >= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const cpmBg      = (v, goal=1.45) => Math.round(v*100)/100 <= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
 const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300';
@@ -300,8 +300,9 @@ export default function App() {
   const latestDateStr = allWeeklyData.reduce((max,d) => d.date > max ? d.date : max, '');
   const throughDate = (() => {
     const d = new Date(latestDateStr);
-    d.setDate(d.getDate() + 6);
-    return d.toISOString().split('T')[0];
+    // Use last day of the month (MTD report)
+    const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+    return lastDay.toISOString().split('T')[0];
   })();
   const currentMonthName = (() => {
     const d = new Date(latestDateStr);
@@ -2250,10 +2251,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                             {[
-                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=prodGoal, sub:p>=prodGoal?'✓ Meeting goal':'Below '+prodGoal+'% goal', icon:TrendingUp, bg:prodBg(p), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=prodGoal, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=prodGoal, sub:p>=prodGoal?'✓ Meeting goal':'Below '+prodGoal+'% goal', icon:TrendingUp, bg:prodBg(p, prodGoal), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=prodGoal, projFmt: v=>v.toFixed(1)+'%' },
                               { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.round(c*100)/100<=cpmGoal, sub:Math.round(c*100)/100<cpmGoal?'✓ Under $'+cpmGoal:Math.round(c*100)/100===cpmGoal?'✓ At $'+cpmGoal+' target':'Above $'+cpmGoal+' target', icon:PieChart, bg:cpmBg(c, cpmGoal), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpmMTD<=cpmGoal, projFmt: v=>'$'+v.toFixed(2) },
-                              { label:'Med B on CL',  val:casePct+'%',       good:casePct>=medBGoal,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=50?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
-                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=modeGoal, sub:mo>=modeGoal?'✓ Meeting '+modeGoal+'% goal':'Below '+modeGoal+'% goal', icon:Activity, bg:mo>=4?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=modeGoal, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'Med B on CL',  val:casePct+'%',       good:casePct>=medBGoal,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=medBGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
+                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=modeGoal, sub:mo>=modeGoal?'✓ Meeting '+modeGoal+'% goal':'Below '+modeGoal+'% goal', icon:Activity, bg:mo>=modeGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=modeGoal, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
                               <div key={i} className={`rounded-xl p-5 border-2 ${card.bg}`}>
                                 <div className="flex items-center justify-between mb-3">
