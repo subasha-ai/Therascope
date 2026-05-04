@@ -542,7 +542,7 @@ export default function App() {
       mar: getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
     })).filter(r => r.jan || r.feb || r.mar);
 
-    const fmt = (rec) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec)+'/4' } : null;
+    const fmt = (rec) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec, b)+'/4' } : null;
     const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan), feb: fmt(r.feb), mar: fmt(r.mar) }));
 
     let result = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
@@ -721,7 +721,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100,
         mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%',
         rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'--',
-        scoreRec(rec)+'/4',
+        scoreRec(rec, r.facility)+'/4',
       ] : ['--','--','--','--','--']),
     ]);
 
@@ -1931,7 +1931,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           </div>
                           <div className="flex gap-2 flex-wrap">
                             {r.months.filter(Boolean).map((rec,mi) => {
-                              const s = scoreRec(rec);
+                              const s = scoreRec(rec, fac);
                               return <div key={mi} className={`text-xs px-2 py-1 rounded-lg font-bold ${s>=3?'bg-emerald-500/20 text-emerald-300':s===2?'bg-yellow-500/20 text-yellow-300':'bg-rose-500/20 text-rose-300'}`}>{EXEC_MONTHS[mi].label}: {s}/4</div>;
                             })}
                           </div>
@@ -2244,6 +2244,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
                       const rev  = mtd(myFacilityData,'medicareMPPRRevenueMTD','medicareMPPRRevenue');
                       const units = myFacilityData.medBUnitsMTD || myFacilityData.medBUnitsThisWeek || 0;
+                      const goals = getGoals(restrictedFacility);
+                      const prodGoal = goals.productivity; const cpmGoal = goals.cpm; const modeGoal = goals.mode; const medBGoal = goals.medB;
                       return (
                         <>
                           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
@@ -2408,12 +2410,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 {/* Peer Benchmarking */}
                 {myRegionData.length > 1 && (() => {
                   const peers = myRegionData.filter(f => f.facility !== restrictedFacility);
-                  const p    = mtd(myFacilityData,'productivityMTD','productivity');
-                  const c    = mtd(myFacilityData,'cpmMTD','cpm');
-                  const mo   = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
-                  const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
                   const goals = getGoals(restrictedFacility);
                   const prodGoal = goals.productivity; const cpmGoal = goals.cpm; const modeGoal = goals.mode; const medBGoal = goals.medB;
+                  const p    = mtd(myFacilityData,'productivityMTD','productivity');
+                  const c    = mtd(myFacilityData,'cpmMTD','cpm');
 
                   const peerAvg = (fn) => peers.reduce((s,f)=>s+fn(f),0)/peers.length;
                   const peerTop = (fn, higher) => higher ? Math.max(...peers.map(fn)) : Math.min(...peers.map(fn));
@@ -2543,7 +2543,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                               if(k==='productivity') return mtd(r,'productivityMTD','productivity');
                               if(k==='cpm')          return mtd(r,'cpmMTD','cpm');
                               if(k==='modeOfTreatment') return mtd(r,'modeOfTreatmentMTD','modeOfTreatment');
-                              if(k==='score') return scoreRec(r);
+                              if(k==='score') return scoreRec(r, r.facility);
                               return r[k]||0;
                             };
                             const va=getV(a,dorLeaderboardSort), vb=getV(b,dorLeaderboardSort);
@@ -2553,7 +2553,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             const p  = mtd(f,'productivityMTD','productivity');
                             const c  = mtd(f,'cpmMTD','cpm');
                             const mo = mtd(f,'modeOfTreatmentMTD','modeOfTreatment');
-                            const sc = scoreRec(f);
+                            const sc = scoreRec(f, f.facility);
                             return (
                               <tr key={i} className={`border-b border-white/5 ${isMe?'bg-cyan-500/10 border-cyan-400/20':'hover:bg-white/5'}`}>
                                 <td className="py-3 px-4 text-sm font-bold text-white">{f.facility}{isMe&&<span className="ml-2 text-xs text-cyan-400 font-black">(You)</span>}</td>
@@ -2640,7 +2640,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     const upv = mtd(facility,'unitsPerVisitMTD','unitsPerVisit');
                     const rev = mtd(facility,'medicareMPPRRevenueMTD','medicareMPPRRevenue');
                     const units = facility.medBUnitsMTD || facility.medBUnitsThisWeek || 0;
-                    const sc  = scoreRec(facility);
+                    const sc  = scoreRec(facility, facility.facility);
                     return (
                       <div key={idx}>
                         <div className="p-5 hover:bg-white/5 transition-all cursor-pointer"
