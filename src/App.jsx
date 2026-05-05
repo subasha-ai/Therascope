@@ -139,7 +139,7 @@ export default function App() {
       { building: 'Capital PA',          status: 'Green',  actionItem: 'Continue working on quality of documentation with levels.' },
       { building: 'Bridgewood PA',       status: 'Green',  actionItem: 'JMA caught up. PT standardized tests missing.' },
       { building: 'Cedarwood PA',        status: 'Green',  actionItem: 'JMA caught up. Some standardized tests missing across disciplines.' },
-      { building: 'Palo Alto Post Acute',status: 'Yellow', actionItem: 'Catch up on rehab post-fall screens. Eval orders not being DC'd consistently.' },
+      { building: 'Palo Alto Post Acute',status: 'Yellow', actionItem: 'Catch up on rehab post-fall screens. Eval orders not being discontinued consistently.' },
       { building: 'Eden HC',             status: 'Yellow', actionItem: 'JMA ongoing. Standardized tests missing on evals for OT/ST.' },
       { building: 'Golden Harbor HC',    status: 'Yellow', actionItem: 'Standardized tests for OT. DC eval orders. Clean up reclarification and PT/OT clarification orders.' },
       { building: 'West Shore PA',       status: 'Red',    actionItem: 'Bring JMA to 60% complete. Continue resolving orders and careplans.' },
