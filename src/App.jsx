@@ -58,7 +58,7 @@ const DOR_EMAILS = {
   'Bridgewood PA':           'vamen@cedarwoodpostacute.com',
   'Cedarwood PA':            'vamen@cedarwoodpostacute.com',
   'Capital PA':              'dperkins@capitalpostacute.com',
-  'Blue Oak Post Acute':     'asha@spyglasshc.com',
+  'Blue Oak Post Acute':     'sneupane@blueoakpa.com',
 };
 
 // ─── PURE HELPERS (no hooks) ──────────────────────────────────────────────────
