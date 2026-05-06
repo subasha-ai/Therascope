@@ -58,7 +58,7 @@ const DOR_EMAILS = {
   'Bridgewood PA':           'vamen@cedarwoodpostacute.com',
   'Cedarwood PA':            'vamen@cedarwoodpostacute.com',
   'Capital PA':              'dperkins@capitalpostacute.com',
-  'Blue Oak Post Acute':     'sneupane@blueoakpa.com',
+  'Blue Oak Post Acute':     'asha@spyglasshc.com',
 };
 
 // ─── PURE HELPERS (no hooks) ──────────────────────────────────────────────────
@@ -279,6 +279,7 @@ export default function App() {
       avgCPM:     (recs.reduce((s,r) => s + mtd(r,'cpmMTD','cpm'),                  0) / recs.length).toFixed(2),
       totalUnits: recs.reduce((s,r) => s + (r.medBUnitsMTD || r.medBUnitsThisWeek || 0), 0),
       totalRev:   recs.reduce((s,r) => s + (r.medicareMPPRRevenueMTD || r.medicareMPPRRevenue || 0), 0),
+      totalRespRev: recs.reduce((s,r) => s + (r.respMedBRevenueMTD || 0), 0),
       atGoalProd: recs.filter(r => mtd(r,'productivityMTD','productivity') >= getGoals(r.facility).productivity).length,
       atGoalCPM:  recs.filter(r => mtd(r,'cpmMTD','cpm') <= getGoals(r.facility).cpm).length,
       n: recs.length,
@@ -1759,7 +1760,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         { label:'Avg Productivity', val:m.totals.avgProd+'%',                               good:parseFloat(m.totals.avgProd)>=84 },
                         { label:'Avg CPM',           val:'$'+m.totals.avgCPM,                               good:parseFloat(m.totals.avgCPM)<=1.45 },
                         { label:'Med B Units',       val:m.totals.totalUnits.toLocaleString(),              good:null },
-                        { label:'Med B Revenue',     val:'$'+(m.totals.totalRev/1000).toFixed(0)+'k',      good:null },
+                        { label:'Rehab Med B Rev',   val:'$'+(m.totals.totalRev/1000).toFixed(0)+'k',      good:null },
+                        { label:'Resp Med B Rev',    val: m.totals.totalRespRev > 0 ? '$'+(m.totals.totalRespRev/1000).toFixed(0)+'k' : '—', good:null },
+                        { label:'Total Med B Rev',   val:'$'+((m.totals.totalRev+(m.totals.totalRespRev||0))/1000).toFixed(0)+'k', good:null },
                         { label:'At Prod Goal',      val:m.totals.atGoalProd+' / '+m.totals.n+' bldgs',    good:m.totals.atGoalProd>=m.totals.n*0.7 },
                         { label:'At CPM Goal',       val:m.totals.atGoalCPM+' / '+m.totals.n+' bldgs',    good:m.totals.atGoalCPM>=m.totals.n*0.7 },
                       ].map((row,ri) => (
