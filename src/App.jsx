@@ -1897,8 +1897,13 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     </thead>
                     <tbody>
                       {['Golden Coast','Overland'].map(region => {
-                        const regionFacs = allFacilities.filter(f => allWeeklyData.find(d=>d.facility===f)?.region===region);
+                        const regionFacs = allFacilities.filter(f => {
+                            if (f === 'Palo Alto Post Acute') return region === 'Overland';
+                            return allWeeklyData.find(d=>d.facility===f)?.region===region;
+                          });
                         const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr);
+                        // For Palo Alto under Golden Coast, only show Apr column
+                        const paloAltoGC = region === 'Golden Coast' ? [{ fac: 'Palo Alto Post Acute', a: { ...alosData['Palo Alto Post Acute'], jan:'', feb:'', mar:'' } }] : [];
                         if (!facRows.length) return null;
 
                         // Compute region averages
@@ -1928,7 +1933,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                               })}
                             </tr>
                             {/* Building rows */}
-                            {facRows.map(({fac, a}, i) => (
+                            {[...facRows, ...paloAltoGC].map(({fac, a}, i) => (
                               <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
                                 <td className="py-2.5 px-4 text-white text-xs font-medium pl-8">{fac}</td>
                                 {[a.jan,a.feb,a.mar,a.apr].map((v, vi) => (
