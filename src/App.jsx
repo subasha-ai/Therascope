@@ -327,7 +327,7 @@ export default function App() {
   // ── Month-end projection
   const monthEndProjection = (() => {
     if (!myFacilityData) return null;
-    const d = new Date(throughDate);
+    const d = new Date(latestDateStr);           // actual data date (e.g. May 10), not last of month
     const daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     const dayOfMonth  = d.getDate();
     const pct = dayOfMonth / daysInMonth;
