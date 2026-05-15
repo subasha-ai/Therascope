@@ -7,6 +7,7 @@ import facilityDataJson from './facility_data.json';
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const ADMIN_PASSWORD      = 'WalkTalkWin';
 const MASTER_DOR_PASSWORD = 'StrongSteps';
+const LEADERSHIP_EMAILS   = ['asha@spyglasshc.com', 'doug@spyglasshc.com'];
 const WEEKLY_REPORT_LINK  = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
 
 // Building-specific goal overrides for outlier buildings
@@ -327,7 +328,7 @@ export default function App() {
   // ── Month-end projection
   const monthEndProjection = (() => {
     if (!myFacilityData) return null;
-    const d = new Date(latestDateStr);           // actual data date (e.g. May 10), not last of month
+    const d = new Date(latestDateStr);           // actual data date, not last of month
     const daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     const dayOfMonth  = d.getDate();
     const pct = dayOfMonth / daysInMonth;
@@ -1324,6 +1325,175 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     } catch(e) { console.error(e); alert('PDF generation failed: '+e.message); }
   };
 
+  // ── Leadership Digest PDF — download only
+  const downloadLeadershipDigest = () => {
+    const DIGEST_MONTHS = [
+      { label: 'Jan',     start: '2026-01-01', end: '2026-01-31', isMTD: false },
+      { label: 'Feb',     start: '2026-02-01', end: '2026-02-28', isMTD: false },
+      { label: 'Mar',     start: '2026-03-01', end: '2026-03-31', isMTD: false },
+      { label: 'Apr',     start: '2026-04-01', end: '2026-04-30', isMTD: false },
+      { label: 'May MTD', start: '2026-05-01', end: '2026-05-31', isMTD: true  },
+    ];
+
+    const getFacData = (fac, dm) => {
+      const rec = getMonthFinal(fac, dm.start, dm.end);
+      if (!rec) return null;
+      const p    = mtd(rec, 'productivityMTD',        'productivity');
+      const c    = mtd(rec, 'cpmMTD',                 'cpm');
+      const mo   = mtd(rec, 'modeOfTreatmentMTD',     'modeOfTreatment');
+      const cas  = rec.medBCaseload || 0;
+      const elig = rec.medBEligible || 0;
+      const medB = elig > 0 ? Math.round((cas / elig) * 100) : 0;
+      const rev  = mtd(rec, 'medicareMPPRRevenueMTD', 'medicareMPPRRevenue');
+      return { p, c, mo, medB, rev };
+    };
+
+    const GREEN = [110,231,183]; const RED   = [252,165,165];
+    const WHITE = [255,255,255]; const NAVY  = [15, 23, 42];
+    const SLATE = [30, 41, 59];  const SL2   = [51, 65, 85];
+    const CYAN  = [6, 182,212];  const MUTED = [100,116,139];
+
+    try {
+      const doc   = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'letter' });
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+
+      ['Golden Coast', 'Overland'].forEach((region, ri) => {
+        if (ri > 0) doc.addPage();
+
+        doc.setFillColor(...NAVY); doc.rect(0,0,pageW,pageH,'F');
+        doc.setFillColor(...CYAN); doc.rect(0,0,pageW,16,'F');
+        doc.setTextColor(...NAVY); doc.setFont('helvetica','bold'); doc.setFontSize(11);
+        doc.text(`THERASCOPE  ·  Leadership Digest  ·  ${region.toUpperCase()}  ·  Jan – May MTD 2026`, 10, 11);
+        doc.setFont('helvetica','normal'); doc.setFontSize(8);
+        doc.text(`Generated ${throughDate}`, pageW - 10, 11, { align: 'right' });
+        doc.setTextColor(...MUTED); doc.setFontSize(6.5);
+        doc.text('Goals:  Productivity ≥84%  ·  CPM ≤$1.45  ·  G/C Mode >4%  ·  Med B ≥50% on caseload    ⚑ modified threshold', 10, 22);
+
+        const facList = allFacilities
+          .filter(f => allWeeklyData.find(d => d.facility === f)?.region === region)
+          .sort();
+
+        // Table 1: Prod + CPM
+        doc.autoTable({
+          startY: 26,
+          head: [
+            [
+              { content: 'Building', rowSpan: 2, styles: { valign: 'middle', halign: 'left' } },
+              ...DIGEST_MONTHS.map(dm => ({
+                content: dm.label, colSpan: 2,
+                styles: { halign: 'center', fillColor: dm.isMTD ? [14,116,144] : SLATE, textColor: dm.isMTD ? WHITE : CYAN, fontStyle: 'bold' }
+              }))
+            ],
+            [...DIGEST_MONTHS.flatMap(() => [
+              { content: 'Prod %', styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
+              { content: 'CPM',    styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
+            ])],
+          ],
+          body: facList.map(fac => {
+            const isM = !!BUILDING_GOALS[fac];
+            const row = [(isM ? '⚑ ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
+            DIGEST_MONTHS.forEach(dm => {
+              const d = getFacData(fac, dm);
+              row.push(d ? d.p.toFixed(1)+'%' : '—');
+              row.push(d ? '$'+(Math.trunc(d.c*100)/100).toFixed(2) : '—');
+            });
+            return row;
+          }),
+          theme: 'grid',
+          headStyles:         { fillColor: SLATE, textColor: CYAN, fontStyle: 'bold', fontSize: 7, cellPadding: 2 },
+          bodyStyles:         { fillColor: SLATE, textColor: WHITE, fontSize: 7.5, cellPadding: 2.5 },
+          alternateRowStyles: { fillColor: SL2 },
+          columnStyles: {
+            0: { cellWidth: 38, fontStyle: 'bold' },
+            ...Object.fromEntries(DIGEST_MONTHS.flatMap((_,mi) => [
+              [1+mi*2, { cellWidth: 18, halign: 'center' }],
+              [2+mi*2, { cellWidth: 18, halign: 'center' }],
+            ])),
+          },
+          didParseCell: data => {
+            if (data.section !== 'body') return;
+            const fac = facList[data.row.index]; if (!fac) return;
+            const goals = getGoals(fac);
+            const col = data.column.index; if (col === 0) return;
+            const mi = Math.floor((col-1)/2), type = (col-1)%2;
+            const d = getFacData(fac, DIGEST_MONTHS[mi]);
+            if (!d || data.cell.raw === '—') { data.cell.styles.textColor = MUTED; return; }
+            if (type === 0) data.cell.styles.textColor = d.p >= goals.productivity ? GREEN : RED;
+            if (type === 1) data.cell.styles.textColor = (Math.trunc(d.c*100)/100) <= goals.cpm ? GREEN : RED;
+          },
+          margin: { left: 10, right: 10 },
+        });
+
+        // Table 2: Mode + Med B% + Rev
+        doc.autoTable({
+          startY: doc.lastAutoTable.finalY + 4,
+          head: [
+            [
+              { content: 'Building', rowSpan: 2, styles: { valign: 'middle', halign: 'left' } },
+              ...DIGEST_MONTHS.map(dm => ({
+                content: dm.label, colSpan: 3,
+                styles: { halign: 'center', fillColor: dm.isMTD ? [14,116,144] : SLATE, textColor: dm.isMTD ? WHITE : CYAN, fontStyle: 'bold' }
+              }))
+            ],
+            [...DIGEST_MONTHS.flatMap(() => [
+              { content: 'Mode %', styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
+              { content: 'Med B%', styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
+              { content: 'Rev',    styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
+            ])],
+          ],
+          body: facList.map(fac => {
+            const isM = !!BUILDING_GOALS[fac];
+            const row = [(isM ? '⚑ ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
+            DIGEST_MONTHS.forEach(dm => {
+              const d = getFacData(fac, dm);
+              row.push(d ? d.mo.toFixed(1)+'%' : '—');
+              row.push(d ? d.medB+'%'           : '—');
+              row.push(d ? '$'+(d.rev/1000).toFixed(1)+'k' : '—');
+            });
+            return row;
+          }),
+          theme: 'grid',
+          headStyles:         { fillColor: SLATE, textColor: CYAN, fontStyle: 'bold', fontSize: 7, cellPadding: 2 },
+          bodyStyles:         { fillColor: SLATE, textColor: WHITE, fontSize: 7.5, cellPadding: 2.5 },
+          alternateRowStyles: { fillColor: SL2 },
+          columnStyles: {
+            0: { cellWidth: 38, fontStyle: 'bold' },
+            ...Object.fromEntries(DIGEST_MONTHS.flatMap((_,mi) => [
+              [1+mi*3, { cellWidth: 14, halign: 'center' }],
+              [2+mi*3, { cellWidth: 14, halign: 'center' }],
+              [3+mi*3, { cellWidth: 16, halign: 'center' }],
+            ])),
+          },
+          didParseCell: data => {
+            if (data.section !== 'body') return;
+            const fac = facList[data.row.index]; if (!fac) return;
+            const goals = getGoals(fac);
+            const col = data.column.index; if (col === 0) return;
+            const mi = Math.floor((col-1)/3), type = (col-1)%3;
+            const d = getFacData(fac, DIGEST_MONTHS[mi]);
+            if (!d || data.cell.raw === '—') { data.cell.styles.textColor = MUTED; return; }
+            if (type === 0) data.cell.styles.textColor = d.mo   >= goals.mode ? GREEN : RED;
+            if (type === 1) data.cell.styles.textColor = d.medB >= goals.medB ? GREEN : RED;
+          },
+          margin: { left: 10, right: 10 },
+        });
+
+        // Footer
+        const mayRev = facList.reduce((s,f) => s + (getFacData(f, DIGEST_MONTHS[4])?.rev || 0), 0);
+        const mayMet = facList.filter(f => scoreRec(getMonthFinal(f, DIGEST_MONTHS[4].start, DIGEST_MONTHS[4].end), f) === 4).length;
+        doc.setFillColor(...SL2); doc.rect(0, pageH-10, pageW, 10, 'F');
+        doc.setFontSize(7.5); doc.setFont('helvetica','bold'); doc.setTextColor(...CYAN);
+        doc.text(
+          `${region}  ·  May MTD: ${mayMet}/${facList.length} at all goals  ·  Total Med B Rev MTD  $${(mayRev/1000).toFixed(1)}k`,
+          10, pageH - 4
+        );
+      });
+
+      doc.save(`Therascope_Leadership_Digest_${throughDate}.pdf`);
+    } catch(e) { console.error(e); alert('PDF generation failed: ' + e.message); }
+  };
+
   // ─── LOGIN SCREEN ────────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
@@ -1462,6 +1632,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       {digestResult.failed.length > 0 && <span className="text-rose-400 ml-2 font-bold">{digestResult.failed.length} failed</span>}
                     </div>
                   )}
+                  <button onClick={downloadLeadershipDigest}
+                    className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                    <Download className="w-3.5 h-3.5"/>Leadership Digest
+                  </button>
                 </>
               )}
               {isRestrictedView && (
