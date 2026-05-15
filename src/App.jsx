@@ -328,7 +328,7 @@ export default function App() {
   // ── Month-end projection
   const monthEndProjection = (() => {
     if (!myFacilityData) return null;
-    const d = new Date(latestDateStr);           // actual data date, not last of month
+    const d = new Date(latestDateStr);
     const daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     const dayOfMonth  = d.getDate();
     const pct = dayOfMonth / daysInMonth;
@@ -1348,10 +1348,33 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       return { p, c, mo, medB, rev };
     };
 
-    const GREEN = [110,231,183]; const RED   = [252,165,165];
-    const WHITE = [255,255,255]; const NAVY  = [15, 23, 42];
-    const SLATE = [30, 41, 59];  const SL2   = [51, 65, 85];
-    const CYAN  = [6, 182,212];  const MUTED = [100,116,139];
+    // ── Palette ──────────────────────────────────────────────────────────────
+    const C = {
+      navy:    [11,  17,  32 ],
+      navyMid: [17,  27,  50 ],
+      slate:   [28,  38,  60 ],
+      slate2:  [38,  52,  78 ],
+      slate3:  [52,  68,  98 ],
+      cyan:    [6,   182, 212],
+      teal:    [13,  148, 136],
+      mtdCol:  [8,   100, 115],   // darker teal for MTD header
+      white:   [255, 255, 255],
+      offWhite:[220, 230, 245],
+      muted:   [110, 128, 160],
+      green:   [52,  211, 153],
+      greenDim:[22,  101, 72 ],
+      red:     [248, 113, 113],
+      redDim:  [120, 36,  36 ],
+      amber:   [251, 191, 36 ],
+      // Month accent colours — subtle alternating bands
+      m0bg:    [22,  32,  58 ],   // Jan  — deep blue-slate
+      m1bg:    [18,  38,  55 ],   // Feb  — slight teal tint
+      m2bg:    [22,  32,  58 ],   // Mar
+      m3bg:    [18,  38,  55 ],   // Apr
+      m4bg:    [10,  72,  90 ],   // May MTD — distinct teal
+    };
+
+    const monthBg = [C.m0bg, C.m1bg, C.m2bg, C.m3bg, C.m4bg];
 
     try {
       const doc   = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'letter' });
@@ -1361,133 +1384,190 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       ['Golden Coast', 'Overland'].forEach((region, ri) => {
         if (ri > 0) doc.addPage();
 
-        doc.setFillColor(...NAVY); doc.rect(0,0,pageW,pageH,'F');
-        doc.setFillColor(...CYAN); doc.rect(0,0,pageW,16,'F');
-        doc.setTextColor(...NAVY); doc.setFont('helvetica','bold'); doc.setFontSize(11);
-        doc.text(`THERASCOPE  ·  Leadership Digest  ·  ${region.toUpperCase()}  ·  Jan – May MTD 2026`, 10, 11);
-        doc.setFont('helvetica','normal'); doc.setFontSize(8);
-        doc.text(`Generated ${throughDate}`, pageW - 10, 11, { align: 'right' });
-        doc.setTextColor(...MUTED); doc.setFontSize(6.5);
-        doc.text('Goals:  Productivity ≥84%  ·  CPM ≤$1.45  ·  G/C Mode >4%  ·  Med B ≥50% on caseload    ⚑ modified threshold', 10, 22);
+        // Full page background
+        doc.setFillColor(...C.navy); doc.rect(0, 0, pageW, pageH, 'F');
+
+        // Top accent strip
+        doc.setFillColor(...C.teal); doc.rect(0, 0, pageW, 2, 'F');
+
+        // Header block
+        doc.setFillColor(...C.navyMid); doc.rect(0, 2, pageW, 18, 'F');
+        doc.setFontSize(13); doc.setFont('helvetica','bold');
+        doc.setTextColor(...C.cyan);
+        doc.text('THERASCOPE', 10, 13);
+        doc.setTextColor(...C.offWhite);
+        doc.setFontSize(11);
+        doc.text(`Leadership Digest  |  ${region}  |  Jan - May MTD 2026`, 52, 13);
+        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...C.muted);
+        doc.text(`Generated ${throughDate}`, pageW - 10, 13, { align: 'right' });
+
+        // Thin cyan rule under header
+        doc.setFillColor(...C.cyan); doc.rect(0, 20, pageW, 0.5, 'F');
+
+        // Goals line
+        doc.setFontSize(6.5); doc.setTextColor(...C.muted);
+        doc.text(
+          'Goals:  Productivity >=84%   CPM <=$1.45   G/C Mode >4%   Med B >=50% on caseload     * = modified threshold building',
+          10, 26
+        );
 
         const facList = allFacilities
           .filter(f => allWeeklyData.find(d => d.facility === f)?.region === region)
           .sort();
 
-        // Table 1: Prod + CPM
+        // ── Shared didParseCell for row striping by month group ───────────────
+        const applyMonthBanding = (data, colsPerMonth) => {
+          if (data.section === 'head') return;
+          const col = data.column.index;
+          if (col === 0) return;
+          const mi = Math.floor((col - 1) / colsPerMonth);
+          if (mi >= 0 && mi < DIGEST_MONTHS.length) {
+            // Base band colour per month — alternate rows slightly
+            const base = monthBg[mi];
+            const row  = data.row.index;
+            const adj  = row % 2 === 0 ? 0 : 8;
+            data.cell.styles.fillColor = base.map(v => Math.min(255, v + adj));
+          }
+        };
+
+        // ── TABLE 1: Productivity + CPM ──────────────────────────────────────
         doc.autoTable({
-          startY: 26,
+          startY: 29,
           head: [
             [
-              { content: 'Building', rowSpan: 2, styles: { valign: 'middle', halign: 'left' } },
-              ...DIGEST_MONTHS.map(dm => ({
+              { content: 'Building', rowSpan: 2, styles: { valign: 'middle', halign: 'left', fillColor: C.slate, textColor: C.cyan } },
+              ...DIGEST_MONTHS.map((dm, mi) => ({
                 content: dm.label, colSpan: 2,
-                styles: { halign: 'center', fillColor: dm.isMTD ? [14,116,144] : SLATE, textColor: dm.isMTD ? WHITE : CYAN, fontStyle: 'bold' }
+                styles: {
+                  halign: 'center', fontStyle: 'bold', fontSize: 8,
+                  fillColor: monthBg[mi],
+                  textColor: dm.isMTD ? C.cyan : C.offWhite,
+                }
               }))
             ],
-            [...DIGEST_MONTHS.flatMap(() => [
-              { content: 'Prod %', styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
-              { content: 'CPM',    styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
-            ])],
+            [...DIGEST_MONTHS.map((_, mi) => [
+              { content: 'PROD %', styles: { halign:'center', fontSize:6, fillColor: monthBg[mi].map(v=>Math.min(255,v+12)), textColor: C.muted } },
+              { content: 'CPM',    styles: { halign:'center', fontSize:6, fillColor: monthBg[mi].map(v=>Math.min(255,v+12)), textColor: C.muted } },
+            ]).flat()],
           ],
           body: facList.map(fac => {
             const isM = !!BUILDING_GOALS[fac];
-            const row = [(isM ? '⚑ ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
+            const row = [(isM ? '* ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
             DIGEST_MONTHS.forEach(dm => {
               const d = getFacData(fac, dm);
-              row.push(d ? d.p.toFixed(1)+'%' : '—');
-              row.push(d ? '$'+(Math.trunc(d.c*100)/100).toFixed(2) : '—');
+              row.push(d ? d.p.toFixed(1)+'%' : '---');
+              row.push(d ? '$'+(Math.trunc(d.c*100)/100).toFixed(2) : '---');
             });
             return row;
           }),
-          theme: 'grid',
-          headStyles:         { fillColor: SLATE, textColor: CYAN, fontStyle: 'bold', fontSize: 7, cellPadding: 2 },
-          bodyStyles:         { fillColor: SLATE, textColor: WHITE, fontSize: 7.5, cellPadding: 2.5 },
-          alternateRowStyles: { fillColor: SL2 },
+          theme: 'plain',
+          headStyles:         { fillColor: C.slate, textColor: C.offWhite, fontStyle:'bold', fontSize:7, cellPadding: 2.5 },
+          bodyStyles:         { fillColor: C.slate, textColor: C.offWhite, fontSize: 7.5, cellPadding: 2.8 },
+          alternateRowStyles: { fillColor: C.slate2 },
           columnStyles: {
-            0: { cellWidth: 38, fontStyle: 'bold' },
+            0: { cellWidth: 36, fontStyle:'bold', textColor: C.white },
             ...Object.fromEntries(DIGEST_MONTHS.flatMap((_,mi) => [
-              [1+mi*2, { cellWidth: 18, halign: 'center' }],
-              [2+mi*2, { cellWidth: 18, halign: 'center' }],
+              [1+mi*2, { cellWidth: 18, halign:'center' }],
+              [2+mi*2, { cellWidth: 18, halign:'center' }],
             ])),
           },
           didParseCell: data => {
+            applyMonthBanding(data, 2);
             if (data.section !== 'body') return;
             const fac = facList[data.row.index]; if (!fac) return;
             const goals = getGoals(fac);
             const col = data.column.index; if (col === 0) return;
-            const mi = Math.floor((col-1)/2), type = (col-1)%2;
-            const d = getFacData(fac, DIGEST_MONTHS[mi]);
-            if (!d || data.cell.raw === '—') { data.cell.styles.textColor = MUTED; return; }
-            if (type === 0) data.cell.styles.textColor = d.p >= goals.productivity ? GREEN : RED;
-            if (type === 1) data.cell.styles.textColor = (Math.trunc(d.c*100)/100) <= goals.cpm ? GREEN : RED;
+            const mi   = Math.floor((col-1)/2);
+            const type = (col-1) % 2;
+            const d    = getFacData(fac, DIGEST_MONTHS[mi]);
+            if (!d || data.cell.raw === '---') { data.cell.styles.textColor = C.muted; return; }
+            if (type === 0) data.cell.styles.textColor = d.p >= goals.productivity ? C.green : C.red;
+            if (type === 1) data.cell.styles.textColor = (Math.trunc(d.c*100)/100) <= goals.cpm ? C.green : C.red;
+            data.cell.styles.fontStyle = 'bold';
           },
+          tableLineColor: C.slate3,
+          tableLineWidth: 0.2,
           margin: { left: 10, right: 10 },
         });
 
-        // Table 2: Mode + Med B% + Rev
+        // ── TABLE 2: Mode + Med B% + Rev ─────────────────────────────────────
         doc.autoTable({
-          startY: doc.lastAutoTable.finalY + 4,
+          startY: doc.lastAutoTable.finalY + 3,
           head: [
             [
-              { content: 'Building', rowSpan: 2, styles: { valign: 'middle', halign: 'left' } },
-              ...DIGEST_MONTHS.map(dm => ({
+              { content: 'Building', rowSpan: 2, styles: { valign:'middle', halign:'left', fillColor: C.slate, textColor: C.cyan } },
+              ...DIGEST_MONTHS.map((dm, mi) => ({
                 content: dm.label, colSpan: 3,
-                styles: { halign: 'center', fillColor: dm.isMTD ? [14,116,144] : SLATE, textColor: dm.isMTD ? WHITE : CYAN, fontStyle: 'bold' }
+                styles: {
+                  halign:'center', fontStyle:'bold', fontSize:8,
+                  fillColor: monthBg[mi],
+                  textColor: dm.isMTD ? C.cyan : C.offWhite,
+                }
               }))
             ],
-            [...DIGEST_MONTHS.flatMap(() => [
-              { content: 'Mode %', styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
-              { content: 'Med B%', styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
-              { content: 'Rev',    styles: { halign:'center', textColor: MUTED, fontSize: 6 } },
-            ])],
+            [...DIGEST_MONTHS.map((_, mi) => [
+              { content: 'MODE %', styles: { halign:'center', fontSize:6, fillColor: monthBg[mi].map(v=>Math.min(255,v+12)), textColor: C.muted } },
+              { content: 'MED B%', styles: { halign:'center', fontSize:6, fillColor: monthBg[mi].map(v=>Math.min(255,v+12)), textColor: C.muted } },
+              { content: 'REV',    styles: { halign:'center', fontSize:6, fillColor: monthBg[mi].map(v=>Math.min(255,v+12)), textColor: C.muted } },
+            ]).flat()],
           ],
           body: facList.map(fac => {
             const isM = !!BUILDING_GOALS[fac];
-            const row = [(isM ? '⚑ ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
+            const row = [(isM ? '* ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
             DIGEST_MONTHS.forEach(dm => {
               const d = getFacData(fac, dm);
-              row.push(d ? d.mo.toFixed(1)+'%' : '—');
-              row.push(d ? d.medB+'%'           : '—');
-              row.push(d ? '$'+(d.rev/1000).toFixed(1)+'k' : '—');
+              row.push(d ? d.mo.toFixed(1)+'%'             : '---');
+              row.push(d ? d.medB+'%'                      : '---');
+              row.push(d ? '$'+(d.rev/1000).toFixed(1)+'k' : '---');
             });
             return row;
           }),
-          theme: 'grid',
-          headStyles:         { fillColor: SLATE, textColor: CYAN, fontStyle: 'bold', fontSize: 7, cellPadding: 2 },
-          bodyStyles:         { fillColor: SLATE, textColor: WHITE, fontSize: 7.5, cellPadding: 2.5 },
-          alternateRowStyles: { fillColor: SL2 },
+          theme: 'plain',
+          headStyles:         { fillColor: C.slate, textColor: C.offWhite, fontStyle:'bold', fontSize:7, cellPadding: 2.5 },
+          bodyStyles:         { fillColor: C.slate, textColor: C.offWhite, fontSize: 7.5, cellPadding: 2.8 },
+          alternateRowStyles: { fillColor: C.slate2 },
           columnStyles: {
-            0: { cellWidth: 38, fontStyle: 'bold' },
+            0: { cellWidth: 36, fontStyle:'bold', textColor: C.white },
             ...Object.fromEntries(DIGEST_MONTHS.flatMap((_,mi) => [
-              [1+mi*3, { cellWidth: 14, halign: 'center' }],
-              [2+mi*3, { cellWidth: 14, halign: 'center' }],
-              [3+mi*3, { cellWidth: 16, halign: 'center' }],
+              [1+mi*3, { cellWidth: 14, halign:'center' }],
+              [2+mi*3, { cellWidth: 14, halign:'center' }],
+              [3+mi*3, { cellWidth: 16, halign:'center' }],
             ])),
           },
           didParseCell: data => {
+            applyMonthBanding(data, 3);
             if (data.section !== 'body') return;
             const fac = facList[data.row.index]; if (!fac) return;
             const goals = getGoals(fac);
             const col = data.column.index; if (col === 0) return;
-            const mi = Math.floor((col-1)/3), type = (col-1)%3;
-            const d = getFacData(fac, DIGEST_MONTHS[mi]);
-            if (!d || data.cell.raw === '—') { data.cell.styles.textColor = MUTED; return; }
-            if (type === 0) data.cell.styles.textColor = d.mo   >= goals.mode ? GREEN : RED;
-            if (type === 1) data.cell.styles.textColor = d.medB >= goals.medB ? GREEN : RED;
+            const mi   = Math.floor((col-1)/3);
+            const type = (col-1) % 3;
+            const d    = getFacData(fac, DIGEST_MONTHS[mi]);
+            if (!d || data.cell.raw === '---') { data.cell.styles.textColor = C.muted; return; }
+            if (type === 0) data.cell.styles.textColor = d.mo   >= goals.mode ? C.green : C.red;
+            if (type === 1) data.cell.styles.textColor = d.medB >= goals.medB ? C.green : C.red;
+            if (type === 2) data.cell.styles.textColor = C.cyan;
+            data.cell.styles.fontStyle = 'bold';
           },
+          tableLineColor: C.slate3,
+          tableLineWidth: 0.2,
           margin: { left: 10, right: 10 },
         });
 
-        // Footer
+        // Bottom accent strip + summary
+        doc.setFillColor(...C.teal); doc.rect(0, pageH-12, pageW, 12, 'F');
         const mayRev = facList.reduce((s,f) => s + (getFacData(f, DIGEST_MONTHS[4])?.rev || 0), 0);
-        const mayMet = facList.filter(f => scoreRec(getMonthFinal(f, DIGEST_MONTHS[4].start, DIGEST_MONTHS[4].end), f) === 4).length;
-        doc.setFillColor(...SL2); doc.rect(0, pageH-10, pageW, 10, 'F');
-        doc.setFontSize(7.5); doc.setFont('helvetica','bold'); doc.setTextColor(...CYAN);
+        const mayMet = facList.filter(f => {
+          const rec = getMonthFinal(f, DIGEST_MONTHS[4].start, DIGEST_MONTHS[4].end);
+          return rec && scoreRec(rec, f) === 4;
+        }).length;
+        doc.setFontSize(8); doc.setFont('helvetica','bold'); doc.setTextColor(...C.navy);
         doc.text(
-          `${region}  ·  May MTD: ${mayMet}/${facList.length} at all goals  ·  Total Med B Rev MTD  $${(mayRev/1000).toFixed(1)}k`,
-          10, pageH - 4
+          `${region}  |  May MTD: ${mayMet} / ${facList.length} buildings meeting all goals  |  Total Med B Rev MTD  $${(mayRev/1000).toFixed(1)}k`,
+          10, pageH - 4.5
         );
+        doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...C.navyMid);
+        doc.text('therascope-insights.vercel.app', pageW - 10, pageH - 4.5, { align: 'right' });
       });
 
       doc.save(`Therascope_Leadership_Digest_${throughDate}.pdf`);
