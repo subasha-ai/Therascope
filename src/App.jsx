@@ -193,6 +193,8 @@ export default function App() {
   const [digestResult,      setDigestResult]      = useState(null);
   const [testEmail,         setTestEmail]         = useState('');
   const [showDigestModal,   setShowDigestModal]   = useState(false);
+  const [scorecardOpen,     setScorecardOpen]     = useState(true);
+  const [complianceOpen,    setComplianceOpen]    = useState(true);
 
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
@@ -1325,180 +1327,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     } catch(e) { console.error(e); alert('PDF generation failed: '+e.message); }
   };
 
-  // ── Leadership Digest PDF — single page, both regions, 4 goal metrics
-  const downloadLeadershipDigest = () => {
-    const DIGEST_MONTHS = [
-      { label: 'Jan',     start: '2026-01-01', end: '2026-01-31', isMTD: false },
-      { label: 'Feb',     start: '2026-02-01', end: '2026-02-28', isMTD: false },
-      { label: 'Mar',     start: '2026-03-01', end: '2026-03-31', isMTD: false },
-      { label: 'Apr',     start: '2026-04-01', end: '2026-04-30', isMTD: false },
-      { label: 'May MTD', start: '2026-05-01', end: '2026-05-31', isMTD: true  },
-    ];
-
-    const getFacData = (fac, dm) => {
-      const rec = getMonthFinal(fac, dm.start, dm.end);
-      if (!rec) return null;
-      const p    = mtd(rec, 'productivityMTD',    'productivity');
-      const c    = mtd(rec, 'cpmMTD',             'cpm');
-      const mo   = mtd(rec, 'modeOfTreatmentMTD', 'modeOfTreatment');
-      const cas  = rec.medBCaseload || 0;
-      const elig = rec.medBEligible || 0;
-      const medB = elig > 0 ? Math.round((cas / elig) * 100) : 0;
-      return { p, c, mo, medB };
-    };
-
-    const C = {
-      navy:    [11,  17,  32],
-      navyMid: [17,  27,  50],
-      slate:   [28,  38,  60],
-      slate2:  [38,  52,  78],
-      slate3:  [52,  68,  98],
-      cyan:    [6,  182, 212],
-      teal:    [13, 148, 136],
-      white:   [255,255, 255],
-      offWhite:[220,230, 245],
-      muted:   [110,128, 160],
-      green:   [52, 211, 153],
-      red:     [248,113, 113],
-      // month bands
-      mb: [
-        [22, 32, 58],   // Jan
-        [18, 38, 55],   // Feb
-        [22, 32, 58],   // Mar
-        [18, 38, 55],   // Apr
-        [10, 72, 90],   // May MTD
-      ],
-    };
-
-    try {
-      const doc   = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'letter' });
-      const pageW = doc.internal.pageSize.getWidth();
-      const pageH = doc.internal.pageSize.getHeight();
-
-      // Background
-      doc.setFillColor(...C.navy); doc.rect(0, 0, pageW, pageH, 'F');
-
-      // Top teal strip
-      doc.setFillColor(...C.teal); doc.rect(0, 0, pageW, 2, 'F');
-
-      // Header
-      doc.setFillColor(...C.navyMid); doc.rect(0, 2, pageW, 16, 'F');
-      doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
-      doc.text('THERASCOPE', 10, 13);
-      doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Jan - May MTD 2026', 50, 13);
-      doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
-      doc.text(`Generated ${throughDate}`, pageW - 10, 13, { align: 'right' });
-
-      // Cyan rule
-      doc.setFillColor(...C.cyan); doc.rect(0, 18, pageW, 0.4, 'F');
-
-      // Legend
-      doc.setFontSize(6.5); doc.setTextColor(...C.muted);
-      doc.text('Goals:  Productivity >=84%   CPM <=$1.45   G/C Mode >4%   Med B >=50% on caseload     * = modified threshold', 10, 24);
-
-      // Build table for a given region, returns the autoTable config
-      const buildTable = (region) => {
-        const facList = allFacilities
-          .filter(f => allWeeklyData.find(d => d.facility === f)?.region === region)
-          .sort();
-
-        const head = [
-          [
-            { content: region, rowSpan: 2, styles: { valign:'middle', halign:'left', fillColor: C.slate, textColor: C.cyan, fontStyle:'bold', fontSize:8 } },
-            ...DIGEST_MONTHS.map((dm, mi) => ({
-              content: dm.label, colSpan: 4,
-              styles: { halign:'center', fontStyle:'bold', fontSize:7.5, fillColor: C.mb[mi], textColor: dm.isMTD ? C.cyan : C.offWhite }
-            }))
-          ],
-          [...DIGEST_MONTHS.map((_, mi) => [
-            { content: 'PROD',  styles: { halign:'center', fontSize:5.5, fillColor: C.mb[mi].map(v=>Math.min(255,v+10)), textColor: C.muted } },
-            { content: 'CPM',   styles: { halign:'center', fontSize:5.5, fillColor: C.mb[mi].map(v=>Math.min(255,v+10)), textColor: C.muted } },
-            { content: 'MODE',  styles: { halign:'center', fontSize:5.5, fillColor: C.mb[mi].map(v=>Math.min(255,v+10)), textColor: C.muted } },
-            { content: 'MED B', styles: { halign:'center', fontSize:5.5, fillColor: C.mb[mi].map(v=>Math.min(255,v+10)), textColor: C.muted } },
-          ]).flat()],
-        ];
-
-        const body = facList.map(fac => {
-          const isM = !!BUILDING_GOALS[fac];
-          const row = [(isM ? '* ' : '') + fac.replace(' Post Acute','').replace(' Healthcare Center','')];
-          DIGEST_MONTHS.forEach(dm => {
-            const d = getFacData(fac, dm);
-            row.push(d ? d.p.toFixed(1)+'%'                        : '---');
-            row.push(d ? '$'+(Math.trunc(d.c*100)/100).toFixed(2)  : '---');
-            row.push(d ? d.mo.toFixed(1)+'%'                       : '---');
-            row.push(d ? d.medB+'%'                                 : '---');
-          });
-          return row;
-        });
-
-        return {
-          head, body,
-          theme: 'plain',
-          headStyles:         { fillColor: C.slate, textColor: C.offWhite, fontStyle:'bold', fontSize:7, cellPadding: 2 },
-          bodyStyles:         { fillColor: C.slate, textColor: C.offWhite, fontSize: 7, cellPadding: 2.2 },
-          alternateRowStyles: { fillColor: C.slate2 },
-          columnStyles: {
-            0: { cellWidth: 34, fontStyle:'bold', textColor: C.white },
-            ...Object.fromEntries(DIGEST_MONTHS.flatMap((_,mi) => [
-              [1+mi*4, { cellWidth: 12, halign:'center' }],
-              [2+mi*4, { cellWidth: 12, halign:'center' }],
-              [3+mi*4, { cellWidth: 12, halign:'center' }],
-              [4+mi*4, { cellWidth: 12, halign:'center' }],
-            ])),
-          },
-          didParseCell: data => {
-            // Month banding
-            if (data.column.index > 0) {
-              const mi  = Math.floor((data.column.index - 1) / 4);
-              const adj = data.section === 'body' && data.row.index % 2 !== 0 ? 8 : 0;
-              if (mi >= 0 && mi < 5) data.cell.styles.fillColor = C.mb[mi].map(v => Math.min(255, v + adj));
-            }
-            if (data.section !== 'body') return;
-            const fac = facList[data.row.index]; if (!fac) return;
-            const goals = getGoals(fac);
-            const col   = data.column.index; if (col === 0) return;
-            const mi    = Math.floor((col - 1) / 4);
-            const type  = (col - 1) % 4;
-            const d     = getFacData(fac, DIGEST_MONTHS[mi]);
-            if (!d || data.cell.raw === '---') { data.cell.styles.textColor = C.muted; return; }
-            const pass = [
-              d.p >= goals.productivity,
-              (Math.trunc(d.c*100)/100) <= goals.cpm,
-              d.mo   >= goals.mode,
-              d.medB >= goals.medB,
-            ][type];
-            data.cell.styles.textColor = pass ? C.green : C.red;
-            data.cell.styles.fontStyle = 'bold';
-          },
-          tableLineColor: C.slate3,
-          tableLineWidth: 0.15,
-          margin: { left: 10, right: 10 },
-        };
-      };
-
-      // Render Golden Coast then Overland on same page
-      doc.autoTable({ ...buildTable('Golden Coast'), startY: 27 });
-      doc.autoTable({ ...buildTable('Overland'),     startY: doc.lastAutoTable.finalY + 5 });
-
-      // Bottom teal bar
-      doc.setFillColor(...C.teal); doc.rect(0, pageH - 10, pageW, 10, 'F');
-      doc.setFontSize(7.5); doc.setFont('helvetica','bold'); doc.setTextColor(...C.navy);
-      const mayMet = allFacilities.filter(f => {
-        const rec = getMonthFinal(f, DIGEST_MONTHS[4].start, DIGEST_MONTHS[4].end);
-        return rec && scoreRec(rec, f) === 4;
-      }).length;
-      doc.text(
-        `May MTD: ${mayMet} / ${allFacilities.length} buildings meeting all 4 goals`,
-        10, pageH - 3.5
-      );
-      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...C.navyMid);
-      doc.text('therascope-insights.vercel.app', pageW - 10, pageH - 3.5, { align: 'right' });
-
-      doc.save(`Therascope_Leadership_Digest_${throughDate}.pdf`);
-    } catch(e) { console.error(e); alert('PDF generation failed: ' + e.message); }
-  };
-
   // ─── LOGIN SCREEN ────────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
@@ -1637,10 +1465,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       {digestResult.failed.length > 0 && <span className="text-rose-400 ml-2 font-bold">{digestResult.failed.length} failed</span>}
                     </div>
                   )}
-                  <button onClick={downloadLeadershipDigest}
-                    className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                    <Download className="w-3.5 h-3.5"/>Leadership Digest
-                  </button>
                 </>
               )}
               {isRestrictedView && (
@@ -1957,11 +1781,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
               {/* Building Scorecard */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
-                <div className="p-5 border-b border-white/10 bg-white/5">
-                  <h3 className="text-lg font-black text-white">Building Scorecard — 3 Month View</h3>
-                  <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
+                <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(o => !o)}>
+                  <div>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — 3 Month View</h3>
+                    <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? '' : '-rotate-90'}`}/>
                 </div>
-                <div className="overflow-x-auto">
+                {scorecardOpen && <div className="overflow-x-auto">
                   <table className="w-full text-xs">
                     <thead>
                       <tr className="border-b border-white/10 bg-white/5">
@@ -2129,15 +1956,16 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       })}
                     </tbody>
                   </table>
-                </div>
+                </div>}
               </div>
 
               {/* ── Compliance Overview */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
-                <div className="p-5 border-b border-white/10">
+                <div className="p-5 border-b border-white/10 flex items-center justify-between cursor-pointer select-none hover:bg-white/5 transition-all" onClick={() => setComplianceOpen(o => !o)}>
                   <h3 className="text-lg font-black text-white">Compliance Overview</h3>
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${complianceOpen ? '' : '-rotate-90'}`}/>
                 </div>
-                {['Golden Coast', 'Overland'].map(region => (
+                {complianceOpen && ['Golden Coast', 'Overland'].map(region => (
                   <div key={region}>
                     <div className="px-5 py-2 bg-white/5 border-b border-white/10">
                       <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{region}</span>
