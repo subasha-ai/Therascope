@@ -2783,30 +2783,33 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   {category.description && <p className="text-slate-400 text-sm mt-1">{category.description}</p>}
                 </div>
                 <div className="p-4 space-y-3">
-                  {category.files?.map((file, fi) => (
+                  {category.files?.map((file, fi) => {
+                    const fileUrl = file.url || `/resources/${category.id}/${file.filename}`;
+                    return (
                     <div key={fi} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-red-500/20 rounded-lg flex items-center justify-center">
                           <FileText className="w-5 h-5 text-red-300" />
                         </div>
                         <div>
-                          <div className="text-white font-bold text-sm">{file.title}</div>
+                          <div className="text-white font-bold text-sm">{file.title || file.name}</div>
                           {file.description && <div className="text-slate-400 text-xs mt-0.5">{file.description}</div>}
                           {file.size && <div className="text-slate-500 text-xs">{file.size}</div>}
                         </div>
                       </div>
                       <div className="flex gap-2">
-                        <a href={file.url} target="_blank" rel="noopener noreferrer"
+                        <a href={fileUrl} target="_blank" rel="noopener noreferrer"
                           className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/30 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
                           <ExternalLink className="w-3 h-3" /> View
                         </a>
-                        <a href={file.url} download
+                        <a href={fileUrl} download
                           className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
                           <Download className="w-3 h-3" /> Download
                         </a>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}
