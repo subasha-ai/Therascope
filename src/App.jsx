@@ -1781,14 +1781,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
               {/* Building Scorecard */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
-                <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(o => !o)}>
+                <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
                     <h3 className="text-lg font-black text-white">Building Scorecard — 3 Month View</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
-                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? '' : '-rotate-90'}`}/>
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
                 </div>
-                {scorecardOpen && <div className="overflow-x-auto">
+                <div className={scorecardOpen ? 'overflow-x-auto' : 'hidden'}>
                   <table className="w-full text-xs">
                     <thead>
                       <tr className="border-b border-white/10 bg-white/5">
@@ -1956,41 +1956,43 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       })}
                     </tbody>
                   </table>
-                </div>}
+                </div>
               </div>
 
               {/* ── Compliance Overview */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
-                <div className="p-5 border-b border-white/10 flex items-center justify-between cursor-pointer select-none hover:bg-white/5 transition-all" onClick={() => setComplianceOpen(o => !o)}>
+                <div className="p-5 border-b border-white/10 flex items-center justify-between cursor-pointer select-none hover:bg-white/5 transition-all" onClick={() => setComplianceOpen(v => !v)}>
                   <h3 className="text-lg font-black text-white">Compliance Overview</h3>
-                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${complianceOpen ? '' : '-rotate-90'}`}/>
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${complianceOpen ? 'rotate-0' : '-rotate-90'}`}/>
                 </div>
-                {complianceOpen && ['Golden Coast', 'Overland'].map(region => (
-                  <div key={region}>
-                    <div className="px-5 py-2 bg-white/5 border-b border-white/10">
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{region}</span>
-                    </div>
-                    {(complianceData[region] || []).map((r, i) => {
-                      const s = (r.status || '').toLowerCase();
-                      const isGreen = s.includes('green');
-                      const isRed   = s.includes('red');
-                      const dotColor  = isGreen ? 'bg-emerald-400' : isRed ? 'bg-rose-400' : 'bg-yellow-400';
-                      const textColor = isGreen ? 'text-emerald-300' : isRed ? 'text-rose-300' : 'text-yellow-300';
-                      return (
-                        <div key={i} className="flex items-start gap-4 px-5 py-3 border-b border-white/5 hover:bg-white/5 transition-all">
-                          <div className={`w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0 ${dotColor}`}/>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-3">
-                              <span className="text-white text-sm font-semibold">{r.building}</span>
-                              <span className={`text-xs font-bold ${textColor}`}>{r.status}</span>
+                <div className={complianceOpen ? '' : 'hidden'}>
+                  {['Golden Coast', 'Overland'].map(region => (
+                    <div key={region}>
+                      <div className="px-5 py-2 bg-white/5 border-b border-white/10">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{region}</span>
+                      </div>
+                      {(complianceData[region] || []).map((r, i) => {
+                        const s = (r.status || '').toLowerCase();
+                        const isGreen = s.includes('green');
+                        const isRed   = s.includes('red');
+                        const dotColor  = isGreen ? 'bg-emerald-400' : isRed ? 'bg-rose-400' : 'bg-yellow-400';
+                        const textColor = isGreen ? 'text-emerald-300' : isRed ? 'text-rose-300' : 'text-yellow-300';
+                        return (
+                          <div key={i} className="flex items-start gap-4 px-5 py-3 border-b border-white/5 hover:bg-white/5 transition-all">
+                            <div className={`w-2.5 h-2.5 rounded-full mt-1 flex-shrink-0 ${dotColor}`}/>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-3">
+                                <span className="text-white text-sm font-semibold">{r.building}</span>
+                                <span className={`text-xs font-bold ${textColor}`}>{r.status}</span>
+                              </div>
+                              <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{r.actionItem}</p>
                             </div>
-                            <p className="text-slate-400 text-xs mt-0.5 leading-relaxed">{r.actionItem}</p>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
               </div>
 
             </div>
