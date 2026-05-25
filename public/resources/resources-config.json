@@ -16,6 +16,18 @@
           "filename": "Joint-Mobility-Assessment.pdf",
           "url": "/resources/assessments/Joint-Mobility-Assessment.pdf",
           "description": "Comprehensive joint range of motion assessment"
+        },
+        {
+          "name": "Am I Ready? Discharge Checklist",
+          "filename": "Am_I_Ready_Discharge_Checklist.pdf",
+          "url": "/resources/assessments/Am_I_Ready_Discharge_Checklist.pdf",
+          "description": "PLOF vs current function, caregiver education, home visit — pre-discharge form"
+        },
+        {
+          "name": "OT Home Evaluation Form",
+          "filename": "OT_Home_Evaluation_Form.pdf",
+          "url": "/resources/assessments/OT_Home_Evaluation_Form.pdf",
+          "description": "Full home evaluation — entrances, bedroom, bathroom, kitchen, general safety"
         }
       ]
     },
@@ -47,6 +59,36 @@
           "filename": "Therapy-Care-Plans.pdf",
           "url": "/resources/training/Therapy-Care-Plans.pdf",
           "description": "Step-by-step guide for entering therapy care plans in PCC"
+        },
+        {
+          "name": "Goal Writing Guide",
+          "filename": "Goal_Writing_Guide.pdf",
+          "url": "/resources/training/Goal_Writing_Guide.pdf",
+          "description": "SMART goals, assist levels, weak vs strong examples by diagnosis"
+        },
+        {
+          "name": "Productivity & CPM Guide",
+          "filename": "Productivity_CPM_Guide.pdf",
+          "url": "/resources/training/Productivity_CPM_Guide.pdf",
+          "description": "What counts as billable, CPM formula, staff vs traveler examples"
+        },
+        {
+          "name": "Group & Concurrent Therapy Guide",
+          "filename": "Group_Concurrent_Therapy_Guide.pdf",
+          "url": "/resources/training/Group_Concurrent_Therapy_Guide.pdf",
+          "description": "Definitions, clinical examples, documentation requirements"
+        },
+        {
+          "name": "Discharge Criteria Guide",
+          "filename": "Discharge_Criteria_Guide.pdf",
+          "url": "/resources/training/Discharge_Criteria_Guide.pdf",
+          "description": "When to discharge vs continue, 4 scenarios, documentation checklist, Am I Ready form"
+        },
+        {
+          "name": "Section GG Scoring Guide",
+          "filename": "Section_GG_Scoring_Guide.pdf",
+          "url": "/resources/training/Section_GG_Scoring_Guide.pdf",
+          "description": "Rating scale, scored examples, PDPM impact, 3-day rule"
         }
       ]
     },
