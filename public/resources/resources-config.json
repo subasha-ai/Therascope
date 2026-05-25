@@ -8,11 +8,13 @@
         {
           "name": "AMPAC - All Disciplines",
           "filename": "AMPAC.pdf",
+          "url": "/resources/assessments/AMPAC.pdf",
           "description": "Activity Measure for Post-Acute Care assessment tool"
         },
         {
           "name": "Joint Mobility Assessment",
           "filename": "Joint-Mobility-Assessment.pdf",
+          "url": "/resources/assessments/Joint-Mobility-Assessment.pdf",
           "description": "Comprehensive joint range of motion assessment"
         }
       ]
@@ -25,21 +27,25 @@
         {
           "name": "Clarification Orders",
           "filename": "Clarification-orders.pdf",
+          "url": "/resources/training/Clarification-orders.pdf",
           "description": "How to create clarification orders in PointClickCare"
         },
         {
           "name": "PCC Therapy Diagnosis Guide",
           "filename": "PCC-Therapy-Diagnosis-Guide.pdf",
+          "url": "/resources/training/PCC-Therapy-Diagnosis-Guide.pdf",
           "description": "How to enter therapy treatment diagnosis in PCC"
         },
         {
           "name": "Side Rail Evaluation",
           "filename": "Side-Rail-Evaluation.pdf",
+          "url": "/resources/training/Side-Rail-Evaluation.pdf",
           "description": "Side rail evaluation flowchart for skilled nursing"
         },
         {
           "name": "Therapy Care Plans",
           "filename": "Therapy-Care-Plans.pdf",
+          "url": "/resources/training/Therapy-Care-Plans.pdf",
           "description": "Step-by-step guide for entering therapy care plans in PCC"
         }
       ]
@@ -48,7 +54,32 @@
       "id": "protocols",
       "name": "Protocols",
       "description": "Treatment protocols and clinical guidelines",
-      "files": []
+      "files": [
+        {
+          "name": "Survey Preparation Checklist",
+          "filename": "Survey_Preparation_Checklist.pdf",
+          "url": "/resources/protocols/Survey_Preparation_Checklist.pdf",
+          "description": "Therapy department survey readiness — 6 sections, 42 items"
+        },
+        {
+          "name": "8-Minute Rule Reference",
+          "filename": "8_Minute_Rule_Reference_2026.pdf",
+          "url": "/resources/protocols/8_Minute_Rule_Reference_2026.pdf",
+          "description": "Medicare Part B unit billing — minutes to units conversion and examples"
+        },
+        {
+          "name": "Functional Maintenance & Prevention Documentation",
+          "filename": "Functional_Maintenance_Prevention_Documentation.pdf",
+          "url": "/resources/protocols/Functional_Maintenance_Prevention_Documentation.pdf",
+          "description": "What to write, when to use it, and how to defend maintenance therapy"
+        },
+        {
+          "name": "CPT Code Clinical Guide",
+          "filename": "CPT_Clinical_Guide_2026.pdf",
+          "url": "/resources/protocols/CPT_Clinical_Guide_2026.pdf",
+          "description": "When to use each code, what to document, clinical tips by discipline"
+        }
+      ]
     },
     {
       "id": "forms",
