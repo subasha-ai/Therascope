@@ -1,6 +1,25 @@
 {
   "categories": [
     {
+      "id": "orientation",
+      "name": "Orientation",
+      "description": "Getting started as a DOR — role overview, tools, and expectations",
+      "files": [
+        {
+          "name": "DOR Orientation Guide",
+          "filename": "DOR_Orientation_Guide.pdf",
+          "url": "/resources/orientation/DOR_Orientation_Guide.pdf",
+          "description": "Your role, performance goals, tools, escalation guide, and non-negotiables"
+        },
+        {
+          "name": "How to Use Therascope",
+          "filename": "How_to_Use_Therascope.pdf",
+          "url": "/resources/orientation/How_to_Use_Therascope.pdf",
+          "description": "Dashboard walkthrough, what each metric means, Monday review routine"
+        }
+      ]
+    },
+    {
       "id": "assessments",
       "name": "Assessments",
       "description": "Patient assessment tools and forms",
