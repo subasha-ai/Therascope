@@ -2173,7 +2173,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <h2 className="text-2xl font-black text-white">{myFacilityData.facility}</h2>
                           <div className="flex items-center gap-3 mt-1">
                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${myFacilityData.region==='Golden Coast'?'bg-amber-500/30 text-amber-200 border border-amber-400/50':'bg-blue-500/30 text-blue-200 border border-blue-400/50'}`}>{myFacilityData.region}</span>
-                            <span className="text-slate-400 text-sm">{currentMonthName} MTD · Through {throughDate}</span>
+                            <span className="text-slate-400 text-sm">{currentMonthName} MTD · Through {new Date(latestDateStr + 'T12:00:00').toLocaleDateString('en-US', {month:'numeric', day:'numeric', year:'numeric'})}</span>
                           </div>
                         </div>
                       </div>
