@@ -15,7 +15,13 @@
           "name": "How to Use Therascope",
           "filename": "How_to_Use_Therascope.pdf",
           "url": "/resources/orientation/How_to_Use_Therascope.pdf",
-          "description": "Dashboard walkthrough, what each metric means, Monday review routine"
+          "description": "Dashboard walkthrough, what each metric means, review routine"
+        },
+        {
+          "name": "DOR Self-Audit Checklist",
+          "filename": "DOR_Weekly_Self_Audit_Checklist.pdf",
+          "url": "/resources/orientation/DOR_Weekly_Self_Audit_Checklist.pdf",
+          "description": "Complete after every Therascope upload — caseload, documentation, productivity, compliance"
         }
       ]
     },
