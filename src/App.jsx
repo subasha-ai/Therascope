@@ -1331,7 +1331,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
-        <div className="fixed inset-0 opacity-20">
+        <div className="fixed inset-0 opacity-20 pointer-events-none">
           <div className="absolute inset-0" style={{ backgroundImage:'radial-gradient(circle at 2px 2px, rgba(100,200,255,0.3) 1px, transparent 0)', backgroundSize:'40px 40px' }}></div>
         </div>
         <div className="relative max-w-md w-full">
@@ -1413,7 +1413,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="fixed inset-0 opacity-20">
+      <div className="fixed inset-0 opacity-20 pointer-events-none">
         <div className="absolute inset-0" style={{ backgroundImage:'radial-gradient(circle at 2px 2px, rgba(100,200,255,0.3) 1px, transparent 0)', backgroundSize:'40px 40px' }}></div>
       </div>
 
