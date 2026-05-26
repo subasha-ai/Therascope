@@ -1391,17 +1391,17 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           const row = [(isM?'* ':'')+fac.replace(' Post Acute','').replace(' Healthcare Center','')];
           DIGEST_MONTHS.forEach(dm => {
             const d = getFacData(fac,dm);
-            row.push(d?d.p.toFixed(1)+'%':'---');
-            row.push(d?'$'+(Math.trunc(d.c*100)/100).toFixed(2):'---');
-            row.push(d?d.mo.toFixed(1)+'%':'---');
-            row.push(d?d.medB+'%':'---');
+            row.push(d?d.p.toFixed(1):'---');
+            row.push(d?(Math.trunc(d.c*100)/100).toFixed(2):'---');
+            row.push(d?d.mo.toFixed(1):'---');
+            row.push(d?String(d.medB):'---');
           });
           return row;
         });
         return {
           head, body, theme:'plain',
-          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:7,cellPadding:2},
-          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:7,cellPadding:2.2},
+          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:6.5,cellPadding:1.5},
+          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:6.5,cellPadding:1.5},
           alternateRowStyles:{fillColor:C.slate2},
           columnStyles:{
             0:{cellWidth:FAC_W,fontStyle:'bold',textColor:C.white},
