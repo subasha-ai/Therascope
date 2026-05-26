@@ -3,7 +3,7 @@
     {
       "id": "orientation",
       "name": "Orientation",
-      "description": "Getting started as a DOR — role overview, tools, and expectations",
+      "description": "Getting started as a DOR \u2014 role overview, tools, and expectations",
       "files": [
         {
           "name": "DOR Orientation Guide",
@@ -21,7 +21,19 @@
           "name": "DOR Self-Audit Checklist",
           "filename": "DOR_Weekly_Self_Audit_Checklist.pdf",
           "url": "/resources/orientation/DOR_Weekly_Self_Audit_Checklist.pdf",
-          "description": "Complete after every Therascope upload — caseload, documentation, productivity, compliance"
+          "description": "Complete after every Therascope upload \u2014 caseload, documentation, productivity, compliance"
+        },
+        {
+          "name": "New Hire Therapist Orientation Checklist",
+          "filename": "New_Hire_Therapist_Orientation_Checklist.pdf",
+          "url": "/resources/orientation/New_Hire_Therapist_Orientation_Checklist.pdf",
+          "description": "Onboarding checklist for new PT, OT, or ST \u2014 staff and travelers"
+        },
+        {
+          "name": "Traveler Orientation Checklist",
+          "filename": "Traveler_Orientation_Checklist.pdf",
+          "url": "/resources/orientation/Traveler_Orientation_Checklist.pdf",
+          "description": "Registry, traveler, and new hire orientation \u2014 includes timesheet and invoice process"
         }
       ]
     },
@@ -46,13 +58,13 @@
           "name": "Am I Ready? Discharge Checklist",
           "filename": "Am_I_Ready_Discharge_Checklist.pdf",
           "url": "/resources/assessments/Am_I_Ready_Discharge_Checklist.pdf",
-          "description": "PLOF vs current function, caregiver education, home visit — pre-discharge form"
+          "description": "PLOF vs current function, caregiver education, home visit \u2014 pre-discharge form"
         },
         {
           "name": "OT Home Evaluation Form",
           "filename": "OT_Home_Evaluation_Form.pdf",
           "url": "/resources/assessments/OT_Home_Evaluation_Form.pdf",
-          "description": "Full home evaluation — entrances, bedroom, bathroom, kitchen, general safety"
+          "description": "Full home evaluation \u2014 entrances, bedroom, bathroom, kitchen, general safety"
         }
       ]
     },
@@ -126,13 +138,13 @@
           "name": "Survey Preparation Checklist",
           "filename": "Survey_Preparation_Checklist.pdf",
           "url": "/resources/protocols/Survey_Preparation_Checklist.pdf",
-          "description": "Therapy department survey readiness — 6 sections, 42 items"
+          "description": "Therapy department survey readiness \u2014 6 sections, 42 items"
         },
         {
           "name": "8-Minute Rule Reference",
           "filename": "8_Minute_Rule_Reference_2026.pdf",
           "url": "/resources/protocols/8_Minute_Rule_Reference_2026.pdf",
-          "description": "Medicare Part B unit billing — minutes to units conversion and examples"
+          "description": "Medicare Part B unit billing \u2014 minutes to units conversion and examples"
         },
         {
           "name": "Functional Maintenance & Prevention Documentation",
@@ -145,6 +157,18 @@
           "filename": "CPT_Clinical_Guide_2026.pdf",
           "url": "/resources/protocols/CPT_Clinical_Guide_2026.pdf",
           "description": "When to use each code, what to document, clinical tips by discipline"
+        },
+        {
+          "name": "Therapy Frequency Justification Guide",
+          "filename": "Therapy_Frequency_Justification_Guide.pdf",
+          "url": "/resources/protocols/Therapy_Frequency_Justification_Guide.pdf",
+          "description": "5x, 3-4x, 1-2x per week \u2014 when each is appropriate, payer-specific guidelines"
+        },
+        {
+          "name": "Common Denial Reasons Guide",
+          "filename": "Common_Denial_Reasons_Guide.pdf",
+          "url": "/resources/protocols/Common_Denial_Reasons_Guide.pdf",
+          "description": "Why claims get denied and how to prevent them \u2014 DOR prevention guide"
         }
       ]
     },
