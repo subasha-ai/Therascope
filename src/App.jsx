@@ -1327,6 +1327,129 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     } catch(e) { console.error(e); alert('PDF generation failed: '+e.message); }
   };
 
+  // ── Leadership Digest PDF — single page, both regions, 4 goal metrics ────────
+  const downloadLeadershipDigest = () => {
+    const DIGEST_MONTHS = [
+      { label: 'Jan',     start: '2026-01-01', end: '2026-01-31', isMTD: false },
+      { label: 'Feb',     start: '2026-02-01', end: '2026-02-28', isMTD: false },
+      { label: 'Mar',     start: '2026-03-01', end: '2026-03-31', isMTD: false },
+      { label: 'Apr',     start: '2026-04-01', end: '2026-04-30', isMTD: false },
+      { label: 'May MTD', start: '2026-05-01', end: '2026-05-31', isMTD: true  },
+    ];
+    const getFacData = (fac, dm) => {
+      const rec = getMonthFinal(fac, dm.start, dm.end);
+      if (!rec) return null;
+      const p    = mtd(rec,'productivityMTD','productivity');
+      const c    = mtd(rec,'cpmMTD','cpm');
+      const mo   = mtd(rec,'modeOfTreatmentMTD','modeOfTreatment');
+      const cas  = rec.medBCaseload||0; const elig = rec.medBEligible||0;
+      const medB = elig>0 ? Math.round((cas/elig)*100) : 0;
+      return { p, c, mo, medB };
+    };
+    const C = {
+      navy:[11,17,32], navyMid:[17,27,50], slate:[28,38,60], slate2:[38,52,78], slate3:[52,68,98],
+      cyan:[6,182,212], teal:[13,148,136], white:[255,255,255], offWhite:[220,230,245],
+      muted:[110,128,160], green:[52,211,153], red:[248,113,113],
+      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[10,72,90]],
+    };
+    try {
+      const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'letter' });
+      const pageW = doc.internal.pageSize.getWidth();
+      const pageH = doc.internal.pageSize.getHeight();
+      doc.setFillColor(...C.navy); doc.rect(0,0,pageW,pageH,'F');
+      doc.setFillColor(...C.teal); doc.rect(0,0,pageW,2,'F');
+      doc.setFillColor(...C.navyMid); doc.rect(0,2,pageW,16,'F');
+      doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
+      doc.text('THERASCOPE',10,13);
+      doc.setTextColor(...C.offWhite); doc.setFontSize(10);
+      doc.text('Leadership Digest  |  All Buildings  |  Jan - May MTD 2026',50,13);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
+      doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
+      doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
+      doc.setFontSize(6.5); doc.setTextColor(...C.muted);
+      doc.text('Goals:  Productivity >=84%   CPM <=$1.45   G/C Mode >4%   Med B >=50% on caseload     * = modified threshold',10,24);
+
+      const buildTable = (region) => {
+        const facList = allFacilities.filter(f=>allWeeklyData.find(d=>d.facility===f)?.region===region).sort();
+        const COL_W = 11; const FAC_W = 32;
+        const head = [
+          [
+            {content:region,rowSpan:2,styles:{valign:'middle',halign:'left',fillColor:C.slate,textColor:C.cyan,fontStyle:'bold',fontSize:8}},
+            ...DIGEST_MONTHS.map((dm,mi)=>({
+              content:dm.label,colSpan:4,
+              styles:{halign:'center',fontStyle:'bold',fontSize:7.5,fillColor:C.mb[mi],textColor:dm.isMTD?C.cyan:C.offWhite}
+            }))
+          ],
+          [...DIGEST_MONTHS.map((_,mi)=>
+            ['PROD','CPM','MODE','MED B'].map(l=>({
+              content:l,styles:{halign:'center',fontSize:5.5,fillColor:C.mb[mi].map(v=>Math.min(255,v+10)),textColor:C.muted}
+            }))
+          ).flat()],
+        ];
+        const body = facList.map(fac => {
+          const isM = !!BUILDING_GOALS[fac];
+          const row = [(isM?'* ':'')+fac.replace(' Post Acute','').replace(' Healthcare Center','')];
+          DIGEST_MONTHS.forEach(dm => {
+            const d = getFacData(fac,dm);
+            row.push(d?d.p.toFixed(1)+'%':'---');
+            row.push(d?'$'+(Math.trunc(d.c*100)/100).toFixed(2):'---');
+            row.push(d?d.mo.toFixed(1)+'%':'---');
+            row.push(d?d.medB+'%':'---');
+          });
+          return row;
+        });
+        return {
+          head, body, theme:'plain',
+          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:7,cellPadding:2},
+          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:7,cellPadding:2.2},
+          alternateRowStyles:{fillColor:C.slate2},
+          columnStyles:{
+            0:{cellWidth:FAC_W,fontStyle:'bold',textColor:C.white},
+            ...Object.fromEntries(DIGEST_MONTHS.flatMap((_,mi)=>[
+              [1+mi*4,{cellWidth:COL_W,halign:'center'}],
+              [2+mi*4,{cellWidth:COL_W,halign:'center'}],
+              [3+mi*4,{cellWidth:COL_W,halign:'center'}],
+              [4+mi*4,{cellWidth:COL_W,halign:'center'}],
+            ])),
+          },
+          didParseCell: data => {
+            if (data.column.index>0) {
+              const mi=Math.floor((data.column.index-1)/4);
+              const adj=data.section==='body'&&data.row.index%2!==0?8:0;
+              if (mi>=0&&mi<5) data.cell.styles.fillColor=C.mb[mi].map(v=>Math.min(255,v+adj));
+            }
+            if (data.section!=='body') return;
+            const fac=facList[data.row.index]; if (!fac) return;
+            const goals=getGoals(fac);
+            const col=data.column.index; if (col===0) return;
+            const mi=Math.floor((col-1)/4), type=(col-1)%4;
+            const d=getFacData(fac,DIGEST_MONTHS[mi]);
+            if (!d||data.cell.raw==='---'){data.cell.styles.textColor=C.muted;return;}
+            const pass=[d.p>=goals.productivity,(Math.trunc(d.c*100)/100)<=goals.cpm,d.mo>=goals.mode,d.medB>=goals.medB][type];
+            data.cell.styles.textColor=pass?C.green:C.red;
+            data.cell.styles.fontStyle='bold';
+          },
+          tableLineColor:C.slate3, tableLineWidth:0.15,
+          margin:{left:10,right:10},
+        };
+      };
+
+      doc.autoTable({...buildTable('Golden Coast'),startY:27});
+      doc.autoTable({...buildTable('Overland'),startY:doc.lastAutoTable.finalY+5});
+
+      doc.setFillColor(...C.teal); doc.rect(0,pageH-10,pageW,10,'F');
+      const mayMet = allFacilities.filter(f=>{
+        const rec=getMonthFinal(f,DIGEST_MONTHS[4].start,DIGEST_MONTHS[4].end);
+        return rec&&scoreRec(rec,f)===4;
+      }).length;
+      doc.setFontSize(7.5); doc.setFont('helvetica','bold'); doc.setTextColor(...C.navy);
+      doc.text(`May MTD: ${mayMet} / ${allFacilities.length} buildings meeting all 4 goals`,10,pageH-3.5);
+      doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...C.navyMid);
+      doc.text('therascope-insights.vercel.app',pageW-10,pageH-3.5,{align:'right'});
+      doc.save(`Therascope_Leadership_Digest_${latestDateStr}.pdf`);
+    } catch(e){console.error(e);alert('PDF generation failed: '+e.message);}
+  };
+
   // ─── LOGIN SCREEN ────────────────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
@@ -1720,6 +1843,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <p className="text-slate-400 mt-1">{EXEC_MONTHS[0].label.replace(' MTD','')} – {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')} 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
+                    <button onClick={downloadLeadershipDigest}
+                      className="px-4 py-2 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
+                      <Download className="w-3.5 h-3.5"/>Leadership Digest
+                    </button>
                     <div className="text-right text-xs">
                       <div className="text-slate-500 uppercase tracking-wider mb-1">Data through</div>
                       <div className="text-white font-bold">{throughDate}</div>
