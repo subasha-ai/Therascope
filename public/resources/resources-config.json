@@ -34,6 +34,12 @@
           "filename": "Traveler_Orientation_Checklist.pdf",
           "url": "/resources/orientation/Traveler_Orientation_Checklist.pdf",
           "description": "Registry, traveler, and new hire orientation \u2014 includes timesheet and invoice process"
+        },
+        {
+          "name": "PDPM Overview for DORs",
+          "filename": "PDPM_Overview_For_DORs.pdf",
+          "url": "/resources/orientation/PDPM_Overview_For_DORs.pdf",
+          "description": "Payment components, Section GG impact, variable per diem, IPA, CMI \u2014 what most DORs don't know"
         }
       ]
     },
@@ -169,6 +175,12 @@
           "filename": "Common_Denial_Reasons_Guide.pdf",
           "url": "/resources/protocols/Common_Denial_Reasons_Guide.pdf",
           "description": "Why claims get denied and how to prevent them \u2014 DOR prevention guide"
+        },
+        {
+          "name": "Restorative Nursing Handoff Protocol",
+          "filename": "Restorative_Nursing_Handoff_Protocol.pdf",
+          "url": "/resources/protocols/Restorative_Nursing_Handoff_Protocol.pdf",
+          "description": "When to transition, what to include, roles, monthly meeting sign-in sheet"
         }
       ]
     },
