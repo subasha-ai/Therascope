@@ -186,6 +186,8 @@ export default function App() {
   const [savedNarratives,   setSavedNarratives]   = useState({});
   const [narrativeLoading,  setNarrativeLoading]  = useState(false);
   const [digestSending,     setDigestSending]     = useState(false);
+  const [scorecardOpen,     setScorecardOpen]     = useState(true);
+  const [complianceOpen,    setComplianceOpen]    = useState(true);
   const [checkInData,       setCheckInData]       = useState([]);
   const [checkInWeek,       setCheckInWeek]       = useState(null);
   const [checkInSummaries,  setCheckInSummaries]  = useState({});
@@ -193,8 +195,6 @@ export default function App() {
   const [digestResult,      setDigestResult]      = useState(null);
   const [testEmail,         setTestEmail]         = useState('');
   const [showDigestModal,   setShowDigestModal]   = useState(false);
-  const [scorecardOpen,     setScorecardOpen]     = useState(true);
-  const [complianceOpen,    setComplianceOpen]    = useState(true);
 
   // Derived auth
   const isRestrictedView   = loginType === 'dor';
@@ -485,7 +485,7 @@ export default function App() {
         body: [
           ['Productivity',   p.toFixed(1)+'%',  '>= 84%',       p >= 84 ? '✓' : '✗'],
           ['CPM',           '$'+Math.trunc(c*100)/100,   '< $1.45',      c <= 1.45 ? '✓' : '✗'],
-          ['Mode of Tx',    mo.toFixed(1)+'%',  '>= 4%',        mo >= 4 ? '✓' : '✗'],
+          ['Mode of Tx',    mo.toFixed(1)+'%',  '>= 4%',        parseFloat(mo.toFixed(1)) >= 4 ? '✓' : '✗'],
           ['Units/Visit',   upv.toFixed(2),     '—',            '—'],
           ['Med B Rev MTD', '$'+(rev/1000).toFixed(1)+'k', '—', '—'],
           ['Med B Eligible', String(elig),       '—',            '—'],
@@ -952,7 +952,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       else if (c - cPrev >= 0.05) alerts.push({ msg: `CPM rose $${(Math.trunc(Math.abs(c-cPrev)*100)/100)} this week`, severe: false });
       else if (c - cPrev <= -0.05) wins.push(`CPM improved $${Math.abs(Math.trunc(Math.abs(c-cPrev)*100)/100)}`);
 
-      if (mo < bGoals.mode)    alerts.push({ msg: `Mode of treatment ${mo.toFixed(1)}% — below ${bGoals.mode}% goal`, severe: mo === 0 });
+      if (parseFloat(mo.toFixed(1)) < bGoals.mode)    alerts.push({ msg: `Mode of treatment ${mo.toFixed(1)}% — below ${bGoals.mode}% goal`, severe: mo === 0 });
       else if (mo - moPrev <= -2) alerts.push({ msg: `Mode dropped ${Math.abs(mo-moPrev).toFixed(1)}pp this week`, severe: false });
       else if (mo - moPrev >= 2)  wins.push(`Mode up ${(mo-moPrev).toFixed(1)}pp`);
 
@@ -1001,7 +1001,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         <tbody>
           ${metricRow('Productivity', p.toFixed(1)+'%', p >= 84)}
           ${metricRow('CPM', '$'+Math.trunc(c*100)/100, c <= 1.45)}
-          ${metricRow('Mode of Treatment', mo.toFixed(1)+'%', mo >= 4)}
+          ${metricRow('Mode of Treatment', mo.toFixed(1)+'%', parseFloat(mo.toFixed(1)) >= 4)}
           ${metricRow('Units Per Visit', upv.toFixed(2), upv >= 3)}
           ${metricRow('Med B on Caseload', cas+'%', cas >= 50)}
         </tbody>
@@ -1425,7 +1425,12 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             const mi=Math.floor((col-1)/4), type=(col-1)%4;
             const d=getFacData(fac,DIGEST_MONTHS[mi]);
             if (!d||data.cell.raw==='---'){data.cell.styles.textColor=C.muted;return;}
-            const pass=[d.p>=goals.productivity,(Math.trunc(d.c*100)/100)<=goals.cpm,d.mo>=goals.mode,d.medB>=goals.medB][type];
+            const pass=[
+              d.p>=goals.productivity,
+              (Math.trunc(d.c*100)/100)<=goals.cpm,
+              parseFloat(d.mo.toFixed(1))>=goals.mode,
+              d.medB>=goals.medB
+            ][type];
             data.cell.styles.textColor=pass?C.green:C.red;
             data.cell.styles.fontStyle='bold';
           },
@@ -1953,7 +1958,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                   <React.Fragment key={mi}>
                                     {cell(p, p!==null?p>=getGoals(row.facility).productivity:null, v=>v.toFixed(1)+'%')}
                                     {cell(c, c!==null?Math.trunc(c*100)/100<=getGoals(row.facility).cpm:null, v=>'$'+v.toFixed(2))}
-                                    {cell(mo,mo!==null?mo>=getGoals(row.facility).mode:null, v=>v.toFixed(1)+'%')}
+                                    {cell(mo,mo!==null?parseFloat(mo.toFixed(1))>=getGoals(row.facility).mode:null, v=>v.toFixed(1)+'%')}
                                     {cell(rv,null, v=>'$'+(v/1000).toFixed(1)+'k')}
                                   </React.Fragment>
                                 );
@@ -2910,9 +2915,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   {category.description && <p className="text-slate-400 text-sm mt-1">{category.description}</p>}
                 </div>
                 <div className="p-4 space-y-3">
-                  {category.files?.map((file, fi) => {
-                    const fileUrl = file.url || `/resources/${category.id}/${file.filename}`;
-                    return (
+                  {category.files?.map((file, fi) => (
                     <div key={fi} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-all">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-red-500/20 rounded-lg flex items-center justify-center">
@@ -2925,6 +2928,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         </div>
                       </div>
                       <div className="flex gap-2">
+                        {(() => { const fileUrl = file.url || `/resources/${category.id}/${file.filename}`; return (<>
                         <a href={fileUrl} target="_blank" rel="noopener noreferrer"
                           className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/30 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
                           <ExternalLink className="w-3 h-3" /> View
@@ -2932,11 +2936,10 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <a href={fileUrl} download
                           className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
                           <Download className="w-3 h-3" /> Download
-                        </a>
+                        </a></>); })()}
                       </div>
                     </div>
-                    );
-                  })}
+                  ))}
                 </div>
               </div>
             ))}
