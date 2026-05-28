@@ -12,9 +12,10 @@ const WEEKLY_REPORT_LINK  = 'https://forms.office.com/Pages/ResponsePage.aspx?id
 
 // Building-specific goal overrides for outlier buildings
 const BUILDING_GOALS = {
-  'Cedarwood PA':   { productivity: 80, cpm: 1.55, mode: 2, medB: 35 },
-  'Bridgewood PA':  { productivity: 80, cpm: 1.55, mode: 2, medB: 40 },
-  'Morgan Hill HC': { productivity: 80, cpm: 1.55, mode: 2, medB: 40 },
+  'Cedarwood PA':   { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
+  'Bridgewood PA':  { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
+  'Morgan Hill HC': { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
+  'Manresa HC':     { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
 };
 const getGoals = (facility) => BUILDING_GOALS[facility] || { productivity: 84, cpm: 1.45, mode: 4, medB: 50 };
 
@@ -75,7 +76,7 @@ const scoreRec = (rec, facility=null) => {
   if (mtd(rec, 'cpmMTD',             'cpm')             <= g.cpm)           s++;
   const elig = rec.medBEligible || 0, cas = rec.medBCaseload || 0;
   if (elig > 0 && cas / elig >= g.medB/100) s++;
-  if (mtd(rec, 'modeOfTreatmentMTD', 'modeOfTreatment') >= g.mode)          s++;
+  if (parseFloat(mtd(rec, 'modeOfTreatmentMTD', 'modeOfTreatment').toFixed(1)) >= g.mode) s++;
   return s;
 };
 
