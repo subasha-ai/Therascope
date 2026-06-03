@@ -2126,7 +2126,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <React.Fragment key={region}>
                             {/* Region header row */}
                             <tr className="bg-white/5 border-b border-white/10">
-                              <td colSpan={5} className="py-2 px-4">
+                              <td colSpan={6} className="py-2 px-4">
                                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
                             </tr>
