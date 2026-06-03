@@ -93,19 +93,13 @@ export default function App() {
   const allWeeklyData = facilityDataJson;
 
   // Dynamically compute last 3 months from actual data
-  const EXEC_MONTHS = (() => {
-    const months = [...new Set(allWeeklyData.map(d => d.date.slice(0,7)))].sort();
-    const last3  = months.slice(-3);
-    return last3.map((ym, i) => {
-      const [y, m] = ym.split('-').map(Number);
-      const label  = new Date(y, m-1, 1).toLocaleString('default', { month: 'short' });
-      const start  = `${ym}-01`;
-      const lastDay = new Date(y, m, 0).getDate();
-      const end    = `${ym}-${String(lastDay).padStart(2,'0')}`;
-      const isLatest = i === last3.length - 1;
-      return { label, start, end };
-    });
-  })();
+  const EXEC_MONTHS = [
+    { label: 'Jan',     start: '2026-01-01', end: '2026-01-31' },
+    { label: 'Feb',     start: '2026-02-01', end: '2026-02-28' },
+    { label: 'Mar',     start: '2026-03-01', end: '2026-03-31' },
+    { label: 'April',   start: '2026-04-01', end: '2026-04-30' },
+    { label: 'May MTD', start: '2026-05-01', end: '2026-05-31' },
+  ];
 
   // Auth state
   const [isAuthenticated,          setIsAuthenticated]          = useState(false);
@@ -546,10 +540,12 @@ export default function App() {
       jan: getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end),
       feb: getMonthFinal(fac, EXEC_MONTHS[1].start, EXEC_MONTHS[1].end),
       mar: getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
-    })).filter(r => r.jan || r.feb || r.mar);
+      apr: getMonthFinal(fac, EXEC_MONTHS[3].start, EXEC_MONTHS[3].end),
+      may: getMonthFinal(fac, EXEC_MONTHS[4].start, EXEC_MONTHS[4].end),
+    })).filter(r => r.jan || r.feb || r.mar || r.apr || r.may);
 
     const fmt = (rec, facName) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec, facName)+'/4' } : null;
-    const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan, r.facility), feb: fmt(r.feb, r.facility), mar: fmt(r.mar, r.facility) }));
+    const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan, r.facility), feb: fmt(r.feb, r.facility), mar: fmt(r.mar, r.facility), apr: fmt(r.apr, r.facility), may: fmt(r.may, r.facility) }));
 
     let result = { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
     try {
@@ -599,7 +595,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       jan:  getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end),
       feb:  getMonthFinal(fac, EXEC_MONTHS[1].start, EXEC_MONTHS[1].end),
       mar:  getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
-    })).filter(r => r.jan || r.feb || r.mar);
+      apr:  getMonthFinal(fac, EXEC_MONTHS[3].start, EXEC_MONTHS[3].end),
+      may:  getMonthFinal(fac, EXEC_MONTHS[4].start, EXEC_MONTHS[4].end),
+    })).filter(r => r.jan || r.feb || r.mar || r.apr || r.may);
 
     const narratives = savedNarratives[reportRegion] || { spotlight: { topPerformers: [], needsAttention: [] }, deepDives: {} };
 
@@ -1846,7 +1844,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <h2 className="text-3xl font-black text-white">Executive Summary</h2>
-                    <p className="text-slate-400 mt-1">{EXEC_MONTHS[0].label.replace(' MTD','')} – {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')} 2026 · {facilityRows.length} Facilities · 2 Regions</p>
+                    <p className="text-slate-400 mt-1">Q1 · April · May MTD 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
                     <button onClick={downloadLeadershipDigest}
@@ -1883,13 +1881,63 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 </div>
               </div>
 
-              {/* 3-Month Company Summary */}
+              {/* Company Summary — Q1 trend card + April + May */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {monthTotals.map((m,mi) => m.totals && (
-                  <div key={mi} className={`bg-white/5 backdrop-blur-xl rounded-2xl p-6 border shadow-xl ${mi===2?'border-cyan-400/40':'border-white/10'}`}>
+
+                {/* Q1 Card — Jan / Feb / Mar trend */}
+                {(() => {
+                  const q1 = monthTotals.slice(0,3);
+                  if (!q1.some(m => m.totals)) return null;
+                  const rows = [
+                    { label:'Avg Productivity', key:'avgProd',    fmt: v=>v+'%',    good: v=>parseFloat(v)>=84 },
+                    { label:'Avg CPM',           key:'avgCPM',    fmt: v=>'$'+v,    good: v=>parseFloat(v)<=1.45 },
+                    { label:'Med B Units',       key:'totalUnits',fmt: v=>v.toLocaleString(), good: null },
+                    { label:'Med B Revenue',     key:'totalRev',  fmt: v=>'$'+(v/1000).toFixed(0)+'k', good: null },
+                    { label:'At Prod Goal',      key:'atGoalProd',fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7, isGoal:true },
+                    { label:'At CPM Goal',       key:'atGoalCPM', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7, isGoal:true },
+                  ];
+                  return (
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-2xl font-black text-white">Q1</h3>
+                        <span className="text-xs text-slate-500 font-bold">Jan – Mar 2026</span>
+                      </div>
+                      {/* Sub-headers */}
+                      <div className="grid grid-cols-4 gap-1 mb-2">
+                        <div className="text-slate-500 text-xs"></div>
+                        {q1.map(m => (
+                          <div key={m.label} className="text-center text-xs font-black text-cyan-400 uppercase tracking-wider">{m.label}</div>
+                        ))}
+                      </div>
+                      <div className="space-y-2">
+                        {rows.map((row,ri) => (
+                          <div key={ri} className="grid grid-cols-4 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
+                            <span className="text-slate-400 text-xs">{row.label}</span>
+                            {q1.map((m,mi) => {
+                              if (!m.totals) return <span key={mi} className="text-center text-xs text-slate-600">—</span>;
+                              const v = m.totals[row.key];
+                              const n = m.totals.n;
+                              const isGood = row.good === null ? null : row.isGoal ? row.good(v,n) : row.good(v);
+                              const display = row.isGoal ? row.fmt(v,n) : row.fmt(v);
+                              return (
+                                <span key={mi} className={`text-center text-xs font-black ${isGood===null?'text-white':isGood?'text-emerald-300':'text-rose-300'}`}>
+                                  {display}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* April + May cards */}
+                {monthTotals.slice(3).map((m,mi) => m.totals && (
+                  <div key={mi} className={`bg-white/5 backdrop-blur-xl rounded-2xl p-6 border shadow-xl ${mi===1?'border-cyan-400/40':'border-white/10'}`}>
                     <div className="flex items-center justify-between mb-5">
-                      <h3 className={`text-2xl font-black ${mi===2?'text-cyan-300':'text-white'}`}>{m.label}</h3>
-                      {mi===2 && <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>}
+                      <h3 className={`text-2xl font-black ${mi===1?'text-cyan-300':'text-white'}`}>{m.label}</h3>
+                      {mi===1 && <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>}
                     </div>
                     <div className="space-y-3">
                       {[
@@ -1916,7 +1964,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — 3 Month View</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · April · May</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
@@ -1927,11 +1975,18 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       <tr className="border-b border-white/10 bg-white/5">
                         <th className="text-left py-3 px-4 text-slate-400 font-bold uppercase text-xs sticky left-0 bg-slate-900/90">Facility</th>
                         <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
-                        {EXEC_MONTHS.map(m => <th key={m.label} colSpan={4} className="py-3 px-2 text-slate-300 font-bold uppercase text-xs text-center border-l border-white/10">{m.label}</th>)}
+                        <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
+                        <th colSpan={4} className="py-3 px-2 text-slate-300 font-bold uppercase text-xs text-center border-l border-white/10">April</th>
+                        <th colSpan={4} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">May MTD</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
-                        {EXEC_MONTHS.map(m => ['Prod','CPM','Mode','Rev'].map(col => <th key={m.label+col} className="py-2 px-2 text-slate-500 font-bold text-xs text-center">{col}</th>))}
+                        {EXEC_MONTHS.slice(0,3).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
+                          <th key={m.label+col} className="py-2 px-2 text-cyan-600 font-bold text-xs text-center">{m.label.slice(0,3)} {col}</th>
+                        )))}
+                        {EXEC_MONTHS.slice(3).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
+                          <th key={m.label+col} className="py-2 px-2 text-slate-500 font-bold text-xs text-center">{col}</th>
+                        )))}
                       </tr>
                     </thead>
                     <tbody>
@@ -1939,7 +1994,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const isNewRegion = ri===0 || row.region !== facilityRows[ri-1].region;
                         return (
                           <React.Fragment key={ri}>
-                            {isNewRegion && <tr className="bg-white/5"><td colSpan={14} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
+                            {isNewRegion && <tr className="bg-white/5"><td colSpan={22} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
                             <tr className="border-b border-white/5 hover:bg-white/5">
                               <td className="py-2 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{shortName(row.facility)}</td>
                               <td className="py-2 px-2 text-center">
@@ -1976,7 +2031,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               {/* Spotlight */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="bg-emerald-500/10 backdrop-blur-xl rounded-2xl border border-emerald-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved ({EXEC_MONTHS[0].label.replace(' MTD','')} → {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')})</h3></div>
+                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → May)</h3></div>
                   <div className="space-y-3">
                     {improved.map((r,i) => {
                       const janProd = r.months[0] ? mtd(r.months[0],'productivityMTD','productivity') : 0;
