@@ -1279,6 +1279,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
       // Spotlight page
       const struggling = allFacilities.filter(fac => {
+        if (['Camino Ridge Post Acute','Pac Coast PA','Golden Harbor HC'].includes(fac)) return false;
         const scores = EXEC_MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end)));
         return scores.filter(s => s <= 1).length >= 2;
       });
@@ -1763,7 +1764,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           })).filter(r => r.months.some(Boolean))
             .sort((a,b) => a.region !== b.region ? (a.region==='Golden Coast'?-1:1) : a.facility.localeCompare(b.facility));
 
-          const struggling = facilityRows.filter(r => r.months.filter(Boolean).map(rec=>scoreRec(rec,r.facility)).filter(s=>s<=1).length >= 2);
+          const EXCLUDE_STRUGGLING = ['Camino Ridge Post Acute','Pac Coast PA','Golden Harbor HC'];
+          const struggling = facilityRows.filter(r => !EXCLUDE_STRUGGLING.includes(r.facility) && r.months.filter(Boolean).map(rec=>scoreRec(rec,r.facility)).filter(s=>s<=1).length >= 2);
           const improved = facilityRows.map(r => {
             const jan=r.months[0], mar=r.months[2];
             if (!jan || !mar) return null;
@@ -1889,12 +1891,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   const q1 = monthTotals.slice(0,3);
                   if (!q1.some(m => m.totals)) return null;
                   const rows = [
-                    { label:'Avg Productivity', key:'avgProd',    fmt: v=>v+'%',    good: v=>parseFloat(v)>=84 },
-                    { label:'Avg CPM',           key:'avgCPM',    fmt: v=>'$'+v,    good: v=>parseFloat(v)<=1.45 },
-                    { label:'Med B Units',       key:'totalUnits',fmt: v=>v.toLocaleString(), good: null },
-                    { label:'Med B Revenue',     key:'totalRev',  fmt: v=>'$'+(v/1000).toFixed(0)+'k', good: null },
-                    { label:'At Prod Goal',      key:'atGoalProd',fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7, isGoal:true },
-                    { label:'At CPM Goal',       key:'atGoalCPM', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7, isGoal:true },
+                    { label:'Avg Productivity', key:'avgProd',     fmt: v=>v+'%',                                    good: v=>parseFloat(v)>=84 },
+                    { label:'Avg CPM',           key:'avgCPM',     fmt: v=>'$'+v,                                    good: v=>parseFloat(v)<=1.45 },
+                    { label:'Med B Units',       key:'totalUnits', fmt: v=>v.toLocaleString(),                       good: null },
+                    { label:'Rehab Med B Rev',   key:'totalRev',   fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
+                    { label:'Resp Med B Rev',    key:'totalRespRev',fmt: v=>v>0?'$'+(v/1000).toFixed(0)+'k':'—',    good: null },
+                    { label:'Total Med B Rev',   key:'totalAllRev',fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
+                    { label:'At Prod Goal',      key:'atGoalProd', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At CPM Goal',       key:'atGoalCPM',  fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
                   ];
                   return (
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl">
@@ -1915,7 +1919,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             <span className="text-slate-400 text-xs">{row.label}</span>
                             {q1.map((m,mi) => {
                               if (!m.totals) return <span key={mi} className="text-center text-xs text-slate-600">—</span>;
-                              const v = m.totals[row.key];
+                              const v = row.key === 'totalAllRev'
+                                ? (m.totals.totalRev||0) + (m.totals.totalRespRev||0)
+                                : m.totals[row.key];
                               const n = m.totals.n;
                               const isGood = row.good === null ? null : row.isGoal ? row.good(v,n) : row.good(v);
                               const display = row.isGoal ? row.fmt(v,n) : row.fmt(v);
