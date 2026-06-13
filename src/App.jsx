@@ -392,6 +392,20 @@ export default function App() {
     load();
   }, [isAuthenticated, isRestrictedView]);
 
+  // Load resources for standalone resources-only access
+  useEffect(() => {
+    if (!resourcesAccess) return;
+    const load = async () => {
+      try {
+        const res = await fetch('/resources/resources-config.json');
+        if (!res.ok) throw new Error('Failed to load');
+        const config = await res.json();
+        setGithubResources(config.categories || []);
+      } catch { /* silent */ }
+    };
+    load();
+  }, [resourcesAccess]);
+
   // ── Auth handlers
   const handlePasswordSubmit = e => {
     e.preventDefault();
@@ -1495,7 +1509,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             <h1 className="text-3xl font-black text-white mb-2">DOR Playbook</h1>
             <p className="text-slate-400">Clinical guides, protocols, orientation materials, and reference forms.</p>
           </div>
-          {resourceCategories.length > 0 ? resourceCategories.map(category => (
+          {githubResources.length > 0 ? githubResources.map(category => (
             <div key={category.id} className="mb-8">
               <h2 className="text-lg font-black text-cyan-300 uppercase tracking-wider mb-4">{category.name}</h2>
               {category.description && <p className="text-slate-500 text-sm mb-4">{category.description}</p>}
