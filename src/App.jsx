@@ -1854,7 +1854,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <h2 className="text-3xl font-black text-white">Executive Summary</h2>
-                    <p className="text-slate-400 mt-1">Q1 · April · May MTD 2026 · {facilityRows.length} Facilities · 2 Regions</p>
+                    <p className="text-slate-400 mt-1">Q1 · May · June MTD 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
                     <button onClick={downloadLeadershipDigest}
@@ -1946,7 +1946,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   );
                 })()}
 
-                {/* April + May cards */}
+                {/* May + June MTD cards */}
                 {monthTotals.slice(3).map((m,mi) => m.totals && (
                   <div key={mi} className={`bg-white/5 backdrop-blur-xl rounded-2xl p-6 border shadow-xl ${mi===1?'border-cyan-400/40':'border-white/10'}`}>
                     <div className="flex items-center justify-between mb-5">
@@ -1978,7 +1978,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · April · May</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · May · June MTD</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
@@ -1990,8 +1990,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <th className="text-left py-3 px-4 text-slate-400 font-bold uppercase text-xs sticky left-0 bg-slate-900/90">Facility</th>
                         <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
-                        <th colSpan={4} className="py-3 px-2 text-slate-300 font-bold uppercase text-xs text-center border-l border-white/10">April</th>
-                        <th colSpan={4} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">May MTD</th>
+                        <th colSpan={4} className="py-3 px-2 text-slate-300 font-bold uppercase text-xs text-center border-l border-white/10">May</th>
+                        <th colSpan={4} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">June MTD</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
@@ -2045,7 +2045,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               {/* Spotlight */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="bg-emerald-500/10 backdrop-blur-xl rounded-2xl border border-emerald-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → May)</h3></div>
+                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → June MTD)</h3></div>
                   <div className="space-y-3">
                     {improved.map((r,i) => {
                       const janProd = r.months[0] ? mtd(r.months[0],'productivityMTD','productivity') : 0;
