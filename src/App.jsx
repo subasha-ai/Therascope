@@ -1457,7 +1457,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         return rec&&scoreRec(rec,f)===4;
       }).length;
       doc.setFontSize(7.5); doc.setFont('helvetica','bold'); doc.setTextColor(...C.navy);
-      doc.text(`May MTD: ${mayMet} / ${allFacilities.length} buildings meeting all 4 goals`,10,pageH-3.5);
+      doc.text(`June MTD: ${mayMet} / ${allFacilities.length} buildings meeting all 4 goals`,10,pageH-3.5);
       doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...C.navyMid);
       doc.text('therascope-insights.vercel.app',pageW-10,pageH-3.5,{align:'right'});
       doc.save(`Therascope_Leadership_Digest_${latestDateStr}.pdf`);
