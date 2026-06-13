@@ -1341,6 +1341,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'Jan',     start: '2026-01-01', end: '2026-01-31', isMTD: false },
       { label: 'Feb',     start: '2026-02-01', end: '2026-02-28', isMTD: false },
       { label: 'Mar',     start: '2026-03-01', end: '2026-03-31', isMTD: false },
+      { label: 'April',   start: '2026-04-01', end: '2026-04-30', isMTD: false },
       { label: 'May',     start: '2026-05-01', end: '2026-05-31', isMTD: false },
       { label: 'Jun MTD', start: '2026-06-01', end: '2026-06-30', isMTD: true  },
     ];
@@ -1358,7 +1359,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       navy:[11,17,32], navyMid:[17,27,50], slate:[28,38,60], slate2:[38,52,78], slate3:[52,68,98],
       cyan:[6,182,212], teal:[13,148,136], white:[255,255,255], offWhite:[220,230,245],
       muted:[110,128,160], green:[52,211,153], red:[248,113,113],
-      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[10,72,90]],
+      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[12,60,80],[10,72,90]],
     };
     try {
       const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'letter' });
@@ -1370,7 +1371,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · May · June MTD 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June MTD 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -1379,7 +1380,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
       const buildTable = (region) => {
         const facList = allFacilities.filter(f=>allWeeklyData.find(d=>d.facility===f)?.region===region).sort();
-        const COL_W = 11; const FAC_W = 32;
+        const COL_W = 9.5; const FAC_W = 31;
         const head = [
           [
             {content:region,rowSpan:2,styles:{valign:'middle',halign:'left',fillColor:C.slate,textColor:C.cyan,fontStyle:'bold',fontSize:8}},
