@@ -94,11 +94,11 @@ export default function App() {
 
   // Dynamically compute last 3 months from actual data
   const EXEC_MONTHS = [
-    { label: 'Jan',     start: '2026-01-01', end: '2026-01-31' },
-    { label: 'Feb',     start: '2026-02-01', end: '2026-02-28' },
-    { label: 'Mar',     start: '2026-03-01', end: '2026-03-31' },
-    { label: 'April',   start: '2026-04-01', end: '2026-04-30' },
-    { label: 'May MTD', start: '2026-05-01', end: '2026-05-31' },
+    { label: 'Jan',      start: '2026-01-01', end: '2026-01-31' },
+    { label: 'Feb',      start: '2026-02-01', end: '2026-02-28' },
+    { label: 'Mar',      start: '2026-03-01', end: '2026-03-31' },
+    { label: 'May',      start: '2026-05-01', end: '2026-05-31' },
+    { label: 'June MTD', start: '2026-06-01', end: '2026-06-30' },
   ];
 
   // Auth state
@@ -1341,8 +1341,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'Jan',     start: '2026-01-01', end: '2026-01-31', isMTD: false },
       { label: 'Feb',     start: '2026-02-01', end: '2026-02-28', isMTD: false },
       { label: 'Mar',     start: '2026-03-01', end: '2026-03-31', isMTD: false },
-      { label: 'Apr',     start: '2026-04-01', end: '2026-04-30', isMTD: false },
-      { label: 'May MTD', start: '2026-05-01', end: '2026-05-31', isMTD: true  },
+      { label: 'May',     start: '2026-05-01', end: '2026-05-31', isMTD: false },
+      { label: 'Jun MTD', start: '2026-06-01', end: '2026-06-30', isMTD: true  },
     ];
     const getFacData = (fac, dm) => {
       const rec = getMonthFinal(fac, dm.start, dm.end);
@@ -1370,7 +1370,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Jan - May MTD 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · May · June MTD 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
