@@ -7,6 +7,7 @@ import facilityDataJson from './facility_data.json';
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const ADMIN_PASSWORD      = 'WalkTalkWin';
 const MASTER_DOR_PASSWORD = 'StrongSteps';
+const RESOURCES_PIN       = '147320';
 const LEADERSHIP_EMAILS   = ['asha@spyglasshc.com', 'doug@spyglasshc.com'];
 const WEEKLY_REPORT_LINK  = 'https://forms.office.com/Pages/ResponsePage.aspx?id=GnwJbN56CESxFanmFuyVBuSsEiTDUNlHs0MWhL_En4tURFpRU0xLOTNUVllEQUZBQVJUUkVMMEVYTC4u';
 
@@ -180,7 +181,8 @@ export default function App() {
   const [reportGenerating,  setReportGenerating]  = useState(false);
   const [savedNarratives,   setSavedNarratives]   = useState({});
   const [narrativeLoading,  setNarrativeLoading]  = useState(false);
-  const [digestSending,     setDigestSending]     = useState(false);
+  const [resourcesAccess,    setResourcesAccess]    = useState(false);
+  const [resourcesPin,       setResourcesPin]       = useState('');
   const [scorecardOpen,     setScorecardOpen]     = useState(true);
   const [complianceOpen,    setComplianceOpen]    = useState(true);
   const [checkInData,       setCheckInData]       = useState([]);
@@ -1509,6 +1511,35 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     </div>
                   </div>
                 </button>
+                <button onClick={() => setLoginType('resources')} className="w-full p-6 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 border border-emerald-500/30 hover:border-emerald-500/50 rounded-2xl transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <div className="text-white font-bold">DOR Playbook & Resources</div>
+                      <div className="text-slate-400 text-sm">Clinical guides, protocols, forms</div>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            ) : loginType === 'resources' ? (
+              <div className="space-y-4">
+                <button type="button" onClick={() => { setLoginType(null); setResourcesPin(''); }}
+                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-2">
+                  <ArrowLeft className="w-4 h-4" /> Back
+                </button>
+                <h2 className="text-xl font-bold text-white">DOR Playbook & Resources</h2>
+                <p className="text-slate-400 text-sm">Enter the access code to continue.</p>
+                <input type="password" value={resourcesPin} onChange={e => setResourcesPin(e.target.value)}
+                  placeholder="Enter access code" autoComplete="current-password"
+                  className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400/50" />
+                <button onClick={() => {
+                  if (resourcesPin === RESOURCES_PIN) { setResourcesAccess(true); setLoginType(null); setResourcesPin(''); }
+                  else { alert('Incorrect access code'); setResourcesPin(''); }
+                }} className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-lg">
+                  Access Resources
+                </button>
               </div>
             ) : (
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
@@ -1534,6 +1565,76 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             )}
           </div>
         </div>
+      </div>
+    );
+  }
+
+  // ─── RESOURCES-ONLY VIEW ─────────────────────────────────────────────────────
+  if (resourcesAccess) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="fixed inset-0 opacity-20 pointer-events-none">
+          <div className="absolute inset-0" style={{ backgroundImage:'radial-gradient(circle at 2px 2px, rgba(100,200,255,0.3) 1px, transparent 0)', backgroundSize:'40px 40px' }}></div>
+        </div>
+        <header className="relative bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-2xl">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-gradient-to-br from-cyan-400 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
+                <Zap className="w-5 h-5 text-white" strokeWidth={2.5}/>
+              </div>
+              <div>
+                <span className="text-xl font-black bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">TheraScope</span>
+                <span className="text-slate-500 text-xs ml-2">DOR Playbook & Resources</span>
+              </div>
+            </div>
+            <button onClick={() => setResourcesAccess(false)}
+              className="flex items-center gap-2 text-slate-400 hover:text-white text-sm transition-colors">
+              <ArrowLeft className="w-4 h-4"/> Exit
+            </button>
+          </div>
+        </header>
+        <main className="max-w-5xl mx-auto px-6 py-10">
+          <div className="mb-8">
+            <h1 className="text-3xl font-black text-white mb-2">DOR Playbook</h1>
+            <p className="text-slate-400">Clinical guides, protocols, orientation materials, and reference forms.</p>
+          </div>
+          {resourceCategories.length > 0 ? resourceCategories.map(category => (
+            <div key={category.id} className="mb-8">
+              <h2 className="text-lg font-black text-cyan-300 uppercase tracking-wider mb-4">{category.name}</h2>
+              {category.description && <p className="text-slate-500 text-sm mb-4">{category.description}</p>}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {(category.files||[]).map((file,fi) => {
+                  const fileUrl = file.url || `/resources/${category.id}/${file.filename}`;
+                  return (
+                    <div key={fi} className="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-cyan-400/30 transition-all">
+                      <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <FileText className="w-4 h-4 text-cyan-400"/>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-white font-bold text-sm">{file.title || file.name}</div>
+                          {file.description && <div className="text-slate-500 text-xs mt-1 leading-relaxed">{file.description}</div>}
+                          <div className="flex gap-2 mt-3">
+                            <a href={fileUrl} target="_blank" rel="noopener noreferrer"
+                              className="px-3 py-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/30 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                              <ExternalLink className="w-3 h-3"/> View
+                            </a>
+                            <a href={fileUrl} download
+                              className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-lg text-xs font-bold transition-all flex items-center gap-1">
+                              <Download className="w-3 h-3"/> Download
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )) : (
+            <div className="text-center text-slate-500 py-20">Resources loading... make sure resources-config.json is deployed.</div>
+          )}
+        </main>
       </div>
     );
   }
