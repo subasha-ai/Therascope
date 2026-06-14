@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Printer, Check, Activity, TrendingUp, Search, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Star, TrendingDown, FileText, ExternalLink, DollarSign, ArrowLeft, Upload } from 'lucide-react';
+import { Printer, Check, Activity, TrendingUp, Search, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Star, TrendingDown, FileText, ExternalLink, DollarSign, ArrowLeft, Upload, X, Plus, Minus, Trash2 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import facilityDataJson from './facility_data.json';
@@ -1675,9 +1675,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
   };
 
   // ─── RESOURCES-ONLY VIEW ─────────────────────────────────────────────────────
-  if (resourcesAccess && showHEP) {
-    return <HEPGenerator onBack={() => setShowHEP(false)} />;
-  }
+
   if (resourcesAccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -1726,24 +1724,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               </div>
             </div>
           </div>
-          {/* Tools */}
-          <div className="mb-8">
-            <h2 className="text-lg font-black text-cyan-300 uppercase tracking-wider mb-4">Tools</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <button onClick={() => setShowHEP(true)}
-                className="text-left p-5 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 rounded-xl border border-teal-400/30 hover:border-teal-400/60 hover:bg-teal-500/20 transition-all group">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-                    <Printer className="w-6 h-6 text-white"/>
-                  </div>
-                  <div>
-                    <div className="text-white font-black text-base group-hover:text-teal-300 transition-colors">HEP Generator</div>
-                    <div className="text-slate-400 text-sm mt-0.5">Build & print home exercise programs — PT · OT · ST</div>
-                  </div>
-                </div>
-              </button>
-            </div>
-          </div>
+
           {githubResources.length > 0 ? githubResources.map(category => (
             <div key={category.id} className="mb-8">
               <h2 className="text-lg font-black text-cyan-300 uppercase tracking-wider mb-4">{category.name}</h2>
