@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, TrendingUp, Search, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Star, TrendingDown, FileText, ExternalLink, DollarSign, ArrowLeft, Upload } from 'lucide-react';
+import { Printer, Check, Activity, TrendingUp, Search, Download, CheckCircle, BarChart3, Users, Zap, PieChart, Building2, ChevronDown, ChevronUp, MapPin, Star, TrendingDown, FileText, ExternalLink, DollarSign, ArrowLeft, Upload } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import facilityDataJson from './facility_data.json';
@@ -90,7 +90,1050 @@ const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center'
 const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300';
 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
-export default function App() {
+export default 
+// ─── HEP GENERATOR ─────────────────────────────────────────────────────────
+
+const HEP_ANKLE_PUMPS = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="12" cy="42" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="19" y1="42" x2="60" y2="42" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="30" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="28" y2="54" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="78" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="78" y1="35" x2="88" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="80" y1="50" x2="90" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M81 35 L85 28 L89 35" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M83 50 L87 57 L91 50" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Pull toes up, then point down</text></svg>);
+const HEP_HEEL_SLIDES = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="12" cy="42" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="19" y1="42" x2="60" y2="42" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="30" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="28" y2="54" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="78" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="72" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="72" y1="30" x2="85" y2="42" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M62 50 Q72 58 73 32" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M70 33 L74 26 L78 33" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Slide heel toward you, then back</text></svg>);
+const HEP_QUAD_SETS = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="12" cy="42" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="19" y1="42" x2="60" y2="42" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="30" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="28" y2="54" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="78" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="38" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="80" y1="38" x2="90" y2="38" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="82" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="82" y1="50" x2="92" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="65" y1="38" x2="65" y2="46" stroke="#e07b3c" strokeWidth="2" strokeLinecap="round"/>
+<line x1="72" y1="38" x2="72" y2="46" stroke="#e07b3c" strokeWidth="2" strokeLinecap="round"/>
+<text x="79" y="42" fontSize="6" fill="#e07b3c" fontFamily="Arial">squeeze</text>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Tighten thigh, press knee down</text></svg>);
+const HEP_STRAIGHT_LEG_RAISE = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="12" cy="42" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="19" y1="42" x2="60" y2="42" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="30" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="28" y2="54" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="78" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="74" y2="52" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="22" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="80" y1="22" x2="90" y2="22" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M79 22 L83 14 L87 22" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Raise leg to 45°, toes up</text></svg>);
+const HEP_HIP_ABDUCTION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="12" cy="42" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="19" y1="42" x2="60" y2="42" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="30" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="42" x2="28" y2="54" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="78" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="80" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="76" y2="34" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="42" x2="76" y2="52" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="76" y1="34" x2="88" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M80 44 Q84 36 82 30" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M80 23 L88 27 L80 31" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Slide leg out to the side</text></svg>);
+const HEP_SEATED_MARCHING = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="46" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="32" y1="46" x2="70" y2="46" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="32" y1="46" x2="18" y2="68" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="18" y1="68" x2="18" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="68" y1="46" x2="82" y2="68" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="82" y1="68" x2="82" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="28" x2="32" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="28" x2="68" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="32" y1="46" x2="25" y2="30" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="25" y1="30" x2="25" y2="18" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M42 48 Q35 38 26 32" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M20 18 L24 12 L28 18" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Lift knee, lower, alternate</text></svg>);
+const HEP_SEATED_KNEE_EXTENSION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="46" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="32" y1="46" x2="70" y2="46" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="32" y1="46" x2="18" y2="68" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="18" y1="68" x2="18" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="68" y1="46" x2="82" y2="68" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="82" y1="68" x2="82" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="28" x2="32" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="28" x2="68" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="68" y1="46" x2="84" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="84" y1="28" x2="94" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M76 50 Q82 40 83 30" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M87 22 L94 26 L87 30" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Kick leg out straight, hold 3 sec</text></svg>);
+const HEP_SIT_TO_STAND = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="14" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="21" x2="50" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="32" y1="50" x2="68" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="38" y1="50" x2="28" y2="68" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="28" y1="68" x2="28" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="62" y1="50" x2="72" y2="68" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="72" y1="68" x2="72" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="32" x2="34" y2="46" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="32" x2="66" y2="46" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M46 14 L50 4 L54 14" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="82" textAnchor="middle" fontSize="6" fill="#1a5f5f" fontFamily="Arial">lean forward, push to stand</text></svg>);
+const HEP_CALF_RAISES = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="55" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="30" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="70" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="36" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="64" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="36" y1="82" x2="42" y2="72" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="64" y1="82" x2="58" y2="72" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M46 72 L50 60 L54 72" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<circle cx="40" cy="72" r="3" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="60" cy="72" r="3" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Rise onto toes, hold 3 sec</text></svg>);
+const HEP_HIP_EXTENSION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="55" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="30" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="70" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="36" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="64" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="32" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="58" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M50 65 Q42 74 34 78" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M26 79 L30 85 L34 79" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Kick leg back, keep back straight</text></svg>);
+const HEP_WRIST_FLEXION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="42" y="30" width="16" height="30" rx="6" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<rect x="40" y="60" width="20" height="15" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M46 14 L50 6 L54 14" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M46 20 L50 28 L54 20" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="82" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial">bend wrist up then down</text></svg>);
+const HEP_WRIST_CIRCLES = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="42" y="30" width="16" height="30" rx="6" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<rect x="40" y="60" width="20" height="15" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M64 12 A14 14 0 1 1 50 -2" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/><path d="M52 -6 L50 -2 L56 0" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Circle wrist slowly each direction</text></svg>);
+const HEP_FINGER_BENDS = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="38" y="42" width="24" height="18" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="41" y1="42" x2="41" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="47" y1="42" x2="47" y2="25" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="53" y1="42" x2="53" y2="25" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="59" y1="42" x2="59" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M38 46 Q30 44 32 54" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M41 28 Q36 36 41 42" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M59 28 Q64 36 59 42" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Curl fingers into a fist, open</text></svg>);
+const HEP_FINGER_SPREADS = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="38" y="42" width="24" height="18" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="41" y1="42" x2="41" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="47" y1="42" x2="47" y2="25" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="53" y1="42" x2="53" y2="25" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="59" y1="42" x2="59" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M38 46 Q30 44 32 54" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="41" y1="25" x2="36" y2="15" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="47" y1="23" x2="45" y2="12" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="53" y1="23" x2="55" y2="12" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="59" y1="25" x2="64" y2="15" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Spread fingers wide apart</text></svg>);
+const HEP_THUMB_OPPOSITION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="38" y="42" width="24" height="18" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="41" y1="42" x2="41" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="47" y1="42" x2="47" y2="25" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="53" y1="42" x2="53" y2="25" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="59" y1="42" x2="59" y2="28" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M38 46 Q30 44 32 54" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="32" cy="52" r="3" fill="#e07b3c" fillOpacity="0.3" stroke="#e07b3c" strokeWidth="1"/>
+<path d="M32 52 Q38 40 41 32" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Touch thumb to each fingertip</text></svg>);
+const HEP_FOREARM_ROTATION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="42" y="27" width="16" height="30" rx="6" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<rect x="40" y="57" width="20" height="15" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M36 35 A14 14 0 0 1 64 35" fill="none" stroke="#e07b3c" strokeWidth="1.5"/>
+<path d="M62 32 L64 35 L60 37" fill="none" stroke="#e07b3c" strokeWidth="1.5"/>
+<path d="M64 35 A14 14 0 0 1 36 35" fill="none" stroke="#e07b3c" strokeWidth="1.5"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Rotate palm up then palm down</text></svg>);
+const HEP_ELBOW_FLEXION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="40" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="28" x2="30" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="28" x2="58" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M30 44 Q22 36 28 22" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M22 23 L26 16 L30 23" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Bend elbow, bring hand to shoulder</text></svg>);
+const HEP_SHOULDER_FLEXION = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="55" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="30" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="70" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="36" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="64" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="30" y2="12" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M32 48 Q24 38 28 16" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M23 13 L27 6 L31 13" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Raise arm forward to shoulder height</text></svg>);
+const HEP_SHOULDER_SHRUGS = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="55" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="30" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="70" y2="50" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="36" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="55" x2="64" y2="82" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M22 32 L26 22 L30 32" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M70 32 L74 22 L78 32" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial">raise shoulders to ears, relax</text></svg>);
+const HEP_GRIP_STRENGTH = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><rect x="38" y="40" width="24" height="18" rx="4" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="41" y1="40" x2="41" y2="26" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="47" y1="40" x2="47" y2="23" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="53" y1="40" x2="53" y2="23" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="59" y1="40" x2="59" y2="26" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M38 44 Q30 42 32 52" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="50" cy="55" r="10" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<line x1="40" y1="50" x2="44" y2="48" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="60" y1="50" x2="56" y2="48" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Squeeze firmly, hold 3 sec</text></svg>);
+const HEP_CHIN_TUCK = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="25" cy="30" r="15" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="33" cy="26" r="1.5" fill="#1a5f5f"/>
+<line x1="37" y1="32" x2="40" y2="36" stroke="#1a5f5f" strokeWidth="1.2" strokeLinecap="round"/>
+<path d="M33 40 Q39 43 33 43" fill="none" stroke="#1a5f5f" strokeWidth="1.2"/>
+<line x1="25" y1="44" x2="25" y2="58" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="17" y1="44" x2="33" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M38 42 Q48 48 42 52" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M30 36 L22 40 L30 44" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="70" y="52" fontSize="6.5" fill="#e07b3c" fontFamily="Arial">tuck in</text>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Tuck chin in like making a double chin</text></svg>);
+const HEP_TONGUE_OUT = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="28" r="16" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="44" cy="25" r="1.8" fill="#1a5f5f"/>
+<circle cx="56" cy="25" r="1.8" fill="#1a5f5f"/>
+<line x1="50" y1="31" x2="50" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M44 38 Q50 43 56 38" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="43" x2="50" y2="58" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<ellipse cx="50" cy="60" rx="5" ry="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M46 64 L50 70 L54 64" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Extend tongue out as far as possible</text></svg>);
+const HEP_TONGUE_SIDE = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="28" r="16" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="44" cy="25" r="1.8" fill="#1a5f5f"/>
+<circle cx="56" cy="25" r="1.8" fill="#1a5f5f"/>
+<line x1="50" y1="31" x2="50" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M44 38 Q50 43 56 38" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="43" x2="50" y2="48" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="48" x2="68" y2="48" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<circle cx="70" cy="48" r="3" fill="none" stroke="#e07b3c" strokeWidth="1.5"/>
+<path d="M69 43 L75 47 L69 51" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M50 48 Q55 50 68 48" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Move tongue side to side</text></svg>);
+const HEP_LIP_ROUNDING = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="28" r="16" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="44" cy="25" r="1.8" fill="#1a5f5f"/>
+<circle cx="56" cy="25" r="1.8" fill="#1a5f5f"/>
+<line x1="50" y1="31" x2="50" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M44 38 Q50 43 56 38" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<ellipse cx="50" cy="42" rx="8" ry="6" fill="none" stroke="#e07b3c" strokeWidth="2"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">"O" shape then wide smile</text></svg>);
+const HEP_CHEEK_PUFF = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="28" r="16" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="44" cy="25" r="1.8" fill="#1a5f5f"/>
+<circle cx="56" cy="25" r="1.8" fill="#1a5f5f"/>
+<line x1="50" y1="31" x2="50" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M44 38 Q50 43 56 38" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<ellipse cx="32" cy="38" rx="10" ry="7" fill="#e07b3c" fillOpacity="0.15" stroke="#e07b3c" strokeWidth="1.5"/>
+<ellipse cx="68" cy="38" rx="10" ry="7" fill="#e07b3c" fillOpacity="0.15" stroke="#e07b3c" strokeWidth="1.5"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Puff cheeks with air, hold 5 sec</text></svg>);
+const HEP_EFFORTFUL_SWALLOW = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="25" cy="30" r="15" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="33" cy="26" r="1.5" fill="#1a5f5f"/>
+<line x1="37" y1="32" x2="40" y2="36" stroke="#1a5f5f" strokeWidth="1.2" strokeLinecap="round"/>
+<path d="M33 40 Q39 43 33 43" fill="none" stroke="#1a5f5f" strokeWidth="1.2"/>
+<line x1="25" y1="44" x2="25" y2="58" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="17" y1="44" x2="33" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="25" y1="44" x2="25" y2="65" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<ellipse cx="25" cy="52" rx="6" ry="4" fill="none" stroke="#e07b3c" strokeWidth="1.5"/>
+<path d="M21 52 L25 60 L29 52" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Swallow as hard as you can</text></svg>);
+const HEP_SHAKER = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="16" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="23" x2="86" y2="23" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="23" x2="50" y2="8" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M50 6 Q42 16 50 22" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M46 6 L50 2 L54 6" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Lift head, chin to chest, hold 60 sec</text></svg>);
+const HEP_JAW_OPENING = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="25" cy="30" r="15" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="33" cy="26" r="1.5" fill="#1a5f5f"/>
+<line x1="37" y1="32" x2="40" y2="36" stroke="#1a5f5f" strokeWidth="1.2" strokeLinecap="round"/>
+<path d="M33 40 Q39 43 33 43" fill="none" stroke="#1a5f5f" strokeWidth="1.2"/>
+<line x1="25" y1="44" x2="25" y2="58" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="17" y1="44" x2="33" y2="44" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M20 42 Q18 52 22 60" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M28 42 Q30 52 26 60" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M20 60 L24 66 L28 60" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Open jaw wide, hold 5 sec</text></svg>);
+const HEP_DEEP_BREATHING = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="10" r="7" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<line x1="50" y1="17" x2="50" y2="52" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="30" y2="48" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="30" x2="70" y2="48" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="52" x2="38" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<line x1="50" y1="52" x2="62" y2="80" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<ellipse cx="50" cy="38" rx="14" ry="10" fill="#e07b3c" fillOpacity="0.12" stroke="#e07b3c" strokeWidth="1.5" strokeDasharray="3,2"/>
+<path d="M46 30 L50 24 L54 30" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<path d="M46 44 L50 50 L54 44" fill="none" stroke="#e07b3c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Breathe in deeply, exhale slowly</text></svg>);
+const HEP_VOCAL_LOUDNESS = () => (<svg viewBox="0 0 100 90" style={{width:'100%',height:'100%'}}><circle cx="50" cy="28" r="16" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<circle cx="44" cy="25" r="1.8" fill="#1a5f5f"/>
+<circle cx="56" cy="25" r="1.8" fill="#1a5f5f"/>
+<line x1="50" y1="31" x2="50" y2="35" stroke="#1a5f5f" strokeWidth="1.5" strokeLinecap="round"/>
+<path d="M44 38 Q50 43 56 38" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M42 43 Q50 52 58 43" fill="none" stroke="#1a5f5f" strokeWidth="1.5"/>
+<path d="M38 48 Q50 60 62 48" fill="none" stroke="#e07b3c" strokeWidth="1.5"/>
+<path d="M62 48 L68 44" stroke="#e07b3c" strokeWidth="1.2"/>
+<path d="M65 50 L72 48" stroke="#e07b3c" strokeWidth="1.2"/>
+<path d="M65 52 L70 53" stroke="#e07b3c" strokeWidth="1.2"/>
+<text x="50" y="85" textAnchor="middle" fontSize="6.5" fill="#1a5f5f" fontFamily="Arial,sans-serif">Say "AH" loudly for 5 seconds</text></svg>);
+
+const HEP_EXERCISES = [
+  { id:'ankle-pumps', name:'Ankle Pumps', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'3x daily', instructions:'Lying back: pull toes toward you, then point away. Alternate in a pumping motion.', SVG:HEP_ANKLE_PUMPS },
+  { id:'heel-slides', name:'Heel Slides', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Lying back: slowly slide your heel toward your buttocks bending the knee, then return.', SVG:HEP_HEEL_SLIDES },
+  { id:'quad-sets', name:'Quad Sets', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'3x daily', instructions:'Lying flat: tighten your thigh muscle and press the back of your knee down. Hold 5 seconds.', SVG:HEP_QUAD_SETS },
+  { id:'straight-leg-raise', name:'Straight Leg Raise', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Tighten quad, lift straight leg to 45°, hold 3 seconds, lower slowly.', SVG:HEP_STRAIGHT_LEG_RAISE },
+  { id:'hip-abduction', name:'Hip Abduction', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Lying back: slide your leg out to the side, then back to center. Keep toes pointing up.', SVG:HEP_HIP_ABDUCTION },
+  { id:'seated-marching', name:'Seated Marching', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Seated: alternate lifting your knees as if marching in place. Keep back straight.', SVG:HEP_SEATED_MARCHING },
+  { id:'seated-knee-extension', name:'Seated Knee Extension', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Seated: kick one leg out straight, hold 3 seconds, lower slowly. Alternate legs.', SVG:HEP_SEATED_KNEE_EXTENSION },
+  { id:'sit-to-stand', name:'Sit to Stand', discipline:'PT', category:'Functional', sets:3, reps:8, freq:'3x daily', instructions:'Scoot to edge of chair, lean forward, push through your feet to stand. Use arms if needed.', SVG:HEP_SIT_TO_STAND },
+  { id:'calf-raises', name:'Calf Raises', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Standing at counter: rise up on your toes, hold 3 seconds, lower slowly.', SVG:HEP_CALF_RAISES },
+  { id:'hip-extension', name:'Standing Hip Extension', discipline:'PT', category:'Lower Body', sets:3, reps:10, freq:'2x daily', instructions:'Standing at counter: kick one leg back, keep leg straight and back upright. Hold 2 seconds.', SVG:HEP_HIP_EXTENSION },
+  { id:'wrist-flexion', name:'Wrist Flexion & Extension', discipline:'OT', category:'Hand/Wrist', sets:3, reps:10, freq:'3x daily', instructions:'Support your forearm. Bend wrist up as far as comfortable, then down. Move slowly through range.', SVG:HEP_WRIST_FLEXION },
+  { id:'wrist-circles', name:'Wrist Circles', discipline:'OT', category:'Hand/Wrist', sets:3, reps:10, freq:'2x daily', instructions:'Support forearm, relax hand. Rotate wrist in slow circles — 5 each direction.', SVG:HEP_WRIST_CIRCLES },
+  { id:'finger-bends', name:'Finger Bends', discipline:'OT', category:'Hand/Wrist', sets:3, reps:10, freq:'3x daily', instructions:'Start with fingers straight. Slowly curl into a fist, hold 3 seconds, then open fully.', SVG:HEP_FINGER_BENDS },
+  { id:'finger-spreads', name:'Finger Spreads', discipline:'OT', category:'Hand/Wrist', sets:3, reps:10, freq:'3x daily', instructions:'Hold hand flat. Spread fingers as wide as possible, hold 3 seconds, then bring together.', SVG:HEP_FINGER_SPREADS },
+  { id:'thumb-opposition', name:'Thumb Opposition', discipline:'OT', category:'Hand/Wrist', sets:3, reps:5, freq:'3x daily', instructions:'Touch your thumb to each fingertip one at a time. Go back and forth across all fingers.', SVG:HEP_THUMB_OPPOSITION },
+  { id:'forearm-rotation', name:'Forearm Rotation', discipline:'OT', category:'Elbow/Forearm', sets:3, reps:10, freq:'2x daily', instructions:'Elbow at your side, bent 90°. Rotate forearm palm up, then palm down slowly.', SVG:HEP_FOREARM_ROTATION },
+  { id:'elbow-flexion', name:'Elbow Flexion', discipline:'OT', category:'Elbow/Forearm', sets:3, reps:10, freq:'2x daily', instructions:'Start with arm at side. Bend elbow, bring hand toward shoulder, lower slowly.', SVG:HEP_ELBOW_FLEXION },
+  { id:'shoulder-flexion', name:'Shoulder Flexion', discipline:'OT', category:'Shoulder', sets:3, reps:10, freq:'2x daily', instructions:'Standing or seated: raise arm forward to shoulder height (or comfortable range). Lower slowly.', SVG:HEP_SHOULDER_FLEXION },
+  { id:'shoulder-shrugs', name:'Shoulder Shrugs', discipline:'OT', category:'Shoulder', sets:3, reps:10, freq:'3x daily', instructions:'Raise both shoulders up toward your ears, hold 3 seconds, then relax them down.', SVG:HEP_SHOULDER_SHRUGS },
+  { id:'grip-strength', name:'Grip Strengthening', discipline:'OT', category:'Hand/Wrist', sets:3, reps:10, freq:'3x daily', instructions:'Squeeze a soft ball or rolled towel as firmly as comfortable. Hold 5 seconds, release.', SVG:HEP_GRIP_STRENGTH },
+  { id:'chin-tuck', name:'Chin Tuck', discipline:'ST', category:'Swallowing', sets:3, reps:10, freq:'3x daily', instructions:'Tuck your chin straight back (making a double chin). Hold 5 seconds. Do not tilt head down.', SVG:HEP_CHIN_TUCK },
+  { id:'tongue-out', name:'Tongue Protrusion', discipline:'ST', category:'Oral Motor', sets:3, reps:10, freq:'3x daily', instructions:'Stick your tongue out as far as possible, hold 5 seconds, then relax.', SVG:HEP_TONGUE_OUT },
+  { id:'tongue-side', name:'Tongue Lateralization', discipline:'ST', category:'Oral Motor', sets:3, reps:10, freq:'3x daily', instructions:'Move your tongue from corner to corner of your mouth. Touch each cheek from the inside.', SVG:HEP_TONGUE_SIDE },
+  { id:'lip-rounding', name:'Lip Exercises', discipline:'ST', category:'Oral Motor', sets:3, reps:10, freq:'3x daily', instructions:'Round lips to say "O", hold 3 seconds. Then stretch wide to say "EE". Alternate.', SVG:HEP_LIP_ROUNDING },
+  { id:'cheek-puff', name:'Cheek Puffing', discipline:'ST', category:'Oral Motor', sets:3, reps:10, freq:'3x daily', instructions:'Take a breath, puff both cheeks with air, hold 5 seconds. Release slowly.', SVG:HEP_CHEEK_PUFF },
+  { id:'effortful-swallow', name:'Effortful Swallow', discipline:'ST', category:'Swallowing', sets:3, reps:10, freq:'3x daily', instructions:'Swallow as hard as you possibly can, squeezing all your throat muscles tightly.', SVG:HEP_EFFORTFUL_SWALLOW },
+  { id:'shaker', name:'Shaker Exercise', discipline:'ST', category:'Swallowing', sets:3, reps:3, freq:'2x daily', instructions:'Lying flat: raise only your head to look at your toes. Hold 60 seconds (or as tolerated). Do not raise your shoulders.', SVG:HEP_SHAKER },
+  { id:'jaw-opening', name:'Jaw Opening', discipline:'ST', category:'Oral Motor', sets:3, reps:10, freq:'2x daily', instructions:'Open your mouth as wide as possible. Hold 5 seconds, then close gently.', SVG:HEP_JAW_OPENING },
+  { id:'deep-breathing', name:'Deep Breathing / Breath Support', discipline:'ST', category:'Voice/Breath', sets:3, reps:10, freq:'3x daily', instructions:'Breathe in slowly through your nose for 4 counts. Hold 2 counts. Exhale through mouth for 4 counts.', SVG:HEP_DEEP_BREATHING },
+  { id:'vocal-loudness', name:'Vocal Loudness', discipline:'ST', category:'Voice/Breath', sets:3, reps:5, freq:'3x daily', instructions:'Say "AH" as loudly as you comfortably can for 5 seconds. Project your voice like you are calling across a room.', SVG:HEP_VOCAL_LOUDNESS },
+];
+
+
+const HEPGenerator = ({ onBack }) => {
+  const [disc, setDisc] = React.useState('PT');
+  const [selected, setSelected] = React.useState({});
+
+  const toggle = (id) => {
+    setSelected(prev => {
+      const next = {...prev};
+      if (next[id]) delete next[id];
+      else next[id] = { sets: HEP_EXERCISES.find(e=>e.id===id).sets, reps: HEP_EXERCISES.find(e=>e.id===id).reps, freq: HEP_EXERCISES.find(e=>e.id===id).freq };
+      return next;
+    });
+  };
+
+  const update = (id, field, val) => setSelected(prev => ({...prev, [id]: {...prev[id], [field]: val}}));
+
+  const selectedList = Object.keys(selected).map(id => ({...HEP_EXERCISES.find(e=>e.id===id), ...selected[id]}));
+
+  const handlePrint = () => {
+    const printEl = document.getElementById('hep-print-area');
+    if (!printEl) return;
+    const w = window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>Home Exercise Program</title>
+    <style>
+      body{font-family:Arial,sans-serif;margin:0;padding:16px;color:#1a1a2e;background:#fff}
+      .header{display:flex;align-items:center;gap:12px;border-bottom:2px solid #0D9488;padding-bottom:12px;margin-bottom:16px}
+      .logo{background:linear-gradient(135deg,#06B6D4,#0D9488);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:18px}
+      h1{margin:0;font-size:18px;color:#0D9488}
+      .subtitle{margin:2px 0 0;font-size:11px;color:#64748b}
+      .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+      .card{border:1px solid #e2e8f0;border-radius:10px;padding:12px;break-inside:avoid}
+      .card-title{font-weight:700;font-size:13px;color:#1a5f5f;margin-bottom:4px}
+      .dosage{font-size:11px;color:#0D9488;font-weight:600;margin-bottom:6px}
+      .instr{font-size:11px;color:#334155;line-height:1.5}
+      svg{width:90px;height:70px;float:right;margin:-4px -4px 4px 8px}
+      .footer{margin-top:20px;border-top:1px solid #e2e8f0;padding-top:8px;font-size:9px;color:#94a3b8;text-align:center}
+      @media print{body{padding:8px}.grid{gap:10px}}
+    </style></head><body>${printEl.innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(()=>{w.print();w.close();},400);
+  };
+
+  const filtered = HEP_EXERCISES.filter(e => e.discipline === disc);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="fixed inset-0 opacity-20 pointer-events-none">
+        <div className="absolute inset-0" style={{backgroundImage:'radial-gradient(circle at 2px 2px, rgba(100,200,255,0.3) 1px, transparent 0)',backgroundSize:'40px 40px'}}></div>
+      </div>
+      <header className="relative bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 shadow-2xl">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button onClick={onBack} className="flex items-center gap-2 text-slate-400 hover:text-white text-sm transition-colors">
+              <ArrowLeft className="w-4 h-4"/> Resources
+            </button>
+            <span className="text-slate-600">/</span>
+            <span className="text-white font-bold">HEP Generator</span>
+          </div>
+          <button onClick={handlePrint}
+            disabled={selectedList.length === 0}
+            className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg text-sm">
+            <Printer className="w-4 h-4"/> Print HEP ({selectedList.length})
+          </button>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-6 py-8 flex gap-6">
+        {/* Exercise Library */}
+        <div className="flex-1 min-w-0">
+          <div className="mb-5">
+            <h2 className="text-2xl font-black text-white mb-1">Exercise Library</h2>
+            <p className="text-slate-400 text-sm">Select exercises to add to the HEP. Click to add, click again to remove.</p>
+          </div>
+          {/* Discipline tabs */}
+          <div className="flex gap-2 mb-5">
+            {['PT','OT','ST'].map(d => (
+              <button key={d} onClick={() => setDisc(d)}
+                className={`px-5 py-2 rounded-xl font-bold text-sm transition-all ${disc===d ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg' : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white border border-white/10'}`}>
+                {d === 'PT' ? 'Physical Therapy' : d === 'OT' ? 'Occupational Therapy' : 'Speech Therapy'}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {filtered.map(ex => {
+              const isSelected = !!selected[ex.id];
+              return (
+                <button key={ex.id} onClick={() => toggle(ex.id)}
+                  className={`text-left p-4 rounded-2xl border transition-all ${isSelected ? 'bg-teal-500/20 border-teal-400/60 ring-1 ring-teal-400/40' : 'bg-white/5 border-white/10 hover:border-teal-400/30 hover:bg-white/10'}`}>
+                  <div className="flex gap-3 items-start">
+                    <div className="w-16 h-14 flex-shrink-0 bg-white rounded-xl overflow-hidden flex items-center justify-center p-1">
+                      <ex.SVG />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className={`font-bold text-sm ${isSelected ? 'text-teal-300' : 'text-white'}`}>{ex.name}</div>
+                      <div className="text-slate-500 text-xs mt-0.5">{ex.category}</div>
+                      <div className="text-slate-500 text-xs mt-1">{ex.sets}×{ex.reps} · {ex.freq}</div>
+                    </div>
+                    {isSelected && <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center flex-shrink-0"><Check className="w-3 h-3 text-white"/></div>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Selected HEP */}
+        <div className="w-80 flex-shrink-0">
+          <div className="sticky top-24">
+            <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
+              <div className="p-4 border-b border-white/10 bg-white/5">
+                <h3 className="text-white font-black">Current HEP</h3>
+                <p className="text-slate-500 text-xs mt-0.5">{selectedList.length} exercise{selectedList.length!==1?'s':''} selected</p>
+              </div>
+              {selectedList.length === 0 ? (
+                <div className="p-8 text-center text-slate-600 text-sm">
+                  <FileText className="w-8 h-8 mx-auto mb-2 opacity-30"/>
+                  Select exercises from the library to build the HEP
+                </div>
+              ) : (
+                <div className="max-h-[60vh] overflow-y-auto">
+                  {selectedList.map(ex => (
+                    <div key={ex.id} className="p-3 border-b border-white/5 hover:bg-white/5 transition-all">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white text-xs font-bold">{ex.name}</span>
+                        <button onClick={() => toggle(ex.id)} className="text-slate-600 hover:text-rose-400 transition-colors">
+                          <X className="w-3.5 h-3.5"/>
+                        </button>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="flex-1">
+                          <div className="text-slate-600 text-xs mb-1">Sets</div>
+                          <input type="number" min="1" max="10" value={ex.sets}
+                            onChange={e => update(ex.id,'sets',parseInt(e.target.value)||1)}
+                            className="w-full bg-white/10 border border-white/10 rounded-lg px-2 py-1 text-white text-xs text-center focus:outline-none focus:border-teal-400/50"/>
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-slate-600 text-xs mb-1">Reps</div>
+                          <input type="number" min="1" max="30" value={ex.reps}
+                            onChange={e => update(ex.id,'reps',parseInt(e.target.value)||1)}
+                            className="w-full bg-white/10 border border-white/10 rounded-lg px-2 py-1 text-white text-xs text-center focus:outline-none focus:border-teal-400/50"/>
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-slate-600 text-xs mb-1">Freq</div>
+                          <select value={ex.freq} onChange={e => update(ex.id,'freq',e.target.value)}
+                            className="w-full bg-slate-800 border border-white/10 rounded-lg px-1 py-1 text-white text-xs focus:outline-none focus:border-teal-400/50">
+                            {['1x daily','2x daily','3x daily','4x daily','Every other day','As needed'].map(f=><option key={f}>{f}</option>)}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hidden print area */}
+      <div id="hep-print-area" style={{display:'none'}}>
+        <div className="header">
+          <div className="logo">S</div>
+          <div>
+            <h1>Home Exercise Program</h1>
+            <p className="subtitle">Spyglass Healthcare · Therapy Department · therascope-insights.vercel.app</p>
+          </div>
+        </div>
+        <div className="grid">
+          {selectedList.map(ex => (
+            <div key={ex.id} className="card">
+              <div style={{float:'right',width:'80px',height:'64px',marginLeft:'8px',background:'white',borderRadius:'6px',overflow:'hidden',display:'flex',alignItems:'center',justifyContent:'center',padding:'2px'}}>
+                <ex.SVG />
+              </div>
+              <div className="card-title">{ex.name}</div>
+              <div className="dosage">{ex.sets} sets × {ex.reps} reps · {ex.freq}</div>
+              <div className="instr">{ex.instructions}</div>
+              <div style={{clear:'both'}}/>
+            </div>
+          ))}
+        </div>
+        <div className="footer">Generated by Therascope · Spyglass Healthcare Therapy · therascope-insights.vercel.app</div>
+      </div>
+    </div>
+  );
+};
+
+
+
+
+
+const T = "#0D9488";   // teal - figure color
+const O = "#E07B3C";   // orange - arrow color
+const SW = 2.8;        // strokeWidth
+
+// ── Arrow helper ──────────────────────────────────────────────────────────────
+const Arrow = ({ x1,y1,x2,y2,color=O }) => {
+  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy);
+  const ux=dx/len, uy=dy/len;
+  const hx=x2-ux*7, hy=y2-uy*7;
+  const lx=-uy*3.5, ly=ux*3.5;
+  return (
+    <g stroke={color} fill={color} strokeWidth={1.5} strokeLinecap="round">
+      <line x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={2}/>
+      <polygon points={`${x2},${y2} ${hx+lx},${hy+ly} ${hx-lx},${hy-ly}`}/>
+    </g>
+  );
+};
+
+// ── Stick figures ──────────────────────────────────────────────────────────────
+const SupineFig = ({arrows=[]}) => (
+  <svg viewBox="0 0 130 90" className="w-full h-full">
+    {/* lying body */}
+    <circle cx="20" cy="45" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="29" y1="45" x2="80" y2="45" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* arms */}
+    <line x1="50" y1="45" x2="50" y2="28" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="60" y1="45" x2="62" y2="28" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* legs */}
+    <line x1="80" y1="45" x2="110" y2="38" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="80" y1="45" x2="110" y2="52" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const StandFig = ({arrows=[],legL=null,legR=null,armL=null,armR=null}) => (
+  <svg viewBox="0 0 130 130" className="w-full h-full">
+    <circle cx="65" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="65" y1="23" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="42" y1="38" x2={armL?armL.x:28} y2={armL?armL.y:58} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="88" y1="38" x2={armR?armR.x:102} y2={armR?armR.y:58} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="65" x2={legL?legL.x:50} y2={legL?legL.y:105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="65" x2={legR?legR.x:80} y2={legR?legR.y:105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* feet */}
+    <line x1={legL?legL.x:50} y1={legL?legL.y:105} x2={legL?(legL.x-5):(44)} y2={legL?legL.y:108} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1={legR?legR.x:80} y1={legR?legR.y:105} x2={legR?(legR.x+5):87} y2={legR?legR.y:108} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const SeatedFig = ({arrows=[],legAngle=0}) => (
+  <svg viewBox="0 0 130 130" className="w-full h-full">
+    {/* chair */}
+    <line x1="30" y1="70" x2="100" y2="70" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    <line x1="30" y1="70" x2="30" y2="110" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    <line x1="100" y1="70" x2="100" y2="110" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    <line x1="25" y1="45" x2="25" y2="75" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    {/* person */}
+    <circle cx="65" cy="20" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="65" y1="29" x2="65" y2="70" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="42" y1="44" x2="28" y2="60" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="88" y1="44" x2="102" y2="60" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* thigh */}
+    <line x1="50" y1="70" x2="32" y2="70" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="80" y1="70" x2="98" y2="70" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* lower legs */}
+    <line x1="32" y1="70" x2={legAngle?32+Math.sin(legAngle)*35:32} y2={legAngle?70+Math.cos(legAngle)*35:105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="98" y1="70" x2={98} y2={105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const HandFig = ({arrows=[]}) => (
+  <svg viewBox="0 0 130 110" className="w-full h-full">
+    <line x1="65" y1="95" x2="65" y2="60" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+    <line x1="65" y1="60" x2="48" y2="25" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="62" x2="55" y2="22" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="62" x2="65" y2="20" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="62" x2="75" y2="22" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="63" x2="80" y2="30" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="70" x2="45" y2="55" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const HeadFig = ({arrows=[]}) => (
+  <svg viewBox="0 0 130 130" className="w-full h-full">
+    <circle cx="65" cy="40" r="28" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="55" y1="50" x2="75" y2="50" stroke={T} strokeWidth={2} strokeLinecap="round"/>
+    <line x1="57" y1="42" x2="57" y2="48" stroke={T} strokeWidth={2} strokeLinecap="round"/>
+    <line x1="73" y1="42" x2="73" y2="48" stroke={T} strokeWidth={2} strokeLinecap="round"/>
+    <line x1="65" y1="68" x2="65" y2="90" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="78" x2="45" y2="90" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="78" x2="85" y2="90" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const MouthFig = ({arrows=[], open=false}) => (
+  <svg viewBox="0 0 130 100" className="w-full h-full">
+    <circle cx="65" cy="50" r="32" stroke={T} fill="none" strokeWidth={SW}/>
+    <circle cx="53" cy="42" r="4" stroke={T} fill="none" strokeWidth={2}/>
+    <circle cx="77" cy="42" r="4" stroke={T} fill="none" strokeWidth={2}/>
+    {open
+      ? <path d="M45 60 Q65 80 85 60" stroke={T} fill="none" strokeWidth={SW} strokeLinecap="round"/>
+      : <line x1="48" y1="65" x2="82" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    }
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+// ── Exercise library ──────────────────────────────────────────────────────────
+const EXERCISES = [
+  // ── PT ─────────────────────────────────────────────────────────────────────
+  {
+    id:'pt1',disc:'PT',cat:'Lower Body',name:'Ankle Pumps',
+    desc:'Pump your foot up and down at the ankle. Keep your knee straight.',
+    svg:<SupineFig arrows={[{x1:112,y1:50,x2:112,y2:30},{x1:112,y1:50,x2:112,y2:70}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'pt2',disc:'PT',cat:'Lower Body',name:'Heel Slides',
+    desc:'Slide your heel toward your buttocks, bending your knee. Slowly straighten.',
+    svg:<SupineFig arrows={[{x1:108,y1:38,x2:85,y2:30}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt3',disc:'PT',cat:'Lower Body',name:'Quad Sets',
+    desc:'Tighten your thigh muscle by pressing the back of your knee down into the bed.',
+    svg:<SupineFig arrows={[{x1:90,y1:35,x2:90,y2:52}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'pt4',disc:'PT',cat:'Lower Body',name:'Straight Leg Raise',
+    desc:'Tighten your quad, then raise your leg 12 inches off the surface. Hold 3 seconds.',
+    svg:<SupineFig arrows={[{x1:110,y1:50,x2:105,y2:28}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt5',disc:'PT',cat:'Lower Body',name:'Hip Abduction (Supine)',
+    desc:'Slide your leg out to the side, keeping your toes pointed up. Return to center.',
+    svg:<SupineFig arrows={[{x1:110,y1:38,x2:124,y2:28}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt6',disc:'PT',cat:'Lower Body',name:'Seated Knee Extension',
+    desc:'While seated, slowly straighten your knee until your leg is as straight as possible.',
+    svg:<SeatedFig arrows={[{x1:32,y1:88,x2:32,y2:60}]} legAngle={-0.5}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt7',disc:'PT',cat:'Lower Body',name:'Sit to Stand',
+    desc:'Scoot to the edge of the chair. Lean forward, push through your hands, and stand.',
+    svg:<svg viewBox="0 0 130 130" className="w-full h-full">
+      {/* seated ghost */}
+      <circle cx="30" cy="25" r="7" stroke={T} fill="none" strokeWidth={2} opacity={0.3}/>
+      <line x1="30" y1="32" x2="30" y2="60" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="18" y1="46" x2="10" y2="58" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="42" y1="46" x2="50" y2="58" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="22" y1="60" x2="15" y2="80" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="38" y1="60" x2="44" y2="80" stroke={T} strokeWidth={2} opacity={0.3}/>
+      {/* chair */}
+      <line x1="10" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth={2}/>
+      {/* standing */}
+      <circle cx="95" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+      <line x1="95" y1="23" x2="95" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="72" y1="38" x2="58" y2="58" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="118" y1="38" x2="112" y2="58" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="95" y1="65" x2="80" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="95" y1="65" x2="110" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <Arrow x1={60} y1={50} x2={75} y2={28}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'pt8',disc:'PT',cat:'Lower Body',name:'Calf Raises',
+    desc:'Stand at counter. Rise up on your toes as high as possible. Slowly lower.',
+    svg:<StandFig arrows={[{x1:65,y1:110,x2:65,y2:92}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt9',disc:'PT',cat:'Lower Body',name:'Standing Hip Extension',
+    desc:'Hold counter. Kick one leg back, keeping your knee straight. Hold 2 seconds.',
+    svg:<StandFig legL={{x:50,y:105}} legR={{x:90,y:90}} arrows={[{x1:90,y1:90,x2:100,y2:75}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt10',disc:'PT',cat:'Lower Body',name:'Marching in Place',
+    desc:'Hold counter for balance. Alternate lifting your knees to hip height.',
+    svg:<StandFig legL={{x:50,y:80}} legR={{x:80,y:105}} arrows={[{x1:50,y1:80,x2:50,y2:62}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },
+  // ── OT ─────────────────────────────────────────────────────────────────────
+  {
+    id:'ot1',disc:'OT',cat:'Hand & Wrist',name:'Wrist Flexion & Extension',
+    desc:'Rest your forearm on a table. Bend your wrist up, then down. Move through full range.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="20" y1="65" x2="75" y2="65" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <line x1="75" y1="65" x2="110" y2="45" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={108} y1={45} x2={108} y2={25}/><Arrow x1={108} y1={45} x2={108} y2={72}/>
+      <line x1="12" y1="70" x2="12" y2="80" stroke="#475569" strokeWidth={2}/>
+      <line x1="0" y1="80" x2="130" y2="80" stroke="#475569" strokeWidth={2}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot2',disc:'OT',cat:'Hand & Wrist',name:'Wrist Circles',
+    desc:'Make slow, large circles with your wrist. Complete in both directions.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="20" y1="75" x2="65" y2="75" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <circle cx="90" cy="55" r="22" stroke={O} fill="none" strokeWidth={2} strokeDasharray="5,3"/>
+      <line x1="65" y1="75" x2="90" y2="55" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={90} y1={33} x2={110} y2={40}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot3',disc:'OT',cat:'Hand & Wrist',name:'Finger Bends',
+    desc:'Slowly curl all your fingers into a fist, then straighten them fully.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="95" x2="65" y2="62" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <line x1="65" y1="62" x2="55" y2="42" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="60" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="65" y2="38" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="70" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="78" y2="50" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="48" y2="60" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={55} y1={38} x2={60} y2={55}/><Arrow x1={78} y1={46} x2={73} y2={58}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot4',disc:'OT',cat:'Hand & Wrist',name:'Finger Spreads',
+    desc:'Spread your fingers as wide as you can, then bring them back together.',
+    svg:<HandFig arrows={[{x1:48,y1:22,x2:38,y2:14},{x1:80,y1:27,x2:90,y2:18}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot5',disc:'OT',cat:'Hand & Wrist',name:'Thumb Opposition',
+    desc:'Touch your thumb to each fingertip one at a time, making an "O" shape.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="95" x2="65" y2="62" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <line x1="65" y1="62" x2="55" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="62" y2="38" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="68" y2="38" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="76" y2="42" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="48" y2="58" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <ellipse cx="52" cy="48" rx="7" ry="7" stroke={O} fill="none" strokeWidth={2}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot6',disc:'OT',cat:'Hand & Wrist',name:'Grip Strengthening',
+    desc:'Squeeze a soft ball or towel roll as hard as comfortable. Hold 3 seconds, release.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="95" x2="65" y2="60" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <circle cx="65" cy="45" r="18" stroke={O} fill="none" strokeWidth={2} strokeDasharray="4,3"/>
+      <line x1="65" y1="60" x2="52" y2="52" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="60" x2="48" y2="47" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="60" x2="50" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="60" x2="55" y2="34" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={48} y1={47} x2={55} y2={50}/><Arrow x1={50} y1={40} x2={57} y2={45}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot7',disc:'OT',cat:'Arm & Shoulder',name:'Elbow Flexion & Extension',
+    desc:'Bend your elbow to bring your hand to your shoulder, then straighten completely.',
+    svg:<svg viewBox="0 0 130 130" className="w-full h-full">
+      <circle cx="65" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+      <line x1="65" y1="23" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="80" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="50" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="42" y1="38" x2="22" y2="55" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="88" y1="38" x2="108" y2="38" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="108" y1="38" x2="88" y2="55" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={88} y1={38} x2={88} y2={22}/><Arrow x1={88} y1={55} x2={88} y2={70}/>
+    </svg>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'ot8',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Flexion',
+    desc:'Raise your arm straight in front of you to shoulder height. Slowly lower.',
+    svg:<StandFig armR={{x:102,y:20}} arrows={[{x1:100,y1:22,x2:88,y2:38}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'ot9',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Abduction',
+    desc:'Raise your arm out to the side to shoulder height, keeping your elbow straight.',
+    svg:<StandFig armR={{x:120,y:40}} arrows={[{x1:118,y1:42,x2:102,y2:42}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'ot10',disc:'OT',cat:'Arm & Shoulder',name:'Forearm Rotation',
+    desc:'Keep your elbow at your side. Rotate your palm to face up, then down.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="20" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="40" y2="85" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="28" y2="78" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="32" y2="90" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="38" y2="93" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="44" y2="93" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="50" y2="90" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <Arrow x1={75} y1={65} x2={88} y2={72}/><Arrow x1={88} y1={72} x2={78} y2={82}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },
+  // ── ST ─────────────────────────────────────────────────────────────────────
+  {
+    id:'st1',disc:'ST',cat:'Swallowing',name:'Chin Tuck Swallow',
+    desc:'Tuck your chin to your chest before and during each swallow. This protects the airway.',
+    svg:<HeadFig arrows={[{x1:65,y1:30,x2:65,y2:52}]}/>,
+    sets:1,reps:10,freq:'With every meal'
+  },{
+    id:'st2',disc:'ST',cat:'Swallowing',name:'Effortful Swallow',
+    desc:'Squeeze all your throat muscles as hard as possible while swallowing.',
+    svg:<HeadFig arrows={[{x1:45,y1:60,x2:55,y2:52},{x1:85,y1:60,x2:75,y2:52}]}/>,
+    sets:3,reps:5,freq:'3x daily'
+  },{
+    id:'st3',disc:'ST',cat:'Oral Motor',name:'Tongue Protrusion & Retraction',
+    desc:'Stick your tongue out as far as possible. Hold 2 seconds. Pull it back. Repeat.',
+    svg:<MouthFig open arrows={[{x1:65,y1:78,x2:65,y2:95},{x1:65,y1:85,x2:65,y2:65}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'st4',disc:'ST',cat:'Oral Motor',name:'Tongue Lateralization',
+    desc:'Move your tongue from the right corner of your mouth to the left corner. Repeat.',
+    svg:<MouthFig open arrows={[{x1:45,y1:70,x2:85,y2:70}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'st5',disc:'ST',cat:'Oral Motor',name:'Lip Strengthening',
+    desc:'Press your lips together firmly. Hold 5 seconds. Relax. Repeat.',
+    svg:<MouthFig arrows={[{x1:55,y1:62,x2:65,y2:64},{x1:75,y1:62,x2:65,y2:64}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'st6',disc:'ST',cat:'Voice',name:'Sustained Phonation',
+    desc:'Take a deep breath and say "ahhhh" as long and steadily as possible.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <circle cx="65" cy="40" r="28" stroke={T} fill="none" strokeWidth={SW}/>
+      <circle cx="55" cy="34" r="4" stroke={T} fill="none" strokeWidth={2}/>
+      <circle cx="75" cy="34" r="4" stroke={T} fill="none" strokeWidth={2}/>
+      <path d="M45 55 Q65 70 85 55" stroke={T} fill="none" strokeWidth={SW} strokeLinecap="round"/>
+      <Arrow x1={92} y1={38} x2={108} y2={30}/><Arrow x1={92} y1={44} x2={110} y2={44}/>
+      <text x="108" y="28" fontSize="8" fill={O} fontFamily="sans-serif">ahhh</text>
+    </svg>,
+    sets:3,reps:5,freq:'3x daily'
+  },
+];
+
+// ── Main Component ─────────────────────────────────────────────────────────────
+function HEPGenerator({ onClose }) {
+  const [disc, setDisc] = useState('All');
+  const [cat,  setCat]  = useState('All');
+  const [selected, setSelected] = useState([]);
+  const [printing, setPrinting] = useState(false);
+
+  const discs = ['All','PT','OT','ST'];
+  const cats  = ['All',...[...new Set(EXERCISES.map(e=>e.cat))]];
+  const filtered = EXERCISES.filter(e=>(disc==='All'||e.disc===disc)&&(cat==='All'||e.cat===cat));
+
+  const toggle = (ex) => {
+    setSelected(prev => prev.find(s=>s.id===ex.id)
+      ? prev.filter(s=>s.id!==ex.id)
+      : [...prev,{...ex,sets:ex.sets,reps:ex.reps,freq:ex.freq,notes:''}]
+    );
+  };
+
+  const update = (id,field,val) => setSelected(prev=>prev.map(s=>s.id===id?{...s,[field]:val}:s));
+  const isSelected = (id) => !!selected.find(s=>s.id===id);
+
+  const doPrint = () => {
+    setPrinting(true);
+    setTimeout(() => { window.print(); setPrinting(false); }, 300);
+  };
+
+  return (
+    <>
+      <style>{`
+        @media print {
+          body > * { display: none !important; }
+          #hep-print { display: block !important; }
+        }
+        #hep-print { display: none; }
+      `}</style>
+
+      {/* Print output */}
+      <div id="hep-print">
+        <div style={{fontFamily:'Arial,sans-serif',padding:'24px',color:'#1e293b'}}>
+          <div style={{display:'flex',alignItems:'center',gap:'12px',borderBottom:'2px solid #0D9488',paddingBottom:'12px',marginBottom:'20px'}}>
+            <div style={{background:'linear-gradient(135deg,#0D9488,#06B6D4)',width:'40px',height:'40px',borderRadius:'10px',display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" strokeWidth="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div>
+              <div style={{fontSize:'20px',fontWeight:'900',color:'#0D9488'}}>Spyglass Healthcare</div>
+              <div style={{fontSize:'11px',color:'#64748b'}}>Home Exercise Program</div>
+            </div>
+            <div style={{marginLeft:'auto',fontSize:'11px',color:'#64748b'}}>Date: _______________</div>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'16px'}}>
+            {selected.map(ex=>(
+              <div key={ex.id} style={{border:'1px solid #e2e8f0',borderRadius:'10px',padding:'12px',breakInside:'avoid'}}>
+                <div style={{display:'flex',gap:'10px',alignItems:'flex-start'}}>
+                  <div style={{width:'80px',height:'80px',flexShrink:0}}>{ex.svg}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:'bold',fontSize:'13px',color:'#0D9488',marginBottom:'4px'}}>{ex.name}</div>
+                    <div style={{fontSize:'11px',color:'#475569',marginBottom:'6px',lineHeight:'1.4'}}>{ex.desc}</div>
+                    <div style={{fontSize:'11px',fontWeight:'bold',color:'#1e293b'}}>
+                      {ex.sets} sets × {ex.reps} reps &nbsp;|&nbsp; {ex.freq}
+                    </div>
+                    {ex.notes && <div style={{fontSize:'10px',color:'#64748b',marginTop:'3px',fontStyle:'italic'}}>{ex.notes}</div>}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {selected.length===0 && <p style={{color:'#94a3b8',textAlign:'center',marginTop:'40px'}}>No exercises selected.</p>}
+          <div style={{marginTop:'24px',borderTop:'1px solid #e2e8f0',paddingTop:'12px',fontSize:'10px',color:'#94a3b8',textAlign:'center'}}>
+            Perform exercises as instructed by your therapist. Stop if you experience pain. Contact your therapy team with questions.
+          </div>
+        </div>
+      </div>
+
+      {/* Screen UI */}
+      <div className="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
+          <div>
+            <h2 className="text-xl font-black text-white">HEP Generator</h2>
+            <p className="text-slate-400 text-sm">Select exercises → customize → print</p>
+          </div>
+          <div className="flex items-center gap-3">
+            {selected.length>0 && (
+              <button onClick={doPrint}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold rounded-xl shadow-lg hover:from-teal-600 hover:to-cyan-600 transition-all text-sm">
+                <Printer className="w-4 h-4"/> Print HEP ({selected.length})
+              </button>
+            )}
+            <button onClick={onClose} className="w-9 h-9 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-xl transition-all">
+              <X className="w-5 h-5 text-white"/>
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-1 overflow-hidden">
+          {/* Exercise Library */}
+          <div className="flex-1 flex flex-col overflow-hidden">
+            {/* Filters */}
+            <div className="px-6 py-3 border-b border-white/10 flex items-center gap-4 flex-wrap flex-shrink-0">
+              <div className="flex gap-2">
+                {discs.map(d=>(
+                  <button key={d} onClick={()=>{setDisc(d);setCat('All');}}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all ${disc===d?'bg-teal-500 text-white':'bg-white/10 text-slate-400 hover:bg-white/20'}`}>{d}</button>
+                ))}
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {cats.filter(c=>c==='All'||EXERCISES.some(e=>e.cat===c&&(disc==='All'||e.disc===disc))).map(c=>(
+                  <button key={c} onClick={()=>setCat(c)}
+                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${cat===c?'bg-cyan-600 text-white':'bg-white/5 text-slate-500 hover:bg-white/10'}`}>{c}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Exercise grid */}
+            <div className="flex-1 overflow-y-auto p-6 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 content-start">
+              {filtered.map(ex=>{
+                const sel=isSelected(ex.id);
+                return (
+                  <div key={ex.id} onClick={()=>toggle(ex)}
+                    className={`relative cursor-pointer rounded-2xl border p-4 transition-all hover:scale-[1.02] ${sel?'border-teal-400 bg-teal-500/10':'border-white/10 bg-white/5 hover:border-white/20'}`}>
+                    {sel && <div className="absolute top-2 right-2 w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs font-black">✓</span>
+                    </div>}
+                    <div className="w-full h-24 mb-3">{ex.svg}</div>
+                    <div className={`text-sm font-bold mb-1 ${sel?'text-teal-300':'text-white'}`}>{ex.name}</div>
+                    <div className="text-xs text-slate-500">{ex.disc} · {ex.cat}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Selected panel */}
+          {selected.length>0 && (
+            <div className="w-80 border-l border-white/10 flex flex-col flex-shrink-0">
+              <div className="px-4 py-3 border-b border-white/10 flex-shrink-0">
+                <h3 className="text-white font-black text-sm">Selected Exercises ({selected.length})</h3>
+              </div>
+              <div className="flex-1 overflow-y-auto p-3 space-y-3">
+                {selected.map((ex,i)=>(
+                  <div key={ex.id} className="bg-white/5 rounded-xl p-3 border border-white/10">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="text-white text-xs font-bold leading-tight">{i+1}. {ex.name}</div>
+                      <button onClick={()=>toggle(ex)} className="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0">
+                        <Trash2 className="w-3.5 h-3.5"/>
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mb-2">
+                      <div>
+                        <div className="text-slate-500 text-xs mb-1">Sets</div>
+                        <div className="flex items-center gap-1">
+                          <button onClick={()=>update(ex.id,'sets',Math.max(1,ex.sets-1))} className="w-5 h-5 bg-white/10 rounded text-white text-xs flex items-center justify-center hover:bg-white/20"><Minus className="w-3 h-3"/></button>
+                          <span className="text-white text-sm font-bold w-4 text-center">{ex.sets}</span>
+                          <button onClick={()=>update(ex.id,'sets',ex.sets+1)} className="w-5 h-5 bg-white/10 rounded text-white text-xs flex items-center justify-center hover:bg-white/20"><Plus className="w-3 h-3"/></button>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-slate-500 text-xs mb-1">Reps</div>
+                        <div className="flex items-center gap-1">
+                          <button onClick={()=>update(ex.id,'reps',Math.max(1,ex.reps-1))} className="w-5 h-5 bg-white/10 rounded text-white text-xs flex items-center justify-center hover:bg-white/20"><Minus className="w-3 h-3"/></button>
+                          <span className="text-white text-sm font-bold w-4 text-center">{ex.reps}</span>
+                          <button onClick={()=>update(ex.id,'reps',ex.reps+1)} className="w-5 h-5 bg-white/10 rounded text-white text-xs flex items-center justify-center hover:bg-white/20"><Plus className="w-3 h-3"/></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-slate-500 text-xs mb-1">Frequency</div>
+                      <input value={ex.freq} onChange={e=>update(ex.id,'freq',e.target.value)}
+                        className="w-full bg-white/10 rounded-lg px-2 py-1 text-white text-xs border border-white/10 focus:outline-none focus:border-teal-400/50"/>
+                    </div>
+                    <div className="mt-2">
+                      <div className="text-slate-500 text-xs mb-1">Notes</div>
+                      <input value={ex.notes} onChange={e=>update(ex.id,'notes',e.target.value)}
+                        placeholder="Optional note..."
+                        className="w-full bg-white/10 rounded-lg px-2 py-1 text-white text-xs border border-white/10 focus:outline-none focus:border-teal-400/50 placeholder-slate-600"/>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="p-3 border-t border-white/10 flex-shrink-0">
+                <button onClick={doPrint}
+                  className="w-full py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:from-teal-600 hover:to-cyan-600 transition-all text-sm">
+                  <Printer className="w-4 h-4"/> Print HEP
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+
+function App() {
   const allWeeklyData = facilityDataJson;
 
   // Dynamically compute last 3 months from actual data
@@ -182,6 +1225,8 @@ export default function App() {
   const [savedNarratives,   setSavedNarratives]   = useState({});
   const [narrativeLoading,  setNarrativeLoading]  = useState(false);
   const [resourcesAccess,    setResourcesAccess]    = useState(false);
+  const [showHEP,           setShowHEP]           = useState(false);
+  const [showHEP,           setShowHEP]           = useState(false);
   const [resourcesPin,       setResourcesPin]       = useState('');
   const [scorecardOpen,     setScorecardOpen]     = useState(true);
   const [complianceOpen,    setComplianceOpen]    = useState(true);
@@ -1481,6 +2526,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
   };
 
   // ─── RESOURCES-ONLY VIEW ─────────────────────────────────────────────────────
+  if (resourcesAccess && showHEP) {
+    return <HEPGenerator onBack={() => setShowHEP(false)} />;
+  }
   if (resourcesAccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -1505,9 +2553,47 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           </div>
         </header>
         <main className="max-w-5xl mx-auto px-6 py-10">
+          {showHEP && <HEPGenerator onClose={() => setShowHEP(false)} />}
           <div className="mb-8">
-            <h1 className="text-3xl font-black text-white mb-2">DOR Playbook</h1>
-            <p className="text-slate-400">Clinical guides, protocols, orientation materials, and reference forms.</p>
+            <h1 className="text-3xl font-black text-white mb-2">DOR Playbook & Tools</h1>
+            <p className="text-slate-400">Clinical guides, protocols, orientation materials, reference forms, and therapy tools.</p>
+          </div>
+          {/* Tools section */}
+          <div className="mb-8">
+            <h2 className="text-lg font-black text-cyan-300 uppercase tracking-wider mb-4">Tools</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div onClick={() => setShowHEP(true)}
+                className="bg-white/5 rounded-xl p-4 border border-white/10 hover:border-teal-400/40 transition-all cursor-pointer group">
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 bg-gradient-to-br from-teal-500/20 to-cyan-500/20 group-hover:from-teal-500/40 group-hover:to-cyan-500/40 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-all">
+                    <span className="text-teal-400 text-lg">🏃</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-white font-bold text-sm group-hover:text-teal-300 transition-colors">HEP Generator</div>
+                    <div className="text-slate-500 text-xs mt-1 leading-relaxed">Build and print a custom Home Exercise Program — PT, OT, and ST exercises with illustrations</div>
+                    <div className="mt-2 inline-flex items-center gap-1 text-teal-400 text-xs font-bold">Open Generator →</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Tools */}
+          <div className="mb-8">
+            <h2 className="text-lg font-black text-cyan-300 uppercase tracking-wider mb-4">Tools</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <button onClick={() => setShowHEP(true)}
+                className="text-left p-5 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 rounded-xl border border-teal-400/30 hover:border-teal-400/60 hover:bg-teal-500/20 transition-all group">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                    <Printer className="w-6 h-6 text-white"/>
+                  </div>
+                  <div>
+                    <div className="text-white font-black text-base group-hover:text-teal-300 transition-colors">HEP Generator</div>
+                    <div className="text-slate-400 text-sm mt-0.5">Build & print home exercise programs — PT · OT · ST</div>
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
           {githubResources.length > 0 ? githubResources.map(category => (
             <div key={category.id} className="mb-8">
