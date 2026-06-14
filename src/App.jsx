@@ -204,37 +204,37 @@ const MouthFig = ({arrows=[], open=false}) => (
 const EXERCISES = [
   // ── PT ─────────────────────────────────────────────────────────────────────
   {
-    id:'pt1',disc:'PT',cat:'Lower Body',name:'Ankle Pumps',
+    id:'pt1',svgMarkup:'<svg viewBox="0 0 130 90" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="45" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="29" y1="45" x2="80" y2="45" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="38" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="52" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="112" y1="50" x2="112" y2="32" stroke="#E07B3C" stroke-width="2"/><polygon points="112,30 109,36 115,36" fill="#E07B3C"/><line x1="112" y1="50" x2="112" y2="68" stroke="#E07B3C" stroke-width="2"/><polygon points="112,70 109,64 115,64" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Ankle Pumps',
     desc:'Pump your foot up and down at the ankle. Keep your knee straight.',
     svg:<SupineFig arrows={[{x1:112,y1:50,x2:112,y2:30},{x1:112,y1:50,x2:112,y2:70}]}/>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'pt2',disc:'PT',cat:'Lower Body',name:'Heel Slides',
+    id:'pt2',svgMarkup:'<svg viewBox="0 0 130 90" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="45" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="29" y1="45" x2="80" y2="45" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="38" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="52" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="108" y1="38" x2="86" y2="30" stroke="#E07B3C" stroke-width="2"/><polygon points="85,28 81,36 89,34" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Heel Slides',
     desc:'Slide your heel toward your buttocks, bending your knee. Slowly straighten.',
     svg:<SupineFig arrows={[{x1:108,y1:38,x2:85,y2:30}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'pt3',disc:'PT',cat:'Lower Body',name:'Quad Sets',
+    id:'pt3',svgMarkup:'<svg viewBox="0 0 130 90" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="45" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="29" y1="45" x2="80" y2="45" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="38" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="52" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="90" y1="35" x2="90" y2="50" stroke="#E07B3C" stroke-width="2"/><polygon points="90,52 86,44 94,44" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Quad Sets',
     desc:'Tighten your thigh muscle by pressing the back of your knee down into the bed.',
     svg:<SupineFig arrows={[{x1:90,y1:35,x2:90,y2:52}]}/>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'pt4',disc:'PT',cat:'Lower Body',name:'Straight Leg Raise',
+    id:'pt4',svgMarkup:'<svg viewBox="0 0 130 90" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="45" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="29" y1="45" x2="80" y2="45" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="38" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="52" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="110" y1="50" x2="106" y2="30" stroke="#E07B3C" stroke-width="2"/><polygon points="105,28 101,35 109,34" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Straight Leg Raise',
     desc:'Tighten your quad, then raise your leg 12 inches off the surface. Hold 3 seconds.',
     svg:<SupineFig arrows={[{x1:110,y1:50,x2:105,y2:28}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'pt5',disc:'PT',cat:'Lower Body',name:'Hip Abduction (Supine)',
+    id:'pt5',svgMarkup:'<svg viewBox="0 0 130 90" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="45" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="29" y1="45" x2="80" y2="45" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="38" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="45" x2="110" y2="52" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="110" y1="38" x2="122" y2="30" stroke="#E07B3C" stroke-width="2"/><polygon points="124,28 118,30 120,36" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Hip Abduction (Supine)',
     desc:'Slide your leg out to the side, keeping your toes pointed up. Return to center.',
     svg:<SupineFig arrows={[{x1:110,y1:38,x2:124,y2:28}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'pt6',disc:'PT',cat:'Lower Body',name:'Seated Knee Extension',
+    id:'pt6',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="60" width="95" height="4" rx="2" fill="#475569"/><rect x="15" y="64" width="4" height="40" fill="#475569"/><rect x="106" y="64" width="4" height="40" fill="#475569"/><circle cx="65" cy="20" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="29" x2="65" y2="60" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="44" x2="28" y2="60" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="44" x2="102" y2="60" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="35" y1="60" x2="20" y2="60" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="95" y1="60" x2="110" y2="60" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="20" y1="60" x2="20" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="110" y1="60" x2="110" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="20" y1="88" x2="20" y2="62" stroke="#E07B3C" stroke-width="2"/><polygon points="20,60 16,68 24,67" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Seated Knee Extension',
     desc:'While seated, slowly straighten your knee until your leg is as straight as possible.',
     svg:<SeatedFig arrows={[{x1:32,y1:88,x2:32,y2:60}]} legAngle={-0.5}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'pt7',disc:'PT',cat:'Lower Body',name:'Sit to Stand',
+    id:'pt7',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="95" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="95" y1="23" x2="95" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="72" y1="38" x2="58" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="118" y1="38" x2="112" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="95" y1="65" x2="80" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="95" y1="65" x2="110" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><circle cx="30" cy="28" r="7" stroke="#0D9488" fill="none" stroke-width="2" opacity="0.4"/><line x1="30" y1="35" x2="30" y2="60" stroke="#0D9488" stroke-width="2" opacity="0.4" stroke-linecap="round"/><line x1="30" y1="60" x2="18" y2="80" stroke="#0D9488" stroke-width="2" opacity="0.4" stroke-linecap="round"/><line x1="30" y1="60" x2="44" y2="80" stroke="#0D9488" stroke-width="2" opacity="0.4" stroke-linecap="round"/><line x1="10" y1="60" x2="55" y2="60" stroke="#475569" stroke-width="2"/><line x1="60" y1="50" x2="74" y2="30" stroke="#E07B3C" stroke-width="2"/><polygon points="75,28 70,35 78,34" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Sit to Stand',
     desc:'Scoot to the edge of the chair. Lean forward, push through your hands, and stand.',
     svg:<svg viewBox="0 0 130 130" className="w-full h-full">
       {/* seated ghost */}
@@ -257,24 +257,24 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'pt8',disc:'PT',cat:'Lower Body',name:'Calf Raises',
+    id:'pt8',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="23" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="38" x2="28" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="102" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="50" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="80" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="110" x2="65" y2="94" stroke="#E07B3C" stroke-width="2"/><polygon points="65,92 61,100 69,100" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Calf Raises',
     desc:'Stand at counter. Rise up on your toes as high as possible. Slowly lower.',
     svg:<StandFig arrows={[{x1:65,y1:110,x2:65,y2:92}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'pt9',disc:'PT',cat:'Lower Body',name:'Standing Hip Extension',
+    id:'pt9',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="23" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="38" x2="28" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="102" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="50" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="90" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="90" y1="90" x2="100" y2="76" stroke="#E07B3C" stroke-width="2"/><polygon points="101,74 94,78 96,86" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Standing Hip Extension',
     desc:'Hold counter. Kick one leg back, keeping your knee straight. Hold 2 seconds.',
     svg:<StandFig legL={{x:50,y:105}} legR={{x:90,y:90}} arrows={[{x1:90,y1:90,x2:100,y2:75}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'pt10',disc:'PT',cat:'Lower Body',name:'Marching in Place',
+    id:'pt10',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="23" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="38" x2="28" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="102" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="80" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="50" y2="80" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="50" y1="80" x2="50" y2="62" stroke="#E07B3C" stroke-width="2"/><polygon points="50,60 46,68 54,68" fill="#E07B3C"/></svg>',disc:'PT',cat:'Lower Body',name:'Marching in Place',
     desc:'Hold counter for balance. Alternate lifting your knees to hip height.',
     svg:<StandFig legL={{x:50,y:80}} legR={{x:80,y:105}} arrows={[{x1:50,y1:80,x2:50,y2:62}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },
   // ── OT ─────────────────────────────────────────────────────────────────────
   {
-    id:'ot1',disc:'OT',cat:'Hand & Wrist',name:'Wrist Flexion & Extension',
+    id:'ot1',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="82" x2="130" y2="82" stroke="#475569" stroke-width="2"/><line x1="20" y1="65" x2="75" y2="65" stroke="#0D9488" stroke-width="4" stroke-linecap="round"/><line x1="75" y1="65" x2="110" y2="45" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="108" y1="45" x2="108" y2="27" stroke="#E07B3C" stroke-width="2"/><polygon points="108,25 104,33 112,33" fill="#E07B3C"/><line x1="108" y1="45" x2="108" y2="63" stroke="#E07B3C" stroke-width="2"/><polygon points="108,65 104,57 112,57" fill="#E07B3C"/></svg>',disc:'OT',cat:'Hand & Wrist',name:'Wrist Flexion & Extension',
     desc:'Rest your forearm on a table. Bend your wrist up, then down. Move through full range.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <line x1="20" y1="65" x2="75" y2="65" stroke={T} strokeWidth={4} strokeLinecap="round"/>
@@ -285,7 +285,7 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'ot2',disc:'OT',cat:'Hand & Wrist',name:'Wrist Circles',
+    id:'ot2',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="75" x2="65" y2="75" stroke="#0D9488" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="75" x2="90" y2="55" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><circle cx="90" cy="55" r="22" stroke="#E07B3C" fill="none" stroke-width="2" stroke-dasharray="5,3"/><polygon points="110,40 103,42 107,48" fill="#E07B3C"/></svg>',disc:'OT',cat:'Hand & Wrist',name:'Wrist Circles',
     desc:'Make slow, large circles with your wrist. Complete in both directions.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <line x1="20" y1="75" x2="65" y2="75" stroke={T} strokeWidth={4} strokeLinecap="round"/>
@@ -295,7 +295,7 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'ot3',disc:'OT',cat:'Hand & Wrist',name:'Finger Bends',
+    id:'ot3',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="65" y1="95" x2="65" y2="62" stroke="#0D9488" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="62" x2="55" y2="42" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="64" x2="60" y2="40" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="64" x2="65" y2="38" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="64" x2="70" y2="40" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="65" x2="78" y2="50" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="65" x2="48" y2="60" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><polygon points="55,40 52,48 60,47" fill="#E07B3C"/><polygon points="78,48 73,54 79,58" fill="#E07B3C"/></svg>',disc:'OT',cat:'Hand & Wrist',name:'Finger Bends',
     desc:'Slowly curl all your fingers into a fist, then straighten them fully.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <line x1="65" y1="95" x2="65" y2="62" stroke={T} strokeWidth={4} strokeLinecap="round"/>
@@ -309,12 +309,12 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'ot4',disc:'OT',cat:'Hand & Wrist',name:'Finger Spreads',
+    id:'ot4',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="65" y1="95" x2="65" y2="62" stroke="#0D9488" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="62" x2="48" y2="25" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="62" x2="55" y2="22" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="62" x2="65" y2="20" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="62" x2="75" y2="22" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="62" x2="80" y2="30" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="70" x2="45" y2="55" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="48" y1="25" x2="38" y2="16" stroke="#E07B3C" stroke-width="2"/><polygon points="36,14 40,22 32,22" fill="#E07B3C"/><line x1="80" y1="30" x2="90" y2="20" stroke="#E07B3C" stroke-width="2"/><polygon points="92,18 86,22 88,28" fill="#E07B3C"/></svg>',disc:'OT',cat:'Hand & Wrist',name:'Finger Spreads',
     desc:'Spread your fingers as wide as you can, then bring them back together.',
     svg:<HandFig arrows={[{x1:48,y1:22,x2:38,y2:14},{x1:80,y1:27,x2:90,y2:18}]}/>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'ot5',disc:'OT',cat:'Hand & Wrist',name:'Thumb Opposition',
+    id:'ot5',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="65" y1="95" x2="65" y2="62" stroke="#0D9488" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="62" x2="55" y2="40" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="64" x2="62" y2="38" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="64" x2="68" y2="38" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="64" x2="76" y2="42" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="65" x2="48" y2="58" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><ellipse cx="52" cy="48" rx="7" ry="7" stroke="#E07B3C" fill="none" stroke-width="2"/></svg>',disc:'OT',cat:'Hand & Wrist',name:'Thumb Opposition',
     desc:'Touch your thumb to each fingertip one at a time, making an "O" shape.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <line x1="65" y1="95" x2="65" y2="62" stroke={T} strokeWidth={4} strokeLinecap="round"/>
@@ -327,7 +327,7 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'ot6',disc:'OT',cat:'Hand & Wrist',name:'Grip Strengthening',
+    id:'ot6',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="65" y1="95" x2="65" y2="60" stroke="#0D9488" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="60" x2="52" y2="52" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="60" x2="48" y2="47" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="60" x2="50" y2="40" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="65" y1="60" x2="55" y2="34" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><circle cx="65" cy="45" r="18" stroke="#E07B3C" fill="none" stroke-width="2" stroke-dasharray="4,3"/><polygon points="48,48 54,56 58,48" fill="#E07B3C"/></svg>',disc:'OT',cat:'Hand & Wrist',name:'Grip Strengthening',
     desc:'Squeeze a soft ball or towel roll as hard as comfortable. Hold 3 seconds, release.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <line x1="65" y1="95" x2="65" y2="60" stroke={T} strokeWidth={4} strokeLinecap="round"/>
@@ -340,7 +340,7 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'ot7',disc:'OT',cat:'Arm & Shoulder',name:'Elbow Flexion & Extension',
+    id:'ot7',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="23" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="50" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="80" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="38" x2="22" y2="55" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="108" y2="38" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="108" y1="38" x2="88" y2="55" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="88" y2="24" stroke="#E07B3C" stroke-width="2"/><polygon points="88,22 84,30 92,30" fill="#E07B3C"/><line x1="88" y1="55" x2="88" y2="69" stroke="#E07B3C" stroke-width="2"/><polygon points="88,71 84,63 92,63" fill="#E07B3C"/></svg>',disc:'OT',cat:'Arm & Shoulder',name:'Elbow Flexion & Extension',
     desc:'Bend your elbow to bring your hand to your shoulder, then straighten completely.',
     svg:<svg viewBox="0 0 130 130" className="w-full h-full">
       <circle cx="65" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
@@ -354,17 +354,17 @@ const EXERCISES = [
     </svg>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'ot8',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Flexion',
+    id:'ot8',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="23" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="50" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="80" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="38" x2="28" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="102" y2="20" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="100" y1="22" x2="90" y2="36" stroke="#E07B3C" stroke-width="2"/><polygon points="88,38 84,30 92,30" fill="#E07B3C"/></svg>',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Flexion',
     desc:'Raise your arm straight in front of you to shoulder height. Slowly lower.',
     svg:<StandFig armR={{x:102,y:20}} arrows={[{x1:100,y1:22,x2:88,y2:38}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'ot9',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Abduction',
+    id:'ot9',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="14" r="9" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="65" y1="23" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="50" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="80" y2="105" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="42" y1="38" x2="28" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="88" y1="38" x2="120" y2="40" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="102" y1="42" x2="116" y2="42" stroke="#E07B3C" stroke-width="2"/><polygon points="118,42 110,38 110,46" fill="#E07B3C"/></svg>',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Abduction',
     desc:'Raise your arm out to the side to shoulder height, keeping your elbow straight.',
     svg:<StandFig armR={{x:120,y:40}} arrows={[{x1:118,y1:42,x2:102,y2:42}]}/>,
     sets:3,reps:10,freq:'2x daily'
   },{
-    id:'ot10',disc:'OT',cat:'Arm & Shoulder',name:'Forearm Rotation',
+    id:'ot10',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><line x1="65" y1="20" x2="65" y2="65" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="65" x2="40" y2="85" stroke="#0D9488" stroke-width="3" stroke-linecap="round"/><line x1="40" y1="85" x2="28" y2="78" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="85" x2="32" y2="90" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="85" x2="38" y2="93" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="85" x2="44" y2="93" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="85" x2="50" y2="90" stroke="#0D9488" stroke-width="2.5" stroke-linecap="round"/><polygon points="75,65 68,60 70,68" fill="#E07B3C"/><polygon points="88,72 80,66 83,74" fill="#E07B3C"/></svg>',disc:'OT',cat:'Arm & Shoulder',name:'Forearm Rotation',
     desc:'Keep your elbow at your side. Rotate your palm to face up, then down.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <line x1="65" y1="20" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
@@ -380,32 +380,32 @@ const EXERCISES = [
   },
   // ── ST ─────────────────────────────────────────────────────────────────────
   {
-    id:'st1',disc:'ST',cat:'Swallowing',name:'Chin Tuck Swallow',
+    id:'st1',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="40" r="28" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="57" y1="42" x2="57" y2="48" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/><line x1="73" y1="42" x2="73" y2="48" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/><line x1="55" y1="50" x2="75" y2="50" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/><line x1="65" y1="68" x2="65" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="78" x2="45" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="78" x2="85" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="30" x2="65" y2="48" stroke="#E07B3C" stroke-width="2"/><polygon points="65,50 61,42 69,42" fill="#E07B3C"/></svg>',disc:'ST',cat:'Swallowing',name:'Chin Tuck Swallow',
     desc:'Tuck your chin to your chest before and during each swallow. This protects the airway.',
     svg:<HeadFig arrows={[{x1:65,y1:30,x2:65,y2:52}]}/>,
     sets:1,reps:10,freq:'With every meal'
   },{
-    id:'st2',disc:'ST',cat:'Swallowing',name:'Effortful Swallow',
+    id:'st2',svgMarkup:'<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="40" r="28" stroke="#0D9488" fill="none" stroke-width="2.8"/><line x1="57" y1="42" x2="57" y2="48" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/><line x1="73" y1="42" x2="73" y2="48" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/><line x1="55" y1="50" x2="75" y2="50" stroke="#0D9488" stroke-width="2" stroke-linecap="round"/><line x1="65" y1="68" x2="65" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="78" x2="45" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="78" x2="85" y2="90" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><polygon points="50,48 46,40 54,40" fill="#E07B3C"/><polygon points="80,48 76,40 84,40" fill="#E07B3C"/><line x1="45" y1="58" x2="49" y2="42" stroke="#E07B3C" stroke-width="2"/><line x1="85" y1="58" x2="81" y2="42" stroke="#E07B3C" stroke-width="2"/></svg>',disc:'ST',cat:'Swallowing',name:'Effortful Swallow',
     desc:'Squeeze all your throat muscles as hard as possible while swallowing.',
     svg:<HeadFig arrows={[{x1:45,y1:60,x2:55,y2:52},{x1:85,y1:60,x2:75,y2:52}]}/>,
     sets:3,reps:5,freq:'3x daily'
   },{
-    id:'st3',disc:'ST',cat:'Oral Motor',name:'Tongue Protrusion & Retraction',
+    id:'st3',svgMarkup:'<svg viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="40" r="32" stroke="#0D9488" fill="none" stroke-width="2.8"/><circle cx="53" cy="32" r="4" stroke="#0D9488" fill="none" stroke-width="2"/><circle cx="77" cy="32" r="4" stroke="#0D9488" fill="none" stroke-width="2"/><path d="M45 55 Q65 72 85 55" stroke="#0D9488" fill="none" stroke-width="2.8" stroke-linecap="round"/><line x1="65" y1="78" x2="65" y2="93" stroke="#E07B3C" stroke-width="2"/><polygon points="65,95 61,87 69,87" fill="#E07B3C"/></svg>',disc:'ST',cat:'Oral Motor',name:'Tongue Protrusion & Retraction',
     desc:'Stick your tongue out as far as possible. Hold 2 seconds. Pull it back. Repeat.',
     svg:<MouthFig open arrows={[{x1:65,y1:78,x2:65,y2:95},{x1:65,y1:85,x2:65,y2:65}]}/>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'st4',disc:'ST',cat:'Oral Motor',name:'Tongue Lateralization',
+    id:'st4',svgMarkup:'<svg viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="40" r="32" stroke="#0D9488" fill="none" stroke-width="2.8"/><circle cx="53" cy="32" r="4" stroke="#0D9488" fill="none" stroke-width="2"/><circle cx="77" cy="32" r="4" stroke="#0D9488" fill="none" stroke-width="2"/><path d="M45 55 Q65 72 85 55" stroke="#0D9488" fill="none" stroke-width="2.8" stroke-linecap="round"/><line x1="40" y1="62" x2="63" y2="62" stroke="#E07B3C" stroke-width="2"/><line x1="67" y1="62" x2="82" y2="62" stroke="#E07B3C" stroke-width="2"/><polygon points="84,62 76,58 76,66" fill="#E07B3C"/></svg>',disc:'ST',cat:'Oral Motor',name:'Tongue Lateralization',
     desc:'Move your tongue from the right corner of your mouth to the left corner. Repeat.',
     svg:<MouthFig open arrows={[{x1:45,y1:70,x2:85,y2:70}]}/>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'st5',disc:'ST',cat:'Oral Motor',name:'Lip Strengthening',
+    id:'st5',svgMarkup:'<svg viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg"><circle cx="65" cy="40" r="32" stroke="#0D9488" fill="none" stroke-width="2.8"/><circle cx="53" cy="32" r="4" stroke="#0D9488" fill="none" stroke-width="2"/><circle cx="77" cy="32" r="4" stroke="#0D9488" fill="none" stroke-width="2"/><line x1="48" y1="58" x2="82" y2="58" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><polygon points="57,58 52,52 52,64" fill="#E07B3C"/><polygon points="73,58 78,52 78,64" fill="#E07B3C"/></svg>',disc:'ST',cat:'Oral Motor',name:'Lip Strengthening',
     desc:'Press your lips together firmly. Hold 5 seconds. Relax. Repeat.',
     svg:<MouthFig arrows={[{x1:55,y1:62,x2:65,y2:64},{x1:75,y1:62,x2:65,y2:64}]}/>,
     sets:3,reps:10,freq:'3x daily'
   },{
-    id:'st6',disc:'ST',cat:'Voice',name:'Sustained Phonation',
+    id:'st6',svgMarkup:'<svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg"><circle cx="52" cy="40" r="28" stroke="#0D9488" fill="none" stroke-width="2.8"/><circle cx="43" cy="33" r="3.5" stroke="#0D9488" fill="none" stroke-width="2"/><circle cx="61" cy="33" r="3.5" stroke="#0D9488" fill="none" stroke-width="2"/><path d="M36 52 Q52 66 68 52" stroke="#0D9488" fill="none" stroke-width="2.8" stroke-linecap="round"/><line x1="52" y1="68" x2="52" y2="85" stroke="#0D9488" stroke-width="2.8" stroke-linecap="round"/><line x1="80" y1="36" x2="108" y2="30" stroke="#E07B3C" stroke-width="2"/><polygon points="110,29 103,27 104,33" fill="#E07B3C"/><line x1="80" y1="44" x2="108" y2="44" stroke="#E07B3C" stroke-width="2"/><polygon points="110,44 103,40 103,48" fill="#E07B3C"/></svg>',disc:'ST',cat:'Voice',name:'Sustained Phonation',
     desc:'Take a deep breath and say "ahhhh" as long and steadily as possible.',
     svg:<svg viewBox="0 0 130 110" className="w-full h-full">
       <circle cx="65" cy="40" r="28" stroke={T} fill="none" strokeWidth={SW}/>
@@ -441,8 +441,51 @@ function HEPGenerator({ onClose }) {
   const isSelected = (id) => !!selected.find(s=>s.id===id);
 
   const doPrint = () => {
-    setPrinting(true);
-    setTimeout(() => { window.print(); setPrinting(false); }, 300);
+    const win = window.open('', '_blank', 'width=900,height=700');
+    if (!win) return;
+
+    // Serialize SVGs from selected exercises
+    const exerciseRows = selected.map(ex => {
+      // Get SVG markup from the ex.svgMarkup string
+      const svgStr = ex.svgMarkup || '';
+      return `
+        <div style="border:1px solid #e2e8f0;border-radius:10px;padding:12px;break-inside:avoid;margin-bottom:12px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:80px;height:80px;flex-shrink:0;">${svgStr}</div>
+            <div style="flex:1;">
+              <div style="font-weight:bold;font-size:13px;color:#0D9488;margin-bottom:4px;">${ex.name}</div>
+              <div style="font-size:11px;color:#475569;margin-bottom:6px;line-height:1.4;">${ex.desc}</div>
+              <div style="font-size:11px;font-weight:bold;color:#1e293b;">${ex.sets} sets × ${ex.reps} reps | ${ex.freq}</div>
+              ${ex.notes ? `<div style="font-size:10px;color:#64748b;margin-top:3px;font-style:italic;">${ex.notes}</div>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    win.document.write(`<!DOCTYPE html><html><head>
+      <title>Home Exercise Program</title>
+      <style>
+        body { font-family: Arial, sans-serif; color: #1e293b; padding: 24px; margin: 0; }
+        @media print { @page { margin: 1cm; } }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .header { display: flex; align-items: center; gap: 12px; border-bottom: 2px solid #0D9488; padding-bottom: 12px; margin-bottom: 20px; }
+        .footer { margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 12px; font-size: 10px; color: #94a3b8; text-align: center; }
+      </style>
+    </head><body>
+      <div class="header">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#0D9488" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <div>
+          <div style="font-size:20px;font-weight:900;color:#0D9488;">Spyglass Healthcare</div>
+          <div style="font-size:11px;color:#64748b;">Home Exercise Program</div>
+        </div>
+        <div style="margin-left:auto;font-size:11px;color:#64748b;">Date: _______________</div>
+      </div>
+      <div class="grid">${exerciseRows}</div>
+      <div class="footer">Perform exercises as instructed by your therapist. Stop if you experience pain. Contact your therapy team with questions.</div>
+    </body></html>`);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { win.print(); }, 500);
   };
 
   return (
@@ -2005,7 +2048,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
   };
 
   // ─── RESOURCES-ONLY VIEW ─────────────────────────────────────────────────────
-
+  if (resourcesAccess && showHEP) return <HEPGenerator onClose={() => setShowHEP(false)} />;
   if (resourcesAccess) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -2030,7 +2073,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           </div>
         </header>
         <main className="max-w-5xl mx-auto px-6 py-10">
-          {showHEP && <HEPGenerator onClose={() => setShowHEP(false)} />}
           <div className="mb-8">
             <h1 className="text-3xl font-black text-white mb-2">DOR Playbook & Tools</h1>
             <p className="text-slate-400">Clinical guides, protocols, orientation materials, reference forms, and therapy tools.</p>
