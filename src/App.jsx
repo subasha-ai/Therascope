@@ -89,7 +89,337 @@ const cpmBg      = (v, goal=1.45) => Math.trunc(v*100)/100 <= goal ? 'bg-emerald
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
 const scoreBadge = s => s >= 3 ? 'bg-emerald-500/20 text-emerald-300' : s === 2 ? 'bg-yellow-500/20 text-yellow-300' : 'bg-rose-500/20 text-rose-300';
 
-// ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
+// ─── HEP GENERATOR HELPERS ─────────────────────────────────────────────────
+const T = "#0D9488";   // teal - figure color
+const O = "#E07B3C";   // orange - arrow color
+const SW = 2.8;        // strokeWidth
+
+// ── Arrow helper ──────────────────────────────────────────────────────────────
+const Arrow = ({ x1,y1,x2,y2,color=O }) => {
+  const dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy);
+  const ux=dx/len, uy=dy/len;
+  const hx=x2-ux*7, hy=y2-uy*7;
+  const lx=-uy*3.5, ly=ux*3.5;
+  return (
+    <g stroke={color} fill={color} strokeWidth={1.5} strokeLinecap="round">
+      <line x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={2}/>
+      <polygon points={`${x2},${y2} ${hx+lx},${hy+ly} ${hx-lx},${hy-ly}`}/>
+    </g>
+  );
+};
+
+// ── Stick figures ──────────────────────────────────────────────────────────────
+const SupineFig = ({arrows=[]}) => (
+  <svg viewBox="0 0 130 90" className="w-full h-full">
+    {/* lying body */}
+    <circle cx="20" cy="45" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="29" y1="45" x2="80" y2="45" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* arms */}
+    <line x1="50" y1="45" x2="50" y2="28" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="60" y1="45" x2="62" y2="28" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* legs */}
+    <line x1="80" y1="45" x2="110" y2="38" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="80" y1="45" x2="110" y2="52" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const StandFig = ({arrows=[],legL=null,legR=null,armL=null,armR=null}) => (
+  <svg viewBox="0 0 130 130" className="w-full h-full">
+    <circle cx="65" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="65" y1="23" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="42" y1="38" x2={armL?armL.x:28} y2={armL?armL.y:58} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="88" y1="38" x2={armR?armR.x:102} y2={armR?armR.y:58} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="65" x2={legL?legL.x:50} y2={legL?legL.y:105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="65" x2={legR?legR.x:80} y2={legR?legR.y:105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* feet */}
+    <line x1={legL?legL.x:50} y1={legL?legL.y:105} x2={legL?(legL.x-5):(44)} y2={legL?legL.y:108} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1={legR?legR.x:80} y1={legR?legR.y:105} x2={legR?(legR.x+5):87} y2={legR?legR.y:108} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const SeatedFig = ({arrows=[],legAngle=0}) => (
+  <svg viewBox="0 0 130 130" className="w-full h-full">
+    {/* chair */}
+    <line x1="30" y1="70" x2="100" y2="70" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    <line x1="30" y1="70" x2="30" y2="110" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    <line x1="100" y1="70" x2="100" y2="110" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    <line x1="25" y1="45" x2="25" y2="75" stroke="#475569" strokeWidth={2} strokeLinecap="round"/>
+    {/* person */}
+    <circle cx="65" cy="20" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="65" y1="29" x2="65" y2="70" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="42" y1="44" x2="28" y2="60" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="88" y1="44" x2="102" y2="60" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* thigh */}
+    <line x1="50" y1="70" x2="32" y2="70" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="80" y1="70" x2="98" y2="70" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {/* lower legs */}
+    <line x1="32" y1="70" x2={legAngle?32+Math.sin(legAngle)*35:32} y2={legAngle?70+Math.cos(legAngle)*35:105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="98" y1="70" x2={98} y2={105} stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const HandFig = ({arrows=[]}) => (
+  <svg viewBox="0 0 130 110" className="w-full h-full">
+    <line x1="65" y1="95" x2="65" y2="60" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+    <line x1="65" y1="60" x2="48" y2="25" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="62" x2="55" y2="22" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="62" x2="65" y2="20" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="62" x2="75" y2="22" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="63" x2="80" y2="30" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    <line x1="65" y1="70" x2="45" y2="55" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const HeadFig = ({arrows=[]}) => (
+  <svg viewBox="0 0 130 130" className="w-full h-full">
+    <circle cx="65" cy="40" r="28" stroke={T} fill="none" strokeWidth={SW}/>
+    <line x1="55" y1="50" x2="75" y2="50" stroke={T} strokeWidth={2} strokeLinecap="round"/>
+    <line x1="57" y1="42" x2="57" y2="48" stroke={T} strokeWidth={2} strokeLinecap="round"/>
+    <line x1="73" y1="42" x2="73" y2="48" stroke={T} strokeWidth={2} strokeLinecap="round"/>
+    <line x1="65" y1="68" x2="65" y2="90" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="78" x2="45" y2="90" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    <line x1="65" y1="78" x2="85" y2="90" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+const MouthFig = ({arrows=[], open=false}) => (
+  <svg viewBox="0 0 130 100" className="w-full h-full">
+    <circle cx="65" cy="50" r="32" stroke={T} fill="none" strokeWidth={SW}/>
+    <circle cx="53" cy="42" r="4" stroke={T} fill="none" strokeWidth={2}/>
+    <circle cx="77" cy="42" r="4" stroke={T} fill="none" strokeWidth={2}/>
+    {open
+      ? <path d="M45 60 Q65 80 85 60" stroke={T} fill="none" strokeWidth={SW} strokeLinecap="round"/>
+      : <line x1="48" y1="65" x2="82" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+    }
+    {arrows.map((a,i)=><Arrow key={i} {...a}/>)}
+  </svg>
+);
+
+// ── Exercise library ──────────────────────────────────────────────────────────
+const EXERCISES = [
+  // ── PT ─────────────────────────────────────────────────────────────────────
+  {
+    id:'pt1',disc:'PT',cat:'Lower Body',name:'Ankle Pumps',
+    desc:'Pump your foot up and down at the ankle. Keep your knee straight.',
+    svg:<SupineFig arrows={[{x1:112,y1:50,x2:112,y2:30},{x1:112,y1:50,x2:112,y2:70}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'pt2',disc:'PT',cat:'Lower Body',name:'Heel Slides',
+    desc:'Slide your heel toward your buttocks, bending your knee. Slowly straighten.',
+    svg:<SupineFig arrows={[{x1:108,y1:38,x2:85,y2:30}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt3',disc:'PT',cat:'Lower Body',name:'Quad Sets',
+    desc:'Tighten your thigh muscle by pressing the back of your knee down into the bed.',
+    svg:<SupineFig arrows={[{x1:90,y1:35,x2:90,y2:52}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'pt4',disc:'PT',cat:'Lower Body',name:'Straight Leg Raise',
+    desc:'Tighten your quad, then raise your leg 12 inches off the surface. Hold 3 seconds.',
+    svg:<SupineFig arrows={[{x1:110,y1:50,x2:105,y2:28}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt5',disc:'PT',cat:'Lower Body',name:'Hip Abduction (Supine)',
+    desc:'Slide your leg out to the side, keeping your toes pointed up. Return to center.',
+    svg:<SupineFig arrows={[{x1:110,y1:38,x2:124,y2:28}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt6',disc:'PT',cat:'Lower Body',name:'Seated Knee Extension',
+    desc:'While seated, slowly straighten your knee until your leg is as straight as possible.',
+    svg:<SeatedFig arrows={[{x1:32,y1:88,x2:32,y2:60}]} legAngle={-0.5}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt7',disc:'PT',cat:'Lower Body',name:'Sit to Stand',
+    desc:'Scoot to the edge of the chair. Lean forward, push through your hands, and stand.',
+    svg:<svg viewBox="0 0 130 130" className="w-full h-full">
+      {/* seated ghost */}
+      <circle cx="30" cy="25" r="7" stroke={T} fill="none" strokeWidth={2} opacity={0.3}/>
+      <line x1="30" y1="32" x2="30" y2="60" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="18" y1="46" x2="10" y2="58" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="42" y1="46" x2="50" y2="58" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="22" y1="60" x2="15" y2="80" stroke={T} strokeWidth={2} opacity={0.3}/>
+      <line x1="38" y1="60" x2="44" y2="80" stroke={T} strokeWidth={2} opacity={0.3}/>
+      {/* chair */}
+      <line x1="10" y1="60" x2="55" y2="60" stroke="#475569" strokeWidth={2}/>
+      {/* standing */}
+      <circle cx="95" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+      <line x1="95" y1="23" x2="95" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="72" y1="38" x2="58" y2="58" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="118" y1="38" x2="112" y2="58" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="95" y1="65" x2="80" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="95" y1="65" x2="110" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <Arrow x1={60} y1={50} x2={75} y2={28}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'pt8',disc:'PT',cat:'Lower Body',name:'Calf Raises',
+    desc:'Stand at counter. Rise up on your toes as high as possible. Slowly lower.',
+    svg:<StandFig arrows={[{x1:65,y1:110,x2:65,y2:92}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt9',disc:'PT',cat:'Lower Body',name:'Standing Hip Extension',
+    desc:'Hold counter. Kick one leg back, keeping your knee straight. Hold 2 seconds.',
+    svg:<StandFig legL={{x:50,y:105}} legR={{x:90,y:90}} arrows={[{x1:90,y1:90,x2:100,y2:75}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'pt10',disc:'PT',cat:'Lower Body',name:'Marching in Place',
+    desc:'Hold counter for balance. Alternate lifting your knees to hip height.',
+    svg:<StandFig legL={{x:50,y:80}} legR={{x:80,y:105}} arrows={[{x1:50,y1:80,x2:50,y2:62}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },
+  // ── OT ─────────────────────────────────────────────────────────────────────
+  {
+    id:'ot1',disc:'OT',cat:'Hand & Wrist',name:'Wrist Flexion & Extension',
+    desc:'Rest your forearm on a table. Bend your wrist up, then down. Move through full range.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="20" y1="65" x2="75" y2="65" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <line x1="75" y1="65" x2="110" y2="45" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={108} y1={45} x2={108} y2={25}/><Arrow x1={108} y1={45} x2={108} y2={72}/>
+      <line x1="12" y1="70" x2="12" y2="80" stroke="#475569" strokeWidth={2}/>
+      <line x1="0" y1="80" x2="130" y2="80" stroke="#475569" strokeWidth={2}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot2',disc:'OT',cat:'Hand & Wrist',name:'Wrist Circles',
+    desc:'Make slow, large circles with your wrist. Complete in both directions.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="20" y1="75" x2="65" y2="75" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <circle cx="90" cy="55" r="22" stroke={O} fill="none" strokeWidth={2} strokeDasharray="5,3"/>
+      <line x1="65" y1="75" x2="90" y2="55" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={90} y1={33} x2={110} y2={40}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot3',disc:'OT',cat:'Hand & Wrist',name:'Finger Bends',
+    desc:'Slowly curl all your fingers into a fist, then straighten them fully.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="95" x2="65" y2="62" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <line x1="65" y1="62" x2="55" y2="42" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="60" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="65" y2="38" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="70" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="78" y2="50" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="48" y2="60" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={55} y1={38} x2={60} y2={55}/><Arrow x1={78} y1={46} x2={73} y2={58}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot4',disc:'OT',cat:'Hand & Wrist',name:'Finger Spreads',
+    desc:'Spread your fingers as wide as you can, then bring them back together.',
+    svg:<HandFig arrows={[{x1:48,y1:22,x2:38,y2:14},{x1:80,y1:27,x2:90,y2:18}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot5',disc:'OT',cat:'Hand & Wrist',name:'Thumb Opposition',
+    desc:'Touch your thumb to each fingertip one at a time, making an "O" shape.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="95" x2="65" y2="62" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <line x1="65" y1="62" x2="55" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="62" y2="38" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="68" y2="38" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="64" x2="76" y2="42" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="48" y2="58" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <ellipse cx="52" cy="48" rx="7" ry="7" stroke={O} fill="none" strokeWidth={2}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot6',disc:'OT',cat:'Hand & Wrist',name:'Grip Strengthening',
+    desc:'Squeeze a soft ball or towel roll as hard as comfortable. Hold 3 seconds, release.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="95" x2="65" y2="60" stroke={T} strokeWidth={4} strokeLinecap="round"/>
+      <circle cx="65" cy="45" r="18" stroke={O} fill="none" strokeWidth={2} strokeDasharray="4,3"/>
+      <line x1="65" y1="60" x2="52" y2="52" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="60" x2="48" y2="47" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="60" x2="50" y2="40" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="65" y1="60" x2="55" y2="34" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={48} y1={47} x2={55} y2={50}/><Arrow x1={50} y1={40} x2={57} y2={45}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'ot7',disc:'OT',cat:'Arm & Shoulder',name:'Elbow Flexion & Extension',
+    desc:'Bend your elbow to bring your hand to your shoulder, then straighten completely.',
+    svg:<svg viewBox="0 0 130 130" className="w-full h-full">
+      <circle cx="65" cy="14" r="9" stroke={T} fill="none" strokeWidth={SW}/>
+      <line x1="65" y1="23" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="80" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="50" y2="105" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="42" y1="38" x2="22" y2="55" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="88" y1="38" x2="108" y2="38" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="108" y1="38" x2="88" y2="55" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <Arrow x1={88} y1={38} x2={88} y2={22}/><Arrow x1={88} y1={55} x2={88} y2={70}/>
+    </svg>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'ot8',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Flexion',
+    desc:'Raise your arm straight in front of you to shoulder height. Slowly lower.',
+    svg:<StandFig armR={{x:102,y:20}} arrows={[{x1:100,y1:22,x2:88,y2:38}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'ot9',disc:'OT',cat:'Arm & Shoulder',name:'Shoulder Abduction',
+    desc:'Raise your arm out to the side to shoulder height, keeping your elbow straight.',
+    svg:<StandFig armR={{x:120,y:40}} arrows={[{x1:118,y1:42,x2:102,y2:42}]}/>,
+    sets:3,reps:10,freq:'2x daily'
+  },{
+    id:'ot10',disc:'OT',cat:'Arm & Shoulder',name:'Forearm Rotation',
+    desc:'Keep your elbow at your side. Rotate your palm to face up, then down.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <line x1="65" y1="20" x2="65" y2="65" stroke={T} strokeWidth={SW} strokeLinecap="round"/>
+      <line x1="65" y1="65" x2="40" y2="85" stroke={T} strokeWidth={3} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="28" y2="78" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="32" y2="90" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="38" y2="93" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="44" y2="93" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <line x1="40" y1="85" x2="50" y2="90" stroke={T} strokeWidth={2.5} strokeLinecap="round"/>
+      <Arrow x1={75} y1={65} x2={88} y2={72}/><Arrow x1={88} y1={72} x2={78} y2={82}/>
+    </svg>,
+    sets:3,reps:10,freq:'3x daily'
+  },
+  // ── ST ─────────────────────────────────────────────────────────────────────
+  {
+    id:'st1',disc:'ST',cat:'Swallowing',name:'Chin Tuck Swallow',
+    desc:'Tuck your chin to your chest before and during each swallow. This protects the airway.',
+    svg:<HeadFig arrows={[{x1:65,y1:30,x2:65,y2:52}]}/>,
+    sets:1,reps:10,freq:'With every meal'
+  },{
+    id:'st2',disc:'ST',cat:'Swallowing',name:'Effortful Swallow',
+    desc:'Squeeze all your throat muscles as hard as possible while swallowing.',
+    svg:<HeadFig arrows={[{x1:45,y1:60,x2:55,y2:52},{x1:85,y1:60,x2:75,y2:52}]}/>,
+    sets:3,reps:5,freq:'3x daily'
+  },{
+    id:'st3',disc:'ST',cat:'Oral Motor',name:'Tongue Protrusion & Retraction',
+    desc:'Stick your tongue out as far as possible. Hold 2 seconds. Pull it back. Repeat.',
+    svg:<MouthFig open arrows={[{x1:65,y1:78,x2:65,y2:95},{x1:65,y1:85,x2:65,y2:65}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'st4',disc:'ST',cat:'Oral Motor',name:'Tongue Lateralization',
+    desc:'Move your tongue from the right corner of your mouth to the left corner. Repeat.',
+    svg:<MouthFig open arrows={[{x1:45,y1:70,x2:85,y2:70}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'st5',disc:'ST',cat:'Oral Motor',name:'Lip Strengthening',
+    desc:'Press your lips together firmly. Hold 5 seconds. Relax. Repeat.',
+    svg:<MouthFig arrows={[{x1:55,y1:62,x2:65,y2:64},{x1:75,y1:62,x2:65,y2:64}]}/>,
+    sets:3,reps:10,freq:'3x daily'
+  },{
+    id:'st6',disc:'ST',cat:'Voice',name:'Sustained Phonation',
+    desc:'Take a deep breath and say "ahhhh" as long and steadily as possible.',
+    svg:<svg viewBox="0 0 130 110" className="w-full h-full">
+      <circle cx="65" cy="40" r="28" stroke={T} fill="none" strokeWidth={SW}/>
+      <circle cx="55" cy="34" r="4" stroke={T} fill="none" strokeWidth={2}/>
+      <circle cx="75" cy="34" r="4" stroke={T} fill="none" strokeWidth={2}/>
+      <path d="M45 55 Q65 70 85 55" stroke={T} fill="none" strokeWidth={SW} strokeLinecap="round"/>
+      <Arrow x1={92} y1={38} x2={108} y2={30}/><Arrow x1={92} y1={44} x2={110} y2={44}/>
+      <text x="108" y="28" fontSize="8" fill={O} fontFamily="sans-serif">ahhh</text>
+    </svg>,
+    sets:3,reps:5,freq:'3x daily'
+  },
+];
+
+// ── Main Component ─────────────────────────────────────────────────────────────
 function HEPGenerator({ onClose }) {
   const [disc, setDisc] = useState('All');
   const [cat,  setCat]  = useState('All');
