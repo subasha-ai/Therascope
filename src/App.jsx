@@ -475,7 +475,7 @@ function HEPGenerator({ onClose }) {
       <div class="header">
         <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#0D9488" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
         <div>
-          <div style="font-size:20px;font-weight:900;color:#0D9488;">Spyglass Healthcare</div>
+          
           <div style="font-size:11px;color:#64748b;">Home Exercise Program</div>
         </div>
         <div style="margin-left:auto;font-size:11px;color:#64748b;">Date: _______________</div>
@@ -506,7 +506,7 @@ function HEPGenerator({ onClose }) {
               <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="white" strokeWidth="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             </div>
             <div>
-              <div style={{fontSize:'20px',fontWeight:'900',color:'#0D9488'}}>Spyglass Healthcare</div>
+              
               <div style={{fontSize:'11px',color:'#64748b'}}>Home Exercise Program</div>
             </div>
             <div style={{marginLeft:'auto',fontSize:'11px',color:'#64748b'}}>Date: _______________</div>
