@@ -757,6 +757,7 @@ export default function App() {
   const [checkInSummaries,  setCheckInSummaries]  = useState({});
   const [summaryLoading,    setSummaryLoading]    = useState(false);
   const [digestResult,      setDigestResult]      = useState(null);
+  const [digestSending,     setDigestSending]     = useState(false);
   const [testEmail,         setTestEmail]         = useState('');
   const [showDigestModal,   setShowDigestModal]   = useState(false);
 
