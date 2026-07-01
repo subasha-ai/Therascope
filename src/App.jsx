@@ -2817,8 +2817,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr||a.may);
                         // Palo Alto: Jan/Feb/Mar under Overland, Apr/May under Golden Coast
                         const paloAltoRow = region === 'Golden Coast'
-                          ? [{ fac: 'Palo Alto Post Acute', a: { jan:'', feb:'', mar:'', apr: alosData['Palo Alto Post Acute']?.apr||'', may: alosData['Palo Alto Post Acute']?.may||'' } }]
-                          : [{ fac: 'Palo Alto Post Acute', a: { jan: alosData['Palo Alto Post Acute']?.jan||'', feb: alosData['Palo Alto Post Acute']?.feb||'', mar: alosData['Palo Alto Post Acute']?.mar||'', apr:'', may:'' } }];
+                          ? [{ fac: 'Palo Alto Post Acute', a: { jan:'', feb:'', mar:'', apr: alosData['Palo Alto Post Acute']?.apr||'', may: alosData['Palo Alto Post Acute']?.may||'', jun: alosData['Palo Alto Post Acute']?.jun||'' } }]
+                          : [{ fac: 'Palo Alto Post Acute', a: { jan: alosData['Palo Alto Post Acute']?.jan||'', feb: alosData['Palo Alto Post Acute']?.feb||'', mar: alosData['Palo Alto Post Acute']?.mar||'', apr:'', may:'', jun:'' } }];
                         if (!facRows.length) return null;
 
                         // Compute region averages
