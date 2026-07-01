@@ -722,25 +722,25 @@ export default function App() {
   });
   const [alosData, setAlosData] = useState({
     // Golden Coast — names match data.json exactly
-    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3', may: '35.2' },
-    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0', may: '52.6' },
-    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8', may: '60.9' },
-    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3', may: '43.2' },
-    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5', may: '29.0' },
-    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4', may: '31.5' },
-    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2', may: '34.2' },
-    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3', may: '53.6' },
-    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9', may: '58.0' },
-    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0', may: '44.1' },
+    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3', may: '35.2', jun: '25.6' },
+    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0', may: '52.6', jun: '45.6' },
+    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8', may: '60.9', jun: '32.2' },
+    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3', may: '43.2', jun: '41.0' },
+    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5', may: '29.0', jun: '49.5' },
+    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4', may: '31.5', jun: '38.7' },
+    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2', may: '34.2', jun: '27.4' },
+    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3', may: '53.6', jun: '30.1' },
+    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9', may: '58.0', jun: '50.5' },
+    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0', may: '44.1', jun: '29.4' },
     // Overland — names match data.json exactly
-    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50', may: '31.28' },
-    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42', may: '29.86' },
-    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78', may: '53.62' },
-    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27', may: '41.83' },
-    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24',    may: '38.88' },
-    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64', may: '39.22' },
-    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22', may: '56.39' },
-    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23', may: '45.19' },
+    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50', may: '31.28', jun: '51.09' },
+    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42', may: '29.86', jun: '42.92' },
+    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78', may: '53.62', jun: '38.89' },
+    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27', may: '41.83', jun: '44.36' },
+    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24',    may: '38.88', jun: '36.48' },
+    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64', may: '39.22', jun: '61.64' },
+    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22', may: '56.39', jun: '41.11' },
+    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23', may: '45.19', jun: '37.83' },
   });
   const [showReportModal,   setShowReportModal]   = useState(false);
   const [reportRegion,      setReportRegion]      = useState(null);
@@ -1465,8 +1465,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       const a = alosData[f]||{};
       if (f === 'Palo Alto Post Acute') {
         return reportRegion === 'Golden Coast'
-          ? [f,'--','--','--',a.apr||'--',a.may||'--']
-          : [f,a.jan||'--',a.feb||'--',a.mar||'--','--','--'];
+          ? [f,'--','--','--',a.apr||'--',a.may||'--',a.jun||'--']
+          : [f,a.jan||'--',a.feb||'--',a.mar||'--','--','--','--'];
       }
       return [f,a.jan||'--',a.feb||'--',a.mar||'--',a.apr||'--',a.may||'--'];
     });
@@ -1475,7 +1475,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       y = sectionDot(y, 'Average Length of Stay (days)'); y+=2;
       doc.setFont('helvetica','normal'); doc.setFontSize(7); setTxt(col.slate);
       doc.text('Red = below 30 days', margin, y); y+=4;
-      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr','May']], body:alosRows, startY:y, theme:'grid', styles:{fontSize:8,cellPadding:2.5,textColor:col.white,fillColor:col.navy}, headStyles:{fillColor:[30,41,59],textColor:col.slate,fontStyle:'bold'}, alternateRowStyles:{fillColor:col.darknavy}, margin:{left:margin,right:margin}, didParseCell:(data)=>{ if(data.section==='body'&&data.column.index>0){const v=parseFloat(data.cell.raw);if(!isNaN(v)&&v<30){data.cell.styles.textColor=col.red;data.cell.styles.fontStyle='bold';}}} });
+      doc.autoTable({ head:[['Building','Jan 2026','Feb 2026','Mar 2026','Apr','May','Jun']], body:alosRows, startY:y, theme:'grid', styles:{fontSize:8,cellPadding:2.5,textColor:col.white,fillColor:col.navy}, headStyles:{fillColor:[30,41,59],textColor:col.slate,fontStyle:'bold'}, alternateRowStyles:{fillColor:col.darknavy}, margin:{left:margin,right:margin}, didParseCell:(data)=>{ if(data.section==='body'&&data.column.index>0){const v=parseFloat(data.cell.raw);if(!isNaN(v)&&v<30){data.cell.styles.textColor=col.red;data.cell.styles.fontStyle='bold';}}} });
       y = doc.lastAutoTable.finalY+8;
     }
 
@@ -2803,7 +2803,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <thead>
                       <tr className="border-b border-white/10">
                         <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Building</th>
-                        {['Jan 2026','Feb 2026','Mar 2026','Apr','May'].map(m => (
+                        {['Jan 2026','Feb 2026','Mar 2026','Apr','May','Jun'].map(m => (
                           <th key={m} className="py-3 px-4 text-slate-400 font-bold text-xs uppercase text-center">{m}</th>
                         ))}
                       </tr>
@@ -2831,14 +2831,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <React.Fragment key={region}>
                             {/* Region header row */}
                             <tr className="bg-white/5 border-b border-white/10">
-                              <td colSpan={6} className="py-2 px-4">
+                              <td colSpan={7} className="py-2 px-4">
                                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
                             </tr>
                             {/* Region average row */}
                             <tr className="border-b border-white/10 bg-white/3">
                               <td className="py-2 px-4 text-slate-400 text-xs font-bold italic">Region Avg</td>
-                              {['jan','feb','mar','apr','may'].map((mo,vi) => {
+                              {['jan','feb','mar','apr','may','jun'].map((mo,vi) => {
                                 const v = avg(mo);
                                 return (
                                   <td key={vi} className="py-2 px-4 text-center">
@@ -2851,7 +2851,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             {[...facRows, ...paloAltoRow].map(({fac, a}, i) => (
                               <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
                                 <td className="py-2.5 px-4 text-white text-xs font-medium pl-8">{fac}</td>
-                                {[a.jan,a.feb,a.mar,a.apr,a.may].map((v, vi) => (
+                                {[a.jan,a.feb,a.mar,a.apr,a.may,a.jun].map((v, vi) => (
                                   <td key={vi} className="py-2.5 px-4 text-center">
                                     <span className={`text-sm font-bold ${v&&parseFloat(v)<30?'text-rose-400':'text-slate-300'}`}>
                                       {v||'—'}
