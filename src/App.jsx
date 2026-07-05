@@ -2653,32 +2653,59 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   );
                 })()}
 
-                {/* May + June MTD cards */}
-                {monthTotals.slice(3).map((m,mi) => m.totals && (
-                  <div key={mi} className={`bg-white/5 backdrop-blur-xl rounded-2xl p-6 border shadow-xl ${mi===1?'border-cyan-400/40':'border-white/10'}`}>
-                    <div className="flex items-center justify-between mb-5">
-                      <h3 className={`text-2xl font-black ${mi===1?'text-cyan-300':'text-white'}`}>{m.label}</h3>
-                      {mi===1 && <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>}
-                    </div>
-                    <div className="space-y-3">
-                      {[
-                        { label:'Avg Productivity', val:m.totals.avgProd+'%',                               good:parseFloat(m.totals.avgProd)>=84 },
-                        { label:'Avg CPM',           val:'$'+m.totals.avgCPM,                               good:parseFloat(m.totals.avgCPM)<=1.45 },
-                        { label:'Med B Units',       val:m.totals.totalUnits.toLocaleString(),              good:null },
-                        { label:'Rehab Med B Rev',   val:'$'+(m.totals.totalRev/1000).toFixed(0)+'k',      good:null },
-                        { label:'Resp Med B Rev',    val: m.totals.totalRespRev > 0 ? '$'+(m.totals.totalRespRev/1000).toFixed(0)+'k' : '—', good:null },
-                        { label:'Total Med B Rev',   val:'$'+((m.totals.totalRev+(m.totals.totalRespRev||0))/1000).toFixed(0)+'k', good:null },
-                        { label:'At Prod Goal',      val:m.totals.atGoalProd+' / '+m.totals.n+' bldgs',    good:m.totals.atGoalProd>=m.totals.n*0.7 },
-                        { label:'At CPM Goal',       val:m.totals.atGoalCPM+' / '+m.totals.n+' bldgs',    good:m.totals.atGoalCPM>=m.totals.n*0.7 },
-                      ].map((row,ri) => (
-                        <div key={ri} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                          <span className="text-slate-400 text-sm">{row.label}</span>
-                          <span className={`font-black text-base ${row.good===null?'text-white':row.good?'text-emerald-300':'text-rose-300'}`}>{row.val}</span>
+                {/* Q2 Card — Apr / May / Jun */}
+                {(() => {
+                  const q2 = monthTotals.slice(3);
+                  if (!q2.some(m => m.totals)) return null;
+                  const rows = [
+                    { label:'Avg Productivity', key:'avgProd',      fmt: v=>v+'%',                                   good: v=>parseFloat(v)>=84 },
+                    { label:'Avg CPM',           key:'avgCPM',      fmt: v=>'$'+v,                                   good: v=>parseFloat(v)<=1.45 },
+                    { label:'Med B Units',       key:'totalUnits',  fmt: v=>v.toLocaleString(),                      good: null },
+                    { label:'Rehab Med B Rev',   key:'totalRev',    fmt: v=>'$'+(v/1000).toFixed(0)+'k',            good: null },
+                    { label:'Resp Med B Rev',    key:'totalRespRev',fmt: v=>v>0?'$'+(v/1000).toFixed(0)+'k':'—',   good: null },
+                    { label:'Total Med B Rev',   key:'totalAllRev', fmt: v=>'$'+(v/1000).toFixed(0)+'k',            good: null },
+                    { label:'At Prod Goal',      key:'atGoalProd',  fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At CPM Goal',       key:'atGoalCPM',   fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
+                  ];
+                  return (
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-2xl font-black text-cyan-300">Q2</h3>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-slate-500 font-bold">Apr – Jun 2026</span>
+                          <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                         </div>
-                      ))}
+                      </div>
+                      <div className="grid grid-cols-4 gap-1 mb-2">
+                        <div className="text-slate-500 text-xs"></div>
+                        {q2.map(m => (
+                          <div key={m.label} className="text-center text-xs font-black text-cyan-400 uppercase tracking-wider">{m.label}</div>
+                        ))}
+                      </div>
+                      <div className="space-y-2">
+                        {rows.map((row,ri) => (
+                          <div key={ri} className="grid grid-cols-4 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
+                            <span className="text-slate-400 text-xs">{row.label}</span>
+                            {q2.map((m,mi) => {
+                              if (!m.totals) return <span key={mi} className="text-center text-xs text-slate-600">—</span>;
+                              const v = row.key === 'totalAllRev'
+                                ? (m.totals.totalRev||0) + (m.totals.totalRespRev||0)
+                                : m.totals[row.key];
+                              const n = m.totals.n;
+                              const isGood = row.good === null ? null : row.isGoal ? row.good(v,n) : row.good(v);
+                              const display = row.isGoal ? row.fmt(v,n) : row.fmt(v);
+                              return (
+                                <span key={mi} className={`text-center text-xs font-black ${isGood===null?'text-white':isGood?'text-emerald-300':'text-rose-300'}`}>
+                                  {display}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })()}
               </div>
 
               {/* Building Scorecard */}
