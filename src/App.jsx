@@ -661,11 +661,12 @@ export default function App() {
 
   // Dynamically compute last 3 months from actual data
   const EXEC_MONTHS = [
-    { label: 'Jan',      start: '2026-01-01', end: '2026-01-31' },
-    { label: 'Feb',      start: '2026-02-01', end: '2026-02-28' },
-    { label: 'Mar',      start: '2026-03-01', end: '2026-03-31' },
-    { label: 'May',      start: '2026-05-01', end: '2026-05-31' },
-    { label: 'June MTD', start: '2026-06-01', end: '2026-06-30' },
+    { label: 'Jan', start: '2026-01-01', end: '2026-01-31' },
+    { label: 'Feb', start: '2026-02-01', end: '2026-02-28' },
+    { label: 'Mar', start: '2026-03-01', end: '2026-03-31' },
+    { label: 'Apr', start: '2026-04-01', end: '2026-04-30' },
+    { label: 'May', start: '2026-05-01', end: '2026-05-31' },
+    { label: 'Jun', start: '2026-06-01', end: '2026-06-30' },
   ];
 
   // Auth state
@@ -1126,7 +1127,8 @@ export default function App() {
       mar: getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end),
       apr: getMonthFinal(fac, EXEC_MONTHS[3].start, EXEC_MONTHS[3].end),
       may: getMonthFinal(fac, EXEC_MONTHS[4].start, EXEC_MONTHS[4].end),
-    })).filter(r => r.jan || r.feb || r.mar || r.apr || r.may);
+      jun: getMonthFinal(fac, EXEC_MONTHS[5].start, EXEC_MONTHS[5].end),
+    })).filter(r => r.jan || r.feb || r.mar || r.apr || r.may || r.jun);
 
     const fmt = (rec, facName) => rec ? { prod: mtd(rec,'productivityMTD','productivity').toFixed(1)+'%', cpm: '$'+Math.trunc(mtd(rec,'cpmMTD','cpm')*100)/100, mode: mtd(rec,'modeOfTreatmentMTD','modeOfTreatment').toFixed(1)+'%', medB: rec.medBEligible>0?Math.round((rec.medBCaseload/rec.medBEligible)*100)+'%':'N/A', score: scoreRec(rec, facName)+'/4' } : null;
     const dataSummary = facilityData.map(r => ({ facility: r.facility, jan: fmt(r.jan, r.facility), feb: fmt(r.feb, r.facility), mar: fmt(r.mar, r.facility), apr: fmt(r.apr, r.facility), may: fmt(r.may, r.facility) }));
@@ -2695,8 +2697,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <th className="text-left py-3 px-4 text-slate-400 font-bold uppercase text-xs sticky left-0 bg-slate-900/90">Facility</th>
                         <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
-                        <th colSpan={4} className="py-3 px-2 text-slate-300 font-bold uppercase text-xs text-center border-l border-white/10">May</th>
-                        <th colSpan={4} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">June MTD</th>
+                        <th colSpan={12} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">Q2</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
@@ -2704,7 +2705,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <th key={m.label+col} className="py-2 px-2 text-cyan-600 font-bold text-xs text-center">{m.label.slice(0,3)} {col}</th>
                         )))}
                         {EXEC_MONTHS.slice(3).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
-                          <th key={m.label+col} className="py-2 px-2 text-slate-500 font-bold text-xs text-center">{col}</th>
+                          <th key={m.label+col} className="py-2 px-2 text-cyan-600 font-bold text-xs text-center">{m.label.slice(0,3)} {col}</th>
                         )))}
                       </tr>
                     </thead>
@@ -2713,7 +2714,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const isNewRegion = ri===0 || row.region !== facilityRows[ri-1].region;
                         return (
                           <React.Fragment key={ri}>
-                            {isNewRegion && <tr className="bg-white/5"><td colSpan={22} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
+                            {isNewRegion && <tr className="bg-white/5"><td colSpan={26} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
                             <tr className="border-b border-white/5 hover:bg-white/5">
                               <td className="py-2 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{shortName(row.facility)}</td>
                               <td className="py-2 px-2 text-center">
