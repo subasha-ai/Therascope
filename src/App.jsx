@@ -850,7 +850,17 @@ export default function App() {
       totalRev:   recs.reduce((s,r) => s + (r.medicareMPPRRevenueMTD || r.medicareMPPRRevenue || 0), 0),
       totalRespRev: recs.reduce((s,r) => s + (r.respMedBRevenueMTD || 0), 0),
       atGoalProd: recs.filter(r => mtd(r,'productivityMTD','productivity') >= getGoals(r.facility).productivity).length,
-      atGoalCPM:  recs.filter(r => mtd(r,'cpmMTD','cpm') <= getGoals(r.facility).cpm).length,
+      atGoalCPM:  recs.filter(r => mtd(r,'cpmMTD','cpm') <= getGoals(r.facility).cpm && mtd(r,'cpmMTD','cpm') > 0).length,
+      atGoalMode: recs.filter(r => mtd(r,'modeOfTreatmentMTD','modeOfTreatment') >= getGoals(r.facility).mode).length,
+      atGoalMedB: recs.filter(r => { const el=r.medBEligible||0; const cl=r.medBCaseload||0; return el>0 && (cl/el*100)>=getGoals(r.facility).medB; }).length,
+      atGoalAll:  recs.filter(r => {
+        const g=getGoals(r.facility);
+        const el=r.medBEligible||0; const cl=r.medBCaseload||0;
+        return mtd(r,'productivityMTD','productivity')>=g.productivity &&
+               mtd(r,'cpmMTD','cpm')<=g.cpm && mtd(r,'cpmMTD','cpm')>0 &&
+               mtd(r,'modeOfTreatmentMTD','modeOfTreatment')>=g.mode &&
+               el>0 && (cl/el*100)>=g.medB;
+      }).length,
       n: recs.length,
     };
   };
@@ -2612,6 +2622,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     { label:'Med B Revenue',     key:'totalAllRev',fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
                     { label:'At Prod Goal',      key:'atGoalProd', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
                     { label:'At CPM Goal',       key:'atGoalCPM',  fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At Mode Goal',      key:'atGoalMode', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At Med B% Goal',    key:'atGoalMedB', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'All 4 Goals',       key:'atGoalAll',  fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.5,   isGoal:true },
                   ];
                   return (
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 shadow-xl">
@@ -2662,6 +2675,9 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     { label:'Med B Revenue',     key:'totalAllRev', fmt: v=>'$'+(v/1000).toFixed(0)+'k',            good: null },
                     { label:'At Prod Goal',      key:'atGoalProd',  fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
                     { label:'At CPM Goal',       key:'atGoalCPM',   fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At Mode Goal',      key:'atGoalMode',  fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At Med B% Goal',    key:'atGoalMedB',  fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'All 4 Goals',       key:'atGoalAll',   fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.5,   isGoal:true },
                   ];
                   return (
                     <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
