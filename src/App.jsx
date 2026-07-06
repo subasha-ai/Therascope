@@ -2609,9 +2609,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     { label:'Avg Productivity', key:'avgProd',     fmt: v=>v+'%',                                    good: v=>parseFloat(v)>=84 },
                     { label:'Avg CPM',           key:'avgCPM',     fmt: v=>'$'+v,                                    good: v=>parseFloat(v)<=1.45 },
                     { label:'Med B Units',       key:'totalUnits', fmt: v=>v.toLocaleString(),                       good: null },
-                    { label:'Rehab Med B Rev',   key:'totalRev',   fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
-                    { label:'Resp Med B Rev',    key:'totalRespRev',fmt: v=>v>0?'$'+(v/1000).toFixed(0)+'k':'—',    good: null },
-                    { label:'Total Med B Rev',   key:'totalAllRev',fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
+                    { label:'Med B Revenue',     key:'totalAllRev',fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
                     { label:'At Prod Goal',      key:'atGoalProd', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
                     { label:'At CPM Goal',       key:'atGoalCPM',  fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
                   ];
@@ -2661,9 +2659,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     { label:'Avg Productivity', key:'avgProd',      fmt: v=>v+'%',                                   good: v=>parseFloat(v)>=84 },
                     { label:'Avg CPM',           key:'avgCPM',      fmt: v=>'$'+v,                                   good: v=>parseFloat(v)<=1.45 },
                     { label:'Med B Units',       key:'totalUnits',  fmt: v=>v.toLocaleString(),                      good: null },
-                    { label:'Rehab Med B Rev',   key:'totalRev',    fmt: v=>'$'+(v/1000).toFixed(0)+'k',            good: null },
-                    { label:'Resp Med B Rev',    key:'totalRespRev',fmt: v=>v>0?'$'+(v/1000).toFixed(0)+'k':'—',   good: null },
-                    { label:'Total Med B Rev',   key:'totalAllRev', fmt: v=>'$'+(v/1000).toFixed(0)+'k',            good: null },
+                    { label:'Med B Revenue',     key:'totalAllRev', fmt: v=>'$'+(v/1000).toFixed(0)+'k',            good: null },
                     { label:'At Prod Goal',      key:'atGoalProd',  fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
                     { label:'At CPM Goal',       key:'atGoalCPM',   fmt: (v,t)=>v+' / '+t, good:(v,t)=>v>=t*0.7,   isGoal:true },
                   ];
