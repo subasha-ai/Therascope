@@ -2719,6 +2719,36 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     </div>
                   );
                 })()}
+
+
+                {/* July MTD card */}
+                {monthTotals[6] && monthTotals[6].totals && (
+                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
+                    <div className="flex items-center justify-between mb-5">
+                      <h3 className="text-2xl font-black text-cyan-300">July MTD</h3>
+                      <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { label:'Avg Productivity', val:monthTotals[6].totals.avgProd+'%',  good:parseFloat(monthTotals[6].totals.avgProd)>=84 },
+                        { label:'Avg CPM',           val:'$'+monthTotals[6].totals.avgCPM,  good:parseFloat(monthTotals[6].totals.avgCPM)<=1.45 },
+                        { label:'Med B Units',       val:monthTotals[6].totals.totalUnits.toLocaleString(), good:null },
+                        { label:'Med B Revenue',     val:'$'+(((monthTotals[6].totals.totalRev||0)+(monthTotals[6].totals.totalRespRev||0))/1000).toFixed(0)+'k', good:null },
+                        { label:'At Prod Goal',      val:monthTotals[6].totals.atGoalProd+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalProd>=monthTotals[6].totals.n*0.7 },
+                        { label:'At CPM Goal',       val:monthTotals[6].totals.atGoalCPM+' / '+monthTotals[6].totals.n+' bldgs',  good:monthTotals[6].totals.atGoalCPM>=monthTotals[6].totals.n*0.7 },
+                        { label:'At Mode Goal',      val:monthTotals[6].totals.atGoalMode+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalMode>=monthTotals[6].totals.n*0.7 },
+                        { label:'At Med B% Goal',    val:monthTotals[6].totals.atGoalMedB+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalMedB>=monthTotals[6].totals.n*0.7 },
+                        { label:'All 4 Goals',       val:monthTotals[6].totals.atGoalAll+' / '+monthTotals[6].totals.n+' bldgs',  good:monthTotals[6].totals.atGoalAll>=monthTotals[6].totals.n*0.5 },
+                      ].map((row,ri) => (
+                        <div key={ri} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
+                          <span className="text-slate-400 text-sm">{row.label}</span>
+                          <span className={`font-black text-base ${row.good===null?'text-white':row.good?'text-emerald-300':'text-rose-300'}`}>{row.val}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               </div>
 
               {/* Building Scorecard */}
@@ -3418,33 +3448,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   );
                 })()}
 
-                {/* July MTD card */}
-                {monthTotals[6] && monthTotals[6].totals && (
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
-                    <div className="flex items-center justify-between mb-5">
-                      <h3 className="text-2xl font-black text-cyan-300">July MTD</h3>
-                      <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
-                    </div>
-                    <div className="space-y-3">
-                      {[
-                        { label:'Avg Productivity', val:monthTotals[6].totals.avgProd+'%',  good:parseFloat(monthTotals[6].totals.avgProd)>=84 },
-                        { label:'Avg CPM',           val:'$'+monthTotals[6].totals.avgCPM,  good:parseFloat(monthTotals[6].totals.avgCPM)<=1.45 },
-                        { label:'Med B Units',       val:monthTotals[6].totals.totalUnits.toLocaleString(), good:null },
-                        { label:'Med B Revenue',     val:'$'+(((monthTotals[6].totals.totalRev||0)+(monthTotals[6].totals.totalRespRev||0))/1000).toFixed(0)+'k', good:null },
-                        { label:'At Prod Goal',      val:monthTotals[6].totals.atGoalProd+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalProd>=monthTotals[6].totals.n*0.7 },
-                        { label:'At CPM Goal',       val:monthTotals[6].totals.atGoalCPM+' / '+monthTotals[6].totals.n+' bldgs',  good:monthTotals[6].totals.atGoalCPM>=monthTotals[6].totals.n*0.7 },
-                        { label:'At Mode Goal',      val:monthTotals[6].totals.atGoalMode+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalMode>=monthTotals[6].totals.n*0.7 },
-                        { label:'At Med B% Goal',    val:monthTotals[6].totals.atGoalMedB+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalMedB>=monthTotals[6].totals.n*0.7 },
-                        { label:'All 4 Goals',       val:monthTotals[6].totals.atGoalAll+' / '+monthTotals[6].totals.n+' bldgs',  good:monthTotals[6].totals.atGoalAll>=monthTotals[6].totals.n*0.5 },
-                      ].map((row,ri) => (
-                        <div key={ri} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                          <span className="text-slate-400 text-sm">{row.label}</span>
-                          <span className={`font-black text-base ${row.good===null?'text-white':row.good?'text-emerald-300':'text-rose-300'}`}>{row.val}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {/* Regional Leaderboard */}
                 {myRegionData.length > 0 && (
