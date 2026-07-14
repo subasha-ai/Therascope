@@ -1940,7 +1940,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'Mar',     start: '2026-03-01', end: '2026-03-31', isMTD: false },
       { label: 'April',   start: '2026-04-01', end: '2026-04-30', isMTD: false },
       { label: 'May',     start: '2026-05-01', end: '2026-05-31', isMTD: false },
-      { label: 'Jun',     start: '2026-06-01', end: '2026-06-30', isMTD: false },
+      { label: 'June',    start: '2026-06-01', end: '2026-06-30', isMTD: false },
       { label: 'Jul MTD', start: '2026-07-01', end: '2026-07-31', isMTD: true  },
     ];
     const getFacData = (fac, dm) => {
@@ -1957,7 +1957,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       navy:[11,17,32], navyMid:[17,27,50], slate:[28,38,60], slate2:[38,52,78], slate3:[52,68,98],
       cyan:[6,182,212], teal:[13,148,136], white:[255,255,255], offWhite:[220,230,245],
       muted:[110,128,160], green:[52,211,153], red:[248,113,113],
-      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[12,60,80],[10,72,90]],
+      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[22,32,58],[12,60,80],[10,72,90]],
     };
     try {
       const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'letter' });
@@ -1969,7 +1969,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · Q2 · Jul MTD 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July MTD 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -1978,7 +1978,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
       const buildTable = (region) => {
         const facList = allFacilities.filter(f=>allWeeklyData.find(d=>d.facility===f)?.region===region).sort();
-        const COL_W = 9.5; const FAC_W = 31;
+        const COL_W = 8; const FAC_W = 29;
         const head = [
           [
             {content:region,rowSpan:2,styles:{valign:'middle',halign:'left',fillColor:C.slate,textColor:C.cyan,fontStyle:'bold',fontSize:8}},
@@ -2023,7 +2023,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             if (data.column.index>0) {
               const mi=Math.floor((data.column.index-1)/4);
               const adj=data.section==='body'&&data.row.index%2!==0?8:0;
-              if (mi>=0&&mi<5) data.cell.styles.fillColor=C.mb[mi].map(v=>Math.min(255,v+adj));
+              if (mi>=0&&mi<DIGEST_MONTHS.length) data.cell.styles.fillColor=C.mb[mi].map(v=>Math.min(255,v+adj));
             }
             if (data.section!=='body') return;
             const fac=facList[data.row.index]; if (!fac) return;
@@ -2050,12 +2050,13 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.autoTable({...buildTable('Overland'),startY:doc.lastAutoTable.finalY+5});
 
       doc.setFillColor(...C.teal); doc.rect(0,pageH-10,pageW,10,'F');
-      const mayMet = allFacilities.filter(f=>{
-        const rec=getMonthFinal(f,DIGEST_MONTHS[4].start,DIGEST_MONTHS[4].end);
+      const lastMonth = DIGEST_MONTHS[DIGEST_MONTHS.length-1];
+      const lastMet = allFacilities.filter(f=>{
+        const rec=getMonthFinal(f,lastMonth.start,lastMonth.end);
         return rec&&scoreRec(rec,f)===4;
       }).length;
       doc.setFontSize(7.5); doc.setFont('helvetica','bold'); doc.setTextColor(...C.navy);
-      doc.text(`Jul MTD: ${mayMet} / ${allFacilities.length} buildings meeting all 4 goals`,10,pageH-3.5);
+      doc.text(`${lastMonth.label}: ${lastMet} / ${allFacilities.length} buildings meeting all 4 goals`,10,pageH-3.5);
       doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(...C.navyMid);
       doc.text('therascope-insights.vercel.app',pageW-10,pageH-3.5,{align:'right'});
       doc.save(`Therascope_Leadership_Digest_${latestDateStr}.pdf`);
@@ -2756,7 +2757,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · May · June MTD</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · July MTD</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
@@ -2769,13 +2770,17 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">Q2</th>
+                        <th colSpan={4} className="py-3 px-2 text-cyan-200 font-bold uppercase text-xs text-center border-l border-white/10">Q3</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
                         {EXEC_MONTHS.slice(0,3).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
                           <th key={m.label+col} className="py-2 px-2 text-cyan-600 font-bold text-xs text-center">{m.label.slice(0,3)} {col}</th>
                         )))}
-                        {EXEC_MONTHS.slice(3).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
+                        {EXEC_MONTHS.slice(3,6).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
+                          <th key={m.label+col} className="py-2 px-2 text-cyan-600 font-bold text-xs text-center">{m.label.slice(0,3)} {col}</th>
+                        )))}
+                        {EXEC_MONTHS.slice(6).map(m => ['Prod','CPM','Mode','Rev'].map(col => (
                           <th key={m.label+col} className="py-2 px-2 text-cyan-600 font-bold text-xs text-center">{m.label.slice(0,3)} {col}</th>
                         )))}
                       </tr>
@@ -2785,7 +2790,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const isNewRegion = ri===0 || row.region !== facilityRows[ri-1].region;
                         return (
                           <React.Fragment key={ri}>
-                            {isNewRegion && <tr className="bg-white/5"><td colSpan={26} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
+                            {isNewRegion && <tr className="bg-white/5"><td colSpan={30} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
                             <tr className="border-b border-white/5 hover:bg-white/5">
                               <td className="py-2 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{shortName(row.facility)}</td>
                               <td className="py-2 px-2 text-center">
