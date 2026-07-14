@@ -40,6 +40,8 @@ const DOR_PASSWORDS = {
   'Cedarwood PA':            'CedarStride',
   'Capital PA':              'CapitalCare',
   'Blue Oak Post Acute':     'BlueOakSteps',
+  'Millbrae HC':             'MillbraeMotion',
+  'Vacaville Ranch PA':      'RanchStride',
 };
 
 // DOR email addresses — fill in each DOR's email
@@ -62,6 +64,8 @@ const DOR_EMAILS = {
   'Cedarwood PA':            'vamen@cedarwoodpostacute.com',
   'Capital PA':              'dperkins@capitalpostacute.com',
   'Blue Oak Post Acute':     'asha@spyglasshc.com',
+  'Millbrae HC':             'mchiu@millbraehc.com',
+  'Vacaville Ranch PA':      'jason@vacavilleranch.com',
 };
 
 // ─── PURE HELPERS (no hooks) ──────────────────────────────────────────────────
