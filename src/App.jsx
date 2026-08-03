@@ -673,7 +673,7 @@ export default function App() {
     { label: 'Apr', start: '2026-04-01', end: '2026-04-30' },
     { label: 'May', start: '2026-05-01', end: '2026-05-31' },
     { label: 'Jun', start: '2026-06-01', end: '2026-06-30' },
-    { label: 'Jul MTD', start: '2026-07-01', end: '2026-07-31' },
+    { label: 'Jul', start: '2026-07-01', end: '2026-07-31' },
   ];
 
   // Auth state
@@ -1896,7 +1896,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       });
       const improvedList = allFacilities.map(fac => {
         const jan = getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end);
-        const mar = getMonthFinal(fac, EXEC_MONTHS[2].start, EXEC_MONTHS[2].end);
+        const mar = getMonthFinal(fac, EXEC_MONTHS[EXEC_MONTHS.length-1].start, EXEC_MONTHS[EXEC_MONTHS.length-1].end);
         if (!jan || !mar) return null;
         return { fac, scoreDiff: scoreRec(mar)-scoreRec(jan), prodDiff: mtd(mar,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity'), js: scoreRec(jan), ms: scoreRec(mar) };
       }).filter(Boolean).sort((a,b) => b.scoreDiff !== a.scoreDiff ? b.scoreDiff-a.scoreDiff : b.prodDiff-a.prodDiff).slice(0,5);
@@ -2501,11 +2501,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           const EXCLUDE_STRUGGLING = ['Camino Ridge Post Acute','Pac Coast PA','Golden Harbor HC'];
           const struggling = facilityRows.filter(r => !EXCLUDE_STRUGGLING.includes(r.facility) && r.months.filter(Boolean).map(rec=>scoreRec(rec,r.facility)).filter(s=>s<=1).length >= 2);
           const improved = facilityRows.map(r => {
-            const jan=r.months[0], mar=r.months[2];
-            if (!jan || !mar) return null;
-            const scoreDiff = scoreRec(mar,r.facility)-scoreRec(jan,r.facility);
-            const prodDiff  = mtd(mar,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity');
-            return { ...r, scoreDiff, prodDiff, janScore:scoreRec(jan,r.facility), marScore:scoreRec(mar,r.facility) };
+            const jan=r.months[0], latest=r.months[r.months.length-1];
+            if (!jan || !latest) return null;
+            const scoreDiff = scoreRec(latest,r.facility)-scoreRec(jan,r.facility);
+            const prodDiff  = mtd(latest,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity');
+            return { ...r, scoreDiff, prodDiff, janScore:scoreRec(jan,r.facility), marScore:scoreRec(latest,r.facility) };
           }).filter(Boolean).sort((a,b)=>b.scoreDiff!==a.scoreDiff?b.scoreDiff-a.scoreDiff:b.prodDiff-a.prodDiff).slice(0,3);
 
           return (
@@ -2832,11 +2832,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               {/* Spotlight */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="bg-emerald-500/10 backdrop-blur-xl rounded-2xl border border-emerald-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → June MTD)</h3></div>
+                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → July)</h3></div>
                   <div className="space-y-3">
                     {improved.map((r,i) => {
                       const janProd = r.months[0] ? mtd(r.months[0],'productivityMTD','productivity') : 0;
-                      const marProd = r.months[2] ? mtd(r.months[2],'productivityMTD','productivity') : 0;
+                      const marProd = r.months[r.months.length-1] ? mtd(r.months[r.months.length-1],'productivityMTD','productivity') : 0;
                       return (
                         <div key={i} className="bg-white/5 rounded-xl px-4 py-3">
                           <div className="flex items-center justify-between mb-1">
