@@ -17,6 +17,8 @@ const BUILDING_GOALS = {
   'Bridgewood PA':  { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
   'Morgan Hill HC': { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
   'Manresa HC':     { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
+  'Pac Coast PA':        { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
+  'Blue Oak Post Acute': { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
 };
 const getGoals = (facility) => BUILDING_GOALS[facility] || { productivity: 84, cpm: 1.45, mode: 4, medB: 50 };
 
