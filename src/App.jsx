@@ -1975,7 +1975,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July MTD 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -2694,7 +2694,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <h3 className="text-2xl font-black text-cyan-300">Q2</h3>
                         <div className="flex items-center gap-2">
                           <span className="text-xs text-slate-500 font-bold">Apr – Jun 2026</span>
-                          <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                         </div>
                       </div>
                       <div className="grid grid-cols-4 gap-1 mb-2">
@@ -2729,11 +2728,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 })()}
 
 
-                {/* July MTD card */}
+                {/* July card */}
                 {monthTotals[6] && monthTotals[6].totals && (
                   <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
                     <div className="flex items-center justify-between mb-5">
-                      <h3 className="text-2xl font-black text-cyan-300">July MTD</h3>
+                      <h3 className="text-2xl font-black text-cyan-300">July</h3>
                       <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                     </div>
                     <div className="space-y-3">
@@ -2763,7 +2762,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · July MTD</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · July</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
