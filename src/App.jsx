@@ -674,6 +674,7 @@ export default function App() {
     { label: 'May', start: '2026-05-01', end: '2026-05-31' },
     { label: 'Jun', start: '2026-06-01', end: '2026-06-30' },
     { label: 'Jul', start: '2026-07-01', end: '2026-07-31' },
+    { label: 'Aug MTD', start: '2026-08-01', end: '2026-08-31' },
   ];
 
   // Auth state
@@ -2728,33 +2729,60 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 })()}
 
 
-                {/* July card */}
-                {monthTotals[6] && monthTotals[6].totals && (
-                  <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
-                    <div className="flex items-center justify-between mb-5">
-                      <h3 className="text-2xl font-black text-cyan-300">July</h3>
-                      <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
-                    </div>
-                    <div className="space-y-3">
-                      {[
-                        { label:'Avg Productivity', val:monthTotals[6].totals.avgProd+'%',  good:parseFloat(monthTotals[6].totals.avgProd)>=84 },
-                        { label:'Avg CPM',           val:'$'+monthTotals[6].totals.avgCPM,  good:parseFloat(monthTotals[6].totals.avgCPM)<=1.45 },
-                        { label:'Med B Units',       val:monthTotals[6].totals.totalUnits.toLocaleString(), good:null },
-                        { label:'Med B Revenue',     val:'$'+(((monthTotals[6].totals.totalRev||0)+(monthTotals[6].totals.totalRespRev||0))/1000).toFixed(0)+'k', good:null },
-                        { label:'At Prod Goal',      val:monthTotals[6].totals.atGoalProd+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalProd>=monthTotals[6].totals.n*0.7 },
-                        { label:'At CPM Goal',       val:monthTotals[6].totals.atGoalCPM+' / '+monthTotals[6].totals.n+' bldgs',  good:monthTotals[6].totals.atGoalCPM>=monthTotals[6].totals.n*0.7 },
-                        { label:'At Mode Goal',      val:monthTotals[6].totals.atGoalMode+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalMode>=monthTotals[6].totals.n*0.7 },
-                        { label:'At Med B% Goal',    val:monthTotals[6].totals.atGoalMedB+' / '+monthTotals[6].totals.n+' bldgs', good:monthTotals[6].totals.atGoalMedB>=monthTotals[6].totals.n*0.7 },
-                        { label:'All 4 Goals',       val:monthTotals[6].totals.atGoalAll+' / '+monthTotals[6].totals.n+' bldgs',  good:monthTotals[6].totals.atGoalAll>=monthTotals[6].totals.n*0.5 },
-                      ].map((row,ri) => (
-                        <div key={ri} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                          <span className="text-slate-400 text-sm">{row.label}</span>
-                          <span className={`font-black text-base ${row.good===null?'text-white':row.good?'text-emerald-300':'text-rose-300'}`}>{row.val}</span>
+                {/* Q3 Card — Jul / Aug MTD */}
+                {(() => {
+                  const q3 = monthTotals.slice(6,8);
+                  if (!q3.some(m => m.totals)) return null;
+                  const rows = [
+                    { label:'Avg Productivity', key:'avgProd',     fmt: v=>v+'%',                                    good: v=>parseFloat(v)>=84 },
+                    { label:'Avg CPM',           key:'avgCPM',     fmt: v=>'$'+v,                                    good: v=>parseFloat(v)<=1.45 },
+                    { label:'Med B Units',       key:'totalUnits', fmt: v=>v.toLocaleString(),                       good: null },
+                    { label:'Med B Revenue',     key:'totalAllRev',fmt: v=>'$'+(v/1000).toFixed(0)+'k',             good: null },
+                    { label:'At Prod Goal',      key:'atGoalProd', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At CPM Goal',       key:'atGoalCPM',  fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At Mode Goal',      key:'atGoalMode', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'At Med B% Goal',    key:'atGoalMedB', fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.7,   isGoal:true },
+                    { label:'All 4 Goals',       key:'atGoalAll',  fmt: (v,t)=>v+' / '+t, good: (v,t)=>v>=t*0.5,   isGoal:true },
+                  ];
+                  return (
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/40 shadow-xl">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-2xl font-black text-cyan-300">Q3</h3>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-slate-500 font-bold">Jul – Sep 2026</span>
+                          <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                         </div>
-                      ))}
+                      </div>
+                      <div className={`grid gap-1 mb-2`} style={{gridTemplateColumns:`1fr repeat(${q3.length},1fr)`}}>
+                        <div className="text-slate-500 text-xs"></div>
+                        {q3.map(m => (
+                          <div key={m.label} className="text-center text-xs font-black text-cyan-400 uppercase tracking-wider">{m.label}</div>
+                        ))}
+                      </div>
+                      <div className="space-y-2">
+                        {rows.map((row,ri) => (
+                          <div key={ri} className="grid gap-1 py-1.5 border-b border-white/5 last:border-0 items-center" style={{gridTemplateColumns:`1fr repeat(${q3.length},1fr)`}}>
+                            <span className="text-slate-400 text-xs">{row.label}</span>
+                            {q3.map((m,mi) => {
+                              if (!m.totals) return <span key={mi} className="text-center text-xs text-slate-600">—</span>;
+                              const v = row.key === 'totalAllRev'
+                                ? (m.totals.totalRev||0) + (m.totals.totalRespRev||0)
+                                : m.totals[row.key];
+                              const n = m.totals.n;
+                              const isGood = row.good === null ? null : row.isGoal ? row.good(v,n) : row.good(v);
+                              const display = row.isGoal ? row.fmt(v,n) : row.fmt(v);
+                              return (
+                                <span key={mi} className={`text-center text-xs font-black ${isGood===null?'text-white':isGood?'text-emerald-300':'text-rose-300'}`}>
+                                  {display}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
 
               </div>
 
@@ -2762,7 +2790,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · July</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · Q3 (Jul-Aug MTD)</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
@@ -2775,7 +2803,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">Q2</th>
-                        <th colSpan={4} className="py-3 px-2 text-cyan-200 font-bold uppercase text-xs text-center border-l border-white/10">Q3</th>
+                        <th colSpan={8} className="py-3 px-2 text-cyan-200 font-bold uppercase text-xs text-center border-l border-white/10">Q3</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
@@ -2795,7 +2823,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const isNewRegion = ri===0 || row.region !== facilityRows[ri-1].region;
                         return (
                           <React.Fragment key={ri}>
-                            {isNewRegion && <tr className="bg-white/5"><td colSpan={30} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
+                            {isNewRegion && <tr className="bg-white/5"><td colSpan={34} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
                             <tr className="border-b border-white/5 hover:bg-white/5">
                               <td className="py-2 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{shortName(row.facility)}</td>
                               <td className="py-2 px-2 text-center">
@@ -2832,7 +2860,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               {/* Spotlight */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="bg-emerald-500/10 backdrop-blur-xl rounded-2xl border border-emerald-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → July)</h3></div>
+                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')})</h3></div>
                   <div className="space-y-3">
                     {improved.map((r,i) => {
                       const janProd = r.months[0] ? mtd(r.months[0],'productivityMTD','productivity') : 0;
