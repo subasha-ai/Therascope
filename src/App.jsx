@@ -1892,14 +1892,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       // Spotlight page
       const struggling = allFacilities.filter(fac => {
         if (['Camino Ridge Post Acute','Pac Coast PA','Golden Harbor HC'].includes(fac)) return false;
-        const scores = EXEC_MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end)));
+        const scores = EXEC_MONTHS.map(m => scoreRec(getMonthFinal(fac, m.start, m.end), fac));
         return scores.filter(s => s <= 1).length >= 2;
       });
       const improvedList = allFacilities.map(fac => {
         const jan = getMonthFinal(fac, EXEC_MONTHS[0].start, EXEC_MONTHS[0].end);
         const mar = getMonthFinal(fac, EXEC_MONTHS[EXEC_MONTHS.length-1].start, EXEC_MONTHS[EXEC_MONTHS.length-1].end);
         if (!jan || !mar) return null;
-        return { fac, scoreDiff: scoreRec(mar)-scoreRec(jan), prodDiff: mtd(mar,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity'), js: scoreRec(jan), ms: scoreRec(mar) };
+        return { fac, scoreDiff: scoreRec(mar,fac)-scoreRec(jan,fac), prodDiff: mtd(mar,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity'), js: scoreRec(jan,fac), ms: scoreRec(mar,fac) };
       }).filter(Boolean).sort((a,b) => b.scoreDiff !== a.scoreDiff ? b.scoreDiff-a.scoreDiff : b.prodDiff-a.prodDiff).slice(0,5);
 
       doc.addPage();
@@ -1948,7 +1948,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'April',   start: '2026-04-01', end: '2026-04-30', isMTD: false },
       { label: 'May',     start: '2026-05-01', end: '2026-05-31', isMTD: false },
       { label: 'June',    start: '2026-06-01', end: '2026-06-30', isMTD: false },
-      { label: 'Jul MTD', start: '2026-07-01', end: '2026-07-31', isMTD: true  },
+      { label: 'July',    start: '2026-07-01', end: '2026-07-31', isMTD: false },
+      { label: 'Aug MTD', start: '2026-08-01', end: '2026-08-31', isMTD: true  },
     ];
     const getFacData = (fac, dm) => {
       const rec = getMonthFinal(fac, dm.start, dm.end);
@@ -1964,7 +1965,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       navy:[11,17,32], navyMid:[17,27,50], slate:[28,38,60], slate2:[38,52,78], slate3:[52,68,98],
       cyan:[6,182,212], teal:[13,148,136], white:[255,255,255], offWhite:[220,230,245],
       muted:[110,128,160], green:[52,211,153], red:[248,113,113],
-      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[22,32,58],[12,60,80],[10,72,90]],
+      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[22,32,58],[18,38,55],[12,60,80],[10,72,90]],
     };
     try {
       const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'letter' });
@@ -1976,7 +1977,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August MTD 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -1985,7 +1986,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
       const buildTable = (region) => {
         const facList = allFacilities.filter(f=>allWeeklyData.find(d=>d.facility===f)?.region===region).sort();
-        const COL_W = 8; const FAC_W = 29;
+        const COL_W = 7.2; const FAC_W = 26;
         const head = [
           [
             {content:region,rowSpan:2,styles:{valign:'middle',halign:'left',fillColor:C.slate,textColor:C.cyan,fontStyle:'bold',fontSize:8}},
@@ -1996,7 +1997,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           ],
           [...DIGEST_MONTHS.map((_,mi)=>
             ['PROD','CPM','MODE','MED B'].map(l=>({
-              content:l,styles:{halign:'center',fontSize:5.5,fillColor:C.mb[mi].map(v=>Math.min(255,v+10)),textColor:C.muted}
+              content:l,styles:{halign:'center',fontSize:5,fillColor:C.mb[mi].map(v=>Math.min(255,v+10)),textColor:C.muted}
             }))
           ).flat()],
         ];
@@ -2014,8 +2015,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         });
         return {
           head, body, theme:'plain',
-          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:6.5,cellPadding:1.5},
-          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:6.5,cellPadding:1.5},
+          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:6,cellPadding:1.2},
+          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:6,cellPadding:1.2},
           alternateRowStyles:{fillColor:C.slate2},
           columnStyles:{
             0:{cellWidth:FAC_W,fontStyle:'bold',textColor:C.white},
