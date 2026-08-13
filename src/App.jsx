@@ -2950,6 +2950,15 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
                             </tr>
+                            {/* Repeated month-label row (visible even when scrolled past the main header) */}
+                            <tr className="border-b border-white/10 bg-white/5">
+                              <td className="py-2 px-4"></td>
+                              {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'].map(m => (
+                                <td key={m} className="py-2 px-4 text-center">
+                                  <span className="text-slate-400 font-bold text-xs uppercase">{m}</span>
+                                </td>
+                              ))}
+                            </tr>
                             {/* Region average row */}
                             <tr className="border-b border-white/10 bg-white/3">
                               <td className="py-2 px-4 text-slate-400 text-xs font-bold italic">Region Avg</td>
