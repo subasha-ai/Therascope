@@ -679,6 +679,7 @@ export default function App() {
 
   // Auth state
   const [isAuthenticated,          setIsAuthenticated]          = useState(false);
+  const [hideRevenue,              setHideRevenue]              = useState(false);
   const [loginType,                setLoginType]                = useState(null);
   const [selectedFacilityForLogin, setSelectedFacilityForLogin] = useState('');
   const [passwordAttempt,          setPasswordAttempt]          = useState('');
@@ -2622,6 +2623,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               </div>
 
               {/* Company Summary — Q1 trend card + April + May */}
+              <div className="flex items-center justify-end">
+                <button
+                  onClick={() => setHideRevenue(v => !v)}
+                  className={`text-xs font-bold px-4 py-2 rounded-full border transition-all ${hideRevenue ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40' : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/10'}`}
+                >
+                  {hideRevenue ? '👁️ Revenue hidden — click to show' : '🙈 Hide Med B Revenue (for DOR-safe screenshots)'}
+                </button>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
                 {/* Q1 Card — Jan / Feb / Mar trend */}
@@ -2653,7 +2662,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         ))}
                       </div>
                       <div className="space-y-2">
-                        {rows.map((row,ri) => (
+                        {rows.filter(row => !(hideRevenue && row.label==='Med B Revenue')).map((row,ri) => (
                           <div key={ri} className="grid grid-cols-4 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
                             <span className="text-slate-400 text-xs">{row.label}</span>
                             {q1.map((m,mi) => {
@@ -2707,7 +2716,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         ))}
                       </div>
                       <div className="space-y-2">
-                        {rows.map((row,ri) => (
+                        {rows.filter(row => !(hideRevenue && row.label==='Med B Revenue')).map((row,ri) => (
                           <div key={ri} className="grid grid-cols-4 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
                             <span className="text-slate-400 text-xs">{row.label}</span>
                             {q2.map((m,mi) => {
@@ -2765,7 +2774,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         ))}
                       </div>
                       <div className="space-y-2">
-                        {rows.map((row,ri) => (
+                        {rows.filter(row => !(hideRevenue && row.label==='Med B Revenue')).map((row,ri) => (
                           <div key={ri} className="grid grid-cols-4 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
                             <span className="text-slate-400 text-xs">{row.label}</span>
                             {q3.map((m,mi) => {
