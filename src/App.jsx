@@ -2918,7 +2918,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <thead>
                       <tr className="border-b border-white/10">
                         <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Building</th>
-                        {['Jan 2026','Feb 2026','Mar 2026','Apr','May','Jun','Jul','Aug'].map(m => (
+                        {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'].map(m => (
                           <th key={m} className="py-3 px-4 text-slate-400 font-bold text-xs uppercase text-center">{m}</th>
                         ))}
                       </tr>
