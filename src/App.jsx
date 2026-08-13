@@ -731,25 +731,27 @@ export default function App() {
   });
   const [alosData, setAlosData] = useState({
     // Golden Coast — names match data.json exactly
-    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3', may: '35.2', jun: '25.6' },
-    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0', may: '52.6', jun: '45.6' },
-    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8', may: '60.9', jun: '32.2' },
-    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3', may: '43.2', jun: '41.0' },
-    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5', may: '29.0', jun: '49.5' },
-    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4', may: '31.5', jun: '38.7' },
-    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2', may: '34.2', jun: '27.4' },
-    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3', may: '53.6', jun: '30.1' },
-    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9', may: '58.0', jun: '50.5' },
-    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0', may: '44.1', jun: '29.4' },
+    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3', may: '35.2', jun: '25.6', jul: '36.1', aug: '24.8' },
+    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0', may: '52.6', jun: '45.6', jul: '48.0', aug: '70.3' },
+    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8', may: '60.9', jun: '32.2', jul: '44.0', aug: '40.3' },
+    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3', may: '43.2', jun: '41.0', jul: '42.3', aug: '30.0' },
+    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5', may: '29.0', jun: '49.5', jul: '48.5', aug: '38.0' },
+    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4', may: '31.5', jun: '38.7', jul: '33.75', aug: '28.3' },
+    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2', may: '34.2', jun: '27.4', jul: '40.2', aug: '30.4' },
+    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3', may: '53.6', jun: '30.1', jul: '41.6', aug: '47.7' },
+    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9', may: '58.0', jun: '50.5', jul: '49.1', aug: '51.7' },
+    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0', may: '44.1', jun: '29.4', jul: '22.1', aug: '34.9' },
     // Overland — names match data.json exactly
-    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50', may: '31.28', jun: '51.09' },
-    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42', may: '29.86', jun: '42.92' },
-    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78', may: '53.62', jun: '38.89' },
-    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27', may: '41.83', jun: '44.36' },
-    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24',    may: '38.88', jun: '36.48' },
-    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64', may: '39.22', jun: '61.64' },
-    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22', may: '56.39', jun: '41.11' },
-    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23', may: '45.19', jun: '37.83' },
+    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50', may: '31.28', jun: '51.09', jul: '36.56', aug: '32.15' },
+    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42', may: '29.86', jun: '42.92', jul: '51.36', aug: '52.43' },
+    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78', may: '53.62', jun: '38.89', jul: '31.12', aug: '7' },
+    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27', may: '41.83', jun: '44.36', jul: '37.38', aug: '38.67' },
+    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24',    may: '38.88', jun: '36.48', jul: '30.47', aug: '38.00' },
+    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64', may: '39.22', jun: '61.64', jul: '48.25', aug: '51.5' },
+    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22', may: '56.39', jun: '41.11', jul: '43.75', aug: '51' },
+    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23', may: '45.19', jun: '37.83', jul: '37.53', aug: '79' },
+    'Vacaville Ranch PA':      { jan: '',     feb: '',     mar: '',     apr: '',      may: '',      jun: '',      jul: '23.33', aug: '29' },
+    'Millbrae HC':             { jan: '',     feb: '',     mar: '',     apr: '',      may: '',      jun: '',      jul: '15.00', aug: '9.50' },
   });
   const [showReportModal,   setShowReportModal]   = useState(false);
   const [reportRegion,      setReportRegion]      = useState(null);
@@ -2730,10 +2732,12 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 })()}
 
 
-                {/* Q3 Card — Jul / Aug MTD */}
+                {/* Q3 Card — Jul / Aug / Sep, padded to match Q1/Q2 width */}
                 {(() => {
-                  const q3 = monthTotals.slice(6,8);
-                  if (!q3.some(m => m.totals)) return null;
+                  const q3raw = monthTotals.slice(6,9);
+                  if (!q3raw.some(m => m.totals)) return null;
+                  const q3fallbackLabels = ['Jul','Aug','Sep'];
+                  const q3 = [0,1,2].map(i => q3raw[i] || { label: q3fallbackLabels[i], totals: null });
                   const rows = [
                     { label:'Avg Productivity', key:'avgProd',     fmt: v=>v+'%',                                    good: v=>parseFloat(v)>=84 },
                     { label:'Avg CPM',           key:'avgCPM',     fmt: v=>'$'+v,                                    good: v=>parseFloat(v)<=1.45 },
@@ -2754,7 +2758,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                         </div>
                       </div>
-                      <div className={`grid gap-1 mb-2`} style={{gridTemplateColumns:`1fr repeat(${q3.length},1fr)`}}>
+                      <div className="grid grid-cols-4 gap-1 mb-2">
                         <div className="text-slate-500 text-xs"></div>
                         {q3.map(m => (
                           <div key={m.label} className="text-center text-xs font-black text-cyan-400 uppercase tracking-wider">{m.label}</div>
@@ -2762,7 +2766,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       </div>
                       <div className="space-y-2">
                         {rows.map((row,ri) => (
-                          <div key={ri} className="grid gap-1 py-1.5 border-b border-white/5 last:border-0 items-center" style={{gridTemplateColumns:`1fr repeat(${q3.length},1fr)`}}>
+                          <div key={ri} className="grid grid-cols-4 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
                             <span className="text-slate-400 text-xs">{row.label}</span>
                             {q3.map((m,mi) => {
                               if (!m.totals) return <span key={mi} className="text-center text-xs text-slate-600">—</span>;
@@ -2914,7 +2918,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <thead>
                       <tr className="border-b border-white/10">
                         <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Building</th>
-                        {['Jan 2026','Feb 2026','Mar 2026','Apr','May','Jun'].map(m => (
+                        {['Jan 2026','Feb 2026','Mar 2026','Apr','May','Jun','Jul','Aug'].map(m => (
                           <th key={m} className="py-3 px-4 text-slate-400 font-bold text-xs uppercase text-center">{m}</th>
                         ))}
                       </tr>
@@ -2925,11 +2929,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             if (f === 'Palo Alto Post Acute') return false; // handled separately below
                             return allWeeklyData.find(d=>d.facility===f)?.region===region;
                           });
-                        const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr||a.may);
-                        // Palo Alto: Jan/Feb/Mar under Overland, Apr/May under Golden Coast
+                        const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr||a.may||a.jun||a.jul||a.aug);
+                        // Palo Alto: Jan/Feb/Mar under Overland, Apr onward under Golden Coast
                         const paloAltoRow = region === 'Golden Coast'
-                          ? [{ fac: 'Palo Alto Post Acute', a: { jan:'', feb:'', mar:'', apr: alosData['Palo Alto Post Acute']?.apr||'', may: alosData['Palo Alto Post Acute']?.may||'', jun: alosData['Palo Alto Post Acute']?.jun||'' } }]
-                          : [{ fac: 'Palo Alto Post Acute', a: { jan: alosData['Palo Alto Post Acute']?.jan||'', feb: alosData['Palo Alto Post Acute']?.feb||'', mar: alosData['Palo Alto Post Acute']?.mar||'', apr:'', may:'', jun:'' } }];
+                          ? [{ fac: 'Palo Alto Post Acute', a: { jan:'', feb:'', mar:'', apr: alosData['Palo Alto Post Acute']?.apr||'', may: alosData['Palo Alto Post Acute']?.may||'', jun: alosData['Palo Alto Post Acute']?.jun||'', jul: alosData['Palo Alto Post Acute']?.jul||'', aug: alosData['Palo Alto Post Acute']?.aug||'' } }]
+                          : [{ fac: 'Palo Alto Post Acute', a: { jan: alosData['Palo Alto Post Acute']?.jan||'', feb: alosData['Palo Alto Post Acute']?.feb||'', mar: alosData['Palo Alto Post Acute']?.mar||'', apr:'', may:'', jun:'', jul:'', aug:'' } }];
                         if (!facRows.length) return null;
 
                         // Compute region averages
@@ -2942,14 +2946,14 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <React.Fragment key={region}>
                             {/* Region header row */}
                             <tr className="bg-white/5 border-b border-white/10">
-                              <td colSpan={7} className="py-2 px-4">
+                              <td colSpan={9} className="py-2 px-4">
                                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
                             </tr>
                             {/* Region average row */}
                             <tr className="border-b border-white/10 bg-white/3">
                               <td className="py-2 px-4 text-slate-400 text-xs font-bold italic">Region Avg</td>
-                              {['jan','feb','mar','apr','may','jun'].map((mo,vi) => {
+                              {['jan','feb','mar','apr','may','jun','jul','aug'].map((mo,vi) => {
                                 const v = avg(mo);
                                 return (
                                   <td key={vi} className="py-2 px-4 text-center">
@@ -2962,7 +2966,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             {[...facRows, ...paloAltoRow].map(({fac, a}, i) => (
                               <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
                                 <td className="py-2.5 px-4 text-white text-xs font-medium pl-8">{fac}</td>
-                                {[a.jan,a.feb,a.mar,a.apr,a.may,a.jun].map((v, vi) => (
+                                {[a.jan,a.feb,a.mar,a.apr,a.may,a.jun,a.jul,a.aug].map((v, vi) => (
                                   <td key={vi} className="py-2.5 px-4 text-center">
                                     <span className={`text-sm font-bold ${v&&parseFloat(v)<30?'text-rose-400':'text-slate-300'}`}>
                                       {v||'—'}
