@@ -701,10 +701,6 @@ export default function App() {
   const [resourcesLoading, setResourcesLoading] = useState(true);
   const [resourcesError,   setResourcesError]   = useState(null);
 
-  // AI Briefing state
-  const [briefingText,    setBriefingText]    = useState('');
-  const [briefingLoading, setBriefingLoading] = useState(false);
-
   // Region Report state
   const [complianceData, setComplianceData] = useState({
     'Overland': [
@@ -764,10 +760,6 @@ export default function App() {
   const [resourcesPin,       setResourcesPin]       = useState('');
   const [scorecardOpen,     setScorecardOpen]     = useState(true);
   const [complianceOpen,    setComplianceOpen]    = useState(true);
-  const [checkInData,       setCheckInData]       = useState([]);
-  const [checkInWeek,       setCheckInWeek]       = useState(null);
-  const [checkInSummaries,  setCheckInSummaries]  = useState({});
-  const [summaryLoading,    setSummaryLoading]    = useState(false);
   const [digestResult,      setDigestResult]      = useState(null);
   const [digestSending,     setDigestSending]     = useState(false);
   const [testEmail,         setTestEmail]         = useState('');
@@ -889,12 +881,7 @@ export default function App() {
 
   // Computed display values
   const latestDateStr = allWeeklyData.reduce((max,d) => d.date > max ? d.date : max, '');
-  const throughDate = (() => {
-    const d = new Date(latestDateStr);
-    // Use last day of the month (MTD report)
-    const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0);
-    return lastDay.toISOString().split('T')[0];
-  })();
+  const throughDate = latestDateStr;
   const currentMonthName = (() => {
     const d = new Date(latestDateStr);
     return d.toLocaleString('default', { month: 'long' });
@@ -1019,41 +1006,6 @@ export default function App() {
     }
   };
 
-  // ── AI Briefing
-  const generateBriefing = async () => {
-    if (!myFacilityData) return;
-    setBriefingLoading(true);
-    setBriefingText('');
-    const p    = mtd(myFacilityData,'productivityMTD','productivity');
-    const c    = mtd(myFacilityData,'cpmMTD','cpm');
-    const mo   = mtd(myFacilityData,'modeOfTreatmentMTD','modeOfTreatment');
-    const upv  = mtd(myFacilityData,'unitsPerVisitMTD','unitsPerVisit');
-    const rev  = mtd(myFacilityData,'medicareMPPRRevenueMTD','medicareMPPRRevenue');
-    const cas  = myFacilityData.medBCaseload || 0;
-    const elig = myFacilityData.medBEligible || 0;
-    const buildingData = {
-      building: myFacilityData.facility,
-      region: myFacilityData.region,
-      productivity: { current: p.toFixed(1), target: 84, trend: myPrevWeekData ? (p - mtd(myPrevWeekData,'productivityMTD','productivity')).toFixed(1)+'pp vs last week' : 'n/a' },
-      cpm: { current: Math.trunc(c*100)/100, target: 1.45, trend: myPrevWeekData ? (c - mtd(myPrevWeekData,'cpmMTD','cpm')).toFixed(2)+' vs last week' : 'n/a' },
-      modeOfTreatment: { cgPct: mo.toFixed(1), trend: myPrevWeekData ? (mo - mtd(myPrevWeekData,'modeOfTreatmentMTD','modeOfTreatment')).toFixed(1)+'pp vs last week' : 'n/a' },
-      unitsPerVisit: upv.toFixed(2),
-      medB: { caseload: cas, eligible: elig, pct: elig > 0 ? Math.round((cas/elig)*100) : 0, revenueMTD: '$'+rev.toFixed(0) },
-    };
-    const prompt = `You are an AI assistant embedded in Therascope, a therapy operations dashboard for skilled nursing facilities. A Director of Rehabilitation (DOR) has just logged in to review their weekly data. Based on their building's current week data, write a concise practical weekly briefing — 3 short paragraphs. Be direct and specific, using actual numbers. Prioritize the most urgent items first. Write as a knowledgeable colleague giving a quick verbal handoff at the start of the week. No markdown, no bullet points, no headers. Under 180 words.\n\nGoals and thresholds:\n- Productivity: goal is 84% or above\n- CPM: goal is $1.45 or below (lower is better)\n- Mode of treatment (C/G %): goal is 4% or above (higher is better — more group/concurrent treatment is desirable)\n- Units per visit (UPV): goal is 3.0 or above (higher is better)\n- Med B caseload: goal is 50% or more of eligible patients on caseload\n\nBuilding data (week ending ${throughDate}):\n${JSON.stringify(buildingData, null, 2)}`;
-    try {
-      const res = await fetch('/api/briefing', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] })
-      });
-      const data = await res.json();
-      const text = data.content?.find(b => b.type === 'text')?.text || 'Unable to generate briefing.';
-      setBriefingText(text);
-    } catch { setBriefingText('Unable to generate briefing. Please try again.'); }
-    setBriefingLoading(false);
-  };
-
   // ── DOR PDF Report
   const generateMyReport = async () => {
     if (!window.confirm(`Generate your report for ${restrictedFacility}?`)) return;
@@ -1084,18 +1036,25 @@ export default function App() {
         startY: 50,
         head: [['Metric','MTD Value','Goal','Status']],
         body: [
-          ['Productivity',   p.toFixed(1)+'%',  '>= 84%',       p >= 84 ? '✓' : '✗'],
-          ['CPM',           '$'+Math.trunc(c*100)/100,   '< $1.45',      c <= 1.45 ? '✓' : '✗'],
-          ['Mode of Tx',    mo.toFixed(1)+'%',  '>= 4%',        parseFloat(mo.toFixed(1)) >= 4 ? '✓' : '✗'],
+          ['Productivity',   p.toFixed(1)+'%',  '>= 84%',       p >= 84 ? 'PASS' : 'FAIL'],
+          ['CPM',           '$'+Math.trunc(c*100)/100,   '< $1.45',      c <= 1.45 ? 'PASS' : 'FAIL'],
+          ['Mode of Tx',    mo.toFixed(1)+'%',  '>= 4%',        parseFloat(mo.toFixed(1)) >= 4 ? 'PASS' : 'FAIL'],
           ['Units/Visit',   upv.toFixed(2),     '—',            '—'],
           ['Med B Rev MTD', '$'+(rev/1000).toFixed(1)+'k', '—', '—'],
           ['Med B Eligible', String(elig),       '—',            '—'],
-          ['On Caseload',   String(cas),         '>= 50% of elig', elig > 0 && cas/elig >= 0.5 ? '✓' : '✗'],
+          ['On Caseload',   String(cas),         '>= 50% of elig', elig > 0 && cas/elig >= 0.5 ? 'PASS' : 'FAIL'],
         ],
         theme: 'grid',
         headStyles: { fillColor:[6,182,212], textColor:[255,255,255], fontStyle:'bold' },
         bodyStyles: { fillColor:[30,41,59], textColor:[255,255,255] },
         alternateRowStyles: { fillColor:[51,65,85] },
+        didParseCell: (data) => {
+          if (data.section==='body' && data.column.index===3) {
+            if (data.cell.raw==='PASS') data.cell.styles.textColor=[52,211,153];
+            if (data.cell.raw==='FAIL') data.cell.styles.textColor=[248,113,113];
+            data.cell.styles.fontStyle='bold';
+          }
+        },
       });
 
       if (history.length > 1) {
@@ -1676,145 +1635,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
     setDigestSending(false);
   };
 
-  // ── DOR Check-In Parser
-  const handleCheckInUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const XLSX = await import('https://cdn.sheetjs.com/xlsx-0.20.1/package/xlsx.mjs');
-    const buf  = await file.arrayBuffer();
-    const wb   = XLSX.read(buf);
-    const ws   = wb.Sheets['Master'];
-    if (!ws) return;
-    const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
-    const headers = rows[0];
-
-    const col  = (name) => headers.findIndex(h => h && h.toString().toLowerCase().includes(name.toLowerCase()));
-    const colExact = (name) => headers.findIndex(h => h && h.toString().replace(/\s+/g,' ').trim().toLowerCase() === name.toLowerCase());
-
-    const parseWeekDate = (val) => {
-      if (!val) return 'Unknown';
-      const n = parseInt(val);
-      if (n > 40000) {
-        const d = new Date((n - 25569) * 86400 * 1000);
-        return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      }
-      const s = String(n).padStart(4, '0');
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      const m = parseInt(s.slice(0,2));
-      const d2 = parseInt(s.slice(2));
-      return `${months[m-1]} ${d2}`;
-    };
-
-    // Map all section columns
-    const iName     = col('your name');
-    const iWeek     = col('week of');
-    const iFacility = col('name of facility');
-    const iSec1     = 8;  // Section 1: Therapy Delivery - Yes/No
-    const iSec1No   = 9;  // If no, primary driver
-    const iSec2a    = 10; // Section 2: Orders/careplans
-    const iSec2b    = 11; // Section 2: Orders/careplans
-    const iSec2c    = 12; // Section 2: Orders/careplans
-    const iSec2d    = 13; // Section 2: Orders/careplans
-    const iMissing  = 14; // Any Missing Labor
-    const iSec1b    = 15; // Section 1 part 2
-    const iSec3a    = 16; // Section 3: Compliance
-    const iSec3b    = 17; // Section 3: Compliance notes
-    const iSec3c    = 18; // Section 3: Compliance
-    const iSec4     = 19; // Section 4: Staffing
-    const iWeekend  = 20; // Weekend staffing
-    const iSec5     = 21; // Section 5: Time load
-    const iPulse1   = 22; // DOR Pulse Check
-    const iPulse2   = 23; // DOR Pulse Check alt
-    const iProd     = 26; // Team Productivity
-    const iCPM      = 28; // CPM
-    const iEligible = 30; // Part B eligible
-    const iCaseload = 31; // Part B on caseload
-    const iLT       = 32; // LT pickups
-    const iMode     = 33; // Mode
-    const iTravelers= 34; // Travelers
-    const iStaffing = 35; // Open positions
-
-    const isNo = (v) => { if (!v || typeof v !== 'string') return false; const t = v.trim().toLowerCase(); return t === 'no' || t.startsWith('no ') || t.startsWith('no-') || t.startsWith('no,'); };
-    const isEmpty = (v) => !v || v.toString().trim() === '' || v.toString().toLowerCase() === 'none' || v.toString().toLowerCase() === 'n/a' || v.toString() === '0';
-
-    const parsed = rows.slice(1).filter(r => r[iFacility]).map(r => ({
-      dorName:        (r[iName] || '').trim(),
-      week:           r[iWeek] || '',
-      weekDisplay:    parseWeekDate(r[iWeek]),
-      facility:       (r[iFacility] || '').trim(),
-      // Section 1 — Therapy Delivery
-      therapyGoalMet: r[iSec1] || '',
-      therapyDriver:  r[iSec1No] || '',
-      therapyNotes:   r[iSec1b] || '',
-      // Section 2 — Orders/Careplans/Documentation
-      orders:         [r[iSec2a], r[iSec2b], r[iSec2c], r[iSec2d]].filter(Boolean),
-      missingLabor:   r[iMissing] || '',
-      // Section 3 — Compliance & Risk
-      compliance:     r[iSec3a] || '',
-      complianceNotes:r[iSec3b] || '',
-      complianceRisk: r[iSec3c] || '',
-      // Section 4 — Staffing
-      staffingCoverage: r[iSec4] || '',
-      weekendCoverage:  r[iWeekend] || '',
-      // Section 5 — Time & Operational Load
-      timeLoad:       r[iSec5] || '',
-      // Pulse Check
-      pulse:          r[iPulse1] || r[iPulse2] || '',
-      // Quantitative
-      teamProd:       r[iProd],
-      cpm:            r[iCPM],
-      eligible:       r[iEligible],
-      caseload:       r[iCaseload],
-      ltPickups:      r[iLT],
-      mode:           r[iMode],
-      travelers:      r[iTravelers] || '',
-      staffing:       r[iStaffing] || '',
-    }));
-
-    const latestByFacility = {};
-    parsed.forEach(r => {
-      const w = parseInt(r.week) || 0;
-      if (!latestByFacility[r.facility] || w > parseInt(latestByFacility[r.facility].week)) {
-        latestByFacility[r.facility] = r;
-      }
-    });
-
-    const latest = Object.values(latestByFacility);
-    setCheckInData(latest);
-    setCheckInWeek(latest[0]?.weekDisplay || '');
-    setCheckInSummaries({});
-  };
-
-  // ── Generate AI Summaries for Check-Ins
-  const generateCheckInSummaries = async () => {
-    if (!checkInData.length) return;
-    setSummaryLoading(true);
-    const summaries = {};
-
-    // Process in batches of 6
-    const batches = [];
-    for (let i = 0; i < checkInData.length; i += 6) batches.push(checkInData.slice(i, i + 6));
-
-    for (const batch of batches) {
-      try {
-        const prompt = `You are reviewing DOR weekly check-ins. For each building write a 1-2 sentence plain English summary of the most important issue or status. Flag anything needing attention.\n\n${batch.map(r => `${r.facility} (${r.dorName}):\n- Therapy goals met: ${r.therapyGoalMet||'N/A'}${r.therapyDriver?' — '+r.therapyDriver:''}\n- Missing labor: ${r.missingLabor||'None'}\n- Compliance: ${r.compliance||'N/A'} ${r.complianceNotes||''}\n- Staffing: ${r.staffingCoverage||'N/A'} | Weekend: ${r.weekendCoverage||'N/A'}\n- Travelers: ${r.travelers||'None'}\n- Open positions: ${r.staffing||'None'}\n- DOR pulse: ${r.pulse||'None'}`).join('\n\n')}\n\nRespond ONLY valid JSON no markdown: {"Facility Name": "summary"}`;
-
-        const res = await fetch('/api/briefing', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: [{ role: 'user', content: prompt }] }),
-        });
-        const data = await res.json();
-        const text = data.content?.find(b => b.type === 'text')?.text || '{}';
-        const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
-        Object.assign(summaries, parsed);
-      } catch(e) { console.error('Summary error', e); }
-    }
-
-    setCheckInSummaries(summaries);
-    setSummaryLoading(false);
-  };
-
   // ── Executive PDF
   const generateExecPDF = () => {
     try {
@@ -2272,7 +2092,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
   const NAV_TABS = [
     ...(!isRestrictedView ? [{ id:'overview',   label:'Overview',        icon: Activity  }] : []),
     ...(!isRestrictedView ? [{ id:'exec',        label:'Executive',       icon: Star      }] : []),
-    ...(!isRestrictedView ? [{ id:'checkins',    label:'Check-Ins',       icon: CheckCircle}] : []),
     {                        id:'facilities',    label: isRestrictedView ? 'My Facility' : 'All Facilities', icon: Building2 },
     ...(isRestrictedView  ? [{ id:'compliance', label:'Compliance',       icon: CheckCircle }] : []),
     ...(isRestrictedView  ? [{ id:'resources',  label:'Resources',        icon: FileText  }] : []),
@@ -2503,16 +2322,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           })).filter(r => r.months.some(Boolean))
             .sort((a,b) => a.region !== b.region ? (a.region==='Golden Coast'?-1:1) : a.facility.localeCompare(b.facility));
 
-          const EXCLUDE_STRUGGLING = ['Camino Ridge Post Acute','Pac Coast PA','Golden Harbor HC'];
-          const struggling = facilityRows.filter(r => !EXCLUDE_STRUGGLING.includes(r.facility) && r.months.filter(Boolean).map(rec=>scoreRec(rec,r.facility)).filter(s=>s<=1).length >= 2);
-          const improved = facilityRows.map(r => {
-            const jan=r.months[0], latest=r.months[r.months.length-1];
-            if (!jan || !latest) return null;
-            const scoreDiff = scoreRec(latest,r.facility)-scoreRec(jan,r.facility);
-            const prodDiff  = mtd(latest,'productivityMTD','productivity')-mtd(jan,'productivityMTD','productivity');
-            return { ...r, scoreDiff, prodDiff, janScore:scoreRec(jan,r.facility), marScore:scoreRec(latest,r.facility) };
-          }).filter(Boolean).sort((a,b)=>b.scoreDiff!==a.scoreDiff?b.scoreDiff-a.scoreDiff:b.prodDiff-a.prodDiff).slice(0,3);
-
           return (
             <div className="space-y-8 pb-12">
 
@@ -2585,7 +2394,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <h2 className="text-3xl font-black text-white">Executive Summary</h2>
-                    <p className="text-slate-400 mt-1">Q1 · May · June MTD 2026 · {facilityRows.length} Facilities · 2 Regions</p>
+                    <p className="text-slate-400 mt-1">Jan – {EXEC_MONTHS[EXEC_MONTHS.length-1].label} 2026 · {facilityRows.length} Facilities · 2 Regions</p>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
                     <button onClick={downloadLeadershipDigest}
@@ -2871,51 +2680,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 </div>
               </div>
 
-              {/* Spotlight */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="bg-emerald-500/10 backdrop-blur-xl rounded-2xl border border-emerald-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">📈</span><h3 className="text-lg font-black text-white">Most Improved (Q1 → {EXEC_MONTHS[EXEC_MONTHS.length-1].label.replace(' MTD','')})</h3></div>
-                  <div className="space-y-3">
-                    {improved.map((r,i) => {
-                      const janProd = r.months[0] ? mtd(r.months[0],'productivityMTD','productivity') : 0;
-                      const marProd = r.months[r.months.length-1] ? mtd(r.months[r.months.length-1],'productivityMTD','productivity') : 0;
-                      return (
-                        <div key={i} className="bg-white/5 rounded-xl px-4 py-3">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-white font-bold text-sm">{shortName(r.facility)}</span>
-                            <span className="text-emerald-300 font-black text-sm">{r.janScore}/4 → {r.marScore}/4 goals</span>
-                          </div>
-                          <div className="flex gap-4 text-xs text-slate-400">
-                            <span>Prod: {janProd.toFixed(1)}% → <span className={marProd>=getGoals(r.facility).productivity?'text-emerald-300 font-bold':'text-rose-300 font-bold'}>{marProd.toFixed(1)}%</span></span>
-                            {r.prodDiff > 0 && <span className="text-emerald-400">+{r.prodDiff.toFixed(1)}pp</span>}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="bg-rose-500/10 backdrop-blur-xl rounded-2xl border border-rose-400/20 shadow-xl p-6">
-                  <div className="flex items-center gap-3 mb-5"><span className="text-2xl">🔴</span><h3 className="text-lg font-black text-white">Needs Attention (failing 3+ goals, 2+ months)</h3></div>
-                  {struggling.length === 0
-                    ? <div className="text-emerald-400 font-bold text-sm">✓ No buildings chronically failing multiple goals</div>
-                    : <div className="space-y-3">{struggling.map((r,i) => (
-                        <div key={i} className="bg-white/5 rounded-xl px-4 py-3">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-white font-bold text-sm">{shortName(r.facility)}</span>
-                            <span className={`px-2 py-0.5 rounded text-xs font-bold ${r.region==='Golden Coast'?'bg-amber-500/20 text-amber-300':'bg-blue-500/20 text-blue-300'}`}>{r.region==='Golden Coast'?'GC':'OL'}</span>
-                          </div>
-                          <div className="flex gap-2 flex-wrap">
-                            {r.months.filter(Boolean).map((rec,mi) => {
-                              const s = scoreRec(rec, r.facility);
-                              return <div key={mi} className={`text-xs px-2 py-1 rounded-lg font-bold ${s>=3?'bg-emerald-500/20 text-emerald-300':s===2?'bg-yellow-500/20 text-yellow-300':'bg-rose-500/20 text-rose-300'}`}>{EXEC_MONTHS[mi].label}: {s}/4</div>;
-                            })}
-                          </div>
-                        </div>
-                      ))}</div>
-                  }
-                </div>
-              </div>
-
               {/* ── ALOS Table */}
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden">
                 <div className="p-5 border-b border-white/10">
@@ -2933,7 +2697,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       </tr>
                     </thead>
                     <tbody>
-                      {['Golden Coast','Overland'].map(region => {
+                      {['Golden Coast','Overland'].map((region, regionIdx) => {
                         const regionFacs = allFacilities.filter(f => {
                             if (f === 'Palo Alto Post Acute') return false; // handled separately below
                             return allWeeklyData.find(d=>d.facility===f)?.region===region;
@@ -2959,15 +2723,17 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
                             </tr>
-                            {/* Repeated month-label row (visible even when scrolled past the main header) */}
-                            <tr className="border-b border-white/10 bg-white/5">
-                              <td className="py-2 px-4"></td>
-                              {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'].map(m => (
-                                <td key={m} className="py-2 px-4 text-center">
-                                  <span className="text-slate-400 font-bold text-xs uppercase">{m}</span>
-                                </td>
-                              ))}
-                            </tr>
+                            {/* Repeated month-label row (visible even when scrolled past the main header) — skip for the first region since it's redundant with the table header */}
+                            {regionIdx > 0 && (
+                              <tr className="border-b border-white/10 bg-white/5">
+                                <td className="py-2 px-4"></td>
+                                {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'].map(m => (
+                                  <td key={m} className="py-2 px-4 text-center">
+                                    <span className="text-slate-400 font-bold text-xs uppercase">{m}</span>
+                                  </td>
+                                ))}
+                              </tr>
+                            )}
                             {/* Region average row */}
                             <tr className="border-b border-white/10 bg-white/3">
                               <td className="py-2 px-4 text-slate-400 text-xs font-bold italic">Region Avg</td>
@@ -3042,125 +2808,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         })()}
 
         {/* ══ CHECK-INS TAB ══════════════════════════════════════════════════ */}
-        {activeView === 'checkins' && !isRestrictedView && (
-          <div className="space-y-6 pb-12">
-
-            {/* Header */}
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
-              <div className="flex items-center justify-between flex-wrap gap-4">
-                <div>
-                  <h2 className="text-2xl font-black text-white">DOR Weekly Check-Ins</h2>
-                  <p className="text-slate-400 text-sm mt-1">
-                    {checkInData.length > 0
-                      ? `${checkInData.length} buildings · Week of ${checkInWeek}`
-                      : 'Upload the Microsoft Forms export to view check-ins'}
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  {checkInData.length > 0 && (
-                    <button onClick={generateCheckInSummaries} disabled={summaryLoading}
-                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 text-white rounded-xl font-semibold text-sm flex items-center gap-2 transition-all shadow-lg">
-                      {summaryLoading
-                        ? <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"/>Summarizing...</>
-                        : <><Zap className="w-3.5 h-3.5"/>Generate AI Summaries</>}
-                    </button>
-                  )}
-                  <label className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 text-white rounded-xl font-semibold text-sm flex items-center gap-2 cursor-pointer transition-all">
-                    <Upload className="w-4 h-4"/>Upload Check-In Excel
-                    <input type="file" accept=".xlsx" className="hidden" onChange={handleCheckInUpload}/>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {checkInData.length === 0 && (
-              <div className="bg-white/5 rounded-2xl p-12 text-center border border-white/10">
-                <div className="text-4xl mb-4">📋</div>
-                <p className="text-slate-300 font-semibold">No check-in data loaded</p>
-                <p className="text-slate-500 text-sm mt-2">Download the Excel export from Microsoft Forms and upload it above</p>
-              </div>
-            )}
-
-            {checkInData.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {checkInData.map((r, i) => {
-                  const isNo   = (v) => { if (!v || typeof v !== 'string') return false; const t = v.trim().toLowerCase(); return t === 'no' || t.startsWith('no ') || t.startsWith('no-') || t.startsWith('no,'); };
-                  const isEmpty = (v) => !v || ['none','n/a','na','0',''].includes(v.toString().trim().toLowerCase());
-
-                  const therapyFlag    = isNo(r.therapyGoalMet);
-                  const missingFlag    = isNo(r.missingLabor) === false && !isEmpty(r.missingLabor) && r.missingLabor.toString().toLowerCase() !== 'no';
-                  const complianceFlag = isNo(r.compliance);
-                  const staffingFlag   = isNo(r.staffingCoverage) || isNo(r.weekendCoverage);
-                  const hasOpenPos     = !isEmpty(r.staffing);
-                  const hasTravelers   = !isEmpty(r.travelers) && r.travelers.toLowerCase() !== 'na';
-                  const summary        = checkInSummaries[r.facility];
-
-                  const flagCount = [therapyFlag, missingFlag, complianceFlag, staffingFlag].filter(Boolean).length;
-                  const urgency = flagCount >= 2 ? 'border-rose-400/50' : flagCount === 1 ? 'border-yellow-400/30' : 'border-white/10';
-
-                  const SectionRow = ({label, val, flagged}) => {
-                    if (!val) return null;
-                    return (
-                      <div className="flex items-start gap-2 text-xs py-1.5 border-b border-white/5 last:border-0">
-                        <span className="text-slate-500 font-bold uppercase tracking-wide min-w-[90px] pt-0.5">{label}</span>
-                        <span className={`leading-relaxed ${flagged ? 'text-rose-300' : 'text-slate-300'}`}>{val.toString()}</span>
-                      </div>
-                    );
-                  };
-
-                  return (
-                    <div key={i} className={`bg-white/5 backdrop-blur-xl rounded-2xl border ${urgency} overflow-hidden`}>
-
-                      {/* Header */}
-                      <div className="p-4 border-b border-white/10 flex items-start justify-between gap-3">
-                        <div>
-                          <div className="font-black text-white text-base">{r.facility}</div>
-                          <div className="text-slate-400 text-xs mt-0.5">{r.dorName} · {r.weekDisplay}</div>
-                        </div>
-                        <div className="flex gap-1.5 flex-wrap justify-end">
-                          {therapyFlag    && <span className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full font-bold">Therapy ⚠</span>}
-                          {missingFlag    && <span className="text-xs px-2 py-0.5 bg-rose-500/20 text-rose-300 rounded-full font-bold">Missing Labor</span>}
-                          {complianceFlag && <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full font-bold">Compliance ⚠</span>}
-                          {staffingFlag   && <span className="text-xs px-2 py-0.5 bg-yellow-500/20 text-yellow-300 rounded-full font-bold">Staffing ⚠</span>}
-                          {hasOpenPos     && <span className="text-xs px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full font-bold">Open Positions</span>}
-                          {hasTravelers   && <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-300 rounded-full font-bold">Travelers</span>}
-                        </div>
-                      </div>
-
-                      {/* Section responses */}
-                      <div className="px-4 pt-3 pb-1">
-                        <SectionRow label="Therapy Goals" val={r.therapyGoalMet} flagged={therapyFlag}/>
-                        {therapyFlag && r.therapyDriver && <SectionRow label="Driver" val={r.therapyDriver} flagged={true}/>}
-                        <SectionRow label="Missing Labor" val={r.missingLabor} flagged={missingFlag}/>
-                        <SectionRow label="Orders/Docs" val={r.orders?.filter(v=>isNo(v)).length > 0 ? 'Issues flagged: '+r.orders.filter(v=>isNo(v)).join(', ') : r.orders?.[0] || ''} flagged={r.orders?.some(v=>isNo(v))}/>
-                        <SectionRow label="Compliance" val={r.compliance} flagged={isNo(r.compliance)}/>
-                        {r.complianceNotes && <SectionRow label="Notes" val={r.complianceNotes} flagged={false}/>}
-                        <SectionRow label="Staffing" val={r.staffingCoverage} flagged={isNo(r.staffingCoverage)}/>
-                        <SectionRow label="Weekend" val={r.weekendCoverage} flagged={isNo(r.weekendCoverage)}/>
-                        <SectionRow label="Time Load" val={r.timeLoad} flagged={false}/>
-                        {hasTravelers && <SectionRow label="Travelers" val={r.travelers} flagged={false}/>}
-                        {hasOpenPos   && <SectionRow label="Open Positions" val={r.staffing} flagged={false}/>}
-                        {r.pulse      && <SectionRow label="DOR Pulse" val={r.pulse} flagged={false}/>}
-                      </div>
-
-                      {/* AI Summary */}
-                      {summary && (
-                        <div className="px-4 py-3 border-t border-white/10 bg-indigo-500/5">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Zap className="w-3 h-3 text-indigo-400"/>
-                            <span className="text-xs font-bold text-indigo-400 uppercase tracking-wide">AI Summary</span>
-                          </div>
-                          <p className="text-slate-300 text-xs leading-relaxed">{summary}</p>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
-
         {/* ══ FACILITIES TAB ════════════════════════════════════════════════ */}
         {activeView === 'facilities' && (
           <div className="space-y-6 pb-12">
@@ -3168,40 +2815,6 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
             {/* ── DOR: My Building ── */}
             {isRestrictedView && myFacilityData && (
               <div className="space-y-6">
-
-                {/* AI Morning Briefing */}
-                <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 backdrop-blur-xl rounded-2xl border border-indigo-400/30 shadow-xl overflow-hidden">
-                  <div className="p-5 border-b border-white/10 flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center shadow-lg">
-                        <Zap className="w-4 h-4 text-white" strokeWidth={2.5} />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Weekly Briefing — Week ending {throughDate}</div>
-                        <div className="text-sm text-slate-400">{myFacilityData.facility}</div>
-                      </div>
-                    </div>
-                    <button onClick={generateBriefing} disabled={briefingLoading}
-                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl transition-all shadow-lg font-semibold text-sm flex items-center gap-2">
-                      <Zap className="w-3.5 h-3.5" />
-                      {briefingLoading ? 'Generating...' : briefingText ? 'Regenerate' : 'Generate Briefing'}
-                    </button>
-                  </div>
-                  <div className="p-5">
-                    {!briefingText && !briefingLoading && (
-                      <p className="text-slate-500 text-sm italic">Press "Generate Briefing" to get your AI-powered daily action plan based on your current metrics.</p>
-                    )}
-                    {briefingLoading && !briefingText && (
-                      <div className="flex items-center gap-3 text-indigo-300 text-sm">
-                        <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
-                        Analyzing your building data...
-                      </div>
-                    )}
-                    {briefingText && (
-                      <p className="text-slate-200 text-sm leading-relaxed whitespace-pre-wrap">{briefingText}</p>
-                    )}
-                  </div>
-                </div>
 
                 {/* Building header card */}
                 <div className="bg-gradient-to-br from-cyan-900/40 to-teal-900/40 backdrop-blur-xl rounded-2xl border border-cyan-400/30 shadow-xl overflow-hidden">
