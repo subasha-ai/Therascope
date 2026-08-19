@@ -844,10 +844,17 @@ export default function App() {
     return recs.length ? recs.sort((a,b) => parseInt(b.week)-parseInt(a.week))[0] : null;
   };
 
+  // Palo Alto switched from Overland to Golden Coast effective 2026-04-01; everyone else's region is static
+  const getRegionAsOf = (facility, dateStr) => {
+    if (facility === 'Palo Alto Post Acute') return dateStr < '2026-04-01' ? 'Overland' : 'Golden Coast';
+    return facilityDataJson.find(d => d.facility === facility)?.region;
+  };
+
   const getMonthTotals = (start, end, regionFilter = 'all') => {
     const recs = allFacilities
-      .filter(f => regionFilter === 'all' || (facilityDataJson.find(d => d.facility === f)?.region === regionFilter))
-      .map(f => getMonthFinal(f, start, end)).filter(Boolean);
+      .map(f => getMonthFinal(f, start, end))
+      .filter(Boolean)
+      .filter(r => regionFilter === 'all' || getRegionAsOf(r.facility, r.date) === regionFilter);
     if (!recs.length) return null;
     return {
       avgProd:    (recs.reduce((s,r) => s + mtd(r,'productivityMTD','productivity'), 0) / recs.length).toFixed(1),
