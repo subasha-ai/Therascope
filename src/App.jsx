@@ -680,6 +680,7 @@ export default function App() {
   // Auth state
   const [isAuthenticated,          setIsAuthenticated]          = useState(false);
   const [hideRevenue,              setHideRevenue]              = useState(false);
+  const [execRegionFilter,         setExecRegionFilter]         = useState('all');
   const [loginType,                setLoginType]                = useState(null);
   const [selectedFacilityForLogin, setSelectedFacilityForLogin] = useState('');
   const [passwordAttempt,          setPasswordAttempt]          = useState('');
@@ -843,8 +844,10 @@ export default function App() {
     return recs.length ? recs.sort((a,b) => parseInt(b.week)-parseInt(a.week))[0] : null;
   };
 
-  const getMonthTotals = (start, end) => {
-    const recs = allFacilities.map(f => getMonthFinal(f, start, end)).filter(Boolean);
+  const getMonthTotals = (start, end, regionFilter = 'all') => {
+    const recs = allFacilities
+      .filter(f => regionFilter === 'all' || (facilityDataJson.find(d => d.facility === f)?.region === regionFilter))
+      .map(f => getMonthFinal(f, start, end)).filter(Boolean);
     if (!recs.length) return null;
     return {
       avgProd:    (recs.reduce((s,r) => s + mtd(r,'productivityMTD','productivity'), 0) / recs.length).toFixed(1),
@@ -2314,7 +2317,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
         {/* ══ EXECUTIVE TAB ═════════════════════════════════════════════════ */}
         {activeView === 'exec' && !isRestrictedView && (() => {
-          const monthTotals = EXEC_MONTHS.map(m => ({ ...m, totals: getMonthTotals(m.start, m.end) }));
+          const monthTotals = EXEC_MONTHS.map(m => ({ ...m, totals: getMonthTotals(m.start, m.end, execRegionFilter) }));
           const facilityRows = allFacilities.map(fac => ({
             facility: fac,
             region: allWeeklyData.find(d => d.facility === fac)?.region || '',
@@ -2432,7 +2435,18 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               </div>
 
               {/* Company Summary — Q1 trend card + April + May */}
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-1 bg-white/5 border border-white/10 rounded-full p-1">
+                  {['all','Golden Coast','Overland'].map(r => (
+                    <button
+                      key={r}
+                      onClick={() => setExecRegionFilter(r)}
+                      className={`text-xs font-bold px-4 py-1.5 rounded-full transition-all ${execRegionFilter === r ? 'bg-cyan-500 text-white' : 'text-slate-400 hover:text-white'}`}
+                    >
+                      {r === 'all' ? 'All Regions' : r}
+                    </button>
+                  ))}
+                </div>
                 <button
                   onClick={() => setHideRevenue(v => !v)}
                   className={`text-xs font-bold px-4 py-2 rounded-full border transition-all ${hideRevenue ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40' : 'bg-white/5 text-slate-400 border-white/10 hover:bg-white/10'}`}
