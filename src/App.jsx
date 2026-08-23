@@ -864,14 +864,14 @@ export default function App() {
       totalRespRev: recs.reduce((s,r) => s + (r.respMedBRevenueMTD || 0), 0),
       atGoalProd: recs.filter(r => mtd(r,'productivityMTD','productivity') >= getGoals(r.facility).productivity).length,
       atGoalCPM:  recs.filter(r => mtd(r,'cpmMTD','cpm') <= getGoals(r.facility).cpm && mtd(r,'cpmMTD','cpm') > 0).length,
-      atGoalMode: recs.filter(r => mtd(r,'modeOfTreatmentMTD','modeOfTreatment') >= getGoals(r.facility).mode).length,
+      atGoalMode: recs.filter(r => Math.round(mtd(r,'modeOfTreatmentMTD','modeOfTreatment')*10)/10 >= getGoals(r.facility).mode).length,
       atGoalMedB: recs.filter(r => { const el=r.medBEligible||0; const cl=r.medBCaseload||0; return el>0 && (cl/el*100)>=getGoals(r.facility).medB; }).length,
       atGoalAll:  recs.filter(r => {
         const g=getGoals(r.facility);
         const el=r.medBEligible||0; const cl=r.medBCaseload||0;
         return mtd(r,'productivityMTD','productivity')>=g.productivity &&
                mtd(r,'cpmMTD','cpm')<=g.cpm && mtd(r,'cpmMTD','cpm')>0 &&
-               mtd(r,'modeOfTreatmentMTD','modeOfTreatment')>=g.mode &&
+               Math.round(mtd(r,'modeOfTreatmentMTD','modeOfTreatment')*10)/10>=g.mode &&
                el>0 && (cl/el*100)>=g.medB;
       }).length,
       n: recs.length,
@@ -1443,7 +1443,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       setFill(col.navy); doc.roundedRect(cx,cy2,cW,26,2,2,'F');
       doc.setFont('helvetica','bold'); doc.setFontSize(8); setTxt(col.white);
       doc.text(rec.facility, cx+3, cy2+7);
-      const fields = [['PROD',rec.prod.toFixed(1)+'%',rec.prod>=84],['CPM','$'+Math.trunc(rec.cpm*100)/100,rec.cpm<=1.45],['MODE',rec.mode.toFixed(1)+'%',rec.mode>=4],['MED B%',rec.medB!=null?rec.medB+'%':'--',rec.medB>=50]];
+      const fields = [['PROD',rec.prod.toFixed(1)+'%',rec.prod>=84],['CPM','$'+Math.trunc(rec.cpm*100)/100,rec.cpm<=1.45],['MODE',rec.mode.toFixed(1)+'%',Math.round(rec.mode*10)/10>=4],['MED B%',rec.medB!=null?rec.medB+'%':'--',rec.medB>=50]];
       fields.forEach((f2,fi) => {
         const fx = cx+3+fi*(cW-6)/4;
         doc.setFont('helvetica','normal'); doc.setFontSize(6); setTxt(col.slate); doc.text(f2[0],fx,cy2+14);
@@ -2881,7 +2881,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                               { label:'Productivity', val:p.toFixed(1)+'%',  good:p>=prodGoal, sub:p>=prodGoal?'✓ Meeting goal':'Below '+prodGoal+'% goal', icon:TrendingUp, bg:prodBg(p, prodGoal), spark:dorSparkData?.productivity, higherBetter:true, proj:monthEndProjection?.productivity, projGood: monthEndProjection?.productivity>=prodGoal, projFmt: v=>v.toFixed(1)+'%' },
                               { label:'CPM',          val:'$'+Math.trunc(c*100)/100,  good:Math.trunc(c*100)/100<=cpmGoal, sub:Math.trunc(c*100)/100<cpmGoal?'✓ Under $'+cpmGoal:Math.trunc(c*100)/100===cpmGoal?'✓ At $'+cpmGoal+' target':'Above $'+cpmGoal+' target', icon:PieChart, bg:cpmBg(c, cpmGoal), spark:dorSparkData?.cpm, higherBetter:false, proj:monthEndProjection?.cpm, projGood: monthEndProjection?.cpmMTD<=cpmGoal, projFmt: v=>'$'+v.toFixed(2) },
                               { label:'Med B on CL',  val:casePct+'%',       good:casePct>=medBGoal,sub:cas+' of '+elig+' eligible', icon:Users, bg:casePct>=medBGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:null, proj:null },
-                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:mo>=modeGoal, sub:mo>=modeGoal?'✓ Meeting '+modeGoal+'% goal':'Below '+modeGoal+'% goal', icon:Activity, bg:mo>=modeGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=modeGoal, projFmt: v=>v.toFixed(1)+'%' },
+                              { label:'Mode of Tx',   val:mo.toFixed(1)+'%', good:Math.round(mo*10)/10>=modeGoal, sub:Math.round(mo*10)/10>=modeGoal?'✓ Meeting '+modeGoal+'% goal':'Below '+modeGoal+'% goal', icon:Activity, bg:Math.round(mo*10)/10>=modeGoal?'bg-emerald-500/20 border-emerald-400/50':'bg-rose-500/20 border-rose-400/50', spark:dorSparkData?.modeOfTreatment, higherBetter:true, proj:monthEndProjection?.modeOfTreatment, projGood: monthEndProjection?.modeOfTreatment>=modeGoal, projFmt: v=>v.toFixed(1)+'%' },
                             ].map((card,i) => (
                               <div key={i} className={`rounded-xl p-5 border-2 ${card.bg}`}>
                                 <div className="flex items-center justify-between mb-3">
