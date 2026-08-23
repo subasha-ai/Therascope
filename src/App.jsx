@@ -89,7 +89,7 @@ const scoreRec = (rec, facility=null) => {
 
 const prodColor  = (v, goal=84)   => v >= goal   ? 'text-emerald-300' : 'text-rose-300';
 const cpmColor   = (v, goal=1.45) => Math.trunc(v*100)/100 <= goal ? 'text-emerald-300' : 'text-rose-300';
-const modeColor  = (v, goal=4)    => v >= goal    ? 'text-emerald-300' : 'text-amber-300';
+const modeColor  = (v, goal=4)    => Math.round(v*10)/10 >= goal    ? 'text-emerald-300' : 'text-amber-300';
 const prodBg     = (v, goal=84) => v >= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const cpmBg      = (v, goal=1.45) => Math.trunc(v*100)/100 <= goal ? 'bg-emerald-500/20 border-emerald-400/50' : 'bg-rose-500/20 border-rose-400/50';
 const shortName  = n => n.replace(' Post Acute','').replace(' Healthcare Center','');
