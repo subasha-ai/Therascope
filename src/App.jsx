@@ -2944,6 +2944,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                 {/* Trend Alerts */}
                 {myPrevWeekData && (() => {
                   const alerts = [], wins = [];
+                  const goals = getGoals(restrictedFacility);
                   const prodMTD = mtd(myFacilityData,'productivityMTD','productivity');
                   const cpmMTD  = mtd(myFacilityData,'cpmMTD','cpm');
                   const prodDiff = myFacilityData.productivity - myPrevWeekData.productivity;
@@ -2951,11 +2952,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   const modeDiff = myFacilityData.modeOfTreatment - myPrevWeekData.modeOfTreatment;
                   const upvDiff  = myFacilityData.unitsPerVisit - myPrevWeekData.unitsPerVisit;
 
-                  if (prodMTD < 84) alerts.push({ msg:`Productivity ${prodMTD.toFixed(1)}% — below 84% goal`, severe:true });
+                  if (prodMTD < goals.productivity) alerts.push({ msg:`Productivity ${prodMTD.toFixed(1)}% — below ${goals.productivity}% goal`, severe:true });
                   else if (prodDiff <= -2) alerts.push({ msg:`Productivity dropped ${Math.abs(prodDiff).toFixed(1)}pp this week`, severe:false });
                   else if (prodDiff >= 2)  wins.push(`Productivity up ${prodDiff.toFixed(1)}pp this week`);
 
-                  if (cpmMTD > 1.45) alerts.push({ msg:`CPM $${cpmMTD.toFixed(2)} — above $1.45 target`, severe:cpmMTD>1.55 });
+                  if (cpmMTD > goals.cpm) alerts.push({ msg:`CPM $${cpmMTD.toFixed(2)} — above $${goals.cpm} target`, severe:cpmMTD>goals.cpm+0.10 });
                   else if (cpmDiff >= 0.05)  alerts.push({ msg:`CPM rose $${cpmDiff.toFixed(2)} this week`, severe:false });
                   else if (cpmDiff <= -0.05) wins.push(`CPM improved $${Math.abs(cpmDiff).toFixed(2)} this week`);
 
