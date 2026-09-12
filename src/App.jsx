@@ -675,6 +675,7 @@ export default function App() {
     { label: 'Jun', start: '2026-06-01', end: '2026-06-30' },
     { label: 'Jul', start: '2026-07-01', end: '2026-07-31' },
     { label: 'Aug', start: '2026-08-01', end: '2026-08-31' },
+    { label: 'Sep MTD', start: '2026-09-01', end: '2026-09-30' },
   ];
 
   // Auth state
@@ -1783,6 +1784,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'June',    start: '2026-06-01', end: '2026-06-30', isMTD: false },
       { label: 'July',    start: '2026-07-01', end: '2026-07-31', isMTD: false },
       { label: 'August',   start: '2026-08-01', end: '2026-08-31', isMTD: false },
+      { label: 'Sep MTD',  start: '2026-09-01', end: '2026-09-30', isMTD: true  },
     ];
     const getFacData = (fac, dm) => {
       const rec = getMonthFinal(fac, dm.start, dm.end);
@@ -1798,7 +1800,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       navy:[11,17,32], navyMid:[17,27,50], slate:[28,38,60], slate2:[38,52,78], slate3:[52,68,98],
       cyan:[6,182,212], teal:[13,148,136], white:[255,255,255], offWhite:[220,230,245],
       muted:[110,128,160], green:[52,211,153], red:[248,113,113],
-      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[22,32,58],[18,38,55],[12,60,80],[10,72,90]],
+      mb:[[22,32,58],[18,38,55],[22,32,58],[18,38,55],[22,32,58],[18,38,55],[22,32,58],[12,60,80],[10,72,90]],
     };
     try {
       const doc = new jsPDF({ orientation:'landscape', unit:'mm', format:'letter' });
@@ -1810,7 +1812,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September MTD 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -1819,7 +1821,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
 
       const buildTable = (region) => {
         const facList = allFacilities.filter(f=>allWeeklyData.find(d=>d.facility===f)?.region===region).sort();
-        const COL_W = 7.2; const FAC_W = 26;
+        const COL_W = 6.4; const FAC_W = 24;
         const head = [
           [
             {content:region,rowSpan:2,styles:{valign:'middle',halign:'left',fillColor:C.slate,textColor:C.cyan,fontStyle:'bold',fontSize:8}},
@@ -1830,7 +1832,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
           ],
           [...DIGEST_MONTHS.map((_,mi)=>
             ['PROD','CPM','MODE','MED B'].map(l=>({
-              content:l,styles:{halign:'center',fontSize:5,fillColor:C.mb[mi].map(v=>Math.min(255,v+10)),textColor:C.muted}
+              content:l,styles:{halign:'center',fontSize:4.5,fillColor:C.mb[mi].map(v=>Math.min(255,v+10)),textColor:C.muted}
             }))
           ).flat()],
         ];
@@ -1848,8 +1850,8 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
         });
         return {
           head, body, theme:'plain',
-          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:6,cellPadding:1.2},
-          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:6,cellPadding:1.2},
+          headStyles:        {fillColor:C.slate,textColor:C.offWhite,fontStyle:'bold',fontSize:5.5,cellPadding:1},
+          bodyStyles:        {fillColor:C.slate,textColor:C.offWhite,fontSize:5.5,cellPadding:1},
           alternateRowStyles:{fillColor:C.slate2},
           columnStyles:{
             0:{cellWidth:FAC_W,fontStyle:'bold',textColor:C.white},
@@ -2634,7 +2636,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · Q3 (Jul-Aug)</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · Q3 (Jul-Sep MTD)</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
@@ -2647,7 +2649,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <th className="py-3 px-2 text-slate-400 font-bold uppercase text-xs text-center">Rgn</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">Q2</th>
-                        <th colSpan={8} className="py-3 px-2 text-cyan-200 font-bold uppercase text-xs text-center border-l border-white/10">Q3</th>
+                        <th colSpan={12} className="py-3 px-2 text-cyan-200 font-bold uppercase text-xs text-center border-l border-white/10">Q3</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
@@ -2667,7 +2669,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const isNewRegion = ri===0 || row.region !== facilityRows[ri-1].region;
                         return (
                           <React.Fragment key={ri}>
-                            {isNewRegion && <tr className="bg-white/5"><td colSpan={34} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
+                            {isNewRegion && <tr className="bg-white/5"><td colSpan={38} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
                             <tr className="border-b border-white/5 hover:bg-white/5">
                               <td className="py-2 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{shortName(row.facility)}</td>
                               <td className="py-2 px-2 text-center">
