@@ -40,7 +40,7 @@ const DOR_PASSWORDS = {
   'Palo Alto Post Acute':    'AltoPace',
   'Bridgewood PA':           'BridgeSteps',
   'Cedarwood PA':            'CedarStride',
-  'Capital PA':              'CapitalCare',
+  'Capital PA':              'CapitalCares',
   'Blue Oak Post Acute':     'BlueOakSteps',
   'Millbrae HC':             'MillbraeMotion',
   'Vacaville Ranch PA':      'RanchStride',
