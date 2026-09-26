@@ -19,6 +19,7 @@ const BUILDING_GOALS = {
   'Manresa HC':     { productivity: 80, cpm: 1.55, mode: 2, medB: 30 },
   'Pac Coast PA':        { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
   'Blue Oak Post Acute': { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
+  'Gilroy HC':           { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
 };
 const getGoals = (facility) => BUILDING_GOALS[facility] || { productivity: 84, cpm: 1.45, mode: 4, medB: 50 };
 
@@ -40,7 +41,7 @@ const DOR_PASSWORDS = {
   'Palo Alto Post Acute':    'AltoPace',
   'Bridgewood PA':           'BridgeSteps',
   'Cedarwood PA':            'CedarStride',
-  'Capital PA':              'CapitalCares',
+  'Capital PA':              'CapitalCare',
   'Blue Oak Post Acute':     'BlueOakSteps',
   'Millbrae HC':             'MillbraeMotion',
   'Vacaville Ranch PA':      'RanchStride',
