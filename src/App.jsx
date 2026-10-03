@@ -676,7 +676,7 @@ export default function App() {
     { label: 'Jun', start: '2026-06-01', end: '2026-06-30' },
     { label: 'Jul', start: '2026-07-01', end: '2026-07-31' },
     { label: 'Aug', start: '2026-08-01', end: '2026-08-31' },
-    { label: 'Sep MTD', start: '2026-09-01', end: '2026-09-30' },
+    { label: 'Sep', start: '2026-09-01', end: '2026-09-30' },
   ];
 
   // Auth state
@@ -1785,7 +1785,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'June',    start: '2026-06-01', end: '2026-06-30', isMTD: false },
       { label: 'July',    start: '2026-07-01', end: '2026-07-31', isMTD: false },
       { label: 'August',   start: '2026-08-01', end: '2026-08-31', isMTD: false },
-      { label: 'Sep MTD',  start: '2026-09-01', end: '2026-09-30', isMTD: true  },
+      { label: 'September', start: '2026-09-01', end: '2026-09-30', isMTD: false },
     ];
     const getFacData = (fac, dm) => {
       const rec = getMonthFinal(fac, dm.start, dm.end);
@@ -1813,7 +1813,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September MTD 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -2637,7 +2637,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
               <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl overflow-hidden">
                 <div className="p-5 border-b border-white/10 bg-white/5 flex items-center justify-between cursor-pointer select-none hover:bg-white/10 transition-all" onClick={() => setScorecardOpen(v => !v)}>
                   <div>
-                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · Q3 (Jul-Sep MTD)</h3>
+                    <h3 className="text-lg font-black text-white">Building Scorecard — Q1 · Q2 · Q3</h3>
                     <p className="text-slate-400 text-sm mt-1">Productivity · CPM · Mode % · Med B Revenue · Green = at goal</p>
                   </div>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${scorecardOpen ? 'rotate-0' : '-rotate-90'}`}/>
