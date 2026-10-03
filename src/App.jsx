@@ -49,9 +49,9 @@ const DOR_PASSWORDS = {
 
 // DOR email addresses — fill in each DOR's email
 const DOR_EMAILS = {
-  'The Win Post Acute':      'vrutkevich@thewinpa.com',
+  'The Win Post Acute':      'rlokhande@thewinpa.com',
   'Mountain View HC':        'epinkerton@mvhealthcare.com',
-  'Morgan Hill HC':          'hgallardo@morganhillhc.com',
+  'Morgan Hill HC':          'dmodeste@morganhillhc.com',
   'Los Altos Post Acute':    'mperalta@losaltospa.com',
   'Gilroy HC':               'ngoraksh@gilroyhealthcare.com',
   'Manresa HC':              'oaranzaso@manresahc.com',
@@ -65,8 +65,8 @@ const DOR_EMAILS = {
   'Palo Alto Post Acute':    'lton@papostacute.com',
   'Bridgewood PA':           'vamen@cedarwoodpostacute.com',
   'Cedarwood PA':            'vamen@cedarwoodpostacute.com',
-  'Capital PA':              'dperkins@capitalpostacute.com',
-  'Blue Oak Post Acute':     'asha@spyglasshc.com',
+  'Capital PA':              'aquidachay@capitalpostacute.com',
+  'Blue Oak Post Acute':     'sneupane@blueoakpa.com',
   'Millbrae HC':             'mchiu@millbraehc.com',
   'Vacaville Ranch PA':      'jason@vacavilleranch.com',
 };
