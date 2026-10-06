@@ -49,9 +49,9 @@ const DOR_PASSWORDS = {
 
 // DOR email addresses — fill in each DOR's email
 const DOR_EMAILS = {
-  'The Win Post Acute':      'rlokhande@thewinpa.com',
+  'The Win Post Acute':      'vrutkevich@thewinpa.com',
   'Mountain View HC':        'epinkerton@mvhealthcare.com',
-  'Morgan Hill HC':          'dmodeste@morganhillhc.com',
+  'Morgan Hill HC':          'hgallardo@morganhillhc.com',
   'Los Altos Post Acute':    'mperalta@losaltospa.com',
   'Gilroy HC':               'ngoraksh@gilroyhealthcare.com',
   'Manresa HC':              'oaranzaso@manresahc.com',
@@ -65,8 +65,8 @@ const DOR_EMAILS = {
   'Palo Alto Post Acute':    'lton@papostacute.com',
   'Bridgewood PA':           'vamen@cedarwoodpostacute.com',
   'Cedarwood PA':            'vamen@cedarwoodpostacute.com',
-  'Capital PA':              'aquidachay@capitalpostacute.com',
-  'Blue Oak Post Acute':     'sneupane@blueoakpa.com',
+  'Capital PA':              'dperkins@capitalpostacute.com',
+  'Blue Oak Post Acute':     'asha@spyglasshc.com',
   'Millbrae HC':             'mchiu@millbraehc.com',
   'Vacaville Ranch PA':      'jason@vacavilleranch.com',
 };
@@ -731,27 +731,27 @@ export default function App() {
   });
   const [alosData, setAlosData] = useState({
     // Golden Coast — names match data.json exactly
-    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3', may: '35.2', jun: '25.6', jul: '36.1', aug: '24.8' },
-    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0', may: '52.6', jun: '45.6', jul: '48.0', aug: '70.3' },
-    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8', may: '60.9', jun: '32.2', jul: '44.0', aug: '40.3' },
-    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3', may: '43.2', jun: '41.0', jul: '42.3', aug: '30.0' },
-    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5', may: '29.0', jun: '49.5', jul: '48.5', aug: '38.0' },
-    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4', may: '31.5', jun: '38.7', jul: '33.75', aug: '28.3' },
-    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2', may: '34.2', jun: '27.4', jul: '40.2', aug: '30.4' },
-    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3', may: '53.6', jun: '30.1', jul: '41.6', aug: '47.7' },
-    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9', may: '58.0', jun: '50.5', jul: '49.1', aug: '51.7' },
-    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0', may: '44.1', jun: '29.4', jul: '22.1', aug: '34.9' },
+    'Camino Ridge Post Acute': { jan: '41.6', feb: '39.3', mar: '34.1', apr: '37.3', may: '35.2', jun: '25.6', jul: '36.1', aug: '34.7', sep: '37.8' },
+    'Gilroy HC':               { jan: '53.8', feb: '46.0', mar: '32.2', apr: '41.0', may: '52.6', jun: '45.6', jul: '48.0', aug: '50.2', sep: '53.1' },
+    'Los Altos Post Acute':    { jan: '33.9', feb: '34.4', mar: '28.0', apr: '35.8', may: '60.9', jun: '32.2', jul: '44.0', aug: '36.8', sep: '43.9' },
+    'Manresa HC':              { jan: '48.5', feb: '46.8', mar: '49.4', apr: '36.3', may: '43.2', jun: '41.0', jul: '42.3', aug: '44.9', sep: '44.2' },
+    'Morgan Hill HC':          { jan: '33.2', feb: '36.0', mar: '52.2', apr: '35.5', may: '29.0', jun: '49.5', jul: '48.5', aug: '47.7', sep: '41.9' },
+    'Mountain View HC':        { jan: '35.6', feb: '27.4', mar: '33.9', apr: '35.4', may: '31.5', jun: '38.7', jul: '33.75', aug: '28.9', sep: '36.8' },
+    'Pac Coast PA':            { jan: '32.4', feb: '35.3', mar: '34.9', apr: '30.2', may: '34.2', jun: '27.4', jul: '40.2', aug: '41.7', sep: '37.1' },
+    'PAC Hills Post Acute':    { jan: '34.6', feb: '31.6', mar: '45.9', apr: '46.3', may: '53.6', jun: '30.1', jul: '41.6', aug: '49.0', sep: '40.1' },
+    'The Win Post Acute':      { jan: '37.2', feb: '40.7', mar: '37.0', apr: '49.9', may: '58.0', jun: '50.5', jul: '49.1', aug: '43.3', sep: '36.8' },
+    'Palo Alto Post Acute':    { jan: '24.1', feb: '20.4', mar: '25.6', apr: '31.0', may: '44.1', jun: '29.4', jul: '22.1', aug: '40.5', sep: '36.5' },
     // Overland — names match data.json exactly
-    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50', may: '31.28', jun: '51.09', jul: '36.56', aug: '32.15' },
-    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42', may: '29.86', jun: '42.92', jul: '51.36', aug: '52.43' },
-    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78', may: '53.62', jun: '38.89', jul: '31.12', aug: '7' },
-    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27', may: '41.83', jun: '44.36', jul: '37.38', aug: '38.67' },
-    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24',    may: '38.88', jun: '36.48', jul: '30.47', aug: '38.00' },
-    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64', may: '39.22', jun: '61.64', jul: '48.25', aug: '51.5' },
-    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22', may: '56.39', jun: '41.11', jul: '43.75', aug: '51' },
-    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23', may: '45.19', jun: '37.83', jul: '37.53', aug: '79' },
-    'Vacaville Ranch PA':      { jan: '',     feb: '',     mar: '',     apr: '',      may: '',      jun: '',      jul: '23.33', aug: '29' },
-    'Millbrae HC':             { jan: '',     feb: '',     mar: '',     apr: '',      may: '',      jun: '',      jul: '15.00', aug: '9.50' },
+    'Belmont HC':              { jan: '33.4', feb: '39.2', mar: '39.8', apr: '44.50', may: '31.28', jun: '51.09', jul: '36.56', aug: '36.04', sep: '34.36' },
+    'Blue Oak Post Acute':     { jan: '20.0', feb: '18.2', mar: '24.2', apr: '22.42', may: '29.86', jun: '42.92', jul: '50.62', aug: '46', sep: '49.88' },
+    'Bridgewood PA':           { jan: '20.7', feb: '51.4', mar: '64.3', apr: '63.78', may: '53.62', jun: '38.89', jul: '31.12', aug: '43.50', sep: '35.86' },
+    'Capital PA':              { jan: '8.6',  feb: '31.7', mar: '34.8', apr: '55.27', may: '41.83', jun: '44.36', jul: '37.38', aug: '53.38', sep: '40.82' },
+    'Cedarwood PA':            { jan: '30.5', feb: '36.6', mar: '33.5', apr: '24',    may: '38.88', jun: '36.48', jul: '30.47', aug: '36.53', sep: '29.93' },
+    'Eden HC':                 { jan: '33.8', feb: '41.3', mar: '38.2', apr: '30.64', may: '39.22', jun: '61.64', jul: '48.25', aug: '44.35', sep: '48.77' },
+    'Golden Harbor HC':        { jan: '26.8', feb: '45.6', mar: '45.4', apr: '48.22', may: '56.39', jun: '41.11', jul: '43.75', aug: '42.78', sep: '42.75' },
+    'West Shore PA':           { jan: '47.6', feb: '21.8', mar: '38.6', apr: '52.23', may: '45.19', jun: '37.83', jul: '44.60', aug: '53.62', sep: '37.14' },
+    'Vacaville Ranch PA':      { jan: '',     feb: '',     mar: '',     apr: '',      may: '',      jun: '',      jul: '24.80', aug: '24.60', sep: '28.84' },
+    'Millbrae HC':             { jan: '',     feb: '',     mar: '',     apr: '',      may: '',      jun: '',      jul: '15.00', aug: '22.71', sep: '23.00' },
   });
   const [showReportModal,   setShowReportModal]   = useState(false);
   const [reportRegion,      setReportRegion]      = useState(null);
@@ -2715,7 +2715,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                     <thead>
                       <tr className="border-b border-white/10">
                         <th className="text-left py-3 px-4 text-slate-400 font-bold text-xs uppercase">Building</th>
-                        {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'].map(m => (
+                        {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'].map(m => (
                           <th key={m} className="py-3 px-4 text-slate-400 font-bold text-xs uppercase text-center">{m}</th>
                         ))}
                       </tr>
@@ -2726,11 +2726,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             if (f === 'Palo Alto Post Acute') return false; // handled separately below
                             return allWeeklyData.find(d=>d.facility===f)?.region===region;
                           });
-                        const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr||a.may||a.jun||a.jul||a.aug);
+                        const facRows = regionFacs.map(fac => ({ fac, a: alosData[fac]||{} })).filter(({a}) => a.jan||a.feb||a.mar||a.apr||a.may||a.jun||a.jul||a.aug||a.sep);
                         // Palo Alto: Jan/Feb/Mar under Overland, Apr onward under Golden Coast
                         const paloAltoRow = region === 'Golden Coast'
-                          ? [{ fac: 'Palo Alto Post Acute', a: { jan:'', feb:'', mar:'', apr: alosData['Palo Alto Post Acute']?.apr||'', may: alosData['Palo Alto Post Acute']?.may||'', jun: alosData['Palo Alto Post Acute']?.jun||'', jul: alosData['Palo Alto Post Acute']?.jul||'', aug: alosData['Palo Alto Post Acute']?.aug||'' } }]
-                          : [{ fac: 'Palo Alto Post Acute', a: { jan: alosData['Palo Alto Post Acute']?.jan||'', feb: alosData['Palo Alto Post Acute']?.feb||'', mar: alosData['Palo Alto Post Acute']?.mar||'', apr:'', may:'', jun:'', jul:'', aug:'' } }];
+                          ? [{ fac: 'Palo Alto Post Acute', a: { jan:'', feb:'', mar:'', apr: alosData['Palo Alto Post Acute']?.apr||'', may: alosData['Palo Alto Post Acute']?.may||'', jun: alosData['Palo Alto Post Acute']?.jun||'', jul: alosData['Palo Alto Post Acute']?.jul||'', aug: alosData['Palo Alto Post Acute']?.aug||'', sep: alosData['Palo Alto Post Acute']?.sep||'' } }]
+                          : [{ fac: 'Palo Alto Post Acute', a: { jan: alosData['Palo Alto Post Acute']?.jan||'', feb: alosData['Palo Alto Post Acute']?.feb||'', mar: alosData['Palo Alto Post Acute']?.mar||'', apr:'', may:'', jun:'', jul:'', aug:'', sep:'' } }];
                         if (!facRows.length) return null;
 
                         // Compute region averages
@@ -2743,7 +2743,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                           <React.Fragment key={region}>
                             {/* Region header row */}
                             <tr className="bg-white/5 border-b border-white/10">
-                              <td colSpan={9} className="py-2 px-4">
+                              <td colSpan={10} className="py-2 px-4">
                                 <span className="text-xs font-bold text-cyan-400 uppercase tracking-wider">{region}</span>
                               </td>
                             </tr>
@@ -2751,7 +2751,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             {regionIdx > 0 && (
                               <tr className="border-b border-white/10 bg-white/5">
                                 <td className="py-2 px-4"></td>
-                                {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'].map(m => (
+                                {['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'].map(m => (
                                   <td key={m} className="py-2 px-4 text-center">
                                     <span className="text-slate-400 font-bold text-xs uppercase">{m}</span>
                                   </td>
@@ -2761,7 +2761,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             {/* Region average row */}
                             <tr className="border-b border-white/10 bg-white/3">
                               <td className="py-2 px-4 text-slate-400 text-xs font-bold italic">Region Avg</td>
-                              {['jan','feb','mar','apr','may','jun','jul','aug'].map((mo,vi) => {
+                              {['jan','feb','mar','apr','may','jun','jul','aug','sep'].map((mo,vi) => {
                                 const v = avg(mo);
                                 return (
                                   <td key={vi} className="py-2 px-4 text-center">
@@ -2774,7 +2774,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                             {[...facRows, ...paloAltoRow].map(({fac, a}, i) => (
                               <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-all">
                                 <td className="py-2.5 px-4 text-white text-xs font-medium pl-8">{fac}</td>
-                                {[a.jan,a.feb,a.mar,a.apr,a.may,a.jun,a.jul,a.aug].map((v, vi) => (
+                                {[a.jan,a.feb,a.mar,a.apr,a.may,a.jun,a.jul,a.aug,a.sep].map((v, vi) => (
                                   <td key={vi} className="py-2.5 px-4 text-center">
                                     <span className={`text-sm font-bold ${v&&parseFloat(v)<30?'text-rose-400':'text-slate-300'}`}>
                                       {v||'—'}
