@@ -20,6 +20,7 @@ const BUILDING_GOALS = {
   'Pac Coast PA':        { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
   'Blue Oak Post Acute': { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
   'Gilroy HC':           { productivity: 84, cpm: 1.55, mode: 4, medB: 50 },
+  'Palo Alto Post Acute': { productivity: 84, cpm: 1.45, mode: 4, medB: 30 },
 };
 const getGoals = (facility) => BUILDING_GOALS[facility] || { productivity: 84, cpm: 1.45, mode: 4, medB: 50 };
 
