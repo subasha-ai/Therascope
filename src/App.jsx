@@ -678,7 +678,7 @@ export default function App() {
     { label: 'Jul', start: '2026-07-01', end: '2026-07-31' },
     { label: 'Aug', start: '2026-08-01', end: '2026-08-31' },
     { label: 'Sep', start: '2026-09-01', end: '2026-09-30' },
-    { label: 'Oct MTD', start: '2026-10-01', end: '2026-10-31' },
+    { label: 'Oct', start: '2026-10-01', end: '2026-10-31' },
   ];
 
   // Auth state
@@ -1788,7 +1788,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'July',    start: '2026-07-01', end: '2026-07-31', isMTD: false },
       { label: 'August',   start: '2026-08-01', end: '2026-08-31', isMTD: false },
       { label: 'September', start: '2026-09-01', end: '2026-09-30', isMTD: false },
-      { label: 'Oct MTD', start: '2026-10-01', end: '2026-10-31', isMTD: true },
+      { label: 'October', start: '2026-10-01', end: '2026-10-31', isMTD: false },
     ];
     const getFacData = (fac, dm) => {
       const rec = getMonthFinal(fac, dm.start, dm.end);
@@ -1816,7 +1816,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September · October MTD 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September · October 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -2633,11 +2633,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   );
                 })()}
 
-                {/* Q4 Card — Oct MTD, padded to match Q1/Q2 width */}
+                {/* Q4 Card — Oct, padded to match Q1/Q2 width */}
                 {(() => {
                   const q4raw = monthTotals.slice(9,10);
                   if (!q4raw.some(m => m.totals)) return null;
-                  const q4fallbackLabels = ['Oct MTD'];
+                  const q4fallbackLabels = ['Oct'];
                   const q4 = [0].map(i => q4raw[i] || { label: q4fallbackLabels[i], totals: null });
                   const rows = [
                     { label:'Avg Productivity', key:'avgProd',     fmt: v=>v+'%',                                    good: v=>parseFloat(v)>=84 },
@@ -2655,7 +2655,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-2xl font-black text-cyan-300">Q4</h3>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-slate-500 font-bold">Oct 2026 MTD</span>
+                          <span className="text-xs text-slate-500 font-bold">Oct 2026</span>
                           <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                         </div>
                       </div>
