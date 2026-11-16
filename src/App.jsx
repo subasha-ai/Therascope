@@ -679,6 +679,7 @@ export default function App() {
     { label: 'Aug', start: '2026-08-01', end: '2026-08-31' },
     { label: 'Sep', start: '2026-09-01', end: '2026-09-30' },
     { label: 'Oct', start: '2026-10-01', end: '2026-10-31' },
+    { label: 'Nov', start: '2026-11-01', end: '2026-11-30' },
   ];
 
   // Auth state
@@ -1789,6 +1790,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       { label: 'August',   start: '2026-08-01', end: '2026-08-31', isMTD: false },
       { label: 'September', start: '2026-09-01', end: '2026-09-30', isMTD: false },
       { label: 'October', start: '2026-10-01', end: '2026-10-31', isMTD: false },
+      { label: 'November', start: '2026-11-01', end: '2026-11-30', isMTD: true },
     ];
     const getFacData = (fac, dm) => {
       const rec = getMonthFinal(fac, dm.start, dm.end);
@@ -1816,7 +1818,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
       doc.setFontSize(12); doc.setFont('helvetica','bold'); doc.setTextColor(...C.cyan);
       doc.text('THERASCOPE',10,13);
       doc.setTextColor(...C.offWhite); doc.setFontSize(10);
-      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September · October 2026',50,13);
+      doc.text('Leadership Digest  |  All Buildings  |  Q1 · April · May · June · July · August · September · October · November 2026',50,13);
       doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...C.muted);
       doc.text(`Generated ${latestDateStr}`,pageW-10,13,{align:'right'});
       doc.setFillColor(...C.cyan); doc.rect(0,18,pageW,0.4,'F');
@@ -2633,12 +2635,12 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                   );
                 })()}
 
-                {/* Q4 Card — Oct, padded to match Q1/Q2 width */}
+                {/* Q4 Card — Oct / Nov, padded to match Q1/Q2 width */}
                 {(() => {
-                  const q4raw = monthTotals.slice(9,10);
+                  const q4raw = monthTotals.slice(9,11);
                   if (!q4raw.some(m => m.totals)) return null;
-                  const q4fallbackLabels = ['Oct'];
-                  const q4 = [0].map(i => q4raw[i] || { label: q4fallbackLabels[i], totals: null });
+                  const q4fallbackLabels = ['Oct','Nov'];
+                  const q4 = [0,1].map(i => q4raw[i] || { label: q4fallbackLabels[i], totals: null });
                   const rows = [
                     { label:'Avg Productivity', key:'avgProd',     fmt: v=>v+'%',                                    good: v=>parseFloat(v)>=84 },
                     { label:'Avg CPM',           key:'avgCPM',     fmt: v=>'$'+v,                                    good: v=>parseFloat(v)<=1.45 },
@@ -2655,11 +2657,11 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-2xl font-black text-cyan-300">Q4</h3>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs text-slate-500 font-bold">Oct 2026</span>
+                          <span className="text-xs text-slate-500 font-bold">Oct–Nov 2026</span>
                           <span className="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-3 py-1 rounded-full font-bold">Latest</span>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-1 mb-2">
+                      <div className="grid grid-cols-3 gap-1 mb-2">
                         <div className="text-slate-500 text-xs"></div>
                         {q4.map(m => (
                           <div key={m.label} className="text-center text-xs font-black text-cyan-400 uppercase tracking-wider">{m.label}</div>
@@ -2667,7 +2669,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                       </div>
                       <div className="space-y-2">
                         {rows.filter(row => !(hideRevenue && row.label==='Med B Revenue')).map((row,ri) => (
-                          <div key={ri} className="grid grid-cols-2 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
+                          <div key={ri} className="grid grid-cols-3 gap-1 py-1.5 border-b border-white/5 last:border-0 items-center">
                             <span className="text-slate-400 text-xs">{row.label}</span>
                             {q4.map((m,mi) => {
                               if (!m.totals) return <span key={mi} className="text-center text-xs text-slate-600">—</span>;
@@ -2710,7 +2712,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         <th colSpan={12} className="py-3 px-2 text-cyan-400 font-bold uppercase text-xs text-center border-l border-white/10">Q1</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-300 font-bold uppercase text-xs text-center border-l border-white/10">Q2</th>
                         <th colSpan={12} className="py-3 px-2 text-cyan-200 font-bold uppercase text-xs text-center border-l border-white/10">Q3</th>
-                        <th colSpan={4} className="py-3 px-2 text-cyan-100 font-bold uppercase text-xs text-center border-l border-white/10">Q4</th>
+                        <th colSpan={8} className="py-3 px-2 text-cyan-100 font-bold uppercase text-xs text-center border-l border-white/10">Q4</th>
                       </tr>
                       <tr className="border-b border-white/10">
                         <th className="sticky left-0 bg-slate-900/90 py-1"></th><th></th>
@@ -2733,7 +2735,7 @@ Include 2-3 buildings in topPerformers and 2-3 in needsAttention. Write a deepDi
                         const isNewRegion = ri===0 || row.region !== facilityRows[ri-1].region;
                         return (
                           <React.Fragment key={ri}>
-                            {isNewRegion && <tr className="bg-white/5"><td colSpan={42} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
+                            {isNewRegion && <tr className="bg-white/5"><td colSpan={46} className="py-2 px-4 text-xs font-black uppercase tracking-widest text-slate-400">{row.region}</td></tr>}
                             <tr className="border-b border-white/5 hover:bg-white/5">
                               <td className="py-2 px-4 text-white font-bold text-xs sticky left-0 bg-slate-900/80 whitespace-nowrap">{shortName(row.facility)}</td>
                               <td className="py-2 px-2 text-center">
