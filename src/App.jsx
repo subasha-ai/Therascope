@@ -46,6 +46,7 @@ const DOR_PASSWORDS = {
   'Blue Oak Post Acute':     'BlueOakSteps',
   'Millbrae HC':             'MillbraeMotion',
   'Vacaville Ranch PA':      'RanchStride',
+  'Fallbrook Post Acute':    'FallbrookFlow',
 };
 
 // DOR email addresses — fill in each DOR's email
